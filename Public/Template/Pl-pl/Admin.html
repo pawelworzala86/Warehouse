@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pl" ng-app="Admin">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="{$description}">
+    <meta name="keywords" content="{$keywords}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Megazin</title>
+
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+    <link rel="stylesheet" href="/Public/Css/angular-ui-tree.min.css">
+    <link rel="stylesheet" href="/Public/Css/Grid.css">
+    <link rel="stylesheet" href="/Public/Css/Megazin.css">
+    <link rel="stylesheet" href="/Public/Css/Modal.css">
+
+    <script src="/route.js"></script>
+    <script src="/route2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular-route.min.js"></script>
+    <script src="/Public/Js/angular-ui-tree.min.js"></script>
+    <script src="/Public/Js/modal.min.js"></script>
+    <script src="/Public/Js/Admin.js"></script>
+
+    <base href="/">
+</head>
+<body>
+<!--<div id="loading"><i class="material-icons rotate big">refresh</i></div>-->
+<header>
+    <i class="material-icons menu-toggle" ng-click="toogleMenu = !toogleMenu">menu</i>
+    <i class="material-icons filters-toggle" ng-click="filters=!filters">search</i>
+    <a href="/wyloguj" target=""><i class="material-icons">close</i></a>
+</header>
+<div class="dialog" id="menu" ng-class="{'visible': toogleMenu}">
+    <div class="header">
+        <i class="material-icons menu-toggle" ng-click="toogleMenu = !toogleMenu">close</i>
+    </div>
+    <div class="links-group">
+        <a class="primary">Produkty</a>
+        <a class="sub" href="/produkty" ng-click="toogleMenu = false">Lista produktów</a>
+        <a class="sub" href="/katalog" ng-click="toogleMenu = false">Katalog</a>
+    </div>
+    {if $werhousePrivilage}
+    <div class="links-group">
+        <a class="primary">Magazyn</a>
+        <a class="sub" href="/magazyn" ng-click="toogleMenu = false">Stan towarów</a>
+        <a class="sub" href="/magazyny" ng-click="toogleMenu = false">Magazyny</a>
+        <a class="sub" href="/rezerwacje" ng-click="toogleMenu = false">Rezerwacje</a>
+    </div>
+    {/if}
+    {if $contractorPrivilage}
+    <div class="links-group">
+        <a class="primary">Kontrahenci</a>
+        <a class="sub" href="/kontrahenci" ng-click="toogleMenu = false">Lista kontrahentów</a>
+        <a class="sub" href="/windykacja" ng-click="toogleMenu = false">Windykacja</a>
+    </div>
+    {/if}
+    {if $documentPrivilage}
+    <div class="links-group">
+        <a class="primary">Dokumenty</a>
+        <a class="sub" href="/dokumenty" ng-click="toogleMenu = false">Przegląd dokumentów</a>
+        <a class="sub" href="" ng-click="toogleMenu = false">Koszta dodatkowe</a>
+        <a class="sub" href="" ng-click="toogleMenu = false">Kosztorysy</a>
+    </div>
+    {/if}
+    {if $productionPrivilage}
+    <div class="links-group">
+        <a class="primary">Produkcja</a>
+        <a class="sub" href="/produkcje" ng-click="toogleMenu = false">Lista produkcji</a>
+    </div>
+    {/if}
+    {if $workerPrivilage}
+    <div class="links-group">
+        <a class="primary">Pracownicy</a>
+        <a class="sub" href="/pracownicy" ng-click="toogleMenu = false">Subkonta</a>
+        <a class="sub" href="" ng-click="toogleMenu = false">Uprawnienia</a>
+        <a class="sub" href="" ng-click="toogleMenu = false">Grupy</a>
+    </div>
+    {/if}
+    <div class="links-group">
+        <a class="primary">Statystyka</a>
+        <a class="sub" href="/statystyki" ng-click="toogleMenu = false">Zestawienia okresowe</a>
+        <a class="sub" href="" ng-click="toogleMenu = false">Zestawienia produkcyjne</a>
+    </div>
+    <div class="links-group">
+        <a class="primary">Ustawienia</a>
+        <a class="sub" href="/ustawienia" ng-click="toogleMenu = false">Moje konto</a>
+    </div>
+    <div class="footer">
+        <span>Wszelkie prawa zastrzeżone</span>
+        <span class="float-right">Wersja <b>1.0.0</b></span>
+    </div>
+</div>
+<div id="wrapper"><ng-view></ng-view></div>
+<!--<div id="wrapper">
+    {$content}
+</div>-->
+<div class="dialog" id="imageDialog">
+    <img/>
+</div>
+<!--<footer>
+    <span>Wszelkie prawa zastrzeżone</span>
+    <span class="float-right">Wersja <b>1.0.0</b></span>
+</footer>-->
+{include file=$deleteDialog}
+</body>
+<!--<script>
+    var modal = function () {
+        
+    }
+    $('.menu-toggle').click(function () {
+        if ($('#menu').hasClass('visible')) {
+            $('#menu').removeClass('visible');
+        } else {
+            $('#menu').addClass('visible');
+        }
+    });
+    $('header a, #menu a').click(function () {
+        $('#menu').removeClass('visible');
+    });
+</script>-->
+<!--<script src="/Public/Js/_Megazin.js"></script>-->
+<script src="/Public/Js/Chart.min.js"></script>
+<script src="/Public/Js/nicEdit.js"></script>
+</html>

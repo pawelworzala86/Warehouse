@@ -1,0 +1,21 @@
+{if $pagination.pages>1}
+<div class="col col-20">
+    <nav class="pagination-nav">
+        <div class="pages">od <strong>{$pagination.from}</strong> do <strong>{$pagination.to}</strong> z <strong>{$pagination.count}</strong> pozycji</div>
+        <ul class="pagination count">
+            {if ($pagination.page-2)>=1}<li class="page-item"><a class="page-link" href="/{$pagination.url}/{$pagination.page-2}">{$pagination.page-2}</a></li>{/if}
+            {if ($pagination.page-1)>=1}<li class="page-item"><a class="page-link" href="/{$pagination.url}/{$pagination.page-1}">{$pagination.page-1}</a></li>{/if}
+            <li class="page-item active"><a class="page-link" href="#">{$pagination.page}</a></li>
+            {if ($pagination.page+1)<=$pagination.pages}<li class="page-item"><a class="page-link" href="/{$pagination.url}/{$pagination.page+1}">{$pagination.page+1}</a></li>{/if}
+            {if ($pagination.page+2)<=$pagination.pages}<li class="page-item"><a class="page-link" href="/{$pagination.url}/{$pagination.page+2}">{$pagination.page+2}</a></li>{/if}
+        </ul>
+    </nav>
+</div>
+{/if}
+{if $pagination.pages==1}
+<div class="col col-20">
+    <nav class="pagination-nav">
+        <div class="pages"><strong>{$pagination.count}</strong> pozycji</div>
+    </nav>
+</div>
+{/if}

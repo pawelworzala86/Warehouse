@@ -1,0 +1,64 @@
+<fluentLoader></fluentLoader>
+<div class="buttons">
+    <a href="/rezerwacja/dodaj">
+        <button type="submit" class="button-add"><i class="material-icons">add_circle_outline</i>Rezerwacja</button>
+    </a>
+</div>
+<div class="filters" ng-class="{'active': filters}">
+    <form method="POST">
+        <div class="form-group col col-15">
+            <label>Nazwa</label>
+            <input type="text" name="name" ng-model="data.filter.name"/>
+        </div>
+        <input type="hidden" name="action" value="filter"/>
+        <button type="submit" ng-click="filter()">Filtruj</button>
+    </form>
+</div>
+<div class="table-row header no-padding">
+    <div class="col col-3">Numer</div>
+    <div class="col col-12">Kontrahent</div>
+    <div class="col col-5 text-right">Wartość netto</div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="rezrwations content">
+            <div ng-repeat="reservation in data.reservations" class="table-row no-padding">
+                <div class="col col-3">{{reservation.number}}</div>
+                <div class="col col-12">{{reservation.contractor}}</div>
+                <div class="col col-5 text-right">{{reservation.sum_net}} {{data.currency}}</div>
+                <div class="more" style="display: block;">
+                    <div class="col col-20">
+                        <div class="row header">
+                            <div class="col col-3">SKU</div>
+                            <div class="col col-10">Nazwa</div>
+                            <div class="col col-2 text-right">Ilość</div>
+                            <div class="col col-5 text-right">Wartość netto</div>
+                        </div>
+                        <div ng-repeat="product in reservation.products" class="row">
+                            <div class="col col-3">{{product.sku}}</div>
+                            <div class="col col-10">{{product.name}}</div>
+                            <div class="col col-2 text-right">{{product.count}}</div>
+                            <div class="col col-5 text-right">{{product.sum_net}} {{data.currency}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('.action button').click(function () {
+            var button = $(this);
+            var id = button.data('id');
+            if ((id != '') && (id != undefined)) {
+                $.ajax({
+                    url: '/api/werhouse/' + id + '/switch',
+                }).done(function (data) {
+                    loadContent($('#wrapper'), '/magazyn');
+                });
+            }
+        });
+    });
+</script>

@@ -1,0 +1,29 @@
+{if $contractor}
+<div class="col col-6">
+    <div>{$contractor.firstname} {$contractor.surname}</div>
+    <div>{$contractor.street} {$contractor.number}{if $contractor.subnumber}/{$contractor.subnumber}{/if}</div>
+    <div>{$contractor.postcode} {$contractor.city}</div>
+</div>
+{/if}
+<div class="col {if $contractor}col-14{else if}col-20{/if}">
+    <div class="row header">
+        <div class="col col-3">SKU</div>
+        <div class="col col-10">Nazwa</div>
+        <div class="col col-2">Ilość</div>
+        <div class="col col-5 text-right">Wartość</div>
+    </div>
+    {foreach $products item=product}
+    <div class="row">
+        <div class="col col-3">{$product.sku}</div>
+        <div class="col col-10">{$product.name}</div>
+        <div class="col col-2">{$product.count}</div>
+        <div class="col col-5 text-right">
+            {if $product.sell_net!=='0.00'}
+            {$product.sell_net}
+            {else if}
+            {$product.buy_net}
+            {/if} {$currency}
+        </div>
+    </div>
+    {/foreach}
+</div>

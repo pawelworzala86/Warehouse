@@ -1,0 +1,52 @@
+<fluentLoader></fluentLoader>
+<div ng-if="data.editPrivilage" class="buttons">
+    <a href="/kontrahent/dodaj">
+        <button type="submit" class="button-add"><i class="material-icons">add_circle_outline</i>Kontrahenta</button>
+    </a>
+</div>
+<div class="filters" ng-class="{'active': filters}">
+    <form method="POST">
+        <div class="row">
+            <div class="form-group col col-3">
+                <label>Kod</label>
+                <input type="text" name="code" ng-model="data.filter.code"/>
+            </div>
+            <div class="form-group col col-9">
+                <label>Nazwa</label>
+                <input type="text" name="name" ng-model="data.filter.name"/>
+            </div>
+            <div class="form-group col col-4 checkbox">
+                <input type="checkbox" ng-model="data.filter.provider"/>
+                <label>Dostawca</label>
+            </div>
+            <div class="form-group col col-4 checkbox">
+                <input type="checkbox" ng-model="data.filer.recipient"/>
+                <label>Odbiorca</label>
+            </div>
+        </div>
+        <input type="hidden" name="action" value="filter"/>
+        <button type="submit" ng-click="filter()">Filtruj</button>
+    </form>
+</div>
+<div class="table-row header no-padding">
+    <div class="col col-3">Kod</div>
+    <div class="col col-5">Nazwa</div>
+    <div class="col col-3">NIP</div>
+    <div class="col col-3">Mail</div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="contractors content">
+            <div ng-repeat="contractor in data.contractors" ng-if="data.contractors" class="table-row no-padding">
+                <div class="title col col-3">{{contractor.code}}</div>
+                <div class="title col col-5">{{contractor.name}}</div>
+                <div class="title col col-3">{{contractor.nip}}</div>
+                <div class="title col col-3">{{contractor.mail}}</div>
+                <div class="action">
+                    <a ng-if="data.editPrivilage" href="/kontrahent/{{contractor.id}}/edytuj"><button type="submit">Edycja</button></a>
+                    <button ng-if="data.deletePrivilage" type="submit" class="button-danger" ng-click="del(contractor, data.contractors)">Usuń</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

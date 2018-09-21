@@ -1,0 +1,19 @@
+<div class="container">
+    <div class="row"> 
+        <div class="col col-8 col-offset-6"> 
+            <div class="box loginForm">
+                {if $deactivated}
+                <h1>Konto usunięte</h1>
+                <center>
+                    <p>Usunięto konto z serwisu.</p>
+                </center>
+                {else if}
+                <h1>Błędny kod</h1>
+                <center>
+                    <p>Kod usunięcia konta jest nieprawidłowy lub został już wykorzystany.</p>
+                </center>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>

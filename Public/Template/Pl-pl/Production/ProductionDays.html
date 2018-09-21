@@ -1,0 +1,71 @@
+<div class="container">
+    <div class="row">
+        <div class="production-days content">
+            {include file=$productionInfo}
+            <div class="buttons">
+                <a href="/produkcja/{$id}/dzien"><button name="addWorker">Dodaj dzień</button></a>
+            </div>
+            <div class="filters" ng-class="{'active': filters}">
+                <div class="header">
+                    <h3 class="title">
+                        <i class="material-icons active right">keyboard_arrow_right</i>
+                        <i class="material-icons down">keyboard_arrow_down</i>
+                        Filtry
+                    </h3>
+                </div>
+                <form method="POST">
+                    <div class="body">
+                        <div class="form-group col col-4">
+                            <label>Data</label>
+                            <input type="text" name="date" ng-model="data.filter.date"/>
+                        </div>
+                        <input type="hidden" name="action" value="filter"/>
+                    </div>
+                    <div class="footer">
+                        <button type="submit" ng-click="filter()">Filtruj</button>
+                    </div>
+                </form>
+            </div>
+            {if $days}
+            <div class="table-row header no-padding">
+                <div class="col col-3">Dzień</div>
+                <div class="col col-3 text-right">Kosz pensji</div>
+                <div class="col col-3 text-right">Kosz materiałów</div>
+                <div class="col col-3 text-right">Wartość produkcji</div>
+                <div class="col col-3 text-right">Szacunkowy zysk</div>
+            </div>
+            {foreach $days item=day}
+            <div class="table-row no-padding">
+                <div class="col col-3">{$day.date}</div>
+                <div class="col col-3 text-right">{$day.cost} {$currency}</div>
+                <div class="col col-3 text-right">{$day.material_cost} {$currency}</div>
+                <div class="col col-3 text-right">{$day.sell_price} {$currency}</div>
+                <div class="col col-3 text-right">{$day.revenue} {$currency}</div>
+                <div class="action">
+                    <form method="POST" name="delete">
+                        <input type="hidden" name="action" value="delete"/>
+                        <input type="hidden" name="id" value="{$day.sys_unique_id}"/>
+                        <button type="submit" class="button-danger">Usuń</button>
+                    </form>
+                </div>
+            </div>
+            {/foreach}
+            {/if}
+        </div>
+    </div>
+</div>
+
+{include file=$deleteDialog}
+
+<div class="dialog" id="addWorkerDialog">
+    <div class="container">
+        <div class="header">
+            <div class="form-group col-10">
+                <input type="text" name="searchItems" placeholder="Wprowadź tekst"/>
+            </div>
+        </div>
+        <div class="body">
+            <div id="workers"></div>
+        </div>
+    </div>
+</div>

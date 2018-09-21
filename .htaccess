@@ -1,0 +1,26 @@
+#RewriteEngine on
+
+#RewriteCond $1 !^(Index\.php|css|js|\.jpg|\.png|Public|Files|robots\.txt|.html|sitemap\.xml)
+#RewriteRule ^(.*)$ /Index.php/$1 [L]
+
+
+RewriteEngine   On
+
+RewriteCond	%{REQUEST_URI} /(api)
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Index.php	[L]
+
+RewriteCond	%{REQUEST_URI} /
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Public/Template/Pl-pl/Admin.html	[L]
+
+RewriteCond	%{REQUEST_URI} /(Public)
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Public/$1	[L]
+
+RewriteCond	%{REQUEST_FILENAME} -d
+RewriteCond	%{REQUEST_FILENAME} !/$
+RewriteRule	^(.*)$  $1/

@@ -1,0 +1,134 @@
+<div class="container">
+    <div class="row">
+        <div class="catalog content">
+            <div class="buttons">
+                <button name="addCategory" type="submit" class="button-add"><i
+                        class="material-icons">add_circle_outline</i>Kategoria
+                </button>
+            </div>
+            <script type="text/ng-template" id="nodes_renderer.html">
+                <div ui-tree-handle class="table-row no-padding records">
+                    <div class="col col-1"><i class="material-icons" name="addCategory" data-id="{$el.sys_unique_id}">add_circle_outline</i></div>
+                    <div class="col col-18">{{item.name}}</div>
+                    <div class="col col-1 text-right"><i class="material-icons delete" name="deleteCategory" data-id="{$el.sys_unique_id}">delete</i></div>
+                </div>
+                <ol ui-tree-nodes="" ng-model="item.element">
+                    <li ng-repeat="item in item.element" ui-tree-node ng-include="'nodes_renderer.html'">
+                    </li>
+                </ol>
+            </script>
+            <div ui-tree>
+                <ol ui-tree-nodes="" ng-model="data.tree.element" id="tree-root">
+                    <li ng-repeat="item in data.tree.element" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file=$deleteDialog}
+
+<div class="dialog" id="addCategory">
+    <div class="container">
+        <div class="header">
+            <h1>Dodawanie kategorii</h1>
+        </div>
+        <div class="body">
+            <input type="hidden" name="parentId"/>
+            <div class="form-group col col-20">
+                <label>Nazwa kategori</label>
+                <input type="text" name="category"/>
+            </div>
+            <button type="button" name="sendButton" class="button button-lg">Wyślij</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        modal('#addCategory');
+
+        var deleteHandler;
+        var deleteCat = function () {
+            $.ajax({
+                url: 'api/catalog/delete',
+                method: 'POST',
+                data: {
+                    id: deleteHandler.data('id'),
+                },
+            }).done(function (data) {
+                deleteHandler.parents('#rows').eq(0).remove();
+            });
+        }
+
+        var prepareDel = function (element) {
+            $('#deleteDialog button[name=cancel]').click(function () {
+                $('#deleteDialog input[name=decision]').val(false);
+                $('#deleteDialog').removeClass('visible');
+            });
+            $('#deleteDialog button[name=accept]').click(function () {
+                $('#deleteDialog input[name=decision]').val(true);
+                deleteCat();
+                $('#deleteDialog').removeClass('visible');
+            });
+        }
+
+        var clearDialog = function () {
+            $('#addCategory').removeClass('visible');
+            $('#addCategory').find('[name=category]').val('');
+        }
+
+        var addCategory = function (id) {
+            $('[name=parentId]').val(id);
+            $('#addCategory').addClass('visible');
+        }
+
+        var deleteCategory = function (element) {
+            deleteHandler = element;
+            $('#deleteDialog').addClass('visible');
+        }
+
+        $('[name=sendButton]').click(function () {
+            $.ajax({
+                url: 'api/catalog/add',
+                method: 'POST',
+                data: {
+                    name: $('[name=category]').val(),
+                    parent_id: $('[name=parentId]').val(),
+                }
+            }).done(function (data) {
+                var data = jQuery.parseJSON(data);
+                var element = $('#rows');
+                if (data && data['parent_id']) {
+                    element = $('#' + data['parent_id']);
+                }
+                element.append($('<div id="rows">'+
+                    '<div class="table-row no-padding records">' +
+                    '<div class="col col-1"><i class="material-icons" name="addCategory" data-id="' + data['id'] + '">add_circle_outline</i></div>' +
+                    '<div class="col col-18">' + $('[name=category]').val() + '</div>' +
+                    '<div class="col col-1 text-right"><i class="material-icons delete" name="deleteCategory" data-id="' + data['id'] + '">delete</i></div>' +
+                    '</div>' +
+                    '<ul id="' + data['id'] + '"></ul>'+
+                    '</div>'));
+                element.find('[name=addCategory]').click(function () {
+                    clearDialog();
+                    addCategory($(this).data('id'));
+                });
+                element.find('[name=deleteCategory]').click(function () {
+                    deleteCategory($(this));
+                });
+                clearDialog();
+                prepareDel(element);
+            });
+        });
+
+        $('[name=addCategory]').click(function (e) {
+            clearDialog();
+            addCategory($(this).data('id'));
+        });
+        $('[name=deleteCategory]').click(function () {
+            deleteCategory($(this));
+        });
+        prepareDel($('[name=deleteCategory]'));
+    });
+</script>

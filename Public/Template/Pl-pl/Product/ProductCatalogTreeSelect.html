@@ -1,0 +1,9 @@
+<div id="rows">
+    {foreach $element item=el}
+    <div class="table-row no-padding records">
+        <div class="col col-1"><input type="checkbox" data-id="{$el.sys_unique_id}" {if $el.exists}checked{/if}></div>
+        <div class="col col-18">{$el.name}</div>
+    </div>
+    <ul id="{$el.sys_unique_id}">{if $el.element}{include file=$productCatalogTreeSelect element=$el.element}{/if}</ul>
+    {/foreach}
+</div>

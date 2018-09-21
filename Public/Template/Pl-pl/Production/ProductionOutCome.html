@@ -1,0 +1,163 @@
+<div class="container">
+    <div class="row">
+        <div class="production-outcome content">
+            {include file=$productionInfo}
+            <div class="box">
+                <div class="header">
+                    <h3 class="title">Pozycje na dokumencie</h3>
+                </div>
+                <div class="body">
+                    <button type="button" id="addItem">Dodaj pozycję</button>
+                    <div id="productsList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <form method="POST" class="col">
+        <div id="documentItems"></div>
+        <input type="hidden" name="action" value="{$type}"/>
+        <input type="hidden" name="id" value="{$id}"/>
+        <div class="form-group col col-20">
+            <button type="submit" id="saveDocument" class="button-lg">Zapisz zużycie</button>
+        </div>
+    </form>
+</div>
+
+
+<div class="dialog" id="addItemDialog">
+    <div class="container">
+        <div class="header">
+            <div class="form-group col-10">
+                <input type="text" name="searchItems" placeholder="Wprowadź tekst"/>
+            </div>
+        </div>
+        <div class="body">
+            <div id="products"></div>
+        </div>
+    </div>
+</div>
+<div class="dialog" id="addItemCountDialog">
+    <div class="container">
+        <div class="header">
+            <h1>Wprowadź ceny zakupu i ilość</h1>
+        </div>
+        <div class="body">
+            <div class="form-group col-4">
+                <label>Ilość</label>
+                <input type="text" name="count"/>
+            </div>
+            <button type="button" id="addItemToList">Dodaj</button>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var productList = [];
+        var productsCache;
+        var acticveProduct;
+
+        var loadItems = function (searchString) {
+            $.ajax({
+                url: "/api/products",
+                type: 'POST',
+                data: {
+                    search: searchString,
+                    countAdd: '{$type}' == 'dec',
+                    intermediate: '{$type}' == 'dec',
+                },
+            }).done(function (data) {
+                productsCache = $.parseJSON(data);
+                $('#addItemDialog').addClass('visible');
+                var products = '';
+                $(productsCache).each(function () {
+                    products += '<div class="table-row" data-id="' + this.id + '">' +
+                        '    <div class="sku col col-5">' + this.sku + '</div>' +
+                        '    <div class="title col col-15">' + this.name + '</div>' +
+                        '</div>';
+                });
+                if (products == '') {
+                    products = '<div class="no-result">Nic nie znaleziono</div>';
+                }
+                $('#products').html(products);
+                $('#products').find('.table-row').click(function () {
+                    acticveProduct = $(this).data('id');
+                    $('#addItemDialog').removeClass('visible');
+                    $('#addItemCountDialog').find('[name=count]').val(1);
+                    $('#addItemCountDialog').addClass('visible');
+                });
+            });
+        }
+
+        $('#addItem').click(function () {
+            loadItems();
+        });
+        $('[name=searchItems]').change(function () {
+            loadItems($(this).val());
+        });
+        modal('#addItemDialog');
+        modal('#addItemCountDialog');
+
+        var acticveProduct = undefined;
+
+        var getActiveProduct = function () {
+            var product;
+            $(productsCache).each(function () {
+                if (this.id == acticveProduct) {
+                    product = this;
+                }
+            });
+            return product;
+        }
+
+        $('#addItemToList').click(function () {
+            var product = getActiveProduct();
+            productList.push({
+                id: product.id,
+                count: parseFloat($('[name=count]').val()),
+                net: parseFloat($('[name=net]').val()),
+                tax: parseFloat($('[name=tax]').val()),
+                gross: parseFloat($('[name=gross]').val()),
+            });
+            var productHTML = $('<div class="table-row">' + product.name + '</div>');
+            $('#productsList').append(productHTML);
+            $('#addItemCountDialog').removeClass('visible');
+            $('#saveDocument').addClass('button-primary');
+        });
+
+        $('#saveDocument').click(function () {
+            $('#documentItems').html('');
+            //$('#documentItems').append('<input type="hidden" name="action" value="dec"/>');
+            var i = 1;
+            $(productList).each(function () {
+                var product = $('<input type="hidden" name="product[' + i + '][id]" value="' + this.id + '"/>' +
+                    '<input type="hidden" name="product[' + i + '][count]" value="' + this.count + '"/>');
+                $('#documentItems').append(product);
+                i++;
+            });
+            var product = $('<input type="hidden" name="id" value="' + $('[name=id]').val() + '"/>');
+            $('#documentItems').append(product);
+        });
+
+        if ($('[name=tax]').val() == '') {
+            $('[name=tax]').val('23%');
+        }
+        var calcNet = function () {
+            var net = parseFloat($('[name=net]').val());
+            var tax = parseFloat($('[name=tax]').val());
+            var gross = (net * (100 + tax)) / 100;
+            $('[name=gross]').val(gross.toFixed(2));
+        }
+        var calcGross = function () {
+            var gross = parseFloat($('[name=gross]').val());
+            var tax = parseFloat($('[name=tax]').val());
+            var net = (gross / (100 + tax)) * 100;
+            $('[name=net]').val(net.toFixed(2));
+        }
+        $('[name=net], [name=tax]').keyup(function () {
+            calcNet();
+        });
+        $('[name=gross]').keyup(function () {
+            calcGross();
+        });
+    });
+</script>

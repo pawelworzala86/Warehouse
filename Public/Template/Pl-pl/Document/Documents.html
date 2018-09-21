@@ -1,0 +1,44 @@
+<fluentLoader></fluentLoader>
+<div class="filters" ng-class="{'active': filters}">
+    <form method="POST">
+        <div class="form-group col col-4">
+            <label>Numer</label>
+            <input type="text" name="number" ng-model="data.filter.number"/>
+        </div>
+        <div class="form-group col col-16">
+            <label>Nazwa</label>
+            <input type="text" name="name" ng-model="data.filter.name"/>
+        </div>
+        <input type="hidden" name="action" value="filter"/>
+        <button type="submit" ng-click="filter()">Filtruj</button>
+    </form>
+</div>
+<div class="table-row header no-padding more-info">
+    <div class="col col-3">Data</div>
+    <div class="col col-3">Numer</div>
+    <div class="col col-7">Kontrahent</div>
+    <div class="col col-5 text-right">Wartość netto</div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="documents content">
+            <div ng-repeat="document in data.documents" class="table-row no-padding more-info" data-id="{{document.id}}">
+                <div class="more-icon"><i class="material-icons active right">keyboard_arrow_right</i></div>
+                <div class="col col-3">{{document.date}}</div>
+                <div class="col col-3">{{document.number}}</div>
+                <div class="col col-7">{{document.contractor}}</div>
+                <div ng-if="data.document.sell_net!='0.00'" class="col col-5 text-right">{{document.sell_net}}</div>
+                <div ng-if="data.document.sell_net=='0.00'" class="col col-5 text-right">{{document.buy_net}}</div>
+                <div class="action">
+                    <a ng-if="data.printPrivilage" href="drukuj/{{document.id}}" target="newDocument">
+                        <button type="button"><i class="material-icons">print</i></button>
+                    </a>
+                    <button ng-if="data.deletePrivilage" type="submit" class="button-danger" ng-click="del(document, data.documents)"><i class="material-icons">delete_forever</i></button>
+                </div>
+                <div class="more">
+                    hgfhgfhfgh
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

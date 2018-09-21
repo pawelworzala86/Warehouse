@@ -1,0 +1,896 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    float: left;
+    min-height: 100%;
+    width: 100%;
+}
+
+body,
+input,
+select,
+option,
+textarea,
+button {
+    font-size: 14px;
+    font-family: 'Roboto';
+    font-weight: 300;
+}
+
+.row {
+    float: left;
+    width: 100%;
+}
+
+button {
+    background: none;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color: #fff;
+    outline: none;
+    color: #333;
+}
+
+button[type=submit]:hover,
+button[type=submit]:active,
+button[type=submit]:focus {
+    box-shadow: none;
+    outline: none;
+}
+
+#wrapper {
+    width: 100%;
+    float: left;
+    padding-top: 50px;
+    box-sizing: border-box;
+    padding-bottom: 50px;
+}
+
+a,
+a:focus,
+a:hover,
+a:active {
+    color: #000;
+    text-decoration: none;
+}
+
+#sidebar-left a {
+    width: 100%;
+    float: left;
+    color: #fff;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+#sidebar-left a:last-child {
+    margin-bottom: 0px;
+}
+
+.message {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 15px;
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.message.error {
+    background-color: rgba(200, 0, 0, 0.4);
+}
+
+.message.success {
+    background-color: rgba(0, 200, 0, 0.4);
+}
+
+.form-group {
+    float: left;
+    margin-bottom: 15px;
+    box-sizing: border-box;
+}
+
+.form-group label {
+    width: 100%;
+    font-size: 0.85em;
+}
+
+.form-group input,
+.form-group select,
+.form-group option,
+.form-group textarea {
+    padding: 5px 10px;
+    outline: none;
+    border: 1px solid #ccc;
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+}
+
+.table-row {
+    padding: 10px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 1px solid #ccc;
+}
+
+.buttons {
+    padding: 20px;
+    float: left;
+    border-bottom: 1px solid #ccc;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.table-row .action a,
+.table-row .action form,
+.table-row .action button {
+    float: left;
+    margin-left: 2px;
+}
+
+.table-row .action {
+    right: 10px;
+    opacity: 0;
+    position: absolute;
+    bottom: 10px;
+}
+
+.table-row:hover .action {
+    opacity: 1;
+}
+
+.table-row:hover {
+    background-color: rgba(10, 100, 100, 0.05);
+}
+
+.table-row:hover .action button {
+    background-color: #fff;
+}
+
+.no-padding {
+    padding: 0px;
+}
+
+img.responsive {
+    max-width: 100%;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.dialog {
+    display: none;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(255, 255, 255, 0.9);
+    left: 0px;
+    top: 0px;
+    height: 100%;
+    position: fixed;
+}
+
+.dialog.visible {
+    display: block;
+}
+
+.dialog .container {
+    background-color: #fff;
+    max-width: 60%;
+    margin: 0px 20%;
+    margin-top: 50px;
+    padding: 0px;
+    float: left;
+    width: 100%;
+    border: 1px solid #ccc;
+}
+
+.dialog .header {
+    border-bottom: 1px solid #ccc;
+    float: left;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.dialog .header .form-group {
+    margin-bottom: 0px;
+}
+
+.dialog .body {
+    padding: 10px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.dialog .header h1 {
+    font-weight: 400;
+    margin: 0px;
+    font-size: 1.45em;
+    color: #555;
+}
+
+.box,
+.table-row {
+    background-color: #fff;
+}
+
+.box {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 15px;
+}
+
+.box .header {
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    color: #666;
+    box-sizing: border-box;
+}
+
+.box .header .title {
+    margin: 0px;
+    font-size: 1.05em;
+    font-weight: 400;
+}
+
+.box .body {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.box .footer {
+    float: left;
+    width: 100%;
+    padding: 10px;
+    border-top: 1px solid #ccc;
+    box-sizing: border-box;
+}
+
+.button-lg {
+    padding: 7px 15px;
+    font-size: 1.15em;
+    font-weight: 300;
+}
+
+.button-primary {
+    background-color: rgba(50, 50, 250, 0.8);
+    color: #fff;
+}
+
+nav.pagination-nav ul.pagination {
+    margin: 0px;
+    padding: 0px;
+    position: absolute;
+    right: 0px;
+    top: 0px;
+}
+
+nav.pagination-nav ul.pagination li {
+    list-style: none;
+    float: left;
+}
+
+nav.pagination-nav {
+    position: relative;
+    margin-bottom: 15px;
+    margin-top: 15px;
+}
+
+nav.pagination-nav .page-item.active .page-link {
+    background-color: rgba(0, 20, 60, 0.1);
+}
+
+nav.pagination-nav .page-link {
+    padding: 4px 7px;
+    border: 1px solid #ccc;
+    margin: 2px;
+}
+
+button.button-danger {
+    background-color: rgba(160, 0, 0, 0.1) !important;
+}
+
+header i.material-icons,
+#menu .header i.material-icons {
+    font-size: 2em;
+    padding: 10px;
+    float: right;
+}
+
+header,
+#menu .header,
+#menu .footer,
+footer {
+    background-color: #fff;
+    float: left;
+    width: 100%;
+    padding: 0px 10px;
+    box-sizing: border-box;
+    position: fixed;
+    z-index: 1000;
+    left: 0px;
+    top: 0px;
+    border-bottom: 1px solid #ccc;
+    height: 50px;
+}
+
+#menu .footer,
+footer {
+    top: auto;
+    bottom: 0px;
+    border-bottom: none;
+    border-top: 1px solid #ccc;
+}
+
+#menu .footer span,
+footer span {
+    float: left;
+    margin: 0px 15px;
+    margin-top: 15px;
+}
+
+.float-right {
+    float: right !important;
+}
+
+.products.content .mail {
+    font-size: 0.85em;
+}
+
+.products.content .net,
+.products.content .tax {
+    font-weight: 300;
+    font-size: 1.25em;
+}
+
+.products.content .gross {
+    font-weight: 400;
+    font-size: 1.75em;
+    float: right;
+}
+
+.products.content .price * {
+    width: 100%;
+}
+
+.products.content .description_short {
+    margin: 0px;
+    font-weight: 300;
+    font-size: 0.85em;
+    min-height: auto;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.table-row.header {
+    border: none;
+    padding: 10px;
+    margin-bottom: 5px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    background-color: transparent;
+    padding-bottom: 0px;
+    font-weight: 400;
+    box-shadow: none;
+    margin-top: 15px;
+    border-bottom: 1px solid #ccc;
+}
+
+.form-group input[type=checkbox] {
+    width: 20px;
+}
+
+.werhouse.content .sku {
+    font-weight: 500;
+}
+
+.filters .header .material-icons {
+    float: left;
+    position: relative;
+    top: -3px;
+    display: none;
+    cursor: pointer;
+}
+
+.filters .header .material-icons.active {
+    display: block;
+}
+
+.filters .body,
+.filters .footer {
+    display: none;
+}
+
+.production.content .title {
+    margin: 0px;
+}
+
+.products.content .auction {
+    padding: 0px 5px;
+    font-size: 0.85em;
+}
+
+.table-row.no-padding .action {
+    right: 12px;
+    bottom: 1px;
+}
+
+.table-row.no-padding .action a,
+.table-row.no-padding .action form,
+.table-row.no-padding .action button {
+    margin-left: 0px;
+    border: none;
+    margin-right: 1px;
+    background-color: transparent;
+}
+
+.table-row.no-padding .action button.button-danger {
+    background-color: transparent !important;
+    color: #333 !important;
+}
+
+.table-row.header.no-padding {
+    padding: 0px 20px;
+    margin-bottom: 0px;
+}
+
+.form-value {
+
+}
+
+.form-value label {
+    font-size: 0.85em;
+}
+
+.form-value .value {
+    font-weight: 500;
+}
+
+.form-value .value h3 {
+    margin: 0px;
+    padding: 0px;
+}
+.container{
+    padding: 0px 20px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+.table-row.no-hover:hover {
+    background-color: #fff;
+}
+
+.table-row.action-visible .action {
+    opacity: 1;
+}
+
+.production .table-row {
+    padding-bottom: 50px;
+}
+
+.table-row.more-info,
+.table-row.no-padding.more-info {
+    padding-left: 25px;
+}
+
+.table-row.header.more-info,
+.table-row.header.no-padding.more-info {
+    padding-left: 45px;
+}
+
+.table-row .more-icon {
+    position: absolute;
+    left: 5px;
+    top: 2px;
+    cursor: pointer;
+}
+
+.table-row .more {
+    display: none;
+    float: left;
+    width: 100%;
+    padding-right: 10px;
+    box-sizing: border-box;
+    padding-bottom: 10px;
+    padding-top: 10px;
+    padding-left: 5px;
+}
+
+.form-group.checkbox {
+    margin-top: 21px;
+}
+
+.production-info span {
+    color: #888;
+}
+
+.more .row {
+    border-top: 1px solid #ccc;
+    font-size: 0.85em;
+}
+
+.more .row.header {
+    font-weight: 500;
+    border-top: none;
+}
+
+.rotate {
+    position: absolute;
+    -webkit-animation: spin 4s linear infinite;
+    -moz-animation: spin 4s linear infinite;
+    animation: spin 4s linear infinite;
+}
+
+@-moz-keyframes spin {
+    100% {
+        -moz-transform: rotate(360deg);
+    }
+}
+
+@-webkit-keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spin {
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
+}
+
+.material-icons.rotate.big {
+    font-size: 6em;
+    position: absolute;
+    left: 50%;
+    top: 50vh;
+    margin-left: -42px;
+    margin-top: -42px;
+}
+
+#wrapper {
+    position: relative;
+}
+
+#loading {
+    z-index: 10000;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    top: 0px;
+    bottom: 0px;
+    background-color: #f9f9fb;
+}
+
+#loading .material-icons.rotate.big {
+    top: 50%;
+}
+
+#images .image img {
+    width: 200px;
+    border: 1px solid #ccc;
+    float: left;
+}
+
+.product.content #images .material-icons.delete {
+    cursor: pointer;
+    position: absolute;
+    margin-left: -30px;
+    margin-top: 5px;
+}
+
+#images .image {
+    position: relative;
+    padding: 10px;
+    float: left;
+}
+
+.product-detail.content span {
+    color: #555;
+}
+
+.product-detail.content .description {
+    font-weight: 300;
+    font-size: 0.85em;
+}
+
+.product-detail.content .prices .value {
+    font-size: 2em;
+}
+
+#imageDialog {
+    background-color: #fff;
+}
+
+header i.material-icons.menu-toggle,
+.header i.material-icons.menu-toggle {
+    float: left !important;
+    cursor: pointer;
+}
+
+#menu {
+    float: left;
+    cursor: pointer;
+    z-index: 10000;
+    padding: 100px 50px;
+}
+
+#menu.dialog {
+    background-color: rgba(255, 255, 255, 0.98);
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    cursor: inherit;
+}
+
+#menu.dialog .primary {
+    font-weight: 500;
+    font-size: 1.5em;
+    width: 100%;
+    float: left;
+    margin-bottom: 10px;
+}
+
+#menu.dialog .sub {
+    width: 100%;
+    float: left;
+    margin-bottom: 5px;
+}
+
+#menu.dialog .links-group {
+    width: 25%;
+    float: left;
+    box-sizing: border-box;
+    margin-bottom: 50px;
+}
+
+.action.icons {
+    bottom: 25px;
+}
+
+.action .material-icons {
+    position: absolute;
+    top: -15px;
+}
+
+.action.icons button {
+    background-color: transparent !important;
+    position: relative;
+    border: none;
+}
+
+.action.icons .button-danger {
+    border: none;
+    color: #333;
+}
+
+.action.icons .material-icons {
+    position: absolute;
+    top: 2px;
+    right: -1px;
+}
+
+.button-add {
+    padding: 10px 10px;
+    padding-left: 40px;
+    position: relative;
+    margin-right: 10px;
+}
+
+.button-add .material-icons {
+    position: absolute;
+    left: 10px;
+    top: 6px;
+}
+
+.button-save {
+    font-size: 1.35em;
+    padding: 10px 10px;
+    padding-left: 40px;
+    position: relative;
+}
+
+.button-save .material-icons {
+    position: absolute;
+    left: 10px;
+    top: 9px;
+}
+
+.padding {
+    padding: 10px;
+}
+
+.row.no-padding {
+    margin-left: -10px;
+    margin-right: -10px;
+    box-sizing: border-box;
+    float: none;
+    width: auto;
+}
+
+#images .add {
+    border: 1px solid #ccc;
+    width: 200px;
+    height: 200px;
+    position: relative;
+    cursor: pointer;
+    float: left;
+}
+
+#images .add .material-icons {
+    font-size: 6em;
+    position: absolute;
+    left: 50%;
+    margin-left: -42px;
+    top: 50%;
+    margin-top: -42px;
+}
+
+textarea.description {
+    min-height: 250px;
+}
+
+textarea.description_short {
+    min-height: 140px;
+}
+
+.none-outline * {
+    outline: none;
+}
+
+.werhouse.content h1 span {
+    color: #888;
+}
+
+.stat.content .buttons {
+    margin-top: 25px;
+    float: left;
+}
+
+.stat.content .filters .body,
+.stat.content .filters .footer {
+    display: block;
+}
+
+.table-row.footer {
+    box-shadow: none;
+    background-color: transparent;
+    font-weight: 400;
+}
+
+.product-detail.content .form-value.checkbox.margin-top {
+    margin-top: 20px;
+}
+
+.table-row .checkbox {
+    position: absolute;
+    left: 0px;
+    top: 4px;
+    width: 20px;
+}
+
+.box.mass {
+    display: none;
+    border-bottom: 1px solid #ccc;
+    padding: 0px 10px;
+}
+
+.buttons a,
+.buttons form {
+    float: left;
+}
+
+.table-row input {
+    width: 100%;
+    outline: none;
+    padding: 2px 5px;
+    box-sizing: border-box;
+}
+
+.table-row.editable {
+    margin-bottom: 0px;
+    box-shadow: none;
+}
+
+.table-row.editable:hover {
+    background-color: transparent;
+}
+
+.table-row.editable.header {
+    margin-top: 10px;
+    position: relative;
+    top: 5px;
+}
+
+.table-row.products-header,
+.table-row.editable.position {
+    padding-right: 25px !important;
+}
+
+.table-row.editable.position .material-icons {
+    position: absolute;
+    top: 5px;
+    color: #333;
+    cursor: pointer;
+}
+
+.dialog.select .container {
+    background-color: #fff;
+    max-width: 90%;
+    margin: 0px 5%;
+    margin-top: 50px;
+    padding: 0px;
+    float: left;
+    width: 100%;
+    box-shadow: 0px 0px 5px #888;
+}
+
+.catalog.content .table-row .material-icons {
+    position: absolute;
+    top: 2px;
+    cursor: pointer;
+}
+
+.catalog.content .material-icons.delete {
+    right: 0px;
+    color: #333;
+    cursor: pointer;
+}
+
+.table-row.more-info .more {
+    padding-bottom: 25px;
+}
+
+footer {
+    position: relative;
+}
+
+.filters {
+    float: left;
+    width: 100%;
+    border-bottom: 1px solid #ccc;
+    box-sizing: border-box;
+}
+.filters .header {
+    border-bottom: none;
+}
+.filters{
+    display: none;
+    padding: 15px;
+}
+.filters.active{
+    display: block;
+}
+.filters-toggle{
+    float: left !important;
+    cursor: pointer;
+}
+.filters button{
+    margin-left: 5px;
+    margin-bottom: 5px;
+}
+.content .table-row.header.no-padding {
+    padding: 0px 0px;
+    margin-bottom: 0px;
+}
+.table-row.editable {
+    border: none !important;
+}
+.angular-ui-tree-nodes,
+.angular-ui-tree-node,
+.angular-ui-tree-placeholder{
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}

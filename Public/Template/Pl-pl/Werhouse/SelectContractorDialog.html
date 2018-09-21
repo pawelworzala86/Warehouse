@@ -1,0 +1,20 @@
+<div class="modal-content">
+    <div class="modal-header">
+    </div>
+    <div class="modal-body body">
+        <div class="search">
+            <div class="form-group col-10">
+                <input type="text" name="searchContractors" placeholder="Wprowadź tekst"/>
+            </div>
+        </div>
+        <div class="body">
+            <div ng-click="modal.select(contractor)" ng-repeat="contractor in modal.contractors" class="table-row">
+                <div class="col col-20">{{contractor.name}}</div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-danger" ng-click="modal.accept()">Usuń</button>
+        <button type="button" class="btn btn-default" ng-click="modal.cancel()">Close</button>
+    </div>
+</div>

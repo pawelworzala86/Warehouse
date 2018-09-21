@@ -1,0 +1,103 @@
+<div class="container">
+    <div class="row">
+        <div class="production content">
+            <div ng-if="data.editPrivilage" class="buttons">
+                <a href="/produkcja/dodaj"><button type="submit">Dodaj produkcję</button></a>
+            </div>
+            <div class="filters" ng-class="{'active': filters}">
+                <div class="header">
+                    <h3 class="title">
+                        <i class="material-icons active right">keyboard_arrow_right</i>
+                        <i class="material-icons down">keyboard_arrow_down</i>
+                        Filtry
+                    </h3>
+                </div>
+                <form method="POST">
+                    <div class="body">
+                        <div class="form-group col col-20">
+                            <label>Nazwa</label>
+                            <input type="text" name="name" ng-model="data.filter.name"/>
+                        </div>
+                        <input type="hidden" name="action" value="filter"/>
+                    </div>
+                    <div class="footer">
+                        <button type="submit" ng-click="filter()">Filtruj</button>
+                    </div>
+                </form>
+            </div>
+            <div ng-repeat="production in data.productions" class="table-row no-hover action-visible">
+                <div class="form-value col col-14">
+                    <label>Nazwa produkcji</label>
+                    <div class="value"><h3>{{production.name}}</h3></div>
+                </div>
+                <div class="form-value col col-3 text-right">
+                    <label>Data rozpoczęcia</label>
+                    <div class="value"><h3>{{production.date_start}}</h3></div>
+                </div>
+                <div class="form-value col col-3 text-right">
+                    <label>Data zakończenia</label>
+                    <div class="value"><h3>{{production.date_end}}</h3></div>
+                </div>
+                <div class="col col-5">
+                    <div class="form-value">
+                        <label>Pracownicy</label>
+                        <div class="value">
+                            <span ng-repeat="worker in production.workers">{{worker.name}}, </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-15">
+                    <div class="form-value col col-11 text-right">
+                        <label>Koszty pensji</label>
+                        <div class="value"><h3>{{production.sollary_cost}} {{data.currency}}</h3></div>
+                    </div>
+                    <div class="form-value col col-3 text-right">
+                        <label>Koszty materiałów</label>
+                        <div class="value"><h3>{{production.material_cost}} {{data.currency}}</h3></div>
+                    </div>
+                    <div class="form-value col col-3 text-right">
+                        <label>Wartość sprzedaży</label>
+                        <div class="value"><h3>{{production.sell_price}} {{data.currency}}</h3></div>
+                    </div>
+                    <div class="form-value col col-3 text-right">
+                        <label>Szacunkowy zysk</label>
+                        <div class="value"><h3>{{production.revenue}} {{data.currency}}</h3></div>
+                    </div>
+                </div>
+                <!--<canvas id="chart{$production.sys_unique_id}"></canvas>
+                <script>
+                    var data = {
+                    labels: {$production.labels},
+                            datasets: [{
+                            label: 'Koszta',
+                                    backgroundColor: ['rgba(255, 0, 0, 0.2)'],
+                                    data: {$production.cost.data},
+                            }, {
+                            label: 'Zyski',
+                                    backgroundColor: ['rgba(0, 0, 255, 0.2)'],
+                                    data: {$production.profit.data},
+                            }],
+                    };
+                    var options = {
+                    showLines: true,
+                    };
+                    var myLineChart = new Chart($("#chart{$production.sys_unique_id}")[0].getContext('2d'), {
+                    type: 'line',
+                            data: data,
+                            options: options,
+                    });
+                </script>-->
+                <div class="action">
+                    <a href="/produkcja/{{production.sys_unique_id}}/dni"><button type="submit">Dni</button></a>
+                    <a ng-if="data.workerPrivilage" href="/produkcja/{{production.sys_unique_id}}/pracownicy"><button type="submit">Pracownicy</button></a>
+                    <a ng-if="data.incomePrivilage" href="/produkcja/{{production.sys_unique_id}}/wyprodukowano"><button type="submit">Wyprodukowano</button></a>
+                    <a ng-if="data.outcomePrivilage" href="/produkcja/{{production.sys_unique_id}}/zuzycie"><button type="submit">Zużycie</button></a>
+                    <a ng-if="data.editPrivilage" href="/produkcja/{{production.sys_unique_id}}/edytuj"><button type="submit">Edycja</button></a>
+                     <button type="submit" class="button-danger" ng-click="del(production)">Usuń</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{include file=$deleteDialog}

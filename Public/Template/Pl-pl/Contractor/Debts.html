@@ -1,0 +1,52 @@
+<div class="filters" ng-class="{'active': filters}">
+    <form method="POST">
+        <div class="form-group col col-6">
+            <label>Kod</label>
+            <input type="text" name="code" ng-model="data.filter.code"/>
+        </div>
+        <div class="form-group col col-14">
+            <label>Nazwa</label>
+            <input type="text" name="name" ng-model="data.filter.name"/>
+        </div>
+        <input type="hidden" name="action" value="filter"/>
+        <button type="submit" ng-click="filter()">Filtruj</button>
+    </form>
+</div>
+<div ng-if="data.contractors" class="table-row header no-padding">
+    <div class="col col-3">Kod</div>
+    <div class="col col-6">Nazwa</div>
+    <div class="col col-3">NIP</div>
+    <div class="col col-5">Mail</div>
+    <div class="col col-3 text-right">Dług</div>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="debts content">
+            <div ng-repeat="contractor in data.contractors" class="table-row no-padding">
+                <div class="title col col-3">{{contractor.code}}</div>
+                <div class="title col col-6">{{contractor.name}}</div>
+                <div class="title col col-3">{{contractor.nip}}</div>
+                <div class="title col col-5">{{contractor.mail}}</div>
+                <div class="title col col-3 text-right">{{contractor.debt}} {{data.currency}}</div>
+                <div class="more" style="display: block;">
+                    <div class="col col-20">
+                        <div class="row header">
+                            <div class="col col-4">Termin zapłaty</div>
+                            <div class="col col-4">Numer dokumentu</div>
+                            <div class="col col-4">Data dodania</div>
+                            <div class="col col-4 text-right">Zapłacono</div>
+                            <div class="col col-4 text-right">Do zapłaty</div>
+                        </div>
+                        <div ng-repeat="document in contractor.documents" class="row">
+                            <div class="col col-4">{{document.date_pay}}</div>
+                            <div class="col col-4">{{document.number}}</div>
+                            <div class="col col-4">{{document.date_add}}</div>
+                            <div class="col col-4 text-right">{{document.payed}} {{data.currency}}</div>
+                            <div class="col col-4 text-right">{{document.debt}} {{data.currency}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

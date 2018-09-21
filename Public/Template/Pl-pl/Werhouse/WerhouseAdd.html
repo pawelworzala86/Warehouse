@@ -1,0 +1,296 @@
+<!--<script>
+    var productList = [];
+    var productsCache;
+    var activeProductData;
+    var acticveProductId;
+    var acticveContractor;
+    var acticveProductName;
+    var productNumber = 1;
+</script>-->
+<div class="container">
+    <form method="POST" class="col">
+        <input type="hidden" name="action" value="{$type}"/>
+        <input type="hidden" name="contractor[id]"/>
+        <div class="row">
+            <div class="products content">
+                <div class="box">
+                    <div class="header">
+                        <h3 class="title">Dane podstawowe</h3>
+                    </div>
+                    <div class="body">
+                        <div class="form-group col col-5">
+                            <label>Data dodania dokumentu</label>
+                            <input type="text" name="document[date_add]" ng-model="data.document.date_add"/>
+                        </div>
+                        <div class="form-group col col-5">
+                            <label>Data wykonania / dostarczenia</label>
+                            <input type="text" name="document[date_act]" ng-model="data.document.date_act"/>
+                        </div>
+                        <div class="form-group col col-10">
+                            <label>Miejsce wystawienia dokumentu</label>
+                            <input type="text" name="document[city]" ng-model="data.document.city"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="header">
+                        <h3 class="title">Kontrahent</h3>
+                    </div>
+                    <div class="body">
+                        <button type="button" id="addContractor" ng-click="selectContractor()">Wybierz kontrahenta</button>
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="header">
+                        <h3 class="title">Pozycje na dokumencie</h3>
+                    </div>
+                    <div class="body">
+                        <button type="button" id="addItem" ng-click="selectProduct()">Dodaj pozycję</button>
+                        <div class="table-row header no-padding editable products-header">
+                            <div class="col col-10">Nazwa</div>
+                            <div class="col col-3 text-right">Ilość</div>
+                            <div class="col col-3 text-right">Netto</div>
+                            <div class="col col-1 text-right">VAT</div>
+                            <div class="col col-3 text-right">Brutto</div>
+                        </div>
+                        <div id="productsList">
+                            <div ng-repeat="product in data.products" class="table-row no-padding editable position">
+                                <div class="col col-10"><input type="text" name="product[{$product.pid}][name]" ng-model="product.name"/></div>
+                                <input type="hidden" name="product[{$product.pid}][id]" ng-model="product.pid"/>
+                                <div class="col col-3"><input class="text-right" type="text" name="product[{$product.pid}][count]" ng-model="product.count"/></div>
+                                <div class="col col-3"><input class="text-right" type="text" name="product[{$product.pid}][net]" ng-model="product.net"/></div>
+                                <div class="col col-1"><input class="text-right" type="text" name="product[{$product.pid}][tax]" ng-model="product.tax"/></div>
+                                <div class="col col-3"><input class="text-right" type="text" name="product[{$product.pid}][gross]" ng-model="product.gross"/></div>
+                                <i class="material-icons delete">delete_forever</i>
+                            </div>
+                        </div>
+                        <!--<script>
+                            var products = {if $productsList}{$productsList}{else if}[]{/if};
+                                $(products).each(function () {
+                                    productList.push({
+                                        id: this[0],
+                                        count: this[1],
+                                        net: this[2],
+                                        tax: this[3],
+                                        gross: this[4],
+                                    });
+                                });
+                                console.log(productList);
+                        </script>-->
+                    </div>
+                </div>
+                <div class="box">
+                    <div class="header">
+                        <h3 class="title">Podsumowanie</h3>
+                    </div>
+                    <div class="body">
+                        <div class="form-group col col-5">
+                            <label>Data zapłaty</label>
+                            <input type="text" ng-model="data.document.date_pay"/>
+                        </div>
+                        <div class="form-group col col-5">
+                            <label>Forma zapłaty</label>
+                            <select ng-model="data.document.payment">
+                                <option value="cash">Gotówka</option>
+                                <option value="wire">Przelew</option>
+                            </select>
+                        </div>
+                        <div class="form-group col col-5">
+                            <label>Zapłacono</label>
+                            <input type="text" ng-model="data.document.payed"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group col col-20">
+            <button type="submit" id="saveDocument" class="button-lg" ng-click="send()">Zapisz dokument</button>
+        </div>
+    </form>
+</div>
+
+
+<div class="dialog select" id="addItemDialog">
+    <div class="container">
+        <div class="header">
+            <h1>Przeglądarka produktów</h1>
+        </div>
+        <div class="body">
+            <div class="box padding search">
+                <div class="form-group col col-7">
+                    <label>SKU</label>
+                    <input type="text" name="search[sku]" placeholder="Wprowadź tekst"/>
+                </div>
+                <div class="form-group col col-13">
+                    <label>Nazwa produktu</label>
+                    <input type="text" name="search[name]" placeholder="Wprowadź tekst"/>
+                </div>
+            </div>
+            <div id="products"></div>
+        </div>
+    </div>
+</div>
+<div class="dialog" id="addContractorDialog">
+    <div class="container">
+        <div class="header">
+            <div class="form-group col-10">
+                <input type="text" name="searchContractors" placeholder="Wprowadź tekst"/>
+            </div>
+        </div>
+        <div class="body">
+            <div id="contractors"></div>
+        </div>
+    </div>
+</div>
+
+<!--<script>
+    $(document).ready(function () {
+        var prepareElements = function (element) {
+            $(element).find('.delete').click(function(){
+                $(this).parents('.table-row').eq(0).remove();
+                hideHeader();
+            });
+        }
+        prepareElements($('.table-row.position'));
+        var hideHeader = function(){
+            if($('.products-header').parents('.body').eq(0).find('.position').length>0) {
+                $('.products-header').css('display', 'block');
+            }else{
+                $('.products-header').css('display', 'none');
+            }
+        }
+        var loadItems = function (search) {
+            var searchData = [];
+            $(search).each(function(){
+                var s = $(this);
+                searchData.push({
+                    name: s.attr('name'),
+                    value: s.val(),
+                });
+            });
+            $.ajax({
+                url: "/api/products",
+                type: 'POST',
+                data: {
+                    search: searchData,
+                    countAdd: '{$type}' == 'dec',
+                    intermediate: '{$type}' == 'add',
+                },
+            }).done(function (data) {
+                productsCache = $.parseJSON(data);
+                $('#addItemDialog').addClass('visible');
+                var products = '<div class="table-row header no-padding">' +
+                    '<div class="col col-9">Nazwa</div>' +
+                    '<div class="col col-3 text-right">Ilość</div>' +
+                    '<div class="col col-3 text-right">Netto</div>' +
+                    '<div class="col col-2 text-right">VAT</div>' +
+                    '<div class="col col-3 text-right">Brutto</div>' +
+                    '</div>';
+                $(productsCache).each(function () {
+                    products += '<div class="table-row no-padding" data-id="' + this.id + '">' +
+                        '<div class="col col-9">' + this.name + '</div>' +
+                        '<div class="col col-3 text-right">' + this.count + '</div>' +
+                        '<div class="col col-3 text-right">' + this.net + ' {$currency}</div>' +
+                        '<div class="col col-2 text-right">' + this.tax + '</div>' +
+                        '<div class="col col-3 text-right">' + this.gross + ' {$currency}</div>' +
+                        '</div>';
+                    productNumber++;
+                });
+                if (products == '') {
+                    products = '<div class="no-result">Nic nie znaleziono</div>';
+                }
+                $('#products').html(products);
+                $('#products').find('.table-row').click(function () {
+                    $('#addItemDialog').removeClass('visible');
+                    acticveProductId = $(this).data('id');
+                    var activeProductData;
+                    $(productsCache).each(function () {
+                        if (this.id == acticveProductId) {
+                            activeProductData = this;
+                        }
+                    });
+                    console.log(activeProductData);
+                    var productHTML = $('<div class="table-row no-padding editable position">'+
+                        '<div class="col col-10"><input type="text" name="product['+productNumber+'][name]" value="'+activeProductData.name+'"/></div>'+
+                        '<input type="hidden" name="product['+productNumber+'][id]" value="'+activeProductData.id+'"/>'+
+                        '<div class="col col-3"><input class="text-right" type="text" name="product['+productNumber+'][count]" value="1"/></div>'+
+                        '<div class="col col-3"><input class="text-right" type="text" name="product['+productNumber+'][net]" value="'+activeProductData.net+'"/></div>'+
+                        '<div class="col col-1"><input class="text-right" type="text" name="product['+productNumber+'][tax]" value="'+activeProductData.tax+'"/></div>'+
+                        '<div class="col col-3"><input class="text-right" type="text" name="product['+productNumber+'][gross]" value="'+activeProductData.gross+'"/></div>'+
+                        '<i class="material-icons delete">delete_forever</i>'+
+                        '</div>');
+                    productNumber++;
+                    $('#productsList').append(productHTML);
+                    hideHeader();
+                    prepareElements(productHTML);
+                });
+            });
+        }
+
+        var loadContractors = function (searchString) {
+            $.ajax({
+                url: "/api/contractors",
+                type: 'POST',
+                data: {
+                    search: searchString,
+                    provider: '{$type}' == 'add',
+                },
+            }).done(function (data) {
+                contractorsCache = $.parseJSON(data);
+                var contractors = '';
+                $(contractorsCache).each(function () {
+                    contractors += '<div class="table-row" data-id="' + this.id + '">' +
+                        '    <div class="title col col-15">' + this.name + '</div>' +
+                        '</div>';
+                });
+                if (contractors == '') {
+                    contractors = '<div class="no-result">Nic nie znaleziono</div>';
+                }
+                $('#contractors').html(contractors);
+                $('#contractors').find('.table-row').click(function () {
+                    $('[name="contractor[id]"]').val($(this).data('id'));
+                    $('#addContractorDialog').removeClass('visible');
+                    $('#saveDocument').addClass('button-primary');
+                });
+                $('#addContractorDialog').addClass('visible');
+            });
+        }
+
+        $('#addItem').click(function () {
+            loadItems();
+        });
+        $('#addContractor').click(function () {
+            loadContractors();
+        });
+        $('.search input').change(function () {
+            loadItems($('.search input'));
+        });
+        modal('#addContractorDialog');
+        modal('#addItemDialog');
+
+
+        if ($('[name=tax]').val() == '') {
+            $('[name=tax]').val('23%');
+        }
+        var calcNet = function () {
+            var net = parseFloat($('[name=net]').val());
+            var tax = parseFloat($('[name=tax]').val());
+            var gross = (net * (100 + tax)) / 100;
+            $('[name=gross]').val(gross.toFixed(2));
+        }
+        var calcGross = function () {
+            var gross = parseFloat($('[name=gross]').val());
+            var tax = parseFloat($('[name=tax]').val());
+            var net = (gross / (100 + tax)) * 100;
+            $('[name=net]').val(net.toFixed(2));
+        }
+        $('[name=net], [name=tax]').keyup(function () {
+            calcNet();
+        });
+        $('[name=gross]').keyup(function () {
+            calcGross();
+        });
+
+        hideHeader();
+    });
+</script>-->

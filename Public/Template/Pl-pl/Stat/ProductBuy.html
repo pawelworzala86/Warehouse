@@ -1,0 +1,77 @@
+<div class="container">
+    <div class="row">
+        <div class="stat content">
+            <div class="filters" ng-class="{'active': filters}">
+                <div class="header">
+                    <h3 class="title">Filtry</h3>
+                </div>
+                <form method="POST">
+                    <div class="body">
+                        <div class="form-group col col-3">
+                            <label>SKU</label>
+                            <input type="text" name="sku" ng-model="data.filter.sku"/>
+                        </div>
+                        <div class="form-group col col-7">
+                            <label>Nazwa</label>
+                            <input type="text" name="name" ng-model="data.filter.name"/>
+                        </div>
+                        <div class="form-group col col-5">
+                            <label>Data od</label>
+                            <input type="text" name="date_from" class="datepicker" ng-model="data.filter.date_from"/>
+                        </div>
+                        <div class="form-group col col-5">
+                            <label>Data do</label>
+                            <input type="text" name="date_to" class="datepicker" ng-model="data.filter.date_to"/>
+                        </div>
+                        <div class="form-group col col-5">
+                            <label>Cena od</label>
+                            <input type="text" name="price_from" ng-model="data.filter.price_from"/>
+                        </div>
+                        <div class="form-group col col-5">
+                            <label>Cena do</label>
+                            <input type="text" name="price_to" ng-model="data.filter.price_to"/>
+                        </div>
+                        <input type="hidden" name="action" value="filter"/>
+                    </div>
+                    <div class="footer">
+                        <button type="submit" ng-click="filter()">Filtruj</button>
+                    </div>
+                </form>
+            </div>
+            {if $buys.products}
+            <div class="table-row header no-padding">
+                <div class="col col-2">Dokument</div>
+                <div class="col col-2">Data</div>
+                <div class="col col-3">SKU</div>
+                <div class="col col-7">Nazwa</div>
+                <div class="col col-2 text-right">Netto</div>
+                <div class="col col-2 text-right">Ilość</div>
+                <div class="col col-2 text-right">Wartość</div>
+            </div>
+            {foreach $buys.products item=buy}
+            <div class="table-row no-padding">
+                <div class="col col-2">{$buy.number}</div>
+                <div class="col col-2">{$buy.date_add}</div>
+                <div class="col col-3">{$buy.sku}</div>
+                <div class="col col-7">{$buy.name}</div>
+                <div class="col col-2 text-right">{$buy.buy_net} {$currency}</div>
+                <div class="col col-2 text-right">{$buy.count}</div>
+                <div class="col col-2 text-right">{$buy.sum_net} {$currency}</div>
+            </div>
+            {/foreach}
+            <div class="table-row footer no-padding">
+                <div class="col col-18 text-right">Wartość: </div>
+                <div class="col col-2 text-right">{$buys.sum} {$currency}</div>
+            </div>
+            <div class="buttons">
+                <a href="/statystyki/produkty/zakup/drukuj" target="statPrint">
+                    <button type="submit" class="button-add"><i class="material-icons">print</i>Drukuj</button>
+                </a>
+                <a href="/statystyki/produkty/zakup/excel" target="statExcel">
+                    <button type="submit" class="button-add"><i class="material-icons">assignment</i>Pobierz</button>
+                </a>
+            </div>
+            {/if}
+        </div>
+    </div>
+</div>

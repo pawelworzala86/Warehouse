@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="row"> 
+        <div class="col col-8 col-offset-6"> 
+            <div class="box loginForm">
+                {if $activated}
+                <h1>Konto aktywowane</h1>
+                <center>
+                    <p>Konto jest już w pełni aktywne, możesz już korzystać z serwisu.</p>
+                    <a href="/logowanie"><button class="button button-primary button-lg">Zaloguj</button></a>
+                </center>
+                {else if}
+                <h1>Błędny kod</h1>
+                <center>
+                    <p>Kod aktywacyjny jest nieprawidłowy lub został już wykorzystany.</p>
+                </center>
+                {/if}
+            </div>
+        </div>
+    </div>
+</div>
