@@ -33,8 +33,8 @@ class DeleteImageFromCatalogProductHandler extends Handler
         $productFiles
             ->where(new Filter([
                 'name' => 'deleted',
-                'kind' => new FilterKind('null'),
-                'value' => null,
+                'kind' => new FilterKind('='),
+                'value' => 0,
             ]))
             ->where(new Filter([
                 'name' => 'product_id',

@@ -601,17 +601,23 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('catalogEditProductController', function ($routeParams, $scope, $http, $location, catalogProduct) {
+    .controller('catalogEditProductController', function ($routeParams, $scope, $http, $location, catalogProduct, $compile) {
         $scope.data = {
             id: $routeParams.id,
             product: {},
-        };
+            validation: {
+                sku: true,
+                name: true
+            }
+        }
         if ($routeParams.id) {
             catalogProduct.get(function (response) {
                 $scope.data.product = response.data;
             }, $routeParams.id);
         }
         $scope.data.send = function () {
+            $scope.data.validation.name = $scope.data.product.name?false:true
+            $scope.data.validation.sku = $scope.data.product.sku?false:true
             var data = $scope.data.product;
             if ($routeParams.id) {
                 $http.put(apiBase + '/catalog/product/' + $routeParams.id, data).then(function (response) {
@@ -619,12 +625,14 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                         //$location.path('/katalog/produkty');
                     }
                 });
+                //$scope.messages = response.data.errors
             } else {
                 $http.post(apiBase + '/catalog/product', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
                         $location.path('/katalog/produkt/'+response.data.id, false);
                     }
+                    //$scope.messages = response.data.errors
                 });
             }
         }

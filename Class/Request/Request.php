@@ -110,18 +110,20 @@ class Request
                                 $params = $refMet->getParameters();
                                 if (!$params[0]->allowsNull() && (!isset($class))) {
                                     $errors[] = 'Field ' . $name . ' dont have a value!';
-                                }/* else {
+                                } else {
                                     $object->{$setterName}($class);
-                                }*/
+                                }
                                 $default = $params[0]->isDefaultValueAvailable();
                             }
 
                             if(!$default&&!$class){
+                                //$errors[] = 'Field ' . $name . ' dont have a value!';
                             }else {
                                 $object->{$setterName}($class);
                             }
                         } else {
                             if (is_array($data)) {
+                                //print_r([$name, $data]);
                                 $value = $this->getValueFromData($name, $data);
                                 if (!isset($value) && $parameter->isDefaultValueAvailable()) {
                                     $value = $parameter->getDefaultValue();
@@ -141,14 +143,21 @@ class Request
                                         $parmClass = $value;
                                     }
                                     //$object->{$setterName}($parmClass);
-                                    if ($value) {
+                                    if (!empty($value)) {
                                         $object->{$setterName}($parmClass);
                                     } else {
                                         $errors[] = 'Field ' . $name . ' dont have a value!';
                                     }
+                                }else{
+                                    $funct = new \ReflectionMethod($object, 'set' . ucfirst($name));
+                                    $param = $funct->getParameters();
+                                    if(!$param[0]->isDefaultValueAvailable()&&empty($value)){
+                                        $errors[] = 'Field ' . $name . ' dont have a value!';
+                                    }
                                 }
                             } else {
-                                if ($data) {
+                                //print_r([$name, $data]);
+                                if (!empty($data)) {
                                     $object->{$setterName}($data);
                                 } else {
                                     $errors[] = 'Field ' . $name . ' dont have a value!';

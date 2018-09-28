@@ -19,8 +19,8 @@ class GetCatalogProductImagesHandler extends Handler
         $filesCollection
             ->where(new Filter([
                 'name' => 'deleted',
-                'kind' => new FilterKind('null'),
-                'value' => null,
+                'kind' => new FilterKind('='),
+                'value' => 0,
             ]))
             ->where(new Filter([
                 'name' => 'product_uuid',

@@ -39,8 +39,8 @@ class GetCatalogCategoriesHandler extends Handler
             ]))
             ->where(new Filter([
                 'name' => 'deleted',
-                'kind' => new FilterKind('null'),
-                'value' => null,
+                'kind' => new FilterKind('='),
+                'value' => 0,
             ]))
             ->order('lp asc')
             ->load();

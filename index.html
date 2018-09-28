@@ -51,6 +51,7 @@
         height: 120px;
         animation: spin 2s linear infinite;
     }
+
     @keyframes spin {
         0% {
             transform: rotate(0deg);
@@ -72,29 +73,31 @@
     <i ng-if="user.logged" ng-click="logout()" class="material-icons right button">exit_to_app</i>
 </header>
 <div ng-show="showMenu" id="menu">
-    <div class="header">
-        <i ng-click="showMenu=false" class="material-icons menu-toggle button">close</i>
-    </div>
-    <div ng-show="!user.logged" class="container">
-        <div class="links-group">
-            <a class="primary">Konto</a>
-            <a ng-click="showMenu=false" class="sub" ng-href="/konto/rejestracja">Rejestracja</a>
-            <a ng-click="showMenu=false" class="sub" ng-href="/konto/logowanie">Logowanie</a>
+    <div class="menu-body">
+        <div class="header">
+            <i ng-click="showMenu=false" class="material-icons menu-toggle button">close</i>
         </div>
-    </div>
-    <div ng-show="user.logged" class="container">
-        <div class="links-group">
-            <a class="primary">Konto</a>
-            <a ng-click="showMenu=false" class="sub" ng-href="/konto/profil">Profil</a>
+        <div ng-show="!user.logged" class="container">
+            <div class="links-group">
+                <a class="primary">Konto</a>
+                <a ng-click="showMenu=false" class="sub" ng-href="/konto/rejestracja">Rejestracja</a>
+                <a ng-click="showMenu=false" class="sub" ng-href="/konto/logowanie">Logowanie</a>
+            </div>
         </div>
-        <div class="links-group">
-            <a class="primary">Katalog</a>
-            <a ng-click="showMenu=false" class="sub" ng-href="/katalog/kategorie">Kategorie</a>
-            <a ng-click="showMenu=false" class="sub" ng-href="/katalog/produkty">Produkty</a>
-        </div>
-        <div class="links-group">
-            <a class="primary">System</a>
-            <a ng-click="showMenu=false" class="sub" ng-href="/system/pliki">Pliki</a>
+        <div ng-show="user.logged" class="container">
+            <div class="links-group">
+                <a class="primary">Konto</a>
+                <a ng-click="showMenu=false" class="sub" ng-href="/konto/profil">Profil</a>
+            </div>
+            <div class="links-group">
+                <a class="primary">Katalog</a>
+                <a ng-click="showMenu=false" class="sub" ng-href="/katalog/kategorie">Kategorie</a>
+                <a ng-click="showMenu=false" class="sub" ng-href="/katalog/produkty">Produkty</a>
+            </div>
+            <div class="links-group">
+                <a class="primary">System</a>
+                <a ng-click="showMenu=false" class="sub" ng-href="/system/pliki">Pliki</a>
+            </div>
         </div>
     </div>
 </div>

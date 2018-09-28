@@ -24,12 +24,12 @@ class File extends Type
         $this->db = DB::get();
     }
 
-    function getSize(): int
+    function getSize(): ?int
     {
         return $this->size;
     }
 
-    function setSize(int $size): File
+    function setSize(int $size = null): File
     {
         $this->size = $size;
         return $this;
@@ -79,13 +79,13 @@ class File extends Type
         return $this->data;
     }
 
-    function setUrl(string $url): File
+    function setUrl(string $url = null): File
     {
         $this->url = $url;
         return $this;
     }
 
-    function getUrl(): string
+    function getUrl(): ?string
     {
         return $this->url;
     }

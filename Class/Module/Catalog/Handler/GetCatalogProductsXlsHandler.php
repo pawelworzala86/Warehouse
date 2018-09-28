@@ -29,12 +29,13 @@ class GetCatalogProductsXlsHandler extends Handler
         //header('Content-Type: application/vnd.ms-excel');
         //header('Content-Disposition: attachment; filename="products.xls"');
         //$writer->
+        //print_r(DIR.'/Files/'.$uuid.'.xlsx');
         $writer->save(DIR.'/Files/'.$uuid.'.xlsx');
 
         $file = new File;
         $file->setType('application/vnd.ms-excel')
             ->setUrl('/Files/'.$uuid.'.xlsx')
-            ->setSize(filesize(DIR.'/Files/helloworld.xlsx'))
+            ->setSize(filesize(DIR.'/Files/'.$uuid.'.xlsx'))
             ->setName('helloworld.xlsx')
             ->setUuid($uuid)
             ->save();

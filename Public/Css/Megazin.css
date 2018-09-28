@@ -288,6 +288,8 @@ tab article{
 
 .angular-ui-tree-node .title {
     border-bottom: none;
+    position: relative;
+    margin-top: -2px;
 }
 
 .messages{

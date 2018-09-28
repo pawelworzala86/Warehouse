@@ -26,7 +26,7 @@ class AddTableToDatabase
             updated int,
             updated_by int,
             updated_ip_id int,
-            deleted int,
+            deleted int default 0,
             deleted_by int,
             deleted_ip_id int,
             index(added_by),
