@@ -549,17 +549,6 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 }
             }).activate();
         }
-        $scope.del = function (rows, row) {
-            deleteDialog.show({
-                title: 'Usunięcie kategorii',
-                templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/catalog/category/',
-                data: {
-                    rows: rows,
-                    row: row,
-                },
-            });
-        }
     })
 
     .factory('deleteDialog', function ($http, modal) {
@@ -650,6 +639,17 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
 
     .controller('uploadController', function ($scope, $element, Upload, productImages, deleteDialog, $http) {
         $scope.files = [];
+        $scope.deleteImage = function (rows, row) {
+            deleteDialog.show({
+                title: 'Usunięcie zdjęcia',
+                templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
+                apiUrl: '/catalog/product/'+$scope.$parent.data.id+'/image/',
+                data: {
+                    rows: rows,
+                    row: row,
+                }
+            });
+        }
         if ($scope.$parent.data.id) {
             productImages.get(function (response) {
                 $scope.files = response.data.files;
@@ -712,17 +712,6 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     ;
                 }
             });
-            $scope.deleteImage = function (rows, row) {
-                deleteDialog.show({
-                    title: 'Usunięcie zdjęcia',
-                    templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                    apiUrl: '/catalog/product/',
-                    data: {
-                        rows: rows,
-                        row: row,
-                    }
-                });
-            }
         };
     })
 

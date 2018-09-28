@@ -20,4 +20,5 @@ return [
     Router::put('/catalog/product/{id}', Handler\UpdateCatalogProductHandler::class),
     Router::get('/catalog/product/{id}/image', Handler\GetCatalogProductImagesHandler::class),
     Router::put('/catalog/product/{id}/image/{imageId}', Handler\AddImageToCatalogProductHandler::class),
+    Router::delete('/catalog/product/{id}/image/{imageId}', Handler\DeleteImageFromCatalogProductHandler::class),
 ];
