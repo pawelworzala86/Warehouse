@@ -4,6 +4,8 @@ namespace App\Module\Catalog\Handler;
 
 use App\Common;
 use App\Handler;
+use App\Module\Catalog\Collection\ProductCollection;
+use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Response\GetCatalogProductsXlsResponse;
 use App\Request\UuidCollectionRequest;
 use App\Type\File;
@@ -15,21 +17,35 @@ class GetCatalogProductsXlsHandler extends Handler
     public function __invoke(UuidCollectionRequest $request): GetCatalogProductsXlsResponse
     {
         $uuid = Common::getUuid();
-        $idsCollection = $request->getIds();
-        //print_r($idsCollection);
+        $ids = [];
+        $idsC = $request->getIds();
+
+        $idsC->rewind();
+        while($id = $idsC->current()){
+            $ids[] = $id->getUuid();
+            $idsC->next();
+        }
+
+        $letter = 'A';
+
+        $products = new ProductCollection;
+        $products->load($ids, true);
 
         $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
-        $sheet->setCellValue('A1', 'Hello World !');
-
-        //$writer = new Xlsx($spreadsheet);
-        //$writer->save('hello world.xlsx');
+        $products->rewind();
+        $index = 2;
+        $sheet->setCellValue('A1', 'SKU');
+        $sheet->setCellValue('B1', 'Nazwa');
+        while($product = $products->current()) {
+            //$sheet->setCellValue(($letter++).($index++).'', 'Hello World !');
+            $sheet->setCellValue('A'.$index, $product->getSku());
+            $sheet->setCellValue('B'.$index, $product->getName());
+            $index++;
+            $products->next();
+        }
 
         $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
-        //header('Content-Type: application/vnd.ms-excel');
-        //header('Content-Disposition: attachment; filename="products.xls"');
-        //$writer->
-        //print_r(DIR.'/Files/'.$uuid.'.xlsx');
         $writer->save(DIR.'/Files/'.$uuid.'.xlsx');
 
         $file = new File;
@@ -39,8 +55,6 @@ class GetCatalogProductsXlsHandler extends Handler
             ->setName('helloworld.xlsx')
             ->setUuid($uuid)
             ->save();
-        //$handle = $writer->save('php://memory');
-        //print_r($handle);
 
         return (new GetCatalogProductsXlsResponse)
             ->setId($file->getUuid())
