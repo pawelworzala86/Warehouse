@@ -1,0 +1,42 @@
+#RewriteEngine on
+
+#RewriteCond $1 !^(Index\.php|css|js|\.jpg|\.png|Public|Files|robots\.txt|.html|sitemap\.xml)
+#RewriteRule ^(.*)$ /index.php/$1 [L]
+
+#Options +FollowSymLinks
+RewriteEngine   On
+#RewriteBase /
+
+RewriteCond	%{REQUEST_URI} /(Test)
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Test/index.php	[L]
+
+RewriteCond	%{REQUEST_URI} /(Doc)
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Doc/index.php	[L]
+
+RewriteCond	%{REQUEST_URI} /(Gen)
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Gen/index.php	[L]
+
+RewriteCond	%{REQUEST_URI} /(Root)
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Root/index.php	[L]
+
+RewriteCond	%{REQUEST_URI} /(api)
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /Api/index.php	[L]
+
+RewriteCond	%{REQUEST_URI} /
+RewriteCond	%{REQUEST_FILENAME} !-f
+RewriteCond     %{REQUEST_FILENAME} !-d
+RewriteRule	.   /index.html	[L]
+
+RewriteCond	%{REQUEST_FILENAME} -d
+RewriteCond	%{REQUEST_FILENAME} !/$
+RewriteRule	^(.*)$  $1/

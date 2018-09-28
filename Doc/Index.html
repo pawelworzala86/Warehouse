@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+<body>
+{foreach from=$documentation item=row}
+<div class="element">
+    <div class="row">
+        <div class="name">{$row.handlerName}</div>
+        <div class="method">{$row.method}</div>
+        <div class="url">{$row.url}</div>
+    </div>
+    <div class="contentRow">
+        <div class="content">
+            <div class="dataBlock">
+                <div class="title">Request</div>
+                <div>
+                    <pre>{$row.requestData}</pre>
+                </div>
+            </div>
+
+            <div class="dataBlock">
+                <div class="title">Response</div>
+                <div>
+                    <pre>{$row.responseData}</pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{/foreach}
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+    });
+</script>

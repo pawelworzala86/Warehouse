@@ -1,0 +1,71 @@
+.angular-ui-tree-handle {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.angular-ui-tree-node, .angular-ui-tree-placeholder {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.angular-ui-tree-drag,
+.angular-ui-tree-placeholder,
+.angular-ui-tree-handle {
+    font-weight: 400;
+    margin: 5px 0px;
+}
+
+.angular-ui-tree-drag .border-node,
+.angular-ui-tree-handle .border-node,
+.angular-ui-tree-placeholder {
+    padding: 4px 10px 0px 10px;
+    background: #fff;
+    float: left;
+}
+
+.angular-ui-tree-placeholder {
+    min-height: auto;
+    border: 1px dashed #ccc;
+}
+
+.angular-ui-tree-node .title {
+    float: left;
+    border-bottom: 1px dashed #ccc;
+}
+
+.angular-ui-tree-drag .border-node {
+    padding: 6px 10px 2px 10px;
+    border: 1px dashed #ccc;
+}
+
+.angular-ui-tree-node .icons .border-node .material-icons {
+    float: right;
+    top: -1px;
+    position: relative;
+    left: 5px;
+    cursor: pointer;
+    opacity: 0;
+    font-size: 1.45em;
+}
+
+.angular-ui-tree-node .icons .border-node:hover .material-icons {
+    opacity: 0.3;
+}
+
+.angular-ui-tree-node .icons .border-node:hover .material-icons:hover {
+    opacity: 0.8;
+}
+
+.angular-ui-tree-node .icons .border-node .material-icons.left {
+    float: left;
+    opacity: 1;
+    position: relative;
+    left: -2px;
+}
+
+.angular-ui-tree-dropzone, .angular-ui-tree-empty {
+    background: #fff;
+    border: none;
+}

@@ -1,0 +1,265 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body,
+input,
+button,
+select,
+option,
+textarea {
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Roboto';
+    color: #333;
+}
+
+.container {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 25px;
+}
+
+.login,
+.register {
+    margin: auto;
+    margin-top: 50px;
+    float: none !important;
+    padding: 25px;
+    max-width: 300px;
+}
+
+.box {
+    border: 1px solid rgba(64, 128, 256, 0.3);
+    border-radius: 15px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.box .header {
+    margin-bottom: 3px;
+    font-weight: 400;
+    border: none;
+    padding: 8px 12px;
+    background-color: rgba(64, 128, 256, 0.08);
+    color: #666;
+    border-bottom: 1px solid rgba(64, 128, 256, 0.3);
+}
+
+.box .body {
+    padding: 10px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.box .footer {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 10px;
+    border-top: 1px solid rgba(64, 128, 256, 0.3);
+}
+
+.box .footer .buttons {
+    margin: 0;
+}
+
+.box .footer .buttons button {
+    margin: 0;
+    margin-right: 5px;
+}
+
+.login h1,
+.register h1 {
+    margin: 0;
+    margin-bottom: 15px;
+    font-weight: 100;
+    text-align: center;
+}
+
+.center {
+    text-align: center;
+}
+
+.login button,
+.register button {
+    margin-top: 5px;
+}
+
+.buttons {
+    margin-bottom: 25px;
+}
+
+a,
+a:hover,
+a:focus,
+a:active {
+    color: #333;
+    text-decoration: none;
+    font-weight: 400;
+}
+
+ng-view,
+header,
+.header,
+.content {
+    max-width: 900px;
+    margin: auto;
+    display: block;
+    width: 100%;
+}
+
+filters {
+    display: inline-block;
+    position: fixed;
+    left: 0;
+    top: 0;
+    background: #fff;
+    z-index: 1000;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+}
+
+filters .form-value {
+    font-weight: 500;
+    font-size: 1.15em;
+    padding: 24px 12px;
+}
+
+fluentLoader {
+    text-align: center;
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+}
+
+fluentLoader p {
+    border: 1px solid rgba(64, 128, 256, 0.3);
+    border-radius: 30px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+}
+
+upload .borderBox,
+upload #uploadBorderBox {
+    border: 1px dashed rgba(64, 128, 256, 0.5);
+    min-width: 146px;
+    min-height: 146px;
+    position: relative;
+    border-radius: 15px;
+    cursor: pointer;
+    margin: 5px;
+    box-sizing: border-box;
+    float: left;
+    margin-bottom: 35px;
+}
+
+upload .borderBox .name{
+    z-index: 1000;
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-weight: 400;
+    font-size: 0.75em;
+    height: 13px;
+    overflow: hidden;
+}
+
+upload .borderBox .size{
+    position: absolute;
+    bottom: -42px;
+    font-weight: 400;
+    font-size: 0.7em;
+    width: 100%;
+    text-align: center;
+}
+
+upload .borderBox .material-icons.delete{
+    z-index: 1000;
+    color: #f00;
+    position: absolute;
+    right: 3px;
+    font-size: 1.5em;
+    top: 3px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+upload #uploadBorderBox p {
+    margin: 0;
+    top: 50%;
+    position: absolute;
+    margin-top: 15px;
+    padding: 0px 20px;
+    font-weight: 400;
+    font-size: 0.8em;
+    text-align: justify;
+    color: #666;
+}
+
+upload p.cancel {
+    text-align: center;
+    margin: 0;
+    background: #f00;
+    left: 50%;
+    top: 50%;
+    color: #fff;
+    margin-left: -28px;
+    border-radius: 8px;
+    padding: 0px 7px;
+    margin-top: 4px;
+    z-index: 1000;
+    position: absolute;
+    cursor: pointer;
+}
+
+upload .material-icons.add {
+    font-size: 5em;
+    color: #888;
+    left: 50%;
+    position: absolute;
+    margin-left: -35px;
+    top: 0.9vh;
+}
+
+upload #uploadBorderBox p.progress{
+    margin: 0;
+    top: 50%;
+    position: absolute;
+    margin-top: -15px;
+    padding: 0px 20px;
+    font-weight: 400;
+    font-size: 1.8em;
+    color: #666;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+upload #uploadBorderBox p.progress {
+}
+
+
+upload input.hide{
+    display: none;
+}
+
+upload img{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    border-radius: 15px;
+}

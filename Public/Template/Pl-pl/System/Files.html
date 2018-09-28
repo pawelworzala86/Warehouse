@@ -1,0 +1,51 @@
+<div class="container files">
+    <div ng-show="files.length==0" class="table-empty">
+        <p>Brak danych w tabeli do wyświetlenia</p>
+    </div>
+    <div ng-show="files.length>0" class="table" ng-controller="selectTableController">
+        {{setSelectOptions('/system/files', 'name', 'files')}}
+        <div ng-show="selects.length>0" class="box">
+            <div class="header">Zaznaczone elementy</div>
+            <div class="body">
+                <div class="selects">
+                    <div class="select" ng-repeat="select in selects">
+                        {{select.name}}
+                        <i data-nodrag="" class="material-icons"
+                           ng-click="delSelect(select, files)">delete_forever</i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="buttons">
+                    <button class="small">Pobierz PDF</button>
+                    <button class="small">Pobierz XLS</button>
+                    <button class="small danger" ng-click="massDelete(files, selects)">Usuń</button>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <input type="checkbox" id="chbx" ng-click="checkAll(files)"><label for="chbx" class="checkbox"></label>
+            <div class="container">
+                <div class="col col-6">Nazwa pliku</div>
+                <div class="col col-3">Typ pliku</div>
+                <div class="col col-3">Rozmiar pliku</div>
+            </div>
+        </div>
+        <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files">
+            <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
+                                                                                            class="checkbox"></label>
+            <div class="col col-6">{{file.name}}</div>
+            <div class="col col-3">{{file.type}}</div>
+            <div class="col col-3">{{formatSizeUnits(file.size)}}</div>
+            <div class="buttons">
+                <a target="_self" ng-href="{{file.url}}" download="{{file.name}}">
+                    <i data-nodrag="" class="material-icons" ng-click="download(file)">cloud_download</i>
+                </a>
+                <i data-nodrag="" class="material-icons" ng-click="deleteRow(files, file)">delete_forever</i>
+            </div>
+        </div>
+        <fluentLoader ng-click="fluentLoad()">
+            <p>Pokaż więcej wyników</p>
+        </fluentLoader>
+    </div>
+</div>

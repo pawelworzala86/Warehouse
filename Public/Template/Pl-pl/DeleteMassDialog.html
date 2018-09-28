@@ -1,0 +1,23 @@
+<style>
+    .modal .name {
+        margin-right: 10px;
+        font-weight: 500;
+    }
+    .modal .names{
+    }
+</style>
+<div class="modal">
+    <div class="content">
+        <div class="header">
+            <h3>{{modal.title}}</h3><i ng-click="modal.cancel()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            Czy potwierdzasz usunięcie wskazanych elementów?
+            <div class="names"><span class="name" ng-repeat="item in modal.data.selects">{{item.name}}</span></div>
+        </div>
+        <div class="footer">
+            <button class="danger" ng-click="modal.accept()">Usuń</button>
+            <button ng-click="modal.cancel()">Zamknij</button>
+        </div>
+    </div>
+</div>

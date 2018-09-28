@@ -1,0 +1,111 @@
+.table {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.table .row,
+.table .header {
+    border-bottom: 1px dashed #ccc;
+    margin: 0;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 5px 50px 5px 20px;
+    position: relative;
+}
+
+.table .header {
+    font-weight: 400;
+}
+
+.table .header input[type=checkbox]:first-child,
+.table .row input[type=checkbox]:first-child,
+.checkbox {
+    position: absolute;
+    left: 2px;
+    top: 6px;
+}
+
+.table .selects {
+    float: left;
+}
+
+.table .selects .select {
+    float: left;
+    margin-right: 10px;
+    font-size: 0.9em;
+    font-weight: 500;
+    position: relative;
+    padding-right: 20px;
+}
+
+.table .selects .select .material-icons {
+    position: absolute;
+    top: -4px;
+    right: 0px;
+    font-size: 1.75em;
+    cursor: pointer;
+    opacity: 0.3;
+}
+
+.table .selects .select .material-icons:hover {
+    opacity: 0.8;
+}
+
+.table .col {
+    padding: 0px;
+    display: inline-block;
+}
+
+.table .container {
+    float: none;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0px;
+}
+
+.table .row:hover {
+    background: rgba(64, 128, 256, 0.08);
+}
+
+.table .row.selected {
+    background: rgba(64, 128, 256, 0.08);
+    font-weight: 400;
+}
+
+.table .row .buttons {
+    margin: 0;
+    position: absolute;
+    right: 0;
+    top: 3px;
+}
+
+.table .row .buttons .material-icons {
+    cursor: pointer;
+    opacity: 0.3;
+    font-size: 1.45em;
+}
+
+.table .row .buttons .material-icons:hover {
+    opacity: 0.8;
+}
+
+.table-empty {
+    text-align: center;
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+}
+.table-empty p{
+    border-radius: 30px;
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background: rgba(256, 64, 64, 0.1) !important;
+    border: 1px solid rgba(256, 64, 64, 0.3) !important;
+}
+
+.table .row.selected.deleted{
+    display: none;
+}

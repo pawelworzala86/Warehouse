@@ -1,0 +1,2 @@
+drop view product_file_view;
+create view product_file_view as SELECT file.id as file_id, file.uuid as file_uuid, file.added as added, file.deleted as deleted, file.size as size, file.url as url, file.name as name, file.type as type, product_files.id as product_files_id, product_files.uuid as product_files_uuid, product_id, product.uuid as product_uuid FROM file left join product_files on file.id=product_files.id left join product on product_id=product.id

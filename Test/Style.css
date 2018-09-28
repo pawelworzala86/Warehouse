@@ -1,0 +1,332 @@
+body {
+    margin: 0;
+    padding: 0;
+}
+
+body,
+input,
+textarea,
+pre {
+    font-size: 14px;
+    font-weight: 300;
+    font-family: 'Roboto';
+}
+
+.errors {
+    margin-bottom: 50px;
+    margin-top: 25px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.errors div {
+    margin: 5px 0px;
+    font-weight: 300;
+    font-size: 1.15em;
+}
+
+.errors div b {
+    font-weight: 400;
+}
+
+.row {
+    display: inline-block;
+    box-sizing: border-box;
+    position: relative;
+    border-bottom: 1px dashed #ddd;
+    padding: 0px 20px;
+}
+
+.methodName {
+    font-weight: 300;
+    padding: 13px 0px;
+}
+
+.method {
+    width: 70px;
+    font-weight: 400;
+}
+
+.url {
+    width: 250px;
+}
+
+#wrapper {
+    padding: 100px 50px;
+    float: left;
+    box-sizing: border-box;
+    width: 100%;
+    font-size: 1.05em;
+}
+
+.row div.url {
+    font-size: 0.85em;
+    width: 100%;
+}
+
+.content {
+    float: left;
+    width: 100%;
+    margin-top: -15px;
+    margin-left: 5px;
+}
+
+#auto-test {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+#modalBg {
+    background: #fff;
+    position: fixed;
+    top: 0;
+    height: 100%;
+    left: 0;
+    width: 100%;
+    opacity: 0.8;
+}
+
+#modal {
+    background: #fff;
+    border: 1px solid #ccc;
+    float: left;
+    width: 70%;
+    position: absolute;
+    left: 15%;
+    margin: 50px 0px;
+    top: 0;
+}
+
+#modal .btn {
+    float: right;
+}
+
+.btn {
+    border: 1px solid #ccc;
+    font-weight: 400;
+    padding: 5px 10px;
+    margin: 0px 5px;
+    background: #fff;
+}
+
+#modal .content {
+    float: left;
+    width: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+}
+
+#modalLinks .title {
+    font-size: 1.25em;
+    font-weight: 500;
+    margin-bottom: 20px;
+}
+
+#modalLinks .requests,
+#modalLinks .responses {
+    float: left;
+    width: 50%;
+}
+
+#modalLinks .methodTitle {
+    font-size: 1.05em;
+    font-weight: 300;
+}
+
+#modalLinks .data {
+    margin-bottom: 10px;
+}
+
+#modalLinks .values {
+    padding: 3px 10px 5px 10px;
+    font-size: 0.95em;
+    font-weight: 500;
+    float: left;
+    margin-bottom: 15px;
+    width: 100%;
+}
+
+#modalLinks .value {
+    float: left;
+    margin-right: 15px;
+    cursor: pointer;
+}
+
+#modalLinks .value:hover {
+    color: #08f;
+}
+
+.test .actions {
+    right: -207px;
+    top: 5px;
+    width: 200px;
+    position: absolute;
+    text-align: left;
+    display: none;
+}
+
+.test {
+    float: left;
+    width: 100%;
+    position: relative;
+    background: #fff;
+    text-align: center;
+}
+
+.test .material-icons.move,
+.test .actions .material-icons {
+    font-size: 2.05em;
+    display: inline-block;
+    color: #ddd;
+    cursor: pointer;
+}
+
+.test .material-icons:hover,
+.test .actions .material-icons:hover {
+    color: #666;
+}
+
+.test .material-icons.move {
+    display: none;
+}
+
+.test:hover .material-icons.move{
+    display: inline-block;
+    font-size: 1.45em;
+    top: 12px;
+    margin-right: 0;
+    position: absolute;
+    left: -26px;
+}
+
+.test .actions .material-icons {
+    padding: 3px;
+}
+
+.test:hover .actions {
+    display: block;
+}
+
+header {
+    float: left;
+    width: 100%;
+}
+
+header h1 {
+    text-align: center;
+    font-weight: 300;
+    margin: 50px 0px 0px 0px;
+    font-size: 3em;
+    color: #333;
+}
+
+header h4 {
+    font-weight: 300;
+    display: initial;
+    margin-bottom: 25px;
+    border-bottom: 1px dashed #ddd;
+    padding: 3px 20px;
+}
+
+.center {
+    text-align: center;
+}
+
+header p,
+footer p{
+    margin-top: 5px;
+    margin-bottom: 50px;
+    text-align: center;
+    font-size: 0.85em;
+    color: #888;
+}
+
+#modal .header{
+    border-bottom: 1px solid #ccc;
+}
+
+#modal .footer{
+    border-top: 1px solid #ccc;
+}
+
+#modal .header,
+#modal .footer,
+#modal .content{
+    float: left;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    position: relative;
+}
+
+#modal .header h3{
+    margin: 0px;
+    font-size: 1.35em;
+    font-weight: 400;
+    color: #666;
+}
+
+#modal .btn:first-child {
+    margin-right: 0;
+}
+
+pre .material-icons.link{
+    position: relative;
+    font-size: 1.75em;
+    color: #ccc;
+    top: 7px;
+    margin-right: 3px;
+    cursor: pointer;
+}
+
+pre .material-icons.link:hover{
+    color: #555;
+}
+
+#modal .header .material-icons.close {
+    position: absolute;
+    font-weight: 800;
+    font-size: 1.45em;
+    right: 10px;
+    top: 12px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+#modal .header .material-icons.close:hover {
+    color: #555;
+}
+
+pre b{
+    font-weight: 400;
+}
+
+pre .linked .link{
+    color: #08f;
+}
+
+#autoTest{
+    max-width: 700px;
+    margin: auto;
+}
+
+.test .actions i.response{
+    display: none;
+}
+
+.methodName.success{
+    color: #6b6;
+    font-weight: 500;
+}
+
+.methodName.error{
+    color: #b66;
+    font-weight: 500;
+}
+
+.test:last-child .row {
+    border-bottom: none;
+}

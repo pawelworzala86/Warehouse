@@ -1,0 +1,94 @@
+header,
+.header {
+    padding: 25px 25px 0px 25px;
+    box-sizing: border-box;
+}
+
+header{
+    float: left;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    box-shadow: 0 2px rgba(0, 0, 0, 0.05);
+}
+
+header i,
+.header i {
+    float: left;
+    cursor: pointer;
+    padding: 10px;
+    color: #999;
+    font-size: 2.25em !important;
+    font-weight: 100 !important;
+}
+
+header i:hover,
+.header i:hover {
+    color: #555;
+}
+
+header i.right,
+.header i.right {
+    float: right !important;
+}
+
+#menu {
+    background-color: #fff;
+    position: fixed;
+    width: 100%;
+    left: 0;
+    top: 0;
+    height: 100%;
+    z-index: 10000;
+}
+
+#menu .links-group .primary{
+    margin: 0px;
+    padding: 0px;
+    font-weight: 400;
+    font-size: 1.15em;
+    margin-bottom: 5px;
+    float: left;
+}
+
+#menu .links-group .sub{
+    float: left;
+    width: 100%;
+    font-weight: 300;
+    margin-top: 3px;
+    box-sizing: border-box;
+}
+
+#menu .links-group .sub:hover {
+    font-weight: 400;
+}
+
+#menu .links-group{
+    float: left;
+    padding: 0px 10px;
+}
+
+header .button{
+    margin-right: 15px;
+}
+header .button.right{
+    margin-right: 0px;
+    margin-left: 15px;
+}
+
+header h1{
+    margin: 0px;
+    padding: 0px;
+    font-weight: 400;
+    font-size: 1.15em;
+}
+
+header p{
+    margin: 0px;
+    padding: 0px;
+    color: #888;
+    font-size: 0.75em;
+}
+
+header .pageTitle{
+    float: left;
+}

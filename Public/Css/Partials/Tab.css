@@ -1,0 +1,48 @@
+tabs {
+    display: inline-block;
+    margin-bottom: 25px;
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+tabs .tab {
+    float: left;
+    border: 1px solid rgba(64, 128, 256, 0.3);
+    padding: 3px 8px;
+    margin: 0px 3px;
+    border-radius: 15px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+tabs .tab.active {
+    background: rgba(64, 128, 256, 0.08) !important;
+    border-color: rgba(64, 128, 256, 0.6);
+    color: #333;
+}
+
+tabs::before {
+    content: "Wybierz kartę";
+    float: left;
+    width: 100%;
+    margin-left: 10px;
+    font-size: 0.85em;
+    margin-bottom: 2px;
+}
+
+tab.hide{
+    display: none;
+}
+
+tabs .buttons{
+    margin-bottom: 25px;
+    float: left;
+    width: 100%;
+}
+
+tabs tab.disable{
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    color: #ccc;
+    cursor: default;
+}

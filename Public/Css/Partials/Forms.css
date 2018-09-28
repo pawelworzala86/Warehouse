@@ -1,0 +1,139 @@
+input[type=button],
+button {
+    padding: 3px 8px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border: 1px solid rgba(64, 128, 256, 0.3);
+    border-radius: 30px;
+}
+
+input[type=text],
+input[type=password],
+textarea,
+option,
+select {
+    padding: 3px 5px;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    background-color: #fff !important;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    background-color: #eee !important;
+    -webkit-box-shadow: 0 0 0 0 #fff;
+    -webkit-transition: color 9999s ease-out, background-color 9999s ease-out;
+    -webkit-transition-delay: 9999s;
+}
+
+.form-group label,
+.form-group input,
+.form-group select,
+.form-group option,
+.form-group textarea {
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+textarea{
+    min-height: 125px;
+    padding: 5px;
+}
+
+.form-group label {
+    font-size: 0.85em;
+    font-weight: 500;
+    margin-left: 5px;
+}
+
+button.sender{
+    margin-top: 25px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    float: left;
+    width: 100%;
+}
+
+input:focus,
+input:active,
+input:hover{
+    /*background-color: rgba(64, 128, 256, 0.08) !important;*/
+    /*color: rgba(64, 128, 256, 0.3);*/
+}
+
+button{
+    cursor: pointer;
+    position: relative;
+}
+
+button .material-icons{
+    position: absolute;
+    font-size: 1.5em;
+    top: 1px;
+    left: 8px;
+    color: rgba(64, 128, 256, 0.6);
+}
+
+button.icon{
+    padding-left: 33px;
+}
+
+button:hover .material-icons{
+    color: rgba(64, 128, 256, 0.9);
+}
+
+button:hover,
+.material-icons.button:hover {
+    background-color: transparent;
+    color: rgba(0, 0, 0, 0.7);
+}
+
+.material-icons.button{
+    padding: 2px 2px;
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 30px !important;
+}
+
+input[type=checkbox] {
+    display: none;
+}
+
+.checkbox {
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid #ccc;
+    width: 12px;
+    height: 12px;
+    display: block;
+    cursor: pointer;
+}
+
+input[type=checkbox]:checked + .checkbox {
+    box-shadow: 0px 0px 0px 2px #fff inset;
+    background: rgba(64, 128, 256, 1);
+    display: block;
+}
+
+button.small{
+    margin: 0;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-weight: 400;
+    font-size: 0.95em;
+}
+
+button.danger {
+    background: rgba(256, 64, 64, 0.1) !important;
+    border: 1px solid rgba(256, 64, 64, 0.3) !important;
+}
+
+button.danger:hover {
+    background: rgba(256, 64, 64, 0.2) !important;
+    color: rgba(256, 64, 64, 0.9) !important;
+}

@@ -1,0 +1,25 @@
+<div class="container categories">
+    <div class="buttons">
+        <button ng-click="add()" class="icon"><i class="material-icons">add_circle_outline</i>Dodaj kategorię</button>
+    </div>
+    <script type="text/ng-template" id="nodes_renderer.html">
+        <div ui-tree-handle class="icons">
+            <div class="border-node">
+                <i ng-if="node.categories.length==0" class="material-icons left">keyboard_arrow_right</i>
+                <i ng-if="node.categories.length>0" class="material-icons left">keyboard_arrow_down</i>
+                <div class="title">{{node.name}}</div>
+                <i data-nodrag class="material-icons" ng-click="del(categories, node)">delete_forever</i>
+                <i data-nodrag class="material-icons" ng-click="edit(node)">mode_edit</i>
+            </div>
+        </div>
+        <ol ui-tree-nodes="" ng-model="node.categories">
+            <li ng-repeat="node in node.categories as categories" ui-tree-node ng-include="'nodes_renderer.html'">
+            </li>
+        </ol>
+    </script>
+    <div ui-tree="treeOptions" data-max-depth="5">
+        <ol ui-tree-nodes="" ng-model="categories" id="tree-root">
+            <li ng-repeat="node in categories" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+        </ol>
+    </div>
+</div>
