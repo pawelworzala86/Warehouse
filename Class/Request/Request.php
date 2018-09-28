@@ -104,6 +104,7 @@ class Request
                                     }
                                 }
                             }
+                            $default = true;
                             if(method_exists($this, $setterName)) {
                                 $refMet = new \ReflectionMethod($this, $setterName);
                                 $params = $refMet->getParameters();
@@ -112,11 +113,8 @@ class Request
                                 }/* else {
                                     $object->{$setterName}($class);
                                 }*/
+                                $default = $params[0]->isDefaultValueAvailable();
                             }
-
-                            $refMet = new \ReflectionMethod($this, $setterName);
-                            $params = $refMet->getParameters();
-                            $default = $params[0]->isDefaultValueAvailable();
 
                             if(!$default&&!$class){
                             }else {
