@@ -10,4 +10,5 @@ return [
     Router::get('/system/files', Handler\GetFilesHandler::class),
     Router::delete('/system/files/{id}', Handler\DeleteFileHandler::class),
     Router::post('/system/files/mass/delete', Handler\DeleteMassFilesHandler::class),
+    Router::post('/system/files/mass/xls', Handler\GetFilesXlsHandler::class),
 ];
