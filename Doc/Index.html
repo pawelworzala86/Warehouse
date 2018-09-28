@@ -10,6 +10,7 @@
     <script src="/Public/Js/jquery-3.3.1.min.js"></script>
 </head>
 <body>
+<header><h1>Dokumentacja Werhouse</h1></header>
 {foreach from=$documentation item=row}
 <div class="element">
     <div class="row">
@@ -40,5 +41,8 @@
 </html>
 <script>
     $(document).ready(function () {
+        $('.name').click(function(){
+            $(this).parent().parent().find('.contentRow').toggleClass('show')
+        })
     });
 </script>

@@ -863,6 +863,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 if (response.data.success) {
                     $rootScope.user.logged = true;
                     $location.path('/panel');
+                }else{
+                    $scope.messages = response.data.messages
                 }
             });
         }

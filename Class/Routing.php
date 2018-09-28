@@ -122,7 +122,7 @@ class Routing
                             if(count($errors)>0){
                                 //throw new \Exception('Required fields is not setted!');
                                 foreach ($errors as $key=>$error){
-                                    $errors[$key] = $error->getError();
+                                    $errors[$key] = $error;
                                 }
                                 echo json_encode(['errors'=>$errors], JSON_PRETTY_PRINT);
                                 exit;

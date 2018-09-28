@@ -348,4 +348,9 @@ class Model
         ];
         $this->db()->execute('update ' . $this->table . ' set deleted=?, deleted_by=?, deleted_ip_id=? where uuid=?', $params);
     }
+
+    function isLoaded()
+    {
+        return count($this->updatedFields) > 0;
+    }
 }

@@ -5,16 +5,18 @@ namespace App\Module\User\Handler;
 use App\Handler;
 use App\Module\User\Model\UserModel;
 use App\Module\User\Request\LoginUserRequest;
+use App\Response\ErrorResponse;
 use App\Response\SuccessResponse;
 use App\Session;
 use App\Type\Filter;
 use App\Type\FilterKind;
 use App\User;
+use Complex\Exception;
 
 class LoginUserHandler extends Handler
 {
 
-    public function __invoke(LoginUserRequest $request): SuccessResponse
+    public function __invoke(LoginUserRequest $request)
     {
         $userModel = (new UserModel())
             ->where(new Filter([
@@ -24,8 +26,14 @@ class LoginUserHandler extends Handler
             ]))
             ->load();
 
+        if(!$userModel->isLoaded()){
+            return (new ErrorResponse)
+                ->setMessages(['Wrong email!']);
+        }
+
         if ($userModel->getPassword() != hash('sha512', (string)$request->getPassword())) {
-            throw new \Exception('Wrong password!');
+            return (new ErrorResponse)
+                ->setMessages(['Wrong password!']);
         }
 
         User::setId($userModel->getId());

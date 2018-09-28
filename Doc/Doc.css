@@ -55,6 +55,7 @@ body{
     width: 100%;
     box-sizing: border-box;
     border-top: none;
+    display: none;
 }
 
 .url {
@@ -68,4 +69,15 @@ pre {
 
 .title {
     font-weight: 400;
+}
+
+header h1{
+    font-weight: 300;
+    font-size: 35px;
+    text-align: center;
+    padding: 35px 0px;
+}
+
+.contentRow.show {
+    display: block;
 }

@@ -78,7 +78,6 @@ class Request
                             if ($d) {
                                 $class = new $classType($d);
                             }
-                            //print_r([$class]);
                             if ($class && in_array(CollectionTrait::class, class_uses($class))) {
                                 $parentModel = get_parent_class($class);
                                 $results = $this->getValueFromData($name, $data);
@@ -109,12 +108,20 @@ class Request
                                 $refMet = new \ReflectionMethod($this, $setterName);
                                 $params = $refMet->getParameters();
                                 if (!$params[0]->allowsNull() && (!isset($class))) {
-                                    $errors[] = new Error('Field ' . $name . ' dont have a value!');
+                                    $errors[] = 'Field ' . $name . ' dont have a value!';
                                 }/* else {
                                     $object->{$setterName}($class);
                                 }*/
                             }
-                            $object->{$setterName}($class);
+
+                            $refMet = new \ReflectionMethod($this, $setterName);
+                            $params = $refMet->getParameters();
+                            $default = $params[0]->isDefaultValueAvailable();
+
+                            if(!$default&&!$class){
+                            }else {
+                                $object->{$setterName}($class);
+                            }
                         } else {
                             if (is_array($data)) {
                                 $value = $this->getValueFromData($name, $data);
@@ -135,13 +142,18 @@ class Request
                                     } else {
                                         $parmClass = $value;
                                     }
-                                    $object->{$setterName}($parmClass);
+                                    //$object->{$setterName}($parmClass);
+                                    if ($value) {
+                                        $object->{$setterName}($parmClass);
+                                    } else {
+                                        $errors[] = 'Field ' . $name . ' dont have a value!';
+                                    }
                                 }
                             } else {
                                 if ($data) {
                                     $object->{$setterName}($data);
                                 } else {
-                                    return null;
+                                    $errors[] = 'Field ' . $name . ' dont have a value!';
                                 }
                             }
                         }
