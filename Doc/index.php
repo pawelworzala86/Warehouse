@@ -11,6 +11,8 @@ require_once('index.php');
 require_once('Class/Doc.php');
 require_once('Class/Output.php');
 
+chdir('../');
+
 echo '<style>'.file_get_contents('Doc/Doc.css').'</style>';
 
 $doc = new Doc;
@@ -29,6 +31,10 @@ foreach($routes as $route){
         }
     }
     $responseName = (string)$reflection->getReturnType();
+
+    if($responseName==''){
+        continue;
+    }
 
     $request = new $requestName;
     $response = new $responseName;

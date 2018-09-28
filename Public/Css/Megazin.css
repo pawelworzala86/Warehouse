@@ -113,6 +113,7 @@ header,
     margin: auto;
     display: block;
     width: 100%;
+    position: relative;
 }
 
 filters {
@@ -120,11 +121,20 @@ filters {
     position: fixed;
     left: 0;
     top: 0;
-    background: #fff;
+    background: rgba(255, 255, 255, 0.75);
     z-index: 1000;
     width: 100%;
     height: 100%;
     box-sizing: border-box;
+    padding: 50px;
+}
+
+filters .filters-dialog{
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid rgba(64, 128, 256, 0.3);
+    background: #fff;
 }
 
 filters .form-value {
@@ -262,4 +272,20 @@ upload img{
     height: 100%;
     z-index: 1;
     border-radius: 15px;
+}
+
+tab article{
+    float: left;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.angular-ui-tree-drag,
+.angular-ui-tree-placeholder,
+.angular-ui-tree-handle {
+    border: 1px dashed #ccc;
+}
+
+.angular-ui-tree-node .title {
+    border-bottom: none;
 }
