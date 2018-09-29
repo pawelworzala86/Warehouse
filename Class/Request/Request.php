@@ -141,20 +141,20 @@ class Request
                                         $parmClass = $value;
                                     }
                                     //$object->{$setterName}($parmClass);
-                                    if (!empty($value)) {
+                                    if (!$value) {
                                         $object->{$setterName}($parmClass);
                                     } else if(!$parameter->isDefaultValueAvailable()){
                                         $errors[] = '2. Field ' . $name . ' dont have a value!';
                                     }
                                 }else{
                                     //print_r([(bool)$parameter->isDefaultValueAvailable()]);
-                                    if(!$parameter->isDefaultValueAvailable()&&empty($value)){
+                                    if(!$parameter->isDefaultValueAvailable()&&!$value){
                                         $errors[] = '3. Field ' . $name . ' dont have a value!';
                                     }
                                 }
                             } else {
                                 //print_r([$name, $data]);
-                                if (!empty($data)) {
+                                if (!$data) {
                                     $object->{$setterName}($data);
                                 } else if(!$parameter->isDefaultValueAvailable()){
                                     $errors[] = '4. Field ' . $name . ' dont have a value!';

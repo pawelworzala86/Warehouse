@@ -1,27 +1,38 @@
 <style>
-    .contractor-data{
+    .contractor-data {
         display: inline-block;
         margin-left: 15px;
         font-size: 1.25em;
         font-weight: 400;
+        width: 100%;
+        margin-bottom: 15px;
     }
-    .modal.contractor .row{
+
+    .modal.contractor .row {
         cursor: pointer;
     }
 </style>
 <div class="container">
     <article>
         <div class="row">
-            <div class="form-group col col-12">
-                <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
-                <input type="text" ng-model="data.document.name"
-                       ng-class="{'error': data.validation.name&&!data.document.name}"/>
-                <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
+            <div class="col col-6">
+                <div class="card">
+                    <div class="title">Dane podstawowe</div>
+                    <div class="form-group col col-12">
+                        <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
+                        <input type="text" ng-model="data.document.name"
+                               ng-class="{'error': data.validation.name&&!data.document.name}"/>
+                        <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
+                    </div>
+                </div>
             </div>
-        </div>
-        <div class="row">
-            <button ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
-            <div class="contractor-data">{{data.contractor.name}}</div>
+            <div class="col col-6">
+                <div class="card">
+                    <div class="title">Kontrahent</div>
+                    <div class="contractor-data">{{data.contractor.name}}</div>
+                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
+                </div>
+            </div>
         </div>
         <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
     </article>
@@ -41,7 +52,8 @@
                     <div class="col col-12">Nazwa kontrahenta</div>
                 </div>
                 <div>
-                    <div ng-click="data.selectContractor(contractor)" class="row" ng-repeat="contractor in data.contractors">
+                    <div ng-click="data.selectContractor(contractor)" class="row"
+                         ng-repeat="contractor in data.contractors">
                         <div class="col col-12">
                             {{contractor.name}}
                         </div>
