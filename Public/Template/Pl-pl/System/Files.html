@@ -1,8 +1,5 @@
 <div class="container files">
-    <div ng-show="files.length==0" class="table-empty">
-        <p>Brak danych w tabeli do wyświetlenia</p>
-    </div>
-    <div ng-show="files.length>0" class="table" ng-controller="selectTableController">
+    <div class="table" ng-controller="selectTableController">
         {{setSelectOptions('/system/files', 'name', 'files')}}
         <div ng-show="selects.length>0" class="box">
             <div class="header">Zaznaczone elementy</div>
@@ -24,8 +21,12 @@
             </div>
         </div>
         <div class="header">
-            <input type="checkbox" id="chbx" ng-click="checkAll(files)"><label for="chbx" class="checkbox"></label>
-            <div class="container">
+            <input ng-show="files.length>0" type="checkbox" id="chbx" ng-click="checkAll(files)"><label ng-show="files.length>0" for="chbx" class="checkbox"></label>
+            <div class="filters">
+                <div class="col col-6"><input type="text" ng-model="filters.name" ng-change="filter()"></div>
+                <div class="col col-3"><input type="text" ng-model="filters.type" ng-change="filter()"></div>
+            </div>
+            <div class="container" ng-show="files.length>0">
                 <div class="col col-6">Nazwa pliku</div>
                 <div class="col col-3">Typ pliku</div>
                 <div class="col col-3">Rozmiar pliku</div>
@@ -43,6 +44,9 @@
                 </a>
                 <i data-nodrag="" class="material-icons" ng-click="deleteRow(files, file)">delete_forever</i>
             </div>
+        </div>
+        <div ng-show="files.length==0" class="table-empty">
+            <p>Brak danych w tabeli do wyświetlenia</p>
         </div>
         <fluentLoader ng-click="fluentLoad()">
             <p>Pokaż więcej wyników</p>

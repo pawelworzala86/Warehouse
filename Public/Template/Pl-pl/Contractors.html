@@ -22,10 +22,7 @@
             <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj kontrahenta</button>
         </a>
     </div>
-    <div ng-show="contractors.length==0" class="table-empty">
-        <p>Brak danych w tabeli do wyświetlenia</p>
-    </div>
-    <div ng-show="contractors.length>0" class="table" ng-controller="selectTableController">
+    <div class="table" ng-controller="selectTableController">
         {{setSelectOptions('/catalog/contractor', 'name', 'contractors')}}
         <div ng-show="selects.length>0" class="box">
             <div class="header">Zaznaczone elementy</div>
@@ -47,8 +44,11 @@
             </div>
         </div>
         <div class="header">
-            <input type="checkbox" id="chbx" ng-click="checkAll(contractors)"><label for="chbx" class="checkbox"></label>
-            <div class="container">
+            <input type="checkbox" ng-show="selects.length>0" id="chbx" ng-click="checkAll(contractors)"><label ng-show="selects.length>0" for="chbx" class="checkbox"></label>
+            <div class="filters">
+                <div class="col col-2"><input type="text" ng-model="filters.name" ng-change="filter()"></div>
+            </div>
+            <div class="container" ng-show="contractors.length>0">
                 <div class="col col-2">Numer</div>
             </div>
         </div>
@@ -68,7 +68,10 @@
                 <p>{{contractor.detail.descriptionShort}}</p>
             </div>
         </div>
-        <fluentLoader ng-click="fluentLoad()">
+        <div ng-show="contractors.length==0" class="table-empty">
+            <p>Brak danych w tabeli do wyświetlenia</p>
+        </div>
+        <fluentLoader ng-click="fluentLoad()" ng-show="contractors.length==0">
             <p>Pokaż więcej wyników</p>
         </fluentLoader>
     </div>

@@ -22,10 +22,7 @@
             <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj product</button>
         </a>
     </div>
-    <div ng-show="products.length==0" class="table-empty">
-        <p>Brak danych w tabeli do wyświetlenia</p>
-    </div>
-    <div ng-show="products.length>0" class="table" ng-controller="selectTableController">
+    <div class="table" ng-controller="selectTableController">
         {{setSelectOptions('/catalog/product', 'name', 'products')}}
         <div ng-show="selects.length>0" class="box">
             <div class="header">Zaznaczone elementy</div>
@@ -47,11 +44,18 @@
             </div>
         </div>
         <div class="header">
-            <input type="checkbox" id="chbx" ng-click="checkAll(products)"><label for="chbx" class="checkbox"></label>
-            <div class="container">
+            <input ng-show="products.length>0" type="checkbox" id="chbx" ng-click="checkAll(products)"><label ng-show="products.length>0" for="chbx" class="checkbox"></label>
+            <div class="filters">
+                <div class="col col-2"><input type="text" ng-model="filters.sku" ng-change="filter()"></div>
+                <div class="col col-10"><input type="text" ng-model="filters.name" ng-change="filter()"></div>
+            </div>
+            <div class="container" ng-show="products.length>0">
                 <div class="col col-2">SKU</div>
                 <div class="col col-10">Nazwa produktu</div>
             </div>
+        </div>
+        <div ng-show="products.length==0" class="table-empty">
+            <p>Brak danych w tabeli do wyświetlenia</p>
         </div>
         <div ng-class="{'selected': product.selected, 'deleted': product.deleted}" class="row"
              ng-repeat="product in products">
@@ -70,7 +74,7 @@
                 <p>{{product.detail.descriptionShort}}</p>
             </div>
         </div>
-        <fluentLoader ng-click="fluentLoad()">
+        <fluentLoader ng-click="fluentLoad()" ng-show="products.length>0">
             <p>Pokaż więcej wyników</p>
         </fluentLoader>
     </div>

@@ -167,6 +167,10 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         var filtersNames = [];
         $scope.files = [];
         $rootScope.filters = filters;
+        $scope.filters = {
+            name: '',
+            type: '',
+        }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
                 return data;
@@ -205,6 +209,26 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.products = [];
             pagination.page = 1;
             loadPage();
+        }
+        $scope.filter = ()=>{
+            $rootScope.filters = []
+            if($scope.filters.name) {
+                $rootScope.filters.push({
+                    name: 'name',
+                    kind: '%',
+                    value: $scope.filters.name,
+                })
+            }
+            if($scope.filters.type) {
+                $rootScope.filters.push({
+                    name: 'type',
+                    kind: '%',
+                    value: $scope.filters.type,
+                })
+            }
+            $scope.files = [];
+            pagination.page = 1;
+            loadPage()
         }
     })
 
@@ -839,10 +863,15 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 name: true,
             }
         }
-        if ($routeParams.id) {
-            contractor.get(function (response) {
-                $scope.data.contractor = response.data;
-            }, $routeParams.id);
+        $scope.filters = {
+            name: '',
+        }
+        loadPage = ()=> {
+            if ($routeParams.id) {
+                contractor.get(function (response) {
+                    $scope.data.contractor = response.data;
+                }, $routeParams.id);
+            }
         }
         $scope.data.send = function () {
             $scope.data.validation.name = $scope.data.contractor.name?false:true
@@ -872,6 +901,19 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     //$scope.messages = response.data.errors
                 });
             }
+        }
+        $scope.filter = ()=>{
+            $rootScope.filters = []
+            if($scope.filters.name) {
+                $rootScope.filters.push({
+                    name: 'name',
+                    kind: '%',
+                    value: $scope.filters.name,
+                })
+            }
+            $scope.contractors = [];
+            pagination.page = 1;
+            loadPage()
         }
     })
 
@@ -1013,6 +1055,10 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         var filtersNames = [];
         $scope.products = [];
         $rootScope.filters = filters;
+        $scope.filters = {
+            sku: '',
+            name: '',
+        }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
                 return data;
@@ -1052,6 +1098,26 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage();
         }
+        $scope.filter = ()=>{
+            $rootScope.filters = []
+            if($scope.filters.sku) {
+                $rootScope.filters.push({
+                    name: 'sku',
+                    kind: '%',
+                    value: $scope.filters.sku,
+                })
+            }
+            if($scope.filters.name) {
+                $rootScope.filters.push({
+                    name: 'name',
+                    kind: '%',
+                    value: $scope.filters.name,
+                })
+            }
+            $scope.products = [];
+            pagination.page = 1;
+            loadPage()
+        }
     })
 
     .controller('documentsController', function ($rootScope, $scope, $http, documents, deleteDialog) {
@@ -1063,6 +1129,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         var filtersNames = [];
         $scope.documents = [];
         $rootScope.filters = filters;
+        $scope.filters = {
+            name: '',
+        }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
                 return data;
@@ -1102,6 +1171,19 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage();
         }
+        $scope.filter = ()=>{
+            $rootScope.filters = []
+            if($scope.filters.name) {
+                $rootScope.filters.push({
+                    name: 'name',
+                    kind: '%',
+                    value: $scope.filters.name,
+                })
+            }
+            $scope.documents = [];
+            pagination.page = 1;
+            loadPage()
+        }
     })
 
     .factory('documents', function ($http, $httpParamSerializerJQLike) {
@@ -1126,6 +1208,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         var filtersNames = [];
         $scope.contractors = [];
         $rootScope.filters = filters;
+        $scope.filters = {
+            name: '',
+        }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
                 return data;
@@ -1161,9 +1246,22 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         loadPage();
         $rootScope.filterRefreshCallback = function () {
-            $scope.documents = [];
+            $scope.contractors = [];
             pagination.page = 1;
             loadPage();
+        }
+        $scope.filter = ()=>{
+            $rootScope.filters = []
+            if($scope.filters.name) {
+                $rootScope.filters.push({
+                    name: 'name',
+                    kind: '%',
+                    value: $scope.filters.name,
+                })
+            }
+            $scope.contractors = [];
+            pagination.page = 1;
+            loadPage()
         }
     })
 

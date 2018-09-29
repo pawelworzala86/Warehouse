@@ -22,10 +22,7 @@
             <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj dokument</button>
         </a>
     </div>
-    <div ng-show="documents.length==0" class="table-empty">
-        <p>Brak danych w tabeli do wyświetlenia</p>
-    </div>
-    <div ng-show="documents.length>0" class="table" ng-controller="selectTableController">
+    <div class="table" ng-controller="selectTableController">
         {{setSelectOptions('/catalog/document', 'name', 'documents')}}
         <div ng-show="selects.length>0" class="box">
             <div class="header">Zaznaczone elementy</div>
@@ -47,8 +44,11 @@
             </div>
         </div>
         <div class="header">
-            <input type="checkbox" id="chbx" ng-click="checkAll(documents)"><label for="chbx" class="checkbox"></label>
-            <div class="container">
+            <input ng-show="documents.length>0" type="checkbox" id="chbx" ng-click="checkAll(documents)"><label ng-show="documents.length>0" for="chbx" class="checkbox"></label>
+            <div class="filters">
+                <div class="col col-2"><input type="text" ng-model="filters.name" ng-change="filter()"></div>
+            </div>
+            <div class="container" ng-show="documents.length>0">
                 <div class="col col-2">Numer</div>
             </div>
         </div>
@@ -67,6 +67,9 @@
             <div class="detail" ng-if="document.detail">
                 <p>{{document.detail.descriptionShort}}</p>
             </div>
+        </div>
+        <div ng-show="documents.length==0" class="table-empty">
+            <p>Brak danych w tabeli do wyświetlenia</p>
         </div>
         <fluentLoader ng-click="fluentLoad()">
             <p>Pokaż więcej wyników</p>
