@@ -821,6 +821,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     product.vat = product.vat+''
                     $scope.data.callcNet(product)
                 })
+                $scope.data.refreshResume()
             }, $routeParams.id);
         }
         $scope.data.send = function () {
@@ -888,6 +889,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             product.vat = '23'
             $scope.data.document.products.push(product)
             $scope.data.callcNet(product)
+            $scope.data.refreshResume()
         }
         $scope.remove = (rows, row)=>{
             row.deleted = true
@@ -901,6 +903,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             product.sumVat = ((net*count)*(product.vat/100)).toFixed(2)
 
             product.sumGross = ((net*count)+((net*count)*(product.vat/100))).toFixed(2)
+            $scope.data.refreshResume()
         }
         $scope.data.callcSumNet = (product)=>{
             sumNet = (product.sumNet+'').replace?parseFloat((product.sumNet+'').replace(',','.')):0
@@ -911,6 +914,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             product.sumVat = (sumNet*(product.vat/100)).toFixed(2)
 
             product.sumGross = (sumNet+(sumNet*(product.vat/100))).toFixed(2)
+            $scope.data.refreshResume()
         }
         $scope.data.callcSumGross = (product)=>{
             sumGross = (product.sumGross+'').replace?parseFloat((product.sumGross+'').replace(',','.')):0
@@ -919,6 +923,18 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             product.sumVat = ((sumGross/(100+parseFloat(product.vat)))*parseFloat(product.vat)).toFixed(2)
             product.sumNet = (sumGross-product.sumVat).toFixed(2)
             product.net = (product.sumNet/count).toFixed(2)
+            $scope.data.refreshResume()
+        }
+        $scope.data.refreshResume = ()=>{
+            sumNet = 0
+            sumGross = 0
+            angular.forEach($scope.data.document.products, (product)=>{
+                sumNet += parseFloat(product.sumNet)
+                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+            })
+            $scope.data.document.sumNet = sumNet.toFixed(2)
+            $scope.data.document.sumGross = sumGross.toFixed(2)
+            $scope.data.document.tax = (sumGross-sumNet).toFixed(2)
         }
     })
 

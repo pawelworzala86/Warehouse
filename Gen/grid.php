@@ -13,6 +13,7 @@ $grid .= '.col {' . PHP_EOL .
     TAB . 'float: left;' . PHP_EOL .
     TAB . 'padding: 0px 10px;' . PHP_EOL .
     TAB . 'box-sizing: border-box;' . PHP_EOL .
+    TAB . 'min-height: 1px;' . PHP_EOL .
     '}' . PHP_EOL;
 
 //.table .col

@@ -6,6 +6,7 @@
 	float: left;
 	padding: 0px 10px;
 	box-sizing: border-box;
+	min-height: 1px;
 }
 .table .col-1 {
 	width: 8.3333333333333%;

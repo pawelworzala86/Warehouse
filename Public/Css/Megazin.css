@@ -343,3 +343,11 @@ tab article{
     color: #333;
     font-weight: 400;
 }
+
+.right{
+    text-align: right;
+}
+
+.center{
+    text-align: center;
+}

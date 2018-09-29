@@ -24,12 +24,17 @@
     .table.products input,
     .table.products select{
         background: #fff !important;
-        border: 1px solid rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(0, 0, 0, 0.15);
         top: -4px;
         position: relative;
         width: 96%;
         box-sizing: border-box;
         margin: 0px 2%;
+    }
+
+    .table.products .row:hover input,
+    .table.products .row:hover select{
+        border: 1px solid rgba(0, 0, 0, 0.4);
     }
 
     .table.products select{
@@ -54,9 +59,33 @@
     }
 
     .table .row,
-    .table .header {
-        border-bottom: 1px dashed #ccc;
+    .table .header,
+    .table .row:hover{
+        border-bottom: transparent;
         padding: 5px 5px 5px 20px;
+        background: transparent;
+    }
+
+    .table .row:hover,
+    .table .row:hover input,
+    .table .row:hover select{
+        font-weight: 500;
+    }
+
+    .resume{
+        padding-right: 22px;
+        padding-bottom: 15px;
+    }
+
+    .resume strong{
+        width: 100px;
+        float: right;
+        position: relative;
+        margin-top: 3px;
+    }
+
+    .resume p{
+        margin: 5px 0px;
     }
 
 </style>
@@ -91,12 +120,12 @@
                         <div class="header" ng-if="data.document.products.length>0">
                             <div class="col col-4">Nazwa produktu</div>
                             <div class="col col-1">VAT</div>
-                            <div class="col col-2">Cena netto</div>
-                            <div class="col col-1">Ilość</div>
+                            <div class="col col-2 right">Cena netto</div>
+                            <div class="col col-1 center">Ilość</div>
                             <div class="col col-4">
-                                <div class="col col-4 count">W. netto</div>
-                                <div class="col col-4 count">W. vat</div>
-                                <div class="col col-4 count">W. brutto</div>
+                                <div class="col col-4 count right">W. netto</div>
+                                <div class="col col-4 count right">W. vat</div>
+                                <div class="col col-4 count right">W. brutto</div>
                             </div>
                         </div>
                         <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
@@ -107,14 +136,20 @@
                                     <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
                                 </select>
                             </div>
-                            <div class="col col-2 count"><input type="text" ng-model="product.net" ng-change="data.callcNet(product)"></div>
-                            <div class="col col-1 count"><input type="text" ng-model="product.count" ng-change="data.callcNet(product)"></div>
+                            <div class="col col-2 count"><input class="right" type="text" ng-model="product.net" ng-change="data.callcNet(product)"></div>
+                            <div class="col col-1 count"><input class="center" type="text" ng-model="product.count" ng-change="data.callcNet(product)"></div>
                             <div class="col col-4">
-                                <div class="col col-4 count"><input type="text" ng-model="product.sumNet" ng-change="data.callcSumNet(product)"></div>
-                                <div class="col col-4 count">{{product.sumVat}}</div>
-                                <div class="col col-4 count"><input type="text" ng-model="product.sumGross" ng-change="data.callcSumGross(product)"></div>
+                                <div class="col col-4 count"><input class="right" type="text" ng-model="product.sumNet" ng-change="data.callcSumNet(product)"></div>
+                                <div class="col col-4 count right">{{product.sumVat}}</div>
+                                <div class="col col-4 count"><input class="right" type="text" ng-model="product.sumGross" ng-change="data.callcSumGross(product)"></div>
                             </div>
                         </div>
+                    </div>
+                    <div class="col col-6"></div>
+                    <div class="col col-6 right resume">
+                        <p>Łączna suma netto: <strong>{{data.document.sumNet}}</strong></p>
+                        <p>Podatek VAT: <strong>{{data.document.tax}}</strong></p>
+                        <p>Łączna suma brutto: <strong>{{data.document.sumGross}}</strong></p>
                     </div>
                 </div>
             </div>
