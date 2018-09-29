@@ -125,10 +125,8 @@
     border: 1px solid #ddd;
     box-sizing: border-box;
     margin-bottom: 3px;
-}
-
-.table .header .checkbox{
-    margin-top: 23px;
+    left: -5px;
+    position: relative;
 }
 
 .table .header .filters .col{
@@ -136,7 +134,7 @@
 }
 
 .table .header label.checkbox{
-    margin-top: 27px;
+    margin-top: 4px;
 }
 
 .table .filters{

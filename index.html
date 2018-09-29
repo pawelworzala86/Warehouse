@@ -64,8 +64,6 @@
 <!--<div id="loading"><i class="material-icons rotate big">refresh</i></div>-->
 <header>
     <i ng-click="showMenu=true" class="material-icons menu-toggle button">menu</i>
-    <i ng-click="$root.showFilter=true" ng-if="user.logged&&($root.filtersNames.length>0)"
-       class="material-icons filters-toggle button">search</i>
     <div class="pageTitle">
         <p ng-show="pageName">Obecna strona</p>
         <h1 ng-show="pageName">{{pageName}}</h1>
@@ -109,7 +107,6 @@
         </div>
     </div>
 </div>
-<filters ng-show="showFilter" data="filters"></filters>
 <ng-view></ng-view>
 </body>
 </html>

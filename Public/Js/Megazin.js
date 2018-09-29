@@ -170,6 +170,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.filters = {
             name: '',
             type: '',
+            size: '',
         }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
@@ -224,6 +225,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     name: 'type',
                     kind: '%',
                     value: $scope.filters.type,
+                })
+            }
+            if($scope.filters.size) {
+                $rootScope.filters.push({
+                    name: 'type',
+                    kind: '%',
+                    value: $scope.filters.size,
                 })
             }
             $scope.files = [];
@@ -380,19 +388,6 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.search = function () {
             $rootScope.showFilter = false;
             $rootScope.filterRefreshCallback();
-        }
-    })
-
-    .directive('filters', function ($rootScope, $compile, $templateCache, $http, getTemplate) {
-        return {
-            restrict: 'E',
-            scope: {
-                data: '=data'
-            },
-            templateUrl: '/Public/Template/Pl-pl/Filters.html',
-            link: function (scope, element, attrs, $watch) {
-            },
-            controller: 'filtersController',
         }
     })
 
