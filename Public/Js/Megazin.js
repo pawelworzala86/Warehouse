@@ -611,7 +611,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data = {
             id: $routeParams.id,
             product: {
-                toSell: true
+                toSell: true,
+                vat: '23'
             },
             validation: {
                 sku: true,
@@ -624,29 +625,29 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.vatRates = [
             {
                 name: '23%',
-                value: '23'
+                value: 23
             },
             {
                 name: '8%',
-                value: '8'
+                value: 8
             },
             {
                 name: '5%',
-                value: '5'
+                value: 5
             },
             {
                 name: '0%',
-                value: '0'
+                value: 0
             },
             {
                 name: 'zw',
-                value: '0'
+                value: 0
             }
         ]
         if ($routeParams.id) {
             catalogProduct.get(function (response) {
                 $scope.data.product = response.data;
-                $scope.data.vatRates[0].checked = 'checked'
+                $scope.data.product.vat = $scope.data.product.vat+''
             }, $routeParams.id);
         }
         $scope.data.send = function () {

@@ -133,8 +133,10 @@ filters .filters-dialog{
     float: left;
     width: 100%;
     box-sizing: border-box;
-    border: 1px solid rgba(64, 128, 256, 0.3);
+    border: 1px solid #aaa;
     background: #fff;
+    box-shadow: 5px 5px 5px #ddd;
+    border-radius: 15px;
 }
 
 filters .form-value {
@@ -154,8 +156,9 @@ fluentLoader p {
     border: 1px solid rgba(64, 128, 256, 0.3);
     border-radius: 30px;
     display: inline-block;
-    padding: 6px 12px;
+    padding: 3px 8px;
     cursor: pointer;
+    box-shadow: 2px 2px 2px #aaa;
 }
 
 upload .borderBox,

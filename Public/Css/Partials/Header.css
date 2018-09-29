@@ -8,7 +8,7 @@ header{
     float: left;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding: 8px 15px;
-    box-shadow: 0 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.35);
 }
 
 header i,
@@ -44,12 +44,14 @@ header i.right,
 
 #menu .menu-body{
     position: absolute;
-    border: 1px solid rgba(64, 128, 256, 0.3);
+    border: 1px solid #aaa;
     background: rgba(255, 255, 255, 0.75);
     left: 50px;
     right: 50px;
     box-sizing: border-box;
     top: 50px;
+    box-shadow: 5px 5px 5px #ddd;
+    border-radius: 15px;
 }
 
 #menu .menu-body .material-icons{

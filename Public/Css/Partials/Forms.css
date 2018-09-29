@@ -6,6 +6,7 @@ button {
     outline: none;
     border: 1px solid rgba(64, 128, 256, 0.3);
     border-radius: 30px;
+    box-shadow: 2px 2px 2px #aaa;
 }
 
 input[type=text],
