@@ -6,7 +6,7 @@ use App\Request\UserRequest;
 use App\Type\SKU;
 use App\Type\UUID;
 
-class GetSearchContractorRequest extends UserRequest
+class GetSearchContractorsRequest extends UserRequest
 {
     public $search;
 

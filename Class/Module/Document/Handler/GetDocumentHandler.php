@@ -8,6 +8,7 @@ use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
+use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Request\GetDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Document\Model\DocumentModel;
@@ -30,9 +31,12 @@ class GetDocumentHandler extends Handler
         $document = (new DocumentModel)
             ->load($request->getId(), true);
 
+        $contractor = (new ContractorModel)
+            ->load($document->getContractorId());
+
         return (new GetDocumentResponse)
             ->setId($document->getUuid())
             ->setName($document->getName())
-            ->setContractorId($document->getContractorId());
+            ->setContractorId($contractor->getUuid());
     }
 }

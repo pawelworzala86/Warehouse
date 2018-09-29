@@ -1,3 +1,14 @@
+<style>
+    .contractor-data{
+        display: inline-block;
+        margin-left: 15px;
+        font-size: 1.25em;
+        font-weight: 400;
+    }
+    .modal.contractor .row{
+        cursor: pointer;
+    }
+</style>
 <div class="container">
     <article>
         <div class="row">
@@ -8,21 +19,24 @@
                 <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
             </div>
         </div>
-        <button ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
+        <div class="row">
+            <button ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
+            <div class="contractor-data">{{data.contractor.name}}</div>
+        </div>
         <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
     </article>
 </div>
 <div class="modal contractor" ng-class="{'show': data.contractorShow}">
     <div class="content">
         <div class="header">
-            <h3>Wybierz kontrahenta</h3><i ng-click="contractorHide()" class="material-icons close">close</i>
+            <h3>Wybierz kontrahenta</h3><i ng-click="data.contractorHide()" class="material-icons close">close</i>
         </div>
         <div class="body">
             <div class="form-group col col-12">
                 <label>Nazwa kontrahenta</label>
                 <input ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
             </div>
-            <div class="table">
+            <div class="table" ng-if="data.contractors.length>0">
                 <div class="header">
                     <div class="col col-12">Nazwa kontrahenta</div>
                 </div>
@@ -34,10 +48,6 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="footer">
-            <button class="danger" ng-click="modal.accept()">Usuń</button>
-            <button ng-click="modal.cancel()">Zamknij</button>
         </div>
     </div>
 </div>

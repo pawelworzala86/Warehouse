@@ -757,11 +757,20 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             validation: {
                 name: true,
             },
-            contractorShow: false
+            contractorShow: false,
+            find: {
+                name: ''
+            }
         }
         if ($routeParams.id) {
             document.get(function (response) {
                 $scope.data.document = response.data;
+                $scope.data.contractorId = $scope.data.document.contractorId
+                if($scope.data.document.contractorId){
+                    $http.get(apiBase + '/contractor/' + $scope.data.contractorId).then((response)=>{
+                        $scope.data.contractor = response.data
+                    })
+                }
             }, $routeParams.id);
         }
         $scope.data.send = function () {
@@ -802,10 +811,15 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.selectContractor = (contractor)=>{
             $scope.data.contractorId = contractor.id
             $scope.data.contractorShow = false
+            $scope.data.contractor = contractor
         }
         $scope.data.showSelectContractor = ()=>{
             $scope.data.contractorShow = true
         }
+        $scope.data.contractorHide = ()=>{
+            $scope.data.contractorShow = false
+        }
+        $scope.data.reloadContractor()
     })
 
     .factory('contractorSearch', function ($http) {

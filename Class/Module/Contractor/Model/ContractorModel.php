@@ -10,6 +10,19 @@ class ContractorModel extends Model
     private $id;
     private $uuid;
     private $name;
+    private $addressId;
+
+    public function getAddressId(): ?int
+    {
+        return $this->addressId;
+    }
+
+    public function setAddressId(int $addressId = null): ContractorModel
+    {
+        $this->set('address_id', $addressId);
+        $this->addressId = $addressId;
+        return $this;
+    }
 
     public function getName(): string
     {

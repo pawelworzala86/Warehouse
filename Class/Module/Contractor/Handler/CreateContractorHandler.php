@@ -8,6 +8,7 @@ use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
+use App\Module\Contractor\Model\AddressModel;
 use App\Module\Contractor\Request\CreateContractorRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Contractor\Model\ContractorModel;
@@ -29,9 +30,24 @@ class CreateContractorHandler extends Handler
     {
         $uuid = Common::getUuid();
 
+        $address = $request->getAddress();
+        $addressId = null;
+        if($address) {
+            $addressId = (new AddressModel)
+                ->setUuid(Common::getUuid())
+                ->setName($address->getName())
+                ->setFirstName($address->getFirstName())
+                ->setLastName($address->getLastName())
+                ->setStreet($address->getStreet())
+                ->setPostcode($address->getPostcode())
+                ->setCity($address->getCity())
+                ->insert();
+        }
+
         (new ContractorModel)
             ->setUuid($uuid)
             ->setName($request->getName())
+            ->setAddressId($addressId)
             ->insert();
 
         return (new CreateContractorResponse)

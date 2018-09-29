@@ -7,6 +7,32 @@
             <p ng-if="data.validation.name&&!data.contractor.name">Wprowadź nazwę kontrahenta.</p>
         </div>
     </div>
+    <div class="row">
+        <div class="form-group col col-12">
+            <label>Nazwa adresowa</label>
+            <input type="text" ng-model="data.contractor.address.name"/>
+        </div>
+        <div class="form-group col col-6">
+            <label>Imię</label>
+            <input type="text" ng-model="data.contractor.address.firstName"/>
+        </div>
+        <div class="form-group col col-6">
+            <label>Nazwisko</label>
+            <input type="text" ng-model="data.contractor.address.lastName"/>
+        </div>
+        <div class="form-group col col-12">
+            <label>Ulica i numer</label>
+            <input type="text" ng-model="data.contractor.address.street"/>
+        </div>
+        <div class="form-group col col-6">
+            <label>Kod pocztowy</label>
+            <input type="text" ng-model="data.contractor.address.postcode"/>
+        </div>
+        <div class="form-group col col-6">
+            <label>Miasto</label>
+            <input type="text" ng-model="data.contractor.address.city"/>
+        </div>
+    </div>
     <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
 </article>
 </div>

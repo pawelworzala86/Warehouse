@@ -8,6 +8,7 @@ use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
+use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Request\CreateDocumentRequest;
 use App\Module\Document\Request\UpdateDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
@@ -30,7 +31,7 @@ class UpdateDocumentHandler extends Handler
         $document = (new DocumentModel)
             ->load($request->getId(), true);
 
-        $contractor = (new Contractor)
+        $contractor = (new ContractorModel)
             ->load($request->getContractorId(), true);
 
         (new DocumentModel)
