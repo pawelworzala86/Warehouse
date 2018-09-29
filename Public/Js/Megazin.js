@@ -472,6 +472,12 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 scope: $scope,
             });
         }
+        $scope.loadDetail = (products, product)=>{
+            product.detail = true
+            $http.get(apiBase + $scope.deleteUrl+'/'+product.id).then(function (response) {
+                product.detail = response.data
+            });
+        }
     })
 
     .controller('catalogCategoriesController', function ($scope, $http, catalogCategories, modal, deleteDialog) {

@@ -9,6 +9,7 @@ use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Response\GetCatalogProductsXlsResponse;
 use App\Request\UuidCollectionRequest;
 use App\Type\File;
+use App\Type\UUID;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
@@ -49,15 +50,15 @@ class GetCatalogProductsXlsHandler extends Handler
         $writer->save(DIR.'/Files/'.$uuid.'.xlsx');
 
         $file = new File;
-        $file->setType('application/vnd.ms-excel')
+        $uuid = $file->setType('application/vnd.ms-excel')
             ->setUrl('/Files/'.$uuid.'.xlsx')
             ->setSize(filesize(DIR.'/Files/'.$uuid.'.xlsx'))
-            ->setName('helloworld.xlsx')
-            ->setUuid($uuid)
-            ->save();
+            ->setName('products.xlsx')
+            //->setUuid($uuid)
+            ->save(false);
 
         return (new GetCatalogProductsXlsResponse)
-            ->setId($file->getUuid())
+            ->setId(new UUID($uuid))
             ->setUrl($file->getUrl())
             ->setName($file->getName());
     }

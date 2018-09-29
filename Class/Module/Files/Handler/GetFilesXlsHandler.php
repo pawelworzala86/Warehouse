@@ -51,7 +51,7 @@ class GetFilesXlsHandler extends Handler
         $file->setType('application/vnd.ms-excel')
             ->setUrl('/Files/'.$uuid.'.xlsx')
             ->setSize(filesize(DIR.'/Files/'.$uuid.'.xlsx'))
-            ->setName('helloworld.xlsx')
+            ->setName('files.xlsx')
             ->setUuid($uuid)
             ->save();
 

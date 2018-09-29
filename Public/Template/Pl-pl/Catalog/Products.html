@@ -1,3 +1,21 @@
+<style>
+    .zoom-in {
+        float: left;
+        position: absolute;
+        margin-top: -2px;
+        left: 20px;
+        opacity: 0.3;
+        cursor: pointer;
+    }
+
+    .zoom-in:hover {
+        opacity: 0.8;
+    }
+
+    .table .row, .table .header {
+        padding: 5px 50px 5px 50px;
+    }
+</style>
 <div class="container products">
     <div class="buttons">
         <a ng-href="/katalog/produkt/dodaj">
@@ -35,14 +53,21 @@
                 <div class="col col-10">Nazwa produktu</div>
             </div>
         </div>
-        <div ng-class="{'selected': product.selected, 'deleted': product.deleted}" class="row" ng-repeat="product in products">
-            <input type="checkbox" id="chbx{{product.id}}" ng-click="check(product)"><label for="chbx{{product.id}}"
-                                                                                            class="checkbox"></label>
-            <div class="col col-2">{{product.sku}}</div>
-            <div class="col col-10">{{product.name}}</div>
-            <div class="buttons">
-                <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
-                <i data-nodrag="" class="material-icons" ng-click="deleteRow(products, product)">delete_forever</i>
+        <div ng-class="{'selected': product.selected, 'deleted': product.deleted}" class="row"
+             ng-repeat="product in products">
+            <div class="head">
+                <input type="checkbox" id="chbx{{product.id}}" ng-click="check(product)"><label for="chbx{{product.id}}"
+                                                                                                class="checkbox"></label>
+                <i class="material-icons zoom-in" ng-click="loadDetail(products, product)">zoom_in</i>
+                <div class="col col-2">{{product.sku}}</div>
+                <div class="col col-10">{{product.name}}</div>
+                <div class="buttons">
+                    <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
+                    <i data-nodrag="" class="material-icons" ng-click="deleteRow(products, product)">delete_forever</i>
+                </div>
+            </div>
+            <div class="detail" ng-if="product.detail">
+                <p>{{product.detail.descriptionShort}}</p>
             </div>
         </div>
         <fluentLoader ng-click="fluentLoad()">

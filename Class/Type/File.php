@@ -95,18 +95,21 @@ class File extends Type
         return $this->db;
     }
 
-    function save()
+    function save($saveToFileSystem = true): string
     {
-        if(!isset($this->uuid)) {
+        if(!isset($this->uuid)&&$saveToFileSystem) {
             $this->uuid = Common::getUuid();
             $this->setUrl('/Files/' . $this->uuid);
             file_put_contents(DIR . $this->getUrl(), base64_decode($this->getData()));
             if (file_exists(DIR . $this->getUrl())) {
                 $this->setSize(filesize(DIR . $this->getUrl()));
             }
+        }else if(!$saveToFileSystem){
+            $this->uuid = Common::getUuid();
         }
+        $uuid = hex2bin($this->uuid);
         $params = [
-            hex2bin($this->uuid),
+            $uuid,
             time(),
             User::getId(),
             IP::getId(),
@@ -117,5 +120,7 @@ class File extends Type
         ];
         $this->db()->execute('insert into file (uuid, added, added_by, added_ip_id, `url`, `size`, `name`, `type`) values '.
             '(?, ?, ?, ?, ?, ?, ?, ?)', $params);
+
+        return $this->uuid;
     }
 }

@@ -109,3 +109,13 @@
 .table .row.selected.deleted{
     display: none;
 }
+
+.table .detail{
+    position: relative;
+    float: left;
+}
+
+.table .detail p{
+    font-size: 0.85em;
+    text-align: justify;
+}
