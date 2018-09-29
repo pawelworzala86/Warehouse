@@ -9,6 +9,8 @@ use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\ContractorModel;
+use App\Module\Document\Model\DocumentProductModel;
+use App\Module\Document\Model\StockModel;
 use App\Module\Document\Request\CreateDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Document\Model\DocumentModel;
@@ -33,11 +35,42 @@ class CreateDocumentHandler extends Handler
             ->load($request->getContractorId(), true);
 
         $uuid = Common::getUuid();
-        $document = (new DocumentModel)
+        $documentId = (new DocumentModel)
             ->setUuid($uuid)
             ->setName($request->getName())
             ->setContractorId($contractor->getId())
+            ->setDate($request->getDate())
+            ->setDescription($request->getDescription())
+            ->setNet($request->getSumNet())
+            ->setTax($request->getTax())
+            ->setGross($request->getSumGross())
             ->insert();
+
+        $products = $request->getProducts();
+
+        $products->rewind();
+        while ($product = $products->current()) {
+            $productModel = (new ProductModel)
+                ->load($product->getId(), true);
+            $productId = $productModel->getId();
+            (new DocumentProductModel)
+                    ->setUuid(Common::getUuid())
+                    ->setDocumentId($documentId)
+                    ->setProductId($productId)
+                    ->setCount($product->getCount())
+                    ->setNet($product->getNet())
+                    ->setSumNet($product->getSumNet())
+                    ->setSumGross($product->getSumGross())
+                    ->setVat($product->getVat())
+                    ->insert();
+                (new StockModel)
+                    ->setUuid(Common::getUuid())
+                    ->setDocumentId($documentId)
+                    ->setProductId($productId)
+                    ->setCount($product->getCount())
+                    ->insert();
+            $products->next();
+        }
 
         return (new CreateDocumentResponse)
             ->setId($uuid);

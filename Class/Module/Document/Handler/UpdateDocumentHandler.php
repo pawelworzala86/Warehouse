@@ -10,6 +10,7 @@ use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Model\DocumentProductModel;
+use App\Module\Document\Model\StockModel;
 use App\Module\Document\Request\CreateDocumentRequest;
 use App\Module\Document\Request\UpdateDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
@@ -53,10 +54,12 @@ class UpdateDocumentHandler extends Handler
         while ($product = $products->current()) {
             $documentProduct = (new DocumentProductModel)
                 ->load($product->getId(), true);
+            $productId = $documentProduct->getProductId();
             $pro = null;
             if($documentProduct->isLoaded()) {
                 $pro = (new ProductModel)
                     ->load($documentProduct->getProductId());
+                $productId = $pro->getId();
             }
             $oldProduct = (new DocumentProductModel)
                 ->where(new Filter([
@@ -83,7 +86,7 @@ class UpdateDocumentHandler extends Handler
             if($oldProduct->isLoaded()&&$documentProduct->isLoaded()){
                 if($product->getDeleted()){
                     (new DocumentProductModel)
-                        ->setUuid($product->getId())
+                        ->setUuid($oldProduct->getId())
                         ->delete();
                 }else {
                     (new DocumentProductModel)
@@ -94,17 +97,56 @@ class UpdateDocumentHandler extends Handler
                         ->setSumGross($product->getSumGross())
                         ->setVat($product->getVat())
                         ->update();
+                    /*$stock = (new StockModel)
+                        ->where(new Filter([
+                            'name' => 'added_by',
+                            'kind' => new FilterKind('='),
+                            'value' => User::getId(),
+                        ]))
+                        ->where(new Filter([
+                            'name' => 'deleted',
+                            'kind' => new FilterKind('='),
+                            'value' => 0,
+                        ]))
+                        ->where(new Filter([
+                            'name' => 'product_id',
+                            'kind' => new FilterKind('='),
+                            'value' => $oldProduct->getId(),
+                        ]))
+                        ->load();*/
+                    /*if($stock->isLoaded()){
+                        $count = $stock->getCount()+$product->getCount();
+                        (new StockModel)
+                            ->setId($stock->getId())
+                            ->setUuid($stock->getUuid())
+                            ->setProductId($oldProduct->getId())
+                            ->setCount($count)
+                            ->update();
+                    }else{*/
+                        (new StockModel)
+                            ->setUuid(Common::getUuid())
+                            ->setDocumentId($document->getId())
+                            ->setProductId($productId)
+                            ->setCount($product->getCount())
+                            ->insert();
+                    //}
                 }
             }else {
                 (new DocumentProductModel)
                     ->setUuid(Common::getUuid())
                     ->setDocumentId($document->getId())
-                    ->setProductId($pro?$pro->getId():null)
+                    ->setProductId($productId)
                     ->setCount($product->getCount())
                     ->setNet($product->getNet())
                     ->setSumNet($product->getSumNet())
                     ->setSumGross($product->getSumGross())
                     ->setVat($product->getVat())
+                    ->insert();
+                (new StockModel)
+                    ->setUuid(Common::getUuid())
+                    ->setDocumentId($document->getId())
+                    ->setProductId($productId)
+                    ->setCount($product->getCount())
                     ->insert();
             }
             $products->next();

@@ -86,6 +86,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 controller: 'contractorEditController',
                 pageName: 'Edycja kontrahenta',
             })
+            .when(base + '/magazyn', {
+                templateUrl: templateBase + 'Stocks.html',
+                controller: 'stocksController',
+                pageName: 'Stan towarów',
+            })
         ;
 
         $locationProvider.html5Mode({
@@ -1386,6 +1391,74 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     pagin += '&';
                 }
                 $http.get(apiBase + '/contractor?' + pagin + filt).then(callback);
+            }
+        }
+    })
+
+    .controller('stocksController', function ($rootScope, $scope, $http, stocks, deleteDialog) {
+        var pagination = {
+            page: 1,
+            limit: 20,
+        };
+        var filters = [];
+        var filtersNames = [];
+        $scope.stocks = [];
+        $rootScope.filters = filters;
+        $scope.filters = {
+            name: '',
+        }
+        var getData = function (pagination, data) {
+            if (data && (data.length > 0)) {
+                return data;
+            }
+            return pagination
+        }
+        var loadPage = function () {
+            stocks.get(function (response) {
+                angular.forEach(response.data.stocks, function (value, key) {
+                    $scope.stocks.push(value);
+                });
+                pagination = getData(pagination, response.data.pagination);
+                filters = getData(filters, response.data.filters);
+                filtersNames = getData(filtersNames, response.data.filtersNames);
+                $rootScope.filters = filters;
+                $rootScope.filtersNames = filtersNames;
+            }, pagination, $rootScope.filters);
+        }
+        $scope.fluentLoad = function () {
+            pagination.page++;
+            loadPage();
+        }
+        loadPage();
+        $rootScope.filterRefreshCallback = function () {
+            $scope.stocks = [];
+            pagination.page = 1;
+            loadPage();
+        }
+        $scope.filter = ()=>{
+            $rootScope.filters = []
+            if($scope.filters.name) {
+                $rootScope.filters.push({
+                    name: 'name',
+                    kind: '%',
+                    value: $scope.filters.name,
+                })
+            }
+            $scope.stocks = [];
+            pagination.page = 1;
+            loadPage()
+        }
+    })
+
+    .factory('stocks', function ($http, $httpParamSerializerJQLike) {
+        return {
+            get: function (callback, pagination, filters) {
+                var pagin = $httpParamSerializerJQLike({pagination: pagination});
+                var filt = $httpParamSerializerJQLike({filters: filters});
+                if (pagin) {
+                    pagin += '&';
+                }
+                $http.get(apiBase + '/stock?' + pagin + filt).then(callback);
             }
         }
     })

@@ -12,24 +12,24 @@ class CatalogProduct extends Type
     private $net;
     private $vat;
 
-    function setVat(float $vat): CatalogProduct
+    function setVat(float $vat = null): CatalogProduct
     {
         $this->vat = $vat;
         return $this;
     }
 
-    function getVat(): float
+    function getVat(): ?float
     {
         return $this->vat;
     }
 
-    function setNet(float $net): CatalogProduct
+    function setNet(float $net = null): CatalogProduct
     {
         $this->net = $net;
         return $this;
     }
 
-    function getNet(): float
+    function getNet(): ?float
     {
         return $this->net;
     }
