@@ -13,6 +13,7 @@ return [
 
     Router::post('/catalog/product', Handler\CreateCatalogProductHandler::class),
     Router::get('/catalog/product', Handler\GetCatalogProductsHandler::class),
+    Router::post('/catalog/product/search', Handler\GetSearchCatalogProductsHandler::class),
     Router::delete('/catalog/product/{id}', Handler\DeleteCatalogProductHandler::class),
     Router::post('/catalog/product/mass/delete', Handler\DeleteMassCatalogProductHandler::class),
     Router::post('/catalog/product/mass/xls', Handler\GetCatalogProductsXlsHandler::class),

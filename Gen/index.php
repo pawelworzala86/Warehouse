@@ -40,4 +40,4 @@ class AddTableToDatabase
 }
 
 $addTableToDatabase = new AddTableToDatabase;
-$addTableToDatabase->add('address');
+$addTableToDatabase->add('document_product');

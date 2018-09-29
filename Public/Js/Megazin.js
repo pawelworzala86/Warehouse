@@ -768,10 +768,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document, contractorSearch) {
+    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document, contractorSearch, productSearch) {
         $scope.data = {
             id: $routeParams.id,
             document: {
+                products: [],
             },
             validation: {
                 name: true,
@@ -779,7 +780,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             contractorShow: false,
             find: {
                 name: ''
-            }
+            },
+            products: [],
         }
         if ($routeParams.id) {
             document.get(function (response) {
@@ -789,6 +791,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     $http.get(apiBase + '/contractor/' + $scope.data.contractorId).then((response)=>{
                         $scope.data.contractor = response.data
                     })
+                }
+                if(!$scope.data.document.products){
+                    $scope.data.document.products = []
                 }
             }, $routeParams.id);
         }
@@ -827,6 +832,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $scope.data.contractors = response.data.contractors
             }, $scope.data.find.name)
         }
+        $scope.data.reloadProduct = ()=>{
+            productSearch.get((response)=>{
+                $scope.data.products = response.data.products
+            }, $scope.data.find.name)
+        }
         $scope.data.selectContractor = (contractor)=>{
             $scope.data.contractorId = contractor.id
             $scope.data.contractorShow = false
@@ -838,13 +848,33 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.contractorHide = ()=>{
             $scope.data.contractorShow = false
         }
+        $scope.data.productHide = ()=>{
+            $scope.data.productShow = false
+        }
+        $scope.data.showSelectProduct = ()=>{
+            $scope.data.productShow = true
+        }
         $scope.data.reloadContractor()
+        $scope.data.reloadProduct()
+        $scope.data.selectProduct = (product)=>{
+            $scope.data.productShow = false
+            product.count = 1
+            $scope.data.document.products.push(product)
+        }
     })
 
     .factory('contractorSearch', function ($http) {
         return {
             get: function (callback, search) {
                 $http.post(apiBase + '/contractor/search', {search: search}).then(callback);
+            }
+        }
+    })
+
+    .factory('productSearch', function ($http) {
+        return {
+            get: function (callback, search) {
+                $http.post(apiBase + '/catalog/product/search', {search: search}).then(callback);
             }
         }
     })

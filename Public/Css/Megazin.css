@@ -293,11 +293,11 @@ tab article{
     margin-bottom: 5px;
 }
 
-.modal.contractor{
+.modal{
     display: none;
 }
 
-.modal.contractor.show{
+.modal.show{
     display: block;
 }
 

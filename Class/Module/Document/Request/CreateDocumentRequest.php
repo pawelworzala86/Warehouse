@@ -3,19 +3,33 @@
 namespace App\Module\Document\Request;
 
 use App\Request\UserRequest;
+use App\Type\DocumentProducts;
 use App\Type\SKU;
+use App\Type\UUID;
 
 class CreateDocumentRequest extends UserRequest
 {
-    public $name;
+    private $name;
     private $contractorId;
+    private $products;
 
-    public function getContractorId(): string
+    public function getProducts(): DocumentProducts
+    {
+        return $this->products;
+    }
+
+    public function setProducts(DocumentProducts $products): CreateDocumentRequest
+    {
+        $this->products = $products;
+        return $this;
+    }
+
+    public function getContractorId(): UUID
     {
         return $this->contractorId;
     }
 
-    public function setContractorId(string $contractorId): CreateDocumentRequest
+    public function setContractorId(UUID $contractorId): CreateDocumentRequest
     {
         $this->contractorId = $contractorId;
         return $this;

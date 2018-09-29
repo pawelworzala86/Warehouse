@@ -55,7 +55,7 @@ class Request
         if (!isset($data[lcfirst($name)]) && !method_exists($this, $name)) {
             return null;
         }
-        return isset($this->$name) ? $this->$name : $data[lcfirst($name)];
+        return $data[lcfirst($name)];
     }
 
     function setData(&$object, &$data, &$errors)
@@ -121,7 +121,6 @@ class Request
                             }
                         } else {
                             if (is_array($data)) {
-                                //print_r([$name, $data]);
                                 $value = $this->getValueFromData($name, $data);
                                 if (!isset($value) && $parameter->isDefaultValueAvailable()) {
                                     $value = $parameter->getDefaultValue();
@@ -141,20 +140,18 @@ class Request
                                         $parmClass = $value;
                                     }
                                     //$object->{$setterName}($parmClass);
-                                    if (!$value) {
+                                    if ($parmClass) {
                                         $object->{$setterName}($parmClass);
                                     } else if(!$parameter->isDefaultValueAvailable()){
                                         $errors[] = '2. Field ' . $name . ' dont have a value!';
                                     }
                                 }else{
-                                    //print_r([(bool)$parameter->isDefaultValueAvailable()]);
                                     if(!$parameter->isDefaultValueAvailable()&&!$value){
                                         $errors[] = '3. Field ' . $name . ' dont have a value!';
                                     }
                                 }
                             } else {
-                                //print_r([$name, $data]);
-                                if (!$data) {
+                                if ($data) {
                                     $object->{$setterName}($data);
                                 } else if(!$parameter->isDefaultValueAvailable()){
                                     $errors[] = '4. Field ' . $name . ' dont have a value!';

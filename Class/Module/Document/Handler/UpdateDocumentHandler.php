@@ -9,6 +9,7 @@ use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\ContractorModel;
+use App\Module\Document\Model\DocumentProductModel;
 use App\Module\Document\Request\CreateDocumentRequest;
 use App\Module\Document\Request\UpdateDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
@@ -34,12 +35,27 @@ class UpdateDocumentHandler extends Handler
         $contractor = (new ContractorModel)
             ->load($request->getContractorId(), true);
 
+        $products = $request->getProducts();
+
         (new DocumentModel)
             ->setId($document->getId())
             ->setUuid($document->getUuid())
             ->setName($request->getName())
             ->setContractorId($contractor->getId())
             ->update();
+
+        $products->rewind();
+        while($product = $products->current()){
+            $pro = (new ProductModel)
+                ->load($product->getId(), true);
+            (new DocumentProductModel)
+                ->setUuid(Common::getUuid())
+                ->setDocumentId($document->getId())
+                ->setProductId($pro->getId())
+                ->setCount($product->getCount())
+                ->insert();
+            $products->next();
+        }
 
         return (new SuccessResponse);
     }

@@ -3,6 +3,7 @@
 namespace App\Module\Document\Request;
 
 use App\Request\UserRequest;
+use App\Type\DocumentProducts;
 use App\Type\SKU;
 use App\Type\UUID;
 
@@ -11,6 +12,18 @@ class UpdateDocumentRequest extends UserRequest
     public $name;
     public $id;
     private $contractorId;
+    private $products;
+
+    public function getProducts(): DocumentProducts
+    {
+        return $this->products;
+    }
+
+    public function setProducts(DocumentProducts $products): UpdateDocumentRequest
+    {
+        $this->products = $products;
+        return $this;
+    }
 
     public function getContractorId(): string
     {

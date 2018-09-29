@@ -12,6 +12,7 @@ use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Request\CreateDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Document\Model\DocumentModel;
+use App\Module\Document\Response\CreateDocumentResponse;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
 use App\Request\EmptyRequest;
@@ -26,17 +27,19 @@ use App\User;
 
 class CreateDocumentHandler extends Handler
 {
-    public function __invoke(CreateDocumentRequest $request): SuccessResponse
+    public function __invoke(CreateDocumentRequest $request): CreateDocumentResponse
     {
         $contractor = (new ContractorModel)
             ->load($request->getContractorId(), true);
 
+        $uuid = Common::getUuid();
         $document = (new DocumentModel)
-            ->setUuid(Common::getUuid())
+            ->setUuid($uuid)
             ->setName($request->getName())
             ->setContractorId($contractor->getId())
             ->insert();
 
-        return (new SuccessResponse);
+        return (new CreateDocumentResponse)
+            ->setId($uuid);
     }
 }

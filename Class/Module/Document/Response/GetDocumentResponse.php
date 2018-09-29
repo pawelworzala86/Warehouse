@@ -8,6 +8,7 @@ use App\Type\CatalogProduct;
 use App\Type\CatalogProducts;
 use App\Traits\PaginationResponseTrait;
 use App\Type\Document;
+use App\Type\DocumentProducts;
 use App\Type\Documents;
 use App\Type\UUID;
 
@@ -16,6 +17,18 @@ class GetDocumentResponse extends Response
     private $name;
     private $id;
     private $contractorId;
+    private $products;
+
+    public function getProducts(): DocumentProducts
+    {
+        return $this->products;
+    }
+
+    public function setProducts(DocumentProducts $products): GetDocumentResponse
+    {
+        $this->products = $products;
+        return $this;
+    }
 
     public function getContractorId(): UUID
     {
