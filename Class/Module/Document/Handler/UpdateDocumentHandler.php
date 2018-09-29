@@ -30,10 +30,14 @@ class UpdateDocumentHandler extends Handler
         $document = (new DocumentModel)
             ->load($request->getId(), true);
 
+        $contractor = (new Contractor)
+            ->load($request->getContractorId(), true);
+
         (new DocumentModel)
             ->setId($document->getId())
             ->setUuid($document->getUuid())
             ->setName($request->getName())
+            ->setContractorId($contractor->getId())
             ->update();
 
         return (new SuccessResponse);

@@ -32,6 +32,7 @@ class GetDocumentHandler extends Handler
 
         return (new GetDocumentResponse)
             ->setId($document->getUuid())
-            ->setName($document->getName());
+            ->setName($document->getName())
+            ->setContractorId($document->getContractorId());
     }
 }

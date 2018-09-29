@@ -1,12 +1,43 @@
 <div class="container">
-<article>
-    <div class="row">
-        <div class="form-group col col-12">
-            <label ng-class="{'error': data.validation.name&&!data.contractor.name}">Numer dokumentu</label>
-            <input type="text" ng-model="data.contractor.name" ng-class="{'error': data.validation.name&&!data.contractor.name}"/>
-            <p ng-if="data.validation.name&&!data.contractor.name">Wprowadź numer dokumentu.</p>
+    <article>
+        <div class="row">
+            <div class="form-group col col-12">
+                <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
+                <input type="text" ng-model="data.document.name"
+                       ng-class="{'error': data.validation.name&&!data.document.name}"/>
+                <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
+            </div>
+        </div>
+        <button ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
+        <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
+    </article>
+</div>
+<div class="modal contractor" ng-class="{'show': data.contractorShow}">
+    <div class="content">
+        <div class="header">
+            <h3>Wybierz kontrahenta</h3><i ng-click="contractorHide()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="form-group col col-12">
+                <label>Nazwa kontrahenta</label>
+                <input ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
+            </div>
+            <div class="table">
+                <div class="header">
+                    <div class="col col-12">Nazwa kontrahenta</div>
+                </div>
+                <div>
+                    <div ng-click="data.selectContractor(contractor)" class="row" ng-repeat="contractor in data.contractors">
+                        <div class="col col-12">
+                            {{contractor.name}}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer">
+            <button class="danger" ng-click="modal.accept()">Usuń</button>
+            <button ng-click="modal.cancel()">Zamknij</button>
         </div>
     </div>
-    <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
-</article>
 </div>

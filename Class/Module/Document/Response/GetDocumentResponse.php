@@ -15,6 +15,18 @@ class GetDocumentResponse extends Response
 {
     private $name;
     private $id;
+    private $contractorId;
+
+    public function getContractorId(): int
+    {
+        return $this->contractorId;
+    }
+
+    public function setContractorId(int $contractorId): GetDocumentResponse
+    {
+        $this->contractorId = $contractorId;
+        return $this;
+    }
 
     function setId(UUID $id): GetDocumentResponse
     {

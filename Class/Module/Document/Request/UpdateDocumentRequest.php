@@ -10,6 +10,18 @@ class UpdateDocumentRequest extends UserRequest
 {
     public $name;
     public $id;
+    private $contractorId;
+
+    public function getContractorId(): string
+    {
+        return $this->contractorId;
+    }
+
+    public function setContractorId(string $contractorId): UpdateDocumentRequest
+    {
+        $this->contractorId = $contractorId;
+        return $this;
+    }
 
     public function getId(): UUID
     {

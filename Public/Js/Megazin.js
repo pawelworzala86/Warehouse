@@ -749,14 +749,15 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document) {
+    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document, contractorSearch) {
         $scope.data = {
             id: $routeParams.id,
             document: {
             },
             validation: {
                 name: true,
-            }
+            },
+            contractorShow: false
         }
         if ($routeParams.id) {
             document.get(function (response) {
@@ -774,7 +775,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             if(!validate){
                 return
             }
-            var data = $scope.data.document;
+            var data = $scope.data.document
+            data.contractorId = $scope.data.contractorId
             if ($routeParams.id) {
                 $http.put(apiBase + '/document/' + $routeParams.id, data).then(function (response) {
                     if (response.data.success) {
@@ -790,6 +792,26 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     }
                     //$scope.messages = response.data.errors
                 });
+            }
+        }
+        $scope.data.reloadContractor = ()=>{
+            contractorSearch.get((response)=>{
+                $scope.data.contractors = response.data.contractors
+            }, $scope.data.find.name)
+        }
+        $scope.data.selectContractor = (contractor)=>{
+            $scope.data.contractorId = contractor.id
+            $scope.data.contractorShow = false
+        }
+        $scope.data.showSelectContractor = ()=>{
+            $scope.data.contractorShow = true
+        }
+    })
+
+    .factory('contractorSearch', function ($http) {
+        return {
+            get: function (callback, search) {
+                $http.post(apiBase + '/contractor/search', {search: search}).then(callback);
             }
         }
     })

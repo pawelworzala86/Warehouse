@@ -10,6 +10,19 @@ class DocumentModel extends Model
     private $id;
     private $uuid;
     private $name;
+    private $contractorId;
+
+    public function getContractorId(): int
+    {
+        return $this->contractorId;
+    }
+
+    public function setContractorId(int $contractorId): DocumentModel
+    {
+        $this->set('contractor_id', $contractorId);
+        $this->contractorId = $contractorId;
+        return $this;
+    }
 
     public function getName(): string
     {

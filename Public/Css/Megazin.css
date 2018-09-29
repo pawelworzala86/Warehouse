@@ -321,3 +321,11 @@ tab article{
 .messages .message:last-child{
     margin-bottom: 5px;
 }
+
+.modal.contractor{
+    display: none;
+}
+
+.modal.contractor.show{
+    display: block;
+}
