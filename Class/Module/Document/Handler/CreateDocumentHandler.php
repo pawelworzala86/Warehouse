@@ -53,7 +53,7 @@ class CreateDocumentHandler extends Handler
             $productModel = (new ProductModel)
                 ->load($product->getId(), true);
             $productId = $productModel->getId();
-            (new DocumentProductModel)
+            $documentProductId = (new DocumentProductModel)
                     ->setUuid(Common::getUuid())
                     ->setDocumentId($documentId)
                     ->setProductId($productId)
@@ -68,6 +68,7 @@ class CreateDocumentHandler extends Handler
                     ->setDocumentId($documentId)
                     ->setProductId($productId)
                     ->setCount($product->getCount())
+                    ->setDocumentProductId($documentProductId)
                     ->insert();
             $products->next();
         }

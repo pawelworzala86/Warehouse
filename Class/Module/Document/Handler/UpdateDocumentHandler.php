@@ -54,6 +54,9 @@ class UpdateDocumentHandler extends Handler
         while ($product = $products->current()) {
             $documentProduct = (new DocumentProductModel)
                 ->load($product->getId(), true);
+            $documentProductId = (new DocumentProductModel)
+                ->load($product->getId(), true)
+                ->getId();
             $productId = $documentProduct->getProductId();
             $pro = null;
             if($documentProduct->isLoaded()) {
@@ -97,7 +100,7 @@ class UpdateDocumentHandler extends Handler
                         ->setSumGross($product->getSumGross())
                         ->setVat($product->getVat())
                         ->update();
-                    /*$stock = (new StockModel)
+                    $stock = (new StockModel)
                         ->where(new Filter([
                             'name' => 'added_by',
                             'kind' => new FilterKind('='),
@@ -109,30 +112,32 @@ class UpdateDocumentHandler extends Handler
                             'value' => 0,
                         ]))
                         ->where(new Filter([
-                            'name' => 'product_id',
+                            'name' => 'document_product_id',
                             'kind' => new FilterKind('='),
-                            'value' => $oldProduct->getId(),
+                            'value' => $documentProductId,
                         ]))
-                        ->load();*/
-                    /*if($stock->isLoaded()){
-                        $count = $stock->getCount()+$product->getCount();
+                        ->load();
+                    if($stock->isLoaded()){
+                        $count = $product->getCount();
                         (new StockModel)
                             ->setId($stock->getId())
                             ->setUuid($stock->getUuid())
                             ->setProductId($oldProduct->getId())
                             ->setCount($count)
+                            ->setDocumentProductId($documentProductId)
                             ->update();
-                    }else{*/
+                    }else{
                         (new StockModel)
                             ->setUuid(Common::getUuid())
                             ->setDocumentId($document->getId())
                             ->setProductId($productId)
                             ->setCount($product->getCount())
+                            ->setDocumentProductId($documentProductId)
                             ->insert();
-                    //}
+                    }
                 }
             }else {
-                (new DocumentProductModel)
+                $documentProductId = (new DocumentProductModel)
                     ->setUuid(Common::getUuid())
                     ->setDocumentId($document->getId())
                     ->setProductId($productId)
@@ -147,6 +152,7 @@ class UpdateDocumentHandler extends Handler
                     ->setDocumentId($document->getId())
                     ->setProductId($productId)
                     ->setCount($product->getCount())
+                    ->setDocumentProductId($documentProductId)
                     ->insert();
             }
             $products->next();
