@@ -14,6 +14,42 @@ class GetCatalogProductResponse extends Response
     public $descriptionFull;
     private $partial;
     private $toSell;
+    private $sellNet;
+    private $sellGross;
+    private $vat;
+
+    public function getVat(): ?float
+    {
+        return $this->vat;
+    }
+
+    public function setVat(float $vat = null): GetCatalogProductResponse
+    {
+        $this->vat = $vat;
+        return $this;
+    }
+
+    public function getSellGross(): ?float
+    {
+        return $this->sellGross;
+    }
+
+    public function setSellGross(float $sellGross = null): GetCatalogProductResponse
+    {
+        $this->sellGross = $sellGross;
+        return $this;
+    }
+
+    public function getSellNet(): ?float
+    {
+        return $this->sellNet;
+    }
+
+    public function setSellNet(float $sellNet = null): GetCatalogProductResponse
+    {
+        $this->sellNet = $sellNet;
+        return $this;
+    }
 
     public function getToSell(): ?bool
     {

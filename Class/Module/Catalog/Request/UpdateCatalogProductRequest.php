@@ -16,6 +16,42 @@ class UpdateCatalogProductRequest extends UserRequest
     public $sku;
     private $partial;
     private $toSell;
+    private $sellNet;
+    private $sellGross;
+    private $vat;
+
+    public function getVat(): ?float
+    {
+        return $this->vat;
+    }
+
+    public function setVat(float $vat = null)
+    {
+        $this->vat = $vat;
+        return $this;
+    }
+
+    public function getSellGross(): ?float
+    {
+        return $this->sellGross;
+    }
+
+    public function setSellGross(float $sellGross = null)
+    {
+        $this->sellGross = $sellGross;
+        return $this;
+    }
+
+    public function getSellNet(): ?float
+    {
+        return $this->sellNet;
+    }
+
+    public function setSellNet(float $sellNet = null)
+    {
+        $this->sellNet = $sellNet;
+        return $this;
+    }
 
     public function getToSell(): ?bool
     {

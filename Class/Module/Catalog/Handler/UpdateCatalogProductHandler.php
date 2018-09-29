@@ -23,6 +23,9 @@ class UpdateCatalogProductHandler extends Handler
             ->setDescriptionFull($request->getDescriptionFull())
             ->setPartial($request->getPartial())
             ->setToSell($request->getToSell())
+            ->setSellNet($request->getSellNet())
+            ->setSellGross($request->getSellGross())
+            ->setVat($request->getVat())
             ->update();
         return new SuccessResponse;
     }

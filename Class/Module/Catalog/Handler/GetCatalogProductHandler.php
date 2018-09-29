@@ -28,6 +28,9 @@ class GetCatalogProductHandler extends Handler
             ->setDescriptionShort($productModel->getDescriptionShort())
             ->setDescriptionFull($productModel->getDescriptionFull())
             ->setPartial($productModel->getPartial())
-            ->setToSell($productModel->getToSell());
+            ->setToSell($productModel->getToSell())
+            ->setSellNet($productModel->getSellNet())
+            ->setSellGross($productModel->getSellGross())
+            ->setVat($productModel->getVat());
     }
 }

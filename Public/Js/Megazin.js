@@ -615,17 +615,55 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             },
             validation: {
                 sku: true,
-                name: true
+                name: true,
+                sellNet: true,
+                sellGross: true,
+                vat: true,
             }
         }
+        $scope.data.vatRates = [
+            {
+                name: '23%',
+                value: '23'
+            },
+            {
+                name: '8%',
+                value: '8'
+            },
+            {
+                name: '5%',
+                value: '5'
+            },
+            {
+                name: '0%',
+                value: '0'
+            },
+            {
+                name: 'zw',
+                value: '0'
+            }
+        ]
         if ($routeParams.id) {
             catalogProduct.get(function (response) {
                 $scope.data.product = response.data;
+                $scope.data.vatRates[0].checked = 'checked'
             }, $routeParams.id);
         }
         $scope.data.send = function () {
             $scope.data.validation.name = $scope.data.product.name?false:true
             $scope.data.validation.sku = $scope.data.product.sku?false:true
+            $scope.data.validation.sellNet = $scope.data.product.sellNet?false:true
+            $scope.data.validation.sellGross = $scope.data.product.sellGross?false:true
+            $scope.data.validation.vat = $scope.data.product.vat?false:true
+            validate = true
+            angular.forEach($scope.data.validation, (el)=>{
+                if(el){
+                    validate = false
+                }
+            })
+            if(!validate){
+                return
+            }
             var data = $scope.data.product;
             if ($routeParams.id) {
                 $http.put(apiBase + '/catalog/product/' + $routeParams.id, data).then(function (response) {
@@ -646,11 +684,38 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         $scope.tabs = [
             {id: 1, name: 'Podstawowe', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardBasic.html'},
-            {id: 2, name: 'Opisy', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardDescription.html'},
-            {id: 3, name: 'Zdjęcia', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardPhotos.html', idRequired: true},
-            {id: 4, name: 'Dostawcy', disable: true}
+            {id: 2, name: 'Ceny', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardPrice.html'},
+            {id: 3, name: 'Opisy', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardDescription.html'},
+            {id: 4, name: 'Zdjęcia', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardPhotos.html', idRequired: true},
+            {id: 5, name: 'Dostawcy', disable: true}
         ];
         $scope.imagesUploadOptions = {}
+        buyCalcBlock = false
+        $scope.data.sellCalc = (fromNet = false)=>{
+            buyCalcBlock = true
+            if(fromNet) {
+                if(!$scope.data.product.sellNet){
+                    sellCalcBlock = false
+                    return
+                }
+                net = parseFloat((''+$scope.data.product.sellNet).replace(',', '.'))
+                vat = $scope.data.product.vat
+                vat = (100 + parseFloat(vat)) / 100
+                gross = Math.round(net * vat*100)/100
+                $scope.data.product.sellGross = gross.toFixed(2)
+            }else{
+                if(!$scope.data.product.sellGross){
+                    sellCalcBlock = false
+                    return
+                }
+                gross = parseFloat((''+$scope.data.product.sellGross).replace(',', '.'))
+                vat = $scope.data.product.vat
+                vat = 100/(100 + parseFloat(vat))
+                net = Math.round(gross * vat * 100) / 100
+                $scope.data.product.sellNet = net.toFixed(2)
+            }
+            sellCalcBlock = false
+        }
     })
 
     .controller('uploadController', function ($scope, $element, Upload, productImages, deleteDialog, $http) {
