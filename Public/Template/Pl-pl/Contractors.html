@@ -1,0 +1,75 @@
+<style>
+    .zoom-in {
+        float: left;
+        position: absolute;
+        margin-top: -2px;
+        left: 20px;
+        opacity: 0.3;
+        cursor: pointer;
+    }
+
+    .zoom-in:hover {
+        opacity: 0.8;
+    }
+
+    .table .row, .table .header {
+        padding: 5px 50px 5px 50px;
+    }
+</style>
+<div class="container contractors">
+    <div class="buttons">
+        <a ng-href="/kontrahent/dodaj">
+            <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj kontrahenta</button>
+        </a>
+    </div>
+    <div ng-show="contractors.length==0" class="table-empty">
+        <p>Brak danych w tabeli do wyświetlenia</p>
+    </div>
+    <div ng-show="contractors.length>0" class="table" ng-controller="selectTableController">
+        {{setSelectOptions('/catalog/contractor', 'name', 'contractors')}}
+        <div ng-show="selects.length>0" class="box">
+            <div class="header">Zaznaczone elementy</div>
+            <div class="body">
+                <div class="selects">
+                    <div class="select" ng-repeat="select in selects">
+                        {{select.name}}
+                        <i data-nodrag="" class="material-icons"
+                           ng-click="delSelect(select, contractors)">delete_forever</i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="buttons">
+                    <button class="small">Pobierz PDF</button>
+                    <button class="small" ng-click="massXls(selects)">Pobierz XLS</button>
+                    <button class="small danger" ng-click="massDelete(contractors, selects)">Usuń</button>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <input type="checkbox" id="chbx" ng-click="checkAll(contractors)"><label for="chbx" class="checkbox"></label>
+            <div class="container">
+                <div class="col col-2">Numer</div>
+            </div>
+        </div>
+        <div ng-class="{'selected': contractor.selected, 'deleted': contractor.deleted}" class="row"
+             ng-repeat="contractor in contractors">
+            <div class="head">
+                <input type="checkbox" id="chbx{{contractor.id}}" ng-click="check(contractor)"><label for="chbx{{contractor.id}}"
+                                                                                                class="checkbox"></label>
+                <i class="material-icons zoom-in" ng-click="loadDetail(contractors, contractor)">zoom_in</i>
+                <div class="col col-2">{{contractor.name}}</div>
+                <div class="buttons">
+                    <a ng-href="/kontrahent/{{contractor.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
+                    <i data-nodrag="" class="material-icons" ng-click="deleteRow(contractors, contractor)">delete_forever</i>
+                </div>
+            </div>
+            <div class="detail" ng-if="contractor.detail">
+                <p>{{contractor.detail.descriptionShort}}</p>
+            </div>
+        </div>
+        <fluentLoader ng-click="fluentLoad()">
+            <p>Pokaż więcej wyników</p>
+        </fluentLoader>
+    </div>
+</div>

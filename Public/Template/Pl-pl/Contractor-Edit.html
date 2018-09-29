@@ -2,9 +2,9 @@
 <article>
     <div class="row">
         <div class="form-group col col-12">
-            <label ng-class="{'error': data.validation.name&&!data.contractor.name}">Numer dokumentu</label>
+            <label ng-class="{'error': data.validation.name&&!data.contractor.name}">Nazwa kontrahenta</label>
             <input type="text" ng-model="data.contractor.name" ng-class="{'error': data.validation.name&&!data.contractor.name}"/>
-            <p ng-if="data.validation.name&&!data.contractor.name">Wprowadź numer dokumentu.</p>
+            <p ng-if="data.validation.name&&!data.contractor.name">Wprowadź nazwę kontrahenta.</p>
         </div>
     </div>
     <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
