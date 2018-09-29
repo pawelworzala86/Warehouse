@@ -952,7 +952,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         };
         var filters = [];
         var filtersNames = [];
-        $scope.products = [];
+        $scope.documents = [];
         $rootScope.filters = filters;
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
@@ -962,8 +962,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         var loadPage = function () {
             documents.get(function (response) {
-                angular.forEach(response.data.products, function (value, key) {
-                    $scope.products.push(value);
+                angular.forEach(response.data.documents, function (value, key) {
+                    $scope.documents.push(value);
                 });
                 pagination = getData(pagination, response.data.pagination);
                 filters = getData(filters, response.data.filters);
@@ -976,7 +976,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             deleteDialog.show({
                 title: 'Usunięcie produktu',
                 templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/catalog/product/',
+                apiUrl: '/catalog/document/',
                 data: {
                     rows: rows,
                     row: row,
@@ -989,7 +989,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         loadPage();
         $rootScope.filterRefreshCallback = function () {
-            $scope.products = [];
+            $scope.documents = [];
             pagination.page = 1;
             loadPage();
         }

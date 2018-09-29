@@ -15,7 +15,7 @@ class DocumentModel extends Model
         return $this->id;
     }
 
-    public function setId(int $id): FileModel
+    public function setId(int $id): DocumentModel
     {
         $this->set('id', $id);
         $this->id = $id;
@@ -27,7 +27,7 @@ class DocumentModel extends Model
         return $this->uuid;
     }
 
-    public function setUuid(UUID $uuid): FileModel
+    public function setUuid(UUID $uuid): DocumentModel
     {
         $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;

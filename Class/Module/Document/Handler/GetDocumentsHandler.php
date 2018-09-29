@@ -44,7 +44,7 @@ class GetDocumentsHandler extends Handler
         while($document = $documents->current()){
             $docs->add(
                 (new Document)
-                ->setId(1)
+                ->setId($document->getUuid())
             );
             $documents->next();
         }

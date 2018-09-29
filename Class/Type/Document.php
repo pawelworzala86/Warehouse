@@ -8,7 +8,7 @@ class Document extends Type
 {
     private $id;
 
-    function setId(UUID $id): CatalogProduct
+    function setId(UUID $id): Document
     {
         $this->id = $id;
         return $this;
