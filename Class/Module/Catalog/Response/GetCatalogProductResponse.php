@@ -12,6 +12,30 @@ class GetCatalogProductResponse extends Response
     private $sku;
     public $descriptionShort;
     public $descriptionFull;
+    private $partial;
+    private $toSell;
+
+    public function getToSell(): ?bool
+    {
+        return $this->toSell;
+    }
+
+    public function setToSell(bool $toSell = null): GetCatalogProductResponse
+    {
+        $this->toSell = $toSell;
+        return $this;
+    }
+
+    public function getPartial(): ?bool
+    {
+        return $this->partial;
+    }
+
+    public function setPartial(bool $partial = null): GetCatalogProductResponse
+    {
+        $this->partial = $partial;
+        return $this;
+    }
 
     public function getDescriptionFull(): ?string
     {

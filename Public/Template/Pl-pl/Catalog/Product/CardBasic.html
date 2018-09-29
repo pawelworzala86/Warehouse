@@ -10,6 +10,12 @@
             <input type="text" ng-model="data.product.name" ng-class="{'error': data.validation.name&&!data.product.name}"/>
             <p ng-if="data.validation.name&&!data.product.name">Wprowadź nazwę produktu.</p>
         </div>
+        <div class="form-group col col-6 checkbox">
+            <input type="checkbox" ng-model="data.product.toSell"/><label>Product do sprzedaży</label>
+        </div>
+        <div class="form-group col col-6 checkbox">
+            <input type="checkbox" ng-model="data.product.partial"/><label>Półproduct</label>
+        </div>
     </div>
     <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
 </article>

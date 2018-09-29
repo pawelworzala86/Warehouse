@@ -14,6 +14,32 @@ class ProductModel extends Model
     private $descriptionShort;
     private $descriptionFull;
     private $sku;
+    private $partial;
+    private $toSell;
+
+    public function getToSell(): ?bool
+    {
+        return $this->toSell;
+    }
+
+    public function setToSell(bool $toSell = null): ProductModel
+    {
+        $this->set('to_sell', $toSell);
+        $this->toSell = $toSell;
+        return $this;
+    }
+
+    public function getPartial(): ?bool
+    {
+        return $this->partial;
+    }
+
+    public function setPartial(bool $partial = null): ProductModel
+    {
+        $this->set('partial', $partial);
+        $this->partial = $partial;
+        return $this;
+    }
 
     public function getSku(): SKU
     {

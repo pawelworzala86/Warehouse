@@ -21,6 +21,8 @@ class UpdateCatalogProductHandler extends Handler
             ->setName($request->getName())
             ->setDescriptionShort($request->getDescriptionShort())
             ->setDescriptionFull($request->getDescriptionFull())
+            ->setPartial($request->getPartial())
+            ->setToSell($request->getToSell())
             ->update();
         return new SuccessResponse;
     }

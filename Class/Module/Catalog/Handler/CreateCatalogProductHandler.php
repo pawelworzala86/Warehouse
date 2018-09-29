@@ -49,6 +49,8 @@ class CreateCatalogProductHandler extends Handler
             ->setName($request->getName())
             ->setDescriptionShort($request->getDescriptionShort())
             ->setDescriptionFull($request->getDescriptionFull())
+            ->setPartial($request->getPartial())
+            ->setToSell($request->getToSell())
             ->insert();
         return (new CreateCatalogProductResponse)
             ->setId($uuid);

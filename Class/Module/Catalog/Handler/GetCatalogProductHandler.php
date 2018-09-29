@@ -26,6 +26,8 @@ class GetCatalogProductHandler extends Handler
             ->setName($productModel->getName())
             ->setSku($productModel->getSku())
             ->setDescriptionShort($productModel->getDescriptionShort())
-            ->setDescriptionFull($productModel->getDescriptionFull());
+            ->setDescriptionFull($productModel->getDescriptionFull())
+            ->setPartial($productModel->getPartial())
+            ->setToSell($productModel->getToSell());
     }
 }

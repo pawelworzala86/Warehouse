@@ -610,7 +610,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
     .controller('catalogEditProductController', function ($routeParams, $scope, $http, $location, catalogProduct, $compile) {
         $scope.data = {
             id: $routeParams.id,
-            product: {},
+            product: {
+                toSell: true
+            },
             validation: {
                 sku: true,
                 name: true
