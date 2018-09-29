@@ -47,6 +47,7 @@ class GetDocumentsHandler extends Handler
                 (new Document)
                     ->setId($document->getUuid())
                     ->setName($document->getName())
+                    ->setDate($document->getDate())
             );
             $documents->next();
         }

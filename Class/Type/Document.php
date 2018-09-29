@@ -8,6 +8,18 @@ class Document extends Type
 {
     private $name;
     private $id;
+    private $date;
+
+    function setDate(string $date): Document
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    function getDate(): string
+    {
+        return $this->date;
+    }
 
     function setId(UUID $id): Document
     {

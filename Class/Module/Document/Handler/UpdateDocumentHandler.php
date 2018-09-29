@@ -42,6 +42,8 @@ class UpdateDocumentHandler extends Handler
             ->setUuid($document->getUuid())
             ->setName($request->getName())
             ->setContractorId($contractor->getId())
+            ->setDate($request->getDate())
+            ->setDescription($request->getDescription())
             ->update();
 
         $products->rewind();

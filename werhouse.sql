@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Czas generowania: 29 Wrz 2018, 00:18
+-- Czas generowania: 29 Wrz 2018, 21:53
 -- Wersja serwera: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- Wersja PHP: 7.2.10-0ubuntu0.18.04.1
 
@@ -21,6 +21,32 @@ SET time_zone = "+00:00";
 --
 -- Baza danych: `werhouse`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `address`
+--
+
+CREATE TABLE `address` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `first_name` varchar(250) DEFAULT NULL,
+  `last_name` varchar(250) DEFAULT NULL,
+  `street` varchar(250) DEFAULT NULL,
+  `city` varchar(250) DEFAULT NULL,
+  `postcode` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -48,6 +74,79 @@ CREATE TABLE `category` (
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `contractor`
+--
+
+CREATE TABLE `contractor` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `document`
+--
+
+CREATE TABLE `document` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `name` varchar(90) DEFAULT NULL,
+  `contractor_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `description` text
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `document_product`
+--
+
+CREATE TABLE `document_product` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `document_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `count` float DEFAULT NULL,
+  `net` float DEFAULT NULL,
+  `sum_net` float DEFAULT NULL,
+  `sum_gross` float DEFAULT NULL,
+  `vat` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `file`
 --
 
@@ -66,18 +165,6 @@ CREATE TABLE `file` (
   `type` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `file`
---
-
-INSERT INTO `file` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `size`, `url`, `name`, `type`) VALUES
-(1, 0x3d2affcc61a58cd37bbaabf38884b2c3, 1538170083, 1, 2, NULL, NULL, NULL, 573404, '/Files/3d2affcc61a58cd37bbaabf38884b2c3', 'speedlink-scylla-2.png', 'image/png'),
-(2, 0xc8222dd3c62062b8a214cdfd92bf3548, 1538172100, 1, 2, NULL, NULL, NULL, 0, '/Files/c8222dd3c62062b8a214cdfd92bf3548.xlsx', 'helloworld.xlsx', 'application/vnd.ms-excel'),
-(3, 0x8166a2dcfbf272b987c241d2cfc32724, 1538172206, 1, 2, NULL, NULL, NULL, 0, '/Files/8166a2dcfbf272b987c241d2cfc32724.xlsx', 'helloworld.xlsx', 'application/vnd.ms-excel'),
-(4, 0x1aa68f985b5a971c9a115a1b47d083da, 1538172242, 1, 2, NULL, NULL, NULL, 6283, '/Files/1aa68f985b5a971c9a115a1b47d083da.xlsx', 'helloworld.xlsx', 'application/vnd.ms-excel'),
-(5, 0x1178299aa8949627bac75c86c2a6166a, 1538172251, 1, 2, NULL, NULL, NULL, 6283, '/Files/1178299aa8949627bac75c86c2a6166a.xlsx', 'helloworld.xlsx', 'application/vnd.ms-excel'),
-(6, 0x0faa5b8734d6b9c9045058a51d9308d3, 1538172319, 1, 2, NULL, NULL, NULL, 6283, '/Files/0faa5b8734d6b9c9045058a51d9308d3.xlsx', 'helloworld.xlsx', 'application/vnd.ms-excel');
-
 -- --------------------------------------------------------
 
 --
@@ -90,14 +177,6 @@ CREATE TABLE `ip` (
   `user_id` int(11) DEFAULT NULL,
   `date` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Zrzut danych tabeli `ip`
---
-
-INSERT INTO `ip` (`id`, `ip`, `user_id`, `date`) VALUES
-(1, 1, NULL, 1538164025),
-(2, 1, 1, 1538173097);
 
 -- --------------------------------------------------------
 
@@ -120,19 +199,13 @@ CREATE TABLE `product` (
   `name` varchar(250) DEFAULT NULL,
   `description_short` text,
   `description_full` text,
-  `sku` varchar(250) DEFAULT NULL
+  `sku` varchar(250) DEFAULT NULL,
+  `to_sell` tinyint(1) DEFAULT '1',
+  `partial` tinyint(1) DEFAULT '0',
+  `sell_net` float DEFAULT NULL,
+  `sell_gross` float DEFAULT NULL,
+  `vat` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Zrzut danych tabeli `product`
---
-
-INSERT INTO `product` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `name`, `description_short`, `description_full`, `sku`) VALUES
-(1, 0xd11f4f9ac214b0d633c140a0348cc632, 1538170079, 1, 2, NULL, NULL, NULL, 1538172647, 1, 2, 'cgfdh', NULL, NULL, 'dfhh'),
-(2, 0x1936cffa8afc5c9060f22b9938079b97, 1538172387, 1, 2, NULL, NULL, NULL, 1538172647, 1, 2, 'a', NULL, NULL, 'a'),
-(3, 0xb6176a33f065d042007b226c65516a93, 1538172456, 1, 2, NULL, NULL, NULL, 1538172648, 1, 2, 'a', NULL, NULL, 'a'),
-(4, 0x90bf86b216c947306a0755b76d50a28c, 1538172637, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'a', NULL, NULL, 'a'),
-(7, 0x4c3dc8f601afb18d01296755a67c6722, 1538173085, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'a', NULL, NULL, 'aa');
 
 -- --------------------------------------------------------
 
@@ -155,13 +228,6 @@ CREATE TABLE `product_files` (
   `file_id` int(11) DEFAULT NULL,
   `product_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Zrzut danych tabeli `product_files`
---
-
-INSERT INTO `product_files` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `file_id`, `product_id`) VALUES
-(1, 0x466f028c025a6ab44161b54310c09977, 1538170083, 1, 2, NULL, NULL, NULL, 1538170087, 1, 2, 1, 1);
 
 -- --------------------------------------------------------
 
@@ -263,8 +329,8 @@ INSERT INTO `root_todo` (`id`, `name`, `description`, `done`) VALUES
 (65, 'dodanie sortowania', '', 0),
 (66, 'zrobić porządek z nazwami - liczby mnogie itp', '', 0),
 (67, 'ogolne zmienne - dodanie filtrów - rodzajów do ładowania na start systemu', '', 0),
-(68, 'dodanie VALIDACJI pól na froncie', '', 0),
-(69, 'uzupełmnienie validationTrait o lepsze komunikaty i spięcie tego z frontem', '', 0),
+(68, 'dodanie VALIDACJI pól na froncie', '', 1),
+(69, 'uzupełmnienie validationTrait o lepsze komunikaty i spięcie tego z frontem', '', 1),
 (70, 'rozwiązać - wspólna metoda GET w Request, Response i Type', '', 0),
 (71, 'dodać zapis filtrów we froncie', '', 0),
 (72, 'dodanie uploadu plików w api', '', 1),
@@ -291,7 +357,7 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`sessid`, `access`, `data`, `ip_id`, `user_id`, `deleted`) VALUES
-(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538173097, 'userId|i:1;', 2, 1, NULL);
+(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538250739, 'userId|i:1;', 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -352,16 +418,70 @@ CREATE TABLE `user_register` (
 --
 DROP TABLE IF EXISTS `product_file_view`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_file_view`  AS  select `file`.`id` AS `file_id`,`file`.`uuid` AS `file_uuid`,`file`.`added` AS `added`,`product_files`.`deleted` AS `deleted`,`file`.`size` AS `size`,`file`.`url` AS `url`,`file`.`name` AS `name`,`file`.`type` AS `type`,`product_files`.`id` AS `product_files_id`,`product_files`.`uuid` AS `product_files_uuid`,`product_files`.`product_id` AS `product_id`,`product`.`uuid` AS `product_uuid` from ((`file` left join `product_files` on((`file`.`id` = `product_files`.`id`))) left join `product` on((`product_files`.`product_id` = `product`.`id`))) ;
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_file_view`  AS  select `file`.`id` AS `file_id`,`file`.`uuid` AS `file_uuid`,`file`.`added` AS `added`,`product_files`.`deleted` AS `deleted`,`file`.`size` AS `size`,`file`.`url` AS `url`,`file`.`name` AS `name`,`file`.`type` AS `type`,`product_files`.`id` AS `product_files_id`,`product_files`.`uuid` AS `product_files_uuid`,`product_files`.`product_id` AS `product_id`,`product`.`uuid` AS `product_uuid` from ((`file` left join `product_files` on((`file`.`id` = `product_files`.`file_id`))) left join `product` on((`product_files`.`product_id` = `product`.`id`))) ;
 
 --
 -- Indeksy dla zrzutów tabel
 --
 
 --
+-- Indeksy dla tabeli `address`
+--
+ALTER TABLE `address`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+
+--
 -- Indeksy dla tabeli `category`
 --
 ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+
+--
+-- Indeksy dla tabeli `contractor`
+--
+ALTER TABLE `contractor`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+
+--
+-- Indeksy dla tabeli `document`
+--
+ALTER TABLE `document`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `added_by_2` (`added_by`,`deleted`,`name`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `contractor_id` (`contractor_id`);
+
+--
+-- Indeksy dla tabeli `document_product`
+--
+ALTER TABLE `document_product`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
   ADD KEY `added_by` (`added_by`),
@@ -465,34 +585,58 @@ ALTER TABLE `user_register`
 --
 
 --
+-- AUTO_INCREMENT dla tabeli `address`
+--
+ALTER TABLE `address`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `category`
 --
 ALTER TABLE `category`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `contractor`
+--
+ALTER TABLE `contractor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `document`
+--
+ALTER TABLE `document`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `document_product`
+--
+ALTER TABLE `document_product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `file`
 --
 ALTER TABLE `file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `ip`
 --
 ALTER TABLE `ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `product`
 --
 ALTER TABLE `product`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `product_files`
 --
 ALTER TABLE `product_files`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `root_todo`

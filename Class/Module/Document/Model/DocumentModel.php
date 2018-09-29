@@ -11,6 +11,32 @@ class DocumentModel extends Model
     private $uuid;
     private $name;
     private $contractorId;
+    private $date;
+    private $description;
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description = null): DocumentModel
+    {
+        $this->set('description', $description);
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getDate(): ?string
+    {
+        return $this->date;
+    }
+
+    public function setDate(string $date = null): DocumentModel
+    {
+        $this->set('date', $date);
+        $this->date = $date;
+        return $this;
+    }
 
     public function getContractorId(): int
     {

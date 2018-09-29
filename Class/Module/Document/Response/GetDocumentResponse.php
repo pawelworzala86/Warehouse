@@ -18,6 +18,30 @@ class GetDocumentResponse extends Response
     private $id;
     private $contractorId;
     private $products;
+    private $date;
+    private $description;
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description = null): GetDocumentResponse
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    function setDate(string $date = null): GetDocumentResponse
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    function getDate(): ?string
+    {
+        return $this->date;
+    }
 
     public function getProducts(): DocumentProducts
     {

@@ -92,18 +92,24 @@
 <div class="container">
     <article>
         <div class="row">
-            <div class="col col-6">
+            <div class="col col-7">
                 <div class="card">
                     <div class="title">Dane podstawowe</div>
-                    <div class="form-group col col-12">
+                    <div class="form-group col col-8">
                         <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
                         <input type="text" ng-model="data.document.name"
                                ng-class="{'error': data.validation.name&&!data.document.name}"/>
                         <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
                     </div>
+                    <div class="form-group col col-4">
+                        <label ng-class="{'error': data.validation.date&&!data.document.date}">Data wystawienia</label>
+                        <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.date"
+                               ng-class="{'error': data.validation.date&&!data.document.date}"/>
+                        <p ng-if="data.validation.date&&!data.document.date">Wprowadź datę.</p>
+                    </div>
                 </div>
             </div>
-            <div class="col col-6">
+            <div class="col col-5">
                 <div class="card">
                     <div class="title">Kontrahent</div>
                     <div class="contractor-data">{{data.contractor.name}}</div>
@@ -145,11 +151,22 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col col-6"></div>
-                    <div class="col col-6 right resume">
+                    <div class="col col-6" ng-if="data.document.products.length>0"></div>
+                    <div class="col col-6 right resume" ng-if="data.document.products.length>0">
                         <p>Łączna suma netto: <strong>{{data.document.sumNet}}</strong></p>
                         <p>Podatek VAT: <strong>{{data.document.tax}}</strong></p>
                         <p>Łączna suma brutto: <strong>{{data.document.sumGross}}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col col-12">
+                <div class="card">
+                    <div class="title">Dodatkowe informacje</div>
+                    <div class="form-group col col-12 textarea">
+                        <label>Opis</label>
+                        <textarea ng-model="data.document.description"></textarea>
                     </div>
                 </div>
             </div>

@@ -80,6 +80,8 @@ class GetDocumentHandler extends Handler
         return (new GetDocumentResponse)
             ->setId($document->getUuid())
             ->setName($document->getName())
+            ->setDescription($document->getDescription())
+            ->setDate($document->getDate())
             ->setContractorId($contractor->getUuid())
             ->setProducts($products);
     }

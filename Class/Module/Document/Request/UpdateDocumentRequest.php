@@ -13,6 +13,30 @@ class UpdateDocumentRequest extends UserRequest
     public $id;
     private $contractorId;
     private $products;
+    private $date;
+    private $description;
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description = null): UpdateDocumentRequest
+    {
+        $this->description = $description;
+        return $this;
+    }
+
+    public function getDate(): string
+    {
+        return $this->date;
+    }
+
+    public function setDate(string $date): UpdateDocumentRequest
+    {
+        $this->date = $date;
+        return $this;
+    }
 
     public function getProducts(): DocumentProducts
     {
