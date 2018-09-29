@@ -783,6 +783,28 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             },
             products: [],
         }
+        $scope.data.vatRates = [
+            {
+                name: '23%',
+                value: 23
+            },
+            {
+                name: '8%',
+                value: 8
+            },
+            {
+                name: '5%',
+                value: 5
+            },
+            {
+                name: '0%',
+                value: 0
+            },
+            {
+                name: 'zw',
+                value: 0
+            }
+        ]
         if ($routeParams.id) {
             document.get(function (response) {
                 $scope.data.document = response.data;
@@ -795,6 +817,10 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 if(!$scope.data.document.products){
                     $scope.data.document.products = []
                 }
+                angular.forEach($scope.data.document.products, (product)=>{
+                    product.vat = product.vat+''
+                    $scope.data.callcNet(product)
+                })
             }, $routeParams.id);
         }
         $scope.data.send = function () {
@@ -859,7 +885,40 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.selectProduct = (product)=>{
             $scope.data.productShow = false
             product.count = 1
+            product.vat = '23'
             $scope.data.document.products.push(product)
+            $scope.data.callcNet(product)
+        }
+        $scope.remove = (rows, row)=>{
+            row.deleted = true
+        }
+        $scope.data.callcNet = (product)=>{
+            net = (product.net+'').replace?parseFloat((product.net+'').replace(',','.')):0
+            count = (product.count+'').replace?parseFloat((product.count+'').replace(',','.')):0
+            product.sumNet = (net*count).toFixed(2)
+
+            vat = product.vat
+            product.sumVat = ((net*count)*(product.vat/100)).toFixed(2)
+
+            product.sumGross = ((net*count)+((net*count)*(product.vat/100))).toFixed(2)
+        }
+        $scope.data.callcSumNet = (product)=>{
+            sumNet = (product.sumNet+'').replace?parseFloat((product.sumNet+'').replace(',','.')):0
+            count = (product.count+'').replace?parseFloat((product.count+'').replace(',','.')):0
+            product.net = (sumNet/count).toFixed(2)
+
+            vat = product.vat
+            product.sumVat = (sumNet*(product.vat/100)).toFixed(2)
+
+            product.sumGross = (sumNet+(sumNet*(product.vat/100))).toFixed(2)
+        }
+        $scope.data.callcSumGross = (product)=>{
+            sumGross = (product.sumGross+'').replace?parseFloat((product.sumGross+'').replace(',','.')):0
+            count = (product.count+'').replace?parseFloat((product.count+'').replace(',','.')):0
+            vat = product.vat
+            product.sumVat = (sumGross*(product.vat/100)).toFixed(2)
+            product.sumNet = (sumGross-(sumGross*(product.vat/100))).toFixed(2)
+            product.net = (product.sumNet/count).toFixed(2)
         }
     })
 

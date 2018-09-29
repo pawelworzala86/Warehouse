@@ -50,6 +50,8 @@ class GetSearchCatalogProductsHandler extends Handler
                     ->setName($product->getName())
                     ->setId($product->getUuid())
                     ->setSku($product->getSku())
+                    ->setNet($product->getSellNet())
+                    ->setVat($product->getVat())
             );
             $productsCollection->next();
         }

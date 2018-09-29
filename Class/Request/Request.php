@@ -139,12 +139,12 @@ class Request
                                     } else {
                                         $parmClass = $value;
                                     }
-                                    //$object->{$setterName}($parmClass);
-                                    if ($parmClass) {
+                                    $object->{$setterName}($parmClass);
+                                    /*if ($parmClass) {
                                         $object->{$setterName}($parmClass);
                                     } else if(!$parameter->isDefaultValueAvailable()){
-                                        $errors[] = '2. Field ' . $name . ' dont have a value!';
-                                    }
+                                        //$errors[] = '2. Field ' . $name . ' dont have a value!';
+                                    }*/
                                 }else{
                                     if(!$parameter->isDefaultValueAvailable()&&!$value){
                                         $errors[] = '3. Field ' . $name . ' dont have a value!';

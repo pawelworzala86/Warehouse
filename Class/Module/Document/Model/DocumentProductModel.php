@@ -12,6 +12,19 @@ class DocumentProductModel extends Model
     private $documentId;
     private $productId;
     private $count;
+    private $net;
+
+    public function getNet(): float
+    {
+        return $this->net;
+    }
+
+    public function setNet(float $net): DocumentProductModel
+    {
+        $this->set('net', $net);
+        $this->net = $net;
+        return $this;
+    }
 
     public function getCount(): float
     {

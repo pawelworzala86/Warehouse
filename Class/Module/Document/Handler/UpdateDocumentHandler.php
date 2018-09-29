@@ -45,15 +45,52 @@ class UpdateDocumentHandler extends Handler
             ->update();
 
         $products->rewind();
-        while($product = $products->current()){
+        while ($product = $products->current()) {
             $pro = (new ProductModel)
                 ->load($product->getId(), true);
-            (new DocumentProductModel)
-                ->setUuid(Common::getUuid())
-                ->setDocumentId($document->getId())
-                ->setProductId($pro->getId())
-                ->setCount($product->getCount())
-                ->insert();
+            $oldProduct = (new DocumentProductModel)
+                ->where(new Filter([
+                    'name' => 'added_by',
+                    'kind' => new FilterKind('='),
+                    'value' => User::getId(),
+                ]))
+                ->where(new Filter([
+                    'name' => 'deleted',
+                    'kind' => new FilterKind('='),
+                    'value' => 0,
+                ]))
+                ->where(new Filter([
+                    'name' => 'document_id',
+                    'kind' => new FilterKind('='),
+                    'value' => $document->getId(),
+                ]))
+                ->where(new Filter([
+                    'name' => 'product_id',
+                    'kind' => new FilterKind('='),
+                    'value' => $pro->getId(),
+                ]))
+                ->load();
+            if($oldProduct->isLoaded()){
+                if($product->getDeleted()){
+                    (new DocumentProductModel)
+                        ->setUuid($oldProduct->getUuid())
+                        ->delete();
+                }else {
+                    (new DocumentProductModel)
+                        ->setUuid($oldProduct->getUuid())
+                        ->setCount($product->getCount())
+                        ->setNet($product->getNet())
+                        ->update();
+                }
+            }else {
+                (new DocumentProductModel)
+                    ->setUuid(Common::getUuid())
+                    ->setDocumentId($document->getId())
+                    ->setProductId($pro->getId())
+                    ->setCount($product->getCount())
+                    ->setNet($product->getNet())
+                    ->insert();
+            }
             $products->next();
         }
 

@@ -21,11 +21,42 @@
         margin-bottom: 15px;
     }
 
-    .table.products input{
+    .table.products input,
+    .table.products select{
         background: #fff !important;
         border: 1px solid rgba(0, 0, 0, 0.2);
+        top: -4px;
+        position: relative;
+        width: 96%;
+        box-sizing: border-box;
+        margin: 0px 2%;
+    }
+
+    .table.products select{
+        height: 24px;
+    }
+
+    .material-icons.delete{
         position: absolute;
-        top: 1px;
+        left: 0px;
+        top: 3px;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0.3;
+    }
+
+    .material-icons.delete:hover{
+        opacity: 0.6;
+    }
+
+    .table.products .col.count {
+        height: 16px;
+    }
+
+    .table .row,
+    .table .header {
+        border-bottom: 1px dashed #ccc;
+        padding: 5px 5px 5px 20px;
     }
 
 </style>
@@ -59,11 +90,30 @@
                     <div class="table products">
                         <div class="header" ng-if="data.document.products.length>0">
                             <div class="col col-4">Nazwa produktu</div>
-                            <div class="col col-4">Ilość</div>
+                            <div class="col col-1">VAT</div>
+                            <div class="col col-2">Cena netto</div>
+                            <div class="col col-1">Ilość</div>
+                            <div class="col col-4">
+                                <div class="col col-4 count">W. netto</div>
+                                <div class="col col-4 count">W. vat</div>
+                                <div class="col col-4 count">W. brutto</div>
+                            </div>
                         </div>
-                        <div class="row" ng-repeat="product in data.document.products">
+                        <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
+                            <i class="material-icons delete" ng-click="remove(data.document.products, product)">delete</i>
                             <div class="col col-4">{{product.name}}</div>
-                            <div class="col col-4"><input type="text" ng-model="product.count"></div>
+                            <div class="col col-1 count">
+                                <select ng-model="product.vat" ng-change="data.callcNet(product)">
+                                    <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col col-2 count"><input type="text" ng-model="product.net" ng-change="data.callcNet(product)"></div>
+                            <div class="col col-1 count"><input type="text" ng-model="product.count" ng-change="data.callcNet(product)"></div>
+                            <div class="col col-4">
+                                <div class="col col-4 count"><input type="text" ng-model="product.sumNet" ng-change="data.callcSumNet(product)"></div>
+                                <div class="col col-4 count">{{product.sumVat}}</div>
+                                <div class="col col-4 count"><input type="text" ng-model="product.sumGross" ng-change="data.callcSumGross(product)"></div>
+                            </div>
                         </div>
                     </div>
                 </div>

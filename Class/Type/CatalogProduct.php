@@ -9,6 +9,30 @@ class CatalogProduct extends Type
     private $id;
     private $name;
     private $sku;
+    private $net;
+    private $vat;
+
+    function setVat(float $vat): CatalogProduct
+    {
+        $this->vat = $vat;
+        return $this;
+    }
+
+    function getVat(): float
+    {
+        return $this->vat;
+    }
+
+    function setNet(float $net): CatalogProduct
+    {
+        $this->net = $net;
+        return $this;
+    }
+
+    function getNet(): float
+    {
+        return $this->net;
+    }
 
     function setSku(SKU $sku): CatalogProduct
     {

@@ -49,23 +49,31 @@ class GetDocumentHandler extends Handler
                 'kind' => new FilterKind('='),
                 'value' => 0,
             ]))
+            ->where(new Filter([
+                'name' => 'document_id',
+                'kind' => new FilterKind('='),
+                'value' => $document->getId(),
+            ]))
             ->load();
 
         $products = new DocumentProducts;
 
         $productsCollection->rewind();
-        while($prod = $productsCollection->current()){
+        while ($prod = $productsCollection->current()) {
             $product = (new ProductModel)
-                ->load($prod->getId());
+                ->load($prod->getProductId());
             $products->add(
                 (new DocumentProduct)
-                    ->setId($prod->getUuid())
+                    ->setId($product->getUuid())
                     ->setName($product->getName())
                     ->setSku($product->getSku())
                     ->setCount($prod->getCount())
+                    ->setNet($prod->getNet())
+                    ->setVat($product->getVat())
             );
             $productsCollection->next();
         }
+        $products->rewind();
 
         return (new GetDocumentResponse)
             ->setId($document->getUuid())
