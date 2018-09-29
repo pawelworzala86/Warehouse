@@ -58,17 +58,17 @@
         height: 16px;
     }
 
-    .table .row,
-    .table .header,
-    .table .row:hover{
+    .table.products .row,
+    .table.products .header,
+    .table.products .row:hover{
         border-bottom: transparent;
         padding: 5px 5px 5px 20px;
         background: transparent;
     }
 
-    .table .row:hover,
-    .table .row:hover input,
-    .table .row:hover select{
+    .table.products .row:hover,
+    .table.products .row:hover input,
+    .table.products .row:hover select{
         font-weight: 500;
     }
 
@@ -82,10 +82,27 @@
         float: right;
         position: relative;
         margin-top: 3px;
+        font-size: 14px;
     }
 
     .resume p{
         margin: 5px 0px;
+        font-size: 0.9em;
+    }
+
+    .table.products .header .col{
+        font-size: 0.9em;
+        padding: 0px 2px;
+    }
+
+    .contractor-data .mini{
+        font-size: 0.65em;
+        color: #666;
+    }
+
+    .contractor-data .text{
+        font-size: 0.9em;
+        color: #666;
     }
 
 </style>
@@ -112,7 +129,13 @@
             <div class="col col-5">
                 <div class="card">
                     <div class="title">Kontrahent</div>
-                    <div class="contractor-data">{{data.contractor.name}}</div>
+                    <div class="contractor-data">
+                        <div class="mini">{{data.contractor.name}}</div>
+                        <div class="name">{{data.contractor.address.name}}</div>
+                        <div class="text">{{data.contractor.address.firstName}} {{data.contractor.address.lastName}}</div>
+                        <div class="text">{{data.contractor.address.street}}</div>
+                        <div class="text">{{data.contractor.address.postcode}} {{data.contractor.address.city}}</div>
+                    </div>
                     <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
                 </div>
             </div>

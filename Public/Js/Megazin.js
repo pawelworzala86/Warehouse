@@ -889,7 +889,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.selectProduct = (product)=>{
             $scope.data.productShow = false
             product.count = 1
-            product.vat = '23'
+            //product.vat = '23'
             $scope.data.document.products.push(product)
             $scope.data.callcNet(product)
             $scope.data.refreshResume()
@@ -1018,6 +1018,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage()
         }
+        loadPage()
     })
 
     .controller('uploadController', function ($scope, $element, Upload, productImages, deleteDialog, $http) {

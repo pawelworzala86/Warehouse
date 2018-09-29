@@ -6,12 +6,24 @@ use App\Type;
 
 class Address extends Type
 {
+    private $id;
     private $city;
     private $street;
     private $name;
     private $firstName;
     private $lastName;
     private $postcode;
+
+    function setId(UUID $id)
+    {
+        $this->id = $id;
+        return $this;
+    }
+
+    function getId(): UUID
+    {
+        return $this->id;
+    }
 
     public function getPostcode(): ?string
     {
