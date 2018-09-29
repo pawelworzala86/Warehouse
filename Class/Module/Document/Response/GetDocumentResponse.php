@@ -7,6 +7,7 @@ use App\Traits\FiltersTrait;
 use App\Type\CatalogProduct;
 use App\Type\CatalogProducts;
 use App\Traits\PaginationResponseTrait;
+use App\Type\Contractor;
 use App\Type\Document;
 use App\Type\DocumentProducts;
 use App\Type\Documents;
@@ -20,6 +21,54 @@ class GetDocumentResponse extends Response
     private $products;
     private $date;
     private $description;
+    private $contractor;
+    private $net;
+    private $tax;
+    private $gross;
+
+    public function getGross(): ?float
+    {
+        return $this->gross;
+    }
+
+    public function setGross(float $gross = null): GetDocumentResponse
+    {
+        $this->gross = $gross;
+        return $this;
+    }
+
+    public function getTax(): ?float
+    {
+        return $this->tax;
+    }
+
+    public function setTax(float $tax = null): GetDocumentResponse
+    {
+        $this->tax = $tax;
+        return $this;
+    }
+
+    public function getNet(): ?float
+    {
+        return $this->net;
+    }
+
+    public function setNet(float $net = null): GetDocumentResponse
+    {
+        $this->net = $net;
+        return $this;
+    }
+
+    public function getContractor(): ?Contractor
+    {
+        return $this->contractor;
+    }
+
+    public function setContractor(Contractor $contractor = null): GetDocumentResponse
+    {
+        $this->contractor = $contractor;
+        return $this;
+    }
 
     public function getDescription(): ?string
     {

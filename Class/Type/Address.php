@@ -14,13 +14,13 @@ class Address extends Type
     private $lastName;
     private $postcode;
 
-    function setId(UUID $id)
+    function setId(UUID $id = null)
     {
         $this->id = $id;
         return $this;
     }
 
-    function getId(): UUID
+    function getId(): ?UUID
     {
         return $this->id;
     }

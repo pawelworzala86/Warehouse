@@ -1235,6 +1235,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $rootScope.filters = filters;
         $scope.filters = {
             name: '',
+            date: '',
         }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
@@ -1282,6 +1283,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     name: 'name',
                     kind: '%',
                     value: $scope.filters.name,
+                })
+            }
+            if($scope.filters.date) {
+                $rootScope.filters.push({
+                    name: 'date',
+                    kind: '%',
+                    value: $scope.filters.date,
                 })
             }
             $scope.documents = [];

@@ -13,6 +13,45 @@ class DocumentModel extends Model
     private $contractorId;
     private $date;
     private $description;
+    private $net;
+    private $tax;
+    private $gross;
+
+    public function getGross(): ?float
+    {
+        return $this->gross;
+    }
+
+    public function setGross(float $gross = null): DocumentModel
+    {
+        $this->set('gross', $gross);
+        $this->gross = $gross;
+        return $this;
+    }
+    
+    public function getTax(): ?float
+    {
+        return $this->tax;
+    }
+
+    public function setTax(float $tax = null): DocumentModel
+    {
+        $this->set('tax', $tax);
+        $this->tax = $tax;
+        return $this;
+    }
+
+    public function getNet(): ?float
+    {
+        return $this->net;
+    }
+
+    public function setNet(float $net = null): DocumentModel
+    {
+        $this->set('net', $net);
+        $this->net = $net;
+        return $this;
+    }
 
     public function getDescription(): ?string
     {

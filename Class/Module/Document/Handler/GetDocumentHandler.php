@@ -8,6 +8,7 @@ use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
+use App\Module\Contractor\Model\AddressModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Collection\DocumentProductCollection;
 use App\Module\Document\Model\DocumentProductModel;
@@ -20,6 +21,8 @@ use App\Module\Document\Collection\DocumentCollection;
 use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
 use App\Response\SuccessResponse;
+use App\Type\Address;
+use App\Type\Contractor;
 use App\Type\Document;
 use App\Type\DocumentProduct;
 use App\Type\DocumentProducts;
@@ -77,12 +80,31 @@ class GetDocumentHandler extends Handler
         }
         $products->rewind();
 
+        $addressModel = (new AddressModel)
+            ->load($contractor->getUuid(), true);
+        $address = (new Address)
+            ->setName($addressModel->getName())
+            ->setFirstName($addressModel->getFirstName())
+            ->setLastName($addressModel->getLastName())
+            ->setStreet($addressModel->getStreet())
+            ->setPostcode($addressModel->getPostcode())
+            ->setCity($addressModel->getCity());
+
+        $contractorResp = (new Contractor)
+            ->setId($contractor->getUuid())
+            ->setName($contractor->getName())
+            ->setAddress($address);
+
         return (new GetDocumentResponse)
             ->setId($document->getUuid())
             ->setName($document->getName())
             ->setDescription($document->getDescription())
             ->setDate($document->getDate())
             ->setContractorId($contractor->getUuid())
-            ->setProducts($products);
+            ->setContractor($contractorResp)
+            ->setProducts($products)
+            ->setNet($document->getNet())
+            ->setTax($document->getTax())
+            ->setGross($document->getGross());
     }
 }

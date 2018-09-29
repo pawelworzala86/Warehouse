@@ -32,13 +32,13 @@ class Contractor extends Type
         return $this;
     }
 
-    function setId(UUID $id): Contractor
+    function setId(UUID $id = null): Contractor
     {
         $this->id = $id;
         return $this;
     }
 
-    function getId(): UUID
+    function getId(): ?UUID
     {
         return $this->id;
     }

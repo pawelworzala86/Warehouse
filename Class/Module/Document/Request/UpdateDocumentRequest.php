@@ -15,6 +15,42 @@ class UpdateDocumentRequest extends UserRequest
     private $products;
     private $date;
     private $description;
+    private $tax;
+    private $sumNet;
+    private $sumGross;
+
+    public function getSumGross(): ?float
+    {
+        return $this->sumGross;
+    }
+
+    public function setSumGross(float $sumGross = null): UpdateDocumentRequest
+    {
+        $this->sumGross = $sumGross;
+        return $this;
+    }
+
+    public function getSumNet(): ?float
+    {
+        return $this->sumNet;
+    }
+
+    public function setSumNet(float $sumNet = null): UpdateDocumentRequest
+    {
+        $this->sumNet = $sumNet;
+        return $this;
+    }
+
+    public function getTax(): ?float
+    {
+        return $this->tax;
+    }
+
+    public function setTax(float $tax = null): UpdateDocumentRequest
+    {
+        $this->tax = $tax;
+        return $this;
+    }
 
     public function getDescription(): ?string
     {

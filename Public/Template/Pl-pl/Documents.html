@@ -47,6 +47,7 @@
             <input ng-show="documents.length>0" type="checkbox" id="chbx" ng-click="checkAll(documents)"><label ng-show="documents.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
                 <div class="col col-2"><input placeholder="Numer" type="text" ng-model="filters.name" ng-change="filter()"></div>
+                <div class="col col-2"><input placeholder="Data" type="text" ng-model="filters.date" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="documents.length>0">
                 <div class="col col-2">Numer</div>
@@ -59,6 +60,7 @@
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in" ng-click="loadDetail(documents, document)">zoom_in</i>
                 <div class="col col-2">{{document.name}}</div>
+                <div class="col col-2">{{document.date}}</div>
                 <div class="buttons">
                     <a ng-href="/dokument/{{document.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
                     <i data-nodrag="" class="material-icons" ng-click="deleteRow(documents, document)">delete_forever</i>

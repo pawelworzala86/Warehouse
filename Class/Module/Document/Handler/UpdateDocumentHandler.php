@@ -44,6 +44,9 @@ class UpdateDocumentHandler extends Handler
             ->setContractorId($contractor->getId())
             ->setDate($request->getDate())
             ->setDescription($request->getDescription())
+            ->setNet($request->getSumNet())
+            ->setTax($request->getTax())
+            ->setGross($request->getSumGross())
             ->update();
 
         $products->rewind();
