@@ -13,6 +13,45 @@ class DocumentProductModel extends Model
     private $productId;
     private $count;
     private $net;
+    private $sumNet;
+    private $sumGross;
+    private $vat;
+
+    public function getVat(): ?float
+    {
+        return $this->vat;
+    }
+
+    public function setVat(float $vat = null): DocumentProductModel
+    {
+        $this->set('vat', $vat);
+        $this->vat = $vat;
+        return $this;
+    }
+
+    public function getSumGross(): float
+    {
+        return $this->sumGross;
+    }
+
+    public function setSumGross(float $sumGross): DocumentProductModel
+    {
+        $this->set('sum_gross', $sumGross);
+        $this->sumGross = $sumGross;
+        return $this;
+    }
+
+    public function getSumNet(): float
+    {
+        return $this->sumNet;
+    }
+
+    public function setSumNet(float $sumNet): DocumentProductModel
+    {
+        $this->set('sum_net', $sumNet);
+        $this->sumNet = $sumNet;
+        return $this;
+    }
 
     public function getNet(): float
     {
@@ -38,12 +77,12 @@ class DocumentProductModel extends Model
         return $this;
     }
 
-    public function getProductId(): int
+    public function getProductId(): ?int
     {
         return $this->productId;
     }
 
-    public function setProductId(int $productId): DocumentProductModel
+    public function setProductId(int $productId = null): DocumentProductModel
     {
         $this->set('product_id', $productId);
         $this->productId = $productId;

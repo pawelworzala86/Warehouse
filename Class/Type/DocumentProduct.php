@@ -13,6 +13,30 @@ class DocumentProduct extends Type
     private $deleted;
     private $net;
     private $vat;
+    private $sumNet;
+    private $sumGross;
+
+    public function getSumGross(): float
+    {
+        return $this->sumGross;
+    }
+
+    public function setSumGross(float $sumGross): DocumentProduct
+    {
+        $this->sumGross = $sumGross;
+        return $this;
+    }
+
+    public function getSumNet(): float
+    {
+        return $this->sumNet;
+    }
+
+    public function setSumNet(float $sumNet): DocumentProduct
+    {
+        $this->sumNet = $sumNet;
+        return $this;
+    }
 
     public function getVat(): float
     {

@@ -148,6 +148,8 @@ class Request
                                 }else{
                                     if(!$parameter->isDefaultValueAvailable()&&!$value){
                                         $errors[] = '3. Field ' . $name . ' dont have a value!';
+                                    }else {
+                                        $object->{$setterName}($value);
                                     }
                                 }
                             } else {

@@ -786,23 +786,23 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.vatRates = [
             {
                 name: '23%',
-                value: 23
+                value: '23'
             },
             {
                 name: '8%',
-                value: 8
+                value: '8'
             },
             {
                 name: '5%',
-                value: 5
+                value: '5'
             },
             {
                 name: '0%',
-                value: 0
+                value: '0'
             },
             {
                 name: 'zw',
-                value: 0
+                value: '0'
             }
         ]
         if ($routeParams.id) {
@@ -916,8 +916,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             sumGross = (product.sumGross+'').replace?parseFloat((product.sumGross+'').replace(',','.')):0
             count = (product.count+'').replace?parseFloat((product.count+'').replace(',','.')):0
             vat = product.vat
-            product.sumVat = (sumGross*(product.vat/100)).toFixed(2)
-            product.sumNet = (sumGross-(sumGross*(product.vat/100))).toFixed(2)
+            product.sumVat = ((sumGross/(100+parseFloat(product.vat)))*parseFloat(product.vat)).toFixed(2)
+            product.sumNet = (sumGross-product.sumVat).toFixed(2)
             product.net = (product.sumNet/count).toFixed(2)
         }
     })

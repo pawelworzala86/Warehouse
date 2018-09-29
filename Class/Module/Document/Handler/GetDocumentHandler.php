@@ -64,12 +64,14 @@ class GetDocumentHandler extends Handler
                 ->load($prod->getProductId());
             $products->add(
                 (new DocumentProduct)
-                    ->setId($product->getUuid())
+                    ->setId($prod->getUuid())
                     ->setName($product->getName())
                     ->setSku($product->getSku())
                     ->setCount($prod->getCount())
                     ->setNet($prod->getNet())
-                    ->setVat($product->getVat())
+                    ->setVat($prod->getVat())
+                    ->setSumNet($prod->getSumNet())
+                    ->setSumGross($prod->getSumGross())
             );
             $productsCollection->next();
         }

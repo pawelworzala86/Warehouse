@@ -46,8 +46,13 @@ class UpdateDocumentHandler extends Handler
 
         $products->rewind();
         while ($product = $products->current()) {
-            $pro = (new ProductModel)
+            $documentProduct = (new DocumentProductModel)
                 ->load($product->getId(), true);
+            $pro = null;
+            if($documentProduct->isLoaded()) {
+                $pro = (new ProductModel)
+                    ->load($documentProduct->getProductId());
+            }
             $oldProduct = (new DocumentProductModel)
                 ->where(new Filter([
                     'name' => 'added_by',
@@ -67,28 +72,34 @@ class UpdateDocumentHandler extends Handler
                 ->where(new Filter([
                     'name' => 'product_id',
                     'kind' => new FilterKind('='),
-                    'value' => $pro->getId(),
+                    'value' => $pro?$pro->getId():null,
                 ]))
                 ->load();
-            if($oldProduct->isLoaded()){
+            if($oldProduct->isLoaded()&&$documentProduct->isLoaded()){
                 if($product->getDeleted()){
                     (new DocumentProductModel)
-                        ->setUuid($oldProduct->getUuid())
+                        ->setUuid($product->getId())
                         ->delete();
                 }else {
                     (new DocumentProductModel)
-                        ->setUuid($oldProduct->getUuid())
+                        ->setUuid($product->getId())
                         ->setCount($product->getCount())
                         ->setNet($product->getNet())
+                        ->setSumNet($product->getSumNet())
+                        ->setSumGross($product->getSumGross())
+                        ->setVat($product->getVat())
                         ->update();
                 }
             }else {
                 (new DocumentProductModel)
                     ->setUuid(Common::getUuid())
                     ->setDocumentId($document->getId())
-                    ->setProductId($pro->getId())
+                    ->setProductId($pro?$pro->getId():null)
                     ->setCount($product->getCount())
                     ->setNet($product->getNet())
+                    ->setSumNet($product->getSumNet())
+                    ->setSumGross($product->getSumGross())
+                    ->setVat($product->getVat())
                     ->insert();
             }
             $products->next();
