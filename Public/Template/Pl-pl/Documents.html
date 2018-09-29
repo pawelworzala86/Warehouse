@@ -19,7 +19,7 @@
 <div class="container documents">
     <div class="buttons">
         <a ng-href="/dokument/dodaj">
-            <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj document</button>
+            <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj dokument</button>
         </a>
     </div>
     <div ng-show="documents.length==0" class="table-empty">
@@ -49,8 +49,7 @@
         <div class="header">
             <input type="checkbox" id="chbx" ng-click="checkAll(documents)"><label for="chbx" class="checkbox"></label>
             <div class="container">
-                <div class="col col-2">SKU</div>
-                <div class="col col-10">Nazwa produktu</div>
+                <div class="col col-2">Numer</div>
             </div>
         </div>
         <div ng-class="{'selected': document.selected, 'deleted': document.deleted}" class="row"
@@ -59,10 +58,9 @@
                 <input type="checkbox" id="chbx{{document.id}}" ng-click="check(document)"><label for="chbx{{document.id}}"
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in" ng-click="loadDetail(documents, document)">zoom_in</i>
-                <div class="col col-2">{{document.sku}}</div>
-                <div class="col col-10">{{document.name}}</div>
+                <div class="col col-2">{{document.name}}</div>
                 <div class="buttons">
-                    <a ng-href="/katalog/produkt/{{document.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
+                    <a ng-href="/dokument/{{document.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
                     <i data-nodrag="" class="material-icons" ng-click="deleteRow(documents, document)">delete_forever</i>
                 </div>
             </div>

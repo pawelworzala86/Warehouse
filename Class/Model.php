@@ -344,7 +344,7 @@ class Model
             time(),
             User::getId(),
             IP::getId(),
-            hex2bin($this->get('uuid')),
+            $this->get('uuid'),
         ];
         $this->db()->execute('update ' . $this->table . ' set deleted=?, deleted_by=?, deleted_ip_id=? where uuid=?', $params);
     }

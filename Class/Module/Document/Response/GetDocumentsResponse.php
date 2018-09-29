@@ -7,11 +7,12 @@ use App\Traits\FiltersTrait;
 use App\Type\CatalogProduct;
 use App\Type\CatalogProducts;
 use App\Traits\PaginationResponseTrait;
+use App\Type\Document;
 use App\Type\Documents;
 
 class GetDocumentsResponse extends Response
 {
-    public $fieldClass = CatalogProduct::class;
+    public $fieldClass = Document::class;
 
     use PaginationResponseTrait;
     use FiltersTrait;

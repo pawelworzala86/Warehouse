@@ -9,6 +9,19 @@ class DocumentModel extends Model
 {
     private $id;
     private $uuid;
+    private $name;
+
+    public function getName(): string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): DocumentModel
+    {
+        $this->set('name', $name);
+        $this->name = $name;
+        return $this;
+    }
 
     public function getId(): int
     {

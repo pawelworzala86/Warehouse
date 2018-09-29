@@ -40,11 +40,13 @@ class GetDocumentsHandler extends Handler
             ->load();
 
         $docs = new Documents;
+        $docs->rewind();
         $documents->rewind();
         while($document = $documents->current()){
             $docs->add(
                 (new Document)
-                ->setId($document->getUuid())
+                    ->setId($document->getUuid())
+                    ->setName($document->getName())
             );
             $documents->next();
         }

@@ -66,6 +66,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 controller: 'documentEditController',
                 pageName: 'Edycja dokumentu',
             })
+            .when(base + '/dokument/:id', {
+                templateUrl: templateBase + 'Document-Edit.html',
+                controller: 'documentEditController',
+                pageName: 'Edycja dokumentu',
+            })
         ;
 
         $locationProvider.html5Mode({
@@ -974,9 +979,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         $scope.deleteRow = function (rows, row) {
             deleteDialog.show({
-                title: 'Usunięcie produktu',
+                title: 'Usunięcie dokumentu',
                 templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/catalog/document/',
+                apiUrl: '/document/',
                 data: {
                     rows: rows,
                     row: row,

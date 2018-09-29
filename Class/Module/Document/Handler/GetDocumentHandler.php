@@ -8,9 +8,10 @@ use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
-use App\Module\Document\Request\CreateDocumentRequest;
+use App\Module\Document\Request\GetDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Document\Model\DocumentModel;
+use App\Module\Document\Response\GetDocumentResponse;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
 use App\Request\EmptyRequest;
@@ -22,15 +23,15 @@ use App\Type\Filter;
 use App\Type\FilterKind;
 use App\User;
 
-class CreateDocumentHandler extends Handler
+class GetDocumentHandler extends Handler
 {
-    public function __invoke(CreateDocumentRequest $request): SuccessResponse
+    public function __invoke(GetDocumentRequest $request): GetDocumentResponse
     {
         $document = (new DocumentModel)
-            ->setUuid(Common::getUuid())
-            ->setName($request->getName())
-            ->insert();
+            ->load($request->getId(), true);
 
-        return (new SuccessResponse);
+        return (new GetDocumentResponse)
+            ->setId($document->getUuid())
+            ->setName($document->getName());
     }
 }

@@ -17,7 +17,7 @@ class GetCatalogProductsResponse extends Response
 
     public $products;
 
-    function setProducts(CatalogProducts $products): GetDocumentsResponse
+    function setProducts(CatalogProducts $products): GetCatalogProductsResponse
     {
         $this->products = $products;
         return $this;
