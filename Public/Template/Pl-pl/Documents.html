@@ -1,0 +1,77 @@
+<style>
+    .zoom-in {
+        float: left;
+        position: absolute;
+        margin-top: -2px;
+        left: 20px;
+        opacity: 0.3;
+        cursor: pointer;
+    }
+
+    .zoom-in:hover {
+        opacity: 0.8;
+    }
+
+    .table .row, .table .header {
+        padding: 5px 50px 5px 50px;
+    }
+</style>
+<div class="container documents">
+    <div class="buttons">
+        <a ng-href="/dokument/dodaj">
+            <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj product</button>
+        </a>
+    </div>
+    <div ng-show="products.length==0" class="table-empty">
+        <p>Brak danych w tabeli do wyświetlenia</p>
+    </div>
+    <div ng-show="products.length>0" class="table" ng-controller="selectTableController">
+        {{setSelectOptions('/catalog/product', 'name', 'products')}}
+        <div ng-show="selects.length>0" class="box">
+            <div class="header">Zaznaczone elementy</div>
+            <div class="body">
+                <div class="selects">
+                    <div class="select" ng-repeat="select in selects">
+                        {{select.name}}
+                        <i data-nodrag="" class="material-icons"
+                           ng-click="delSelect(select, products)">delete_forever</i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="buttons">
+                    <button class="small">Pobierz PDF</button>
+                    <button class="small" ng-click="massXls(selects)">Pobierz XLS</button>
+                    <button class="small danger" ng-click="massDelete(products, selects)">Usuń</button>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <input type="checkbox" id="chbx" ng-click="checkAll(products)"><label for="chbx" class="checkbox"></label>
+            <div class="container">
+                <div class="col col-2">SKU</div>
+                <div class="col col-10">Nazwa produktu</div>
+            </div>
+        </div>
+        <div ng-class="{'selected': product.selected, 'deleted': product.deleted}" class="row"
+             ng-repeat="product in products">
+            <div class="head">
+                <input type="checkbox" id="chbx{{product.id}}" ng-click="check(product)"><label for="chbx{{product.id}}"
+                                                                                                class="checkbox"></label>
+                <i class="material-icons zoom-in" ng-click="loadDetail(products, product)">zoom_in</i>
+                <div class="col col-2">{{product.sku}}</div>
+                <div class="col col-10">{{product.name}}</div>
+                <div class="buttons">
+                    <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
+                    <i data-nodrag="" class="material-icons" ng-click="deleteRow(products, product)">delete_forever</i>
+                </div>
+            </div>
+            <div class="detail" ng-if="product.detail">
+                <p>{{product.detail.descriptionShort}}</p>
+            </div>
+        </div>
+        <fluentLoader ng-click="fluentLoad()">
+            <p>Pokaż więcej wyników</p>
+        </fluentLoader>
+    </div>
+</div>

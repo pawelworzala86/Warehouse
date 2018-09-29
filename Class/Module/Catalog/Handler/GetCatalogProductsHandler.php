@@ -4,7 +4,7 @@ namespace App\Module\Catalog\Handler;
 
 use App\Handler;
 use App\Module\Catalog\Collection\ProductCollection;
-use App\Module\Catalog\Response\GetCatalogProductsResponse;
+use App\Module\Catalog\Response\GetDocumentsResponse;
 use App\Request\PaginationRequest;
 use App\Type\CatalogProduct;
 use App\Type\CatalogProducts;
@@ -14,7 +14,7 @@ use App\User;
 
 class GetCatalogProductsHandler extends Handler
 {
-    public function __invoke(PaginationRequest $request): GetCatalogProductsResponse
+    public function __invoke(PaginationRequest $request): GetDocumentsResponse
     {
         //print_r([$request->getFilters()]);
         $productsCollection = (new ProductCollection)
@@ -45,7 +45,7 @@ class GetCatalogProductsHandler extends Handler
         }
         $productsCollection->rewind();
 
-        return (new GetCatalogProductsResponse)
+        return (new GetDocumentsResponse)
             ->setProducts($productsList)
             ->setPagination($productsCollection->getPagination())
             ->setFilters($productsCollection->getFilters())

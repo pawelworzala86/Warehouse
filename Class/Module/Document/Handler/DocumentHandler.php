@@ -12,763 +12,241 @@ use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Request\EmptyRequest;
 use App\Response\SuccessResponse;
 
-define('EURO', chr(128) );
-define('EURO_VAL', 6.55957 );
-
-class PDF_Invoice extends \FPDF
-{
-// private variables
-    var $colonnes;
-    var $format;
-    var $angle=0;
-
-// private functions
-    function RoundedRect($x, $y, $w, $h, $r, $style = '')
-    {
-        $k = $this->k;
-        $hp = $this->h;
-        if($style=='F')
-            $op='f';
-        elseif($style=='FD' || $style=='DF')
-            $op='B';
-        else
-            $op='S';
-        $MyArc = 4/3 * (sqrt(2) - 1);
-        $this->_out(sprintf('%.2F %.2F m',($x+$r)*$k,($hp-$y)*$k ));
-        $xc = $x+$w-$r ;
-        $yc = $y+$r;
-        $this->_out(sprintf('%.2F %.2F l', $xc*$k,($hp-$y)*$k ));
-
-        $this->_Arc($xc + $r*$MyArc, $yc - $r, $xc + $r, $yc - $r*$MyArc, $xc + $r, $yc);
-        $xc = $x+$w-$r ;
-        $yc = $y+$h-$r;
-        $this->_out(sprintf('%.2F %.2F l',($x+$w)*$k,($hp-$yc)*$k));
-        $this->_Arc($xc + $r, $yc + $r*$MyArc, $xc + $r*$MyArc, $yc + $r, $xc, $yc + $r);
-        $xc = $x+$r ;
-        $yc = $y+$h-$r;
-        $this->_out(sprintf('%.2F %.2F l',$xc*$k,($hp-($y+$h))*$k));
-        $this->_Arc($xc - $r*$MyArc, $yc + $r, $xc - $r, $yc + $r*$MyArc, $xc - $r, $yc);
-        $xc = $x+$r ;
-        $yc = $y+$r;
-        $this->_out(sprintf('%.2F %.2F l',($x)*$k,($hp-$yc)*$k ));
-        $this->_Arc($xc - $r, $yc - $r*$MyArc, $xc - $r*$MyArc, $yc - $r, $xc, $yc - $r);
-        $this->_out($op);
-    }
-
-    function _Arc($x1, $y1, $x2, $y2, $x3, $y3)
-    {
-        $h = $this->h;
-        $this->_out(sprintf('%.2F %.2F %.2F %.2F %.2F %.2F c ', $x1*$this->k, ($h-$y1)*$this->k,
-            $x2*$this->k, ($h-$y2)*$this->k, $x3*$this->k, ($h-$y3)*$this->k));
-    }
-
-    function Rotate($angle, $x=-1, $y=-1)
-    {
-        if($x==-1)
-            $x=$this->x;
-        if($y==-1)
-            $y=$this->y;
-        if($this->angle!=0)
-            $this->_out('Q');
-        $this->angle=$angle;
-        if($angle!=0)
-        {
-            $angle*=M_PI/180;
-            $c=cos($angle);
-            $s=sin($angle);
-            $cx=$x*$this->k;
-            $cy=($this->h-$y)*$this->k;
-            $this->_out(sprintf('q %.5F %.5F %.5F %.5F %.2F %.2F cm 1 0 0 1 %.2F %.2F cm',$c,$s,-$s,$c,$cx,$cy,-$cx,-$cy));
-        }
-    }
-
-    function _endpage()
-    {
-        if($this->angle!=0)
-        {
-            $this->angle=0;
-            $this->_out('Q');
-        }
-        parent::_endpage();
-    }
-
-// public functions
-    function sizeOfText( $texte, $largeur )
-    {
-        $index    = 0;
-        $nb_lines = 0;
-        $loop     = TRUE;
-        while ( $loop )
-        {
-            $pos = strpos($texte, "\n");
-            if (!$pos)
-            {
-                $loop  = FALSE;
-                $ligne = $texte;
-            }
-            else
-            {
-                $ligne  = substr( $texte, $index, $pos);
-                $texte = substr( $texte, $pos+1 );
-            }
-            $length = floor( $this->GetStringWidth( $ligne ) );
-            $res = 1 + floor( $length / $largeur) ;
-            $nb_lines += $res;
-        }
-        return $nb_lines;
-    }
-
-// Company
-    function addSociete( $nom, $adresse )
-    {
-        $x1 = 10;
-        $y1 = 8;
-        //Positionnement en bas
-        $this->SetXY( $x1, $y1 );
-        $this->SetFont('Arial','B',12);
-        $length = $this->GetStringWidth( $nom );
-        $this->Cell( $length, 2, $nom);
-        $this->SetXY( $x1, $y1 + 4 );
-        $this->SetFont('Arial','',10);
-        $length = $this->GetStringWidth( $adresse );
-        //Coordonnées de la société
-        $lignes = $this->sizeOfText( $adresse, $length) ;
-        $this->MultiCell($length, 4, $adresse);
-    }
-
-// Label and number of invoice/estimate
-    function fact_dev( $libelle, $num )
-    {
-        $r1  = $this->w - 80;
-        $r2  = $r1 + 68;
-        $y1  = 6;
-        $y2  = $y1 + 2;
-        $mid = ($r1 + $r2 ) / 2;
-
-        $texte  = $libelle . " EN " . EURO . " N° : " . $num;
-        $szfont = 12;
-        $loop   = 0;
-
-        while ( $loop == 0 )
-        {
-            $this->SetFont( "Arial", "B", $szfont );
-            $sz = $this->GetStringWidth( $texte );
-            if ( ($r1+$sz) > $r2 )
-                $szfont --;
-            else
-                $loop ++;
-        }
-
-        $this->SetLineWidth(0.1);
-        $this->SetFillColor(192);
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), $y2, 2.5, 'DF');
-        $this->SetXY( $r1+1, $y1+2);
-        $this->Cell($r2-$r1 -1,5, $texte, 0, 0, "C" );
-    }
-
-// Estimate
-    function addDevis( $numdev )
-    {
-        $string = sprintf("DEV%04d",$numdev);
-        $this->fact_dev( "Devis", $string );
-    }
-
-// Invoice
-    function addFacture( $numfact )
-    {
-        $string = sprintf("FA%04d",$numfact);
-        $this->fact_dev( "Facture", $string );
-    }
-
-    function addDate( $date )
-    {
-        $r1  = $this->w - 61;
-        $r2  = $r1 + 30;
-        $y1  = 17;
-        $y2  = $y1 ;
-        $mid = $y1 + ($y2 / 2);
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), $y2, 3.5, 'D');
-        $this->Line( $r1, $mid, $r2, $mid);
-        $this->SetXY( $r1 + ($r2-$r1)/2 - 5, $y1+3 );
-        $this->SetFont( "Arial", "B", 10);
-        $this->Cell(10,5, "DATE", 0, 0, "C");
-        $this->SetXY( $r1 + ($r2-$r1)/2 - 5, $y1+9 );
-        $this->SetFont( "Arial", "", 10);
-        $this->Cell(10,5,$date, 0,0, "C");
-    }
-
-    function addClient( $ref )
-    {
-        $r1  = $this->w - 31;
-        $r2  = $r1 + 19;
-        $y1  = 17;
-        $y2  = $y1;
-        $mid = $y1 + ($y2 / 2);
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), $y2, 3.5, 'D');
-        $this->Line( $r1, $mid, $r2, $mid);
-        $this->SetXY( $r1 + ($r2-$r1)/2 - 5, $y1+3 );
-        $this->SetFont( "Arial", "B", 10);
-        $this->Cell(10,5, "CLIENT", 0, 0, "C");
-        $this->SetXY( $r1 + ($r2-$r1)/2 - 5, $y1 + 9 );
-        $this->SetFont( "Arial", "", 10);
-        $this->Cell(10,5,$ref, 0,0, "C");
-    }
-
-    function addPageNumber( $page )
-    {
-        $r1  = $this->w - 80;
-        $r2  = $r1 + 19;
-        $y1  = 17;
-        $y2  = $y1;
-        $mid = $y1 + ($y2 / 2);
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), $y2, 3.5, 'D');
-        $this->Line( $r1, $mid, $r2, $mid);
-        $this->SetXY( $r1 + ($r2-$r1)/2 - 5, $y1+3 );
-        $this->SetFont( "Arial", "B", 10);
-        $this->Cell(10,5, "PAGE", 0, 0, "C");
-        $this->SetXY( $r1 + ($r2-$r1)/2 - 5, $y1 + 9 );
-        $this->SetFont( "Arial", "", 10);
-        $this->Cell(10,5,$page, 0,0, "C");
-    }
-
-// Client address
-    function addClientAdresse( $adresse )
-    {
-        $r1     = $this->w - 80;
-        $r2     = $r1 + 68;
-        $y1     = 40;
-        $this->SetXY( $r1, $y1);
-        $this->MultiCell( 60, 4, $adresse);
-    }
-
-// Mode of payment
-    function addReglement( $mode )
-    {
-        $r1  = 10;
-        $r2  = $r1 + 60;
-        $y1  = 80;
-        $y2  = $y1+10;
-        $mid = $y1 + (($y2-$y1) / 2);
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), ($y2-$y1), 2.5, 'D');
-        $this->Line( $r1, $mid, $r2, $mid);
-        $this->SetXY( $r1 + ($r2-$r1)/2 -5 , $y1+1 );
-        $this->SetFont( "Arial", "B", 10);
-        $this->Cell(10,4, "MODE DE REGLEMENT", 0, 0, "C");
-        $this->SetXY( $r1 + ($r2-$r1)/2 -5 , $y1 + 5 );
-        $this->SetFont( "Arial", "", 10);
-        $this->Cell(10,5,$mode, 0,0, "C");
-    }
-
-// Expiry date
-    function addEcheance( $date )
-    {
-        $r1  = 80;
-        $r2  = $r1 + 40;
-        $y1  = 80;
-        $y2  = $y1+10;
-        $mid = $y1 + (($y2-$y1) / 2);
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), ($y2-$y1), 2.5, 'D');
-        $this->Line( $r1, $mid, $r2, $mid);
-        $this->SetXY( $r1 + ($r2 - $r1)/2 - 5 , $y1+1 );
-        $this->SetFont( "Arial", "B", 10);
-        $this->Cell(10,4, "DATE D'ECHEANCE", 0, 0, "C");
-        $this->SetXY( $r1 + ($r2-$r1)/2 - 5 , $y1 + 5 );
-        $this->SetFont( "Arial", "", 10);
-        $this->Cell(10,5,$date, 0,0, "C");
-    }
-
-// VAT number
-    function addNumTVA($tva)
-    {
-        $this->SetFont( "Arial", "B", 10);
-        $r1  = $this->w - 80;
-        $r2  = $r1 + 70;
-        $y1  = 80;
-        $y2  = $y1+10;
-        $mid = $y1 + (($y2-$y1) / 2);
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), ($y2-$y1), 2.5, 'D');
-        $this->Line( $r1, $mid, $r2, $mid);
-        $this->SetXY( $r1 + 16 , $y1+1 );
-        $this->Cell(40, 4, "TVA Intracommunautaire", '', '', "C");
-        $this->SetFont( "Arial", "", 10);
-        $this->SetXY( $r1 + 16 , $y1+5 );
-        $this->Cell(40, 5, $tva, '', '', "C");
-    }
-
-    function addReference($ref)
-    {
-        $this->SetFont( "Arial", "", 10);
-        $length = $this->GetStringWidth( "Références : " . $ref );
-        $r1  = 10;
-        $r2  = $r1 + $length;
-        $y1  = 92;
-        $y2  = $y1+5;
-        $this->SetXY( $r1 , $y1 );
-        $this->Cell($length,4, "Références : " . $ref);
-    }
-
-    function addCols( $tab )
-    {
-        global $colonnes;
-
-        $r1  = 10;
-        $r2  = $this->w - ($r1 * 2) ;
-        $y1  = 100;
-        $y2  = $this->h - 50 - $y1;
-        $this->SetXY( $r1, $y1 );
-        $this->Rect( $r1, $y1, $r2, $y2, "D");
-        $this->Line( $r1, $y1+6, $r1+$r2, $y1+6);
-        $colX = $r1;
-        $colonnes = $tab;
-        while ( list( $lib, $pos ) = each ($tab) )
-        {
-            $this->SetXY( $colX, $y1+2 );
-            $this->Cell( $pos, 1, $lib, 0, 0, "C");
-            $colX += $pos;
-            $this->Line( $colX, $y1, $colX, $y1+$y2);
-        }
-    }
-
-    function addLineFormat( $tab )
-    {
-        global $format, $colonnes;
-
-        while ( list( $lib, $pos ) = each ($colonnes) )
-        {
-            if ( isset( $tab["$lib"] ) )
-                $format[ $lib ] = $tab["$lib"];
-        }
-    }
-
-    function lineVert( $tab )
-    {
-        global $colonnes;
-
-        reset( $colonnes );
-        $maxSize=0;
-        while ( list( $lib, $pos ) = each ($colonnes) )
-        {
-            $texte = $tab[ $lib ];
-            $longCell  = $pos -2;
-            $size = $this->sizeOfText( $texte, $longCell );
-            if ($size > $maxSize)
-                $maxSize = $size;
-        }
-        return $maxSize;
-    }
-
-// add a line to the invoice/estimate
-    /*    $ligne = array( "REFERENCE"    => $prod["ref"],
-                          "DESIGNATION"  => $libelle,
-                          "QUANTITE"     => sprintf( "%.2F", $prod["qte"]) ,
-                          "P.U. HT"      => sprintf( "%.2F", $prod["px_unit"]),
-                          "MONTANT H.T." => sprintf ( "%.2F", $prod["qte"] * $prod["px_unit"]) ,
-                          "TVA"          => $prod["tva"] );
-    */
-    function addLine( $ligne, $tab )
-    {
-        global $colonnes, $format;
-
-        $ordonnee     = 10;
-        $maxSize      = $ligne;
-
-        reset( $colonnes );
-        while ( list( $lib, $pos ) = each ($colonnes) )
-        {
-            $longCell  = $pos -2;
-            $texte     = $tab[ $lib ];
-            $length    = $this->GetStringWidth( $texte );
-            $tailleTexte = $this->sizeOfText( $texte, $length );
-            $formText  = $format[ $lib ];
-            $this->SetXY( $ordonnee, $ligne-1);
-            $this->MultiCell( $longCell, 4 , $texte, 0, $formText);
-            if ( $maxSize < ($this->GetY()  ) )
-                $maxSize = $this->GetY() ;
-            $ordonnee += $pos;
-        }
-        return ( $maxSize - $ligne );
-    }
-
-    function addRemarque($remarque)
-    {
-        $this->SetFont( "Arial", "", 10);
-        $length = $this->GetStringWidth( "Remarque : " . $remarque );
-        $r1  = 10;
-        $r2  = $r1 + $length;
-        $y1  = $this->h - 45.5;
-        $y2  = $y1+5;
-        $this->SetXY( $r1 , $y1 );
-        $this->Cell($length,4, "Remarque : " . $remarque);
-    }
-
-    function addCadreTVAs()
-    {
-        $this->SetFont( "Arial", "B", 8);
-        $r1  = 10;
-        $r2  = $r1 + 120;
-        $y1  = $this->h - 40;
-        $y2  = $y1+20;
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), ($y2-$y1), 2.5, 'D');
-        $this->Line( $r1, $y1+4, $r2, $y1+4);
-        $this->Line( $r1+5,  $y1+4, $r1+5, $y2); // avant BASES HT
-        $this->Line( $r1+27, $y1, $r1+27, $y2);  // avant REMISE
-        $this->Line( $r1+43, $y1, $r1+43, $y2);  // avant MT TVA
-        $this->Line( $r1+63, $y1, $r1+63, $y2);  // avant % TVA
-        $this->Line( $r1+75, $y1, $r1+75, $y2);  // avant PORT
-        $this->Line( $r1+91, $y1, $r1+91, $y2);  // avant TOTAUX
-        $this->SetXY( $r1+9, $y1);
-        $this->Cell(10,4, "BASES HT");
-        $this->SetX( $r1+29 );
-        $this->Cell(10,4, "REMISE");
-        $this->SetX( $r1+48 );
-        $this->Cell(10,4, "MT TVA");
-        $this->SetX( $r1+63 );
-        $this->Cell(10,4, "% TVA");
-        $this->SetX( $r1+78 );
-        $this->Cell(10,4, "PORT");
-        $this->SetX( $r1+100 );
-        $this->Cell(10,4, "TOTAUX");
-        $this->SetFont( "Arial", "B", 6);
-        $this->SetXY( $r1+93, $y2 - 8 );
-        $this->Cell(6,0, "H.T.   :");
-        $this->SetXY( $r1+93, $y2 - 3 );
-        $this->Cell(6,0, "T.V.A. :");
-    }
-
-    function addCadreEurosFrancs()
-    {
-        $r1  = $this->w - 70;
-        $r2  = $r1 + 60;
-        $y1  = $this->h - 40;
-        $y2  = $y1+20;
-        $this->RoundedRect($r1, $y1, ($r2 - $r1), ($y2-$y1), 2.5, 'D');
-        $this->Line( $r1+20,  $y1, $r1+20, $y2); // avant EUROS
-        $this->Line( $r1+20, $y1+4, $r2, $y1+4); // Sous Euros & Francs
-        $this->Line( $r1+38,  $y1, $r1+38, $y2); // Entre Euros & Francs
-        $this->SetFont( "Arial", "B", 8);
-        $this->SetXY( $r1+22, $y1 );
-        $this->Cell(15,4, "EUROS", 0, 0, "C");
-        $this->SetFont( "Arial", "", 8);
-        $this->SetXY( $r1+42, $y1 );
-        $this->Cell(15,4, "FRANCS", 0, 0, "C");
-        $this->SetFont( "Arial", "B", 6);
-        $this->SetXY( $r1, $y1+5 );
-        $this->Cell(20,4, "TOTAL TTC", 0, 0, "C");
-        $this->SetXY( $r1, $y1+10 );
-        $this->Cell(20,4, "ACOMPTE", 0, 0, "C");
-        $this->SetXY( $r1, $y1+15 );
-        $this->Cell(20,4, "NET A PAYER", 0, 0, "C");
-    }
-
-// remplit les cadres TVA / Totaux et la remarque
-// params  = array( "RemiseGlobale" => [0|1],
-//                      "remise_tva"     => [1|2...],  // {la remise s'applique sur ce code TVA}
-//                      "remise"         => value,     // {montant de la remise}
-//                      "remise_percent" => percent,   // {pourcentage de remise sur ce montant de TVA}
-//                  "FraisPort"     => [0|1],
-//                      "portTTC"        => value,     // montant des frais de ports TTC
-//                                                     // par defaut la TVA = 19.6 %
-//                      "portHT"         => value,     // montant des frais de ports HT
-//                      "portTVA"        => tva_value, // valeur de la TVA a appliquer sur le montant HT
-//                  "AccompteExige" => [0|1],
-//                      "accompte"         => value    // montant de l'acompte (TTC)
-//                      "accompte_percent" => percent  // pourcentage d'acompte (TTC)
-//                  "Remarque" => "texte"              // texte
-// tab_tva = array( "1"       => 19.6,
-//                  "2"       => 5.5, ... );
-// invoice = array( "px_unit" => value,
-//                  "qte"     => qte,
-//                  "tva"     => code_tva );
-    function addTVAs( $params, $tab_tva, $invoice )
-    {
-        $this->SetFont('Arial','',8);
-
-        reset ($invoice);
-        $px = array();
-        while ( list( $k, $prod) = each( $invoice ) )
-        {
-            $tva = $prod["tva"];
-            @ $px[$tva] += $prod["qte"] * $prod["px_unit"];
-        }
-
-        $prix     = array();
-        $totalHT  = 0;
-        $totalTTC = 0;
-        $totalTVA = 0;
-        $y = 261;
-        reset ($px);
-        natsort( $px );
-        while ( list($code_tva, $articleHT) = each( $px ) )
-        {
-            $tva = $tab_tva[$code_tva];
-            $this->SetXY(17, $y);
-            $this->Cell( 19,4, sprintf("%0.2F", $articleHT),'', '','R' );
-            if ( $params["RemiseGlobale"]==1 )
-            {
-                if ( $params["remise_tva"] == $code_tva )
-                {
-                    $this->SetXY( 37.5, $y );
-                    if ($params["remise"] > 0 )
-                    {
-                        if ( is_int( $params["remise"] ) )
-                            $l_remise = $param["remise"];
-                        else
-                            $l_remise = sprintf ("%0.2F", $params["remise"]);
-                        $this->Cell( 14.5,4, $l_remise, '', '', 'R' );
-                        $articleHT -= $params["remise"];
-                    }
-                    else if ( $params["remise_percent"] > 0 )
-                    {
-                        $rp = $params["remise_percent"];
-                        if ( $rp > 1 )
-                            $rp /= 100;
-                        $rabais = $articleHT * $rp;
-                        $articleHT -= $rabais;
-                        if ( is_int($rabais) )
-                            $l_remise = $rabais;
-                        else
-                            $l_remise = sprintf ("%0.2F", $rabais);
-                        $this->Cell( 14.5,4, $l_remise, '', '', 'R' );
-                    }
-                    else
-                        $this->Cell( 14.5,4, "ErrorRem", '', '', 'R' );
-                }
-            }
-            $totalHT += $articleHT;
-            $totalTTC += $articleHT * ( 1 + $tva/100 );
-            $tmp_tva = $articleHT * $tva/100;
-            $a_tva[ $code_tva ] = $tmp_tva;
-            $totalTVA += $tmp_tva;
-            $this->SetXY(11, $y);
-            $this->Cell( 5,4, $code_tva);
-            $this->SetXY(53, $y);
-            $this->Cell( 19,4, sprintf("%0.2F",$tmp_tva),'', '' ,'R');
-            $this->SetXY(74, $y);
-            $this->Cell( 10,4, sprintf("%0.2F",$tva) ,'', '', 'R');
-            $y+=4;
-        }
-
-        if ( $params["FraisPort"] == 1 )
-        {
-            if ( $params["portTTC"] > 0 )
-            {
-                $pTTC = sprintf("%0.2F", $params["portTTC"]);
-                $pHT  = sprintf("%0.2F", $pTTC / 1.196);
-                $pTVA = sprintf("%0.2F", $pHT * 0.196);
-                $this->SetFont('Arial','',6);
-                $this->SetXY(85, 261 );
-                $this->Cell( 6 ,4, "HT : ", '', '', '');
-                $this->SetXY(92, 261 );
-                $this->Cell( 9 ,4, $pHT, '', '', 'R');
-                $this->SetXY(85, 265 );
-                $this->Cell( 6 ,4, "TVA : ", '', '', '');
-                $this->SetXY(92, 265 );
-                $this->Cell( 9 ,4, $pTVA, '', '', 'R');
-                $this->SetXY(85, 269 );
-                $this->Cell( 6 ,4, "TTC : ", '', '', '');
-                $this->SetXY(92, 269 );
-                $this->Cell( 9 ,4, $pTTC, '', '', 'R');
-                $this->SetFont('Arial','',8);
-                $totalHT += $pHT;
-                $totalTVA += $pTVA;
-                $totalTTC += $pTTC;
-            }
-            else if ( $params["portHT"] > 0 )
-            {
-                $pHT  = sprintf("%0.2F", $params["portHT"]);
-                $pTVA = sprintf("%0.2F", $params["portTVA"] * $pHT / 100 );
-                $pTTC = sprintf("%0.2F", $pHT + $pTVA);
-                $this->SetFont('Arial','',6);
-                $this->SetXY(85, 261 );
-                $this->Cell( 6 ,4, "HT : ", '', '', '');
-                $this->SetXY(92, 261 );
-                $this->Cell( 9 ,4, $pHT, '', '', 'R');
-                $this->SetXY(85, 265 );
-                $this->Cell( 6 ,4, "TVA : ", '', '', '');
-                $this->SetXY(92, 265 );
-                $this->Cell( 9 ,4, $pTVA, '', '', 'R');
-                $this->SetXY(85, 269 );
-                $this->Cell( 6 ,4, "TTC : ", '', '', '');
-                $this->SetXY(92, 269 );
-                $this->Cell( 9 ,4, $pTTC, '', '', 'R');
-                $this->SetFont('Arial','',8);
-                $totalHT += $pHT;
-                $totalTVA += $pTVA;
-                $totalTTC += $pTTC;
-            }
-        }
-
-        $this->SetXY(114,266.4);
-        $this->Cell(15,4, sprintf("%0.2F", $totalHT), '', '', 'R' );
-        $this->SetXY(114,271.4);
-        $this->Cell(15,4, sprintf("%0.2F", $totalTVA), '', '', 'R' );
-
-        $params["totalHT"] = $totalHT;
-        $params["TVA"] = $totalTVA;
-        $accompteTTC=0;
-        if ( $params["AccompteExige"] == 1 )
-        {
-            if ( $params["accompte"] > 0 )
-            {
-                $accompteTTC=sprintf ("%.2F", $params["accompte"]);
-                if ( strlen ($params["Remarque"]) == 0 )
-                    $this->addRemarque( "Accompte de $accompteTTC Euros exigé à la commande.");
-                else
-                    $this->addRemarque( $params["Remarque"] );
-            }
-            else if ( $params["accompte_percent"] > 0 )
-            {
-                $percent = $params["accompte_percent"];
-                if ( $percent > 1 )
-                    $percent /= 100;
-                $accompteTTC=sprintf("%.2F", $totalTTC * $percent);
-                $percent100 = $percent * 100;
-                if ( strlen ($params["Remarque"]) == 0 )
-                    $this->addRemarque( "Accompte de $percent100 % (soit $accompteTTC Euros) exigé à la commande." );
-                else
-                    $this->addRemarque( $params["Remarque"] );
-            }
-            else
-                $this->addRemarque( "Drôle d'acompte !!! " . $params["Remarque"]);
-        }
-        else
-        {
-            if ( strlen ($params["Remarque"]) > 0 )
-                $this->addRemarque( $params["Remarque"] );
-        }
-        $re  = $this->w - 50;
-        $rf  = $this->w - 29;
-        $y1  = $this->h - 40;
-        $this->SetFont( "Arial", "", 8);
-        $this->SetXY( $re, $y1+5 );
-        $this->Cell( 17,4, sprintf("%0.2F", $totalTTC), '', '', 'R');
-        $this->SetXY( $re, $y1+10 );
-        $this->Cell( 17,4, sprintf("%0.2F", $accompteTTC), '', '', 'R');
-        $this->SetXY( $re, $y1+14.8 );
-        $this->Cell( 17,4, sprintf("%0.2F", $totalTTC - $accompteTTC), '', '', 'R');
-        $this->SetXY( $rf, $y1+5 );
-        $this->Cell( 17,4, sprintf("%0.2F", $totalTTC * EURO_VAL), '', '', 'R');
-        $this->SetXY( $rf, $y1+10 );
-        $this->Cell( 17,4, sprintf("%0.2F", $accompteTTC * EURO_VAL), '', '', 'R');
-        $this->SetXY( $rf, $y1+14.8 );
-        $this->Cell( 17,4, sprintf("%0.2F", ($totalTTC - $accompteTTC) * EURO_VAL), '', '', 'R');
-    }
-
-// add a watermark (temporary estimate, DUPLICATA...)
-// call this method first
-    function temporaire( $texte )
-    {
-        $this->SetFont('Arial','B',50);
-        $this->SetTextColor(203,203,203);
-        $this->Rotate(45,55,190);
-        $this->Text(55,190,$texte);
-        $this->Rotate(0);
-        $this->SetTextColor(0,0,0);
-    }
-
-}
-
 class DocumentHandler extends Handler
 {
     public function __invoke(EmptyRequest $request): SuccessResponse
     {
         error_reporting(E_ERROR);
 
-        $pdf = new PDF_Invoice( 'P', 'mm', 'A4' );
-        $pdf->AddPage();
-        $pdf->addSociete( "MaSociete",
-            "MonAdresse\n" .
-            "75000 PARIS\n".
-            "R.C.S. PARIS B 000 000 007\n" .
-            "Capital : 18000 " . EURO );
-        $pdf->fact_dev( "Devis ", "TEMPO" );
-        $pdf->temporaire( "Devis temporaire" );
-        $pdf->addDate( "03/12/2003");
-        $pdf->addClient("CL01");
-        $pdf->addPageNumber("1");
-        $pdf->addClientAdresse("Ste\nM. XXXX\n3ème étage\n33, rue d'ailleurs\n75000 PARIS");
-        $pdf->addReglement("Chèque à réception de facture");
-        $pdf->addEcheance("03/12/2003");
-        $pdf->addNumTVA("FR888777666");
-        $pdf->addReference("Devis ... du ....");
-        $cols=array( "REFERENCE"    => 23,
-            "DESIGNATION"  => 78,
-            "QUANTITE"     => 22,
-            "P.U. HT"      => 26,
-            "MONTANT H.T." => 30,
-            "TVA"          => 11 );
-        $pdf->addCols( $cols);
-        $cols=array( "REFERENCE"    => "L",
-            "DESIGNATION"  => "L",
-            "QUANTITE"     => "C",
-            "P.U. HT"      => "R",
-            "MONTANT H.T." => "R",
-            "TVA"          => "C" );
-        $pdf->addLineFormat( $cols);
-        $pdf->addLineFormat($cols);
+        $pdf = new \FPDF( 'P', 'mm', 'A4' );
 
-        $y    = 109;
-        $line = array( "REFERENCE"    => "REF1",
-            "DESIGNATION"  => "Carte Mère MSI 6378\n" .
-                "Processeur AMD 1Ghz\n" .
-                "128Mo SDRAM, 30 Go Disque, CD-ROM, Floppy, Carte vidéo",
-            "QUANTITE"     => "1",
-            "P.U. HT"      => "600.00",
-            "MONTANT H.T." => "600.00",
-            "TVA"          => "1" );
-        $size = $pdf->addLine( $y, $line );
-        $y   += $size + 2;
+        // on declare $mysqli apres !
+        $mysqli = new mysqli(HOST, USER, PASSWORD, DATABASE);
+        // cnx a la base
+        mysqli_select_db($mysqli, DATABASE) or die('Erreur de connection à la BDD : ' .mysqli_connect_error());
+        // FORCE UTF-8
+//    mysqli_query($mysqli, "SET NAMES UTF8");
 
-        $line = array( "REFERENCE"    => "REF2",
-            "DESIGNATION"  => "Câble RS232",
-            "QUANTITE"     => "1",
-            "P.U. HT"      => "10.00",
-            "MONTANT H.T." => "60.00",
-            "TVA"          => "1" );
-        $size = $pdf->addLine( $y, $line );
-        $y   += $size + 2;
 
-        $pdf->addCadreTVAs();
+        $var_id_facture = $_GET['id_param'];
 
-// invoice = array( "px_unit" => value,
-//                  "qte"     => qte,
-//                  "tva"     => code_tva );
-// tab_tva = array( "1"       => 19.6,
-//                  "2"       => 5.5, ... );
-// params  = array( "RemiseGlobale" => [0|1],
-//                      "remise_tva"     => [1|2...],  // {la remise s'applique sur ce code TVA}
-//                      "remise"         => value,     // {montant de la remise}
-//                      "remise_percent" => percent,   // {pourcentage de remise sur ce montant de TVA}
-//                  "FraisPort"     => [0|1],
-//                      "portTTC"        => value,     // montant des frais de ports TTC
-//                                                     // par defaut la TVA = 19.6 %
-//                      "portHT"         => value,     // montant des frais de ports HT
-//                      "portTVA"        => tva_value, // valeur de la TVA a appliquer sur le montant HT
-//                  "AccompteExige" => [0|1],
-//                      "accompte"         => value    // montant de l'acompte (TTC)
-//                      "accompte_percent" => percent  // pourcentage d'acompte (TTC)
-//                  "Remarque" => "texte"              // texte
-        $tot_prods = array( array ( "px_unit" => 600, "qte" => 1, "tva" => 1 ),
-            array ( "px_unit" =>  10, "qte" => 1, "tva" => 1 ));
-        $tab_tva = array( "1"       => 19.6,
-            "2"       => 5.5);
-        $params  = array( "RemiseGlobale" => 1,
-            "remise_tva"     => 1,       // {la remise s'applique sur ce code TVA}
-            "remise"         => 0,       // {montant de la remise}
-            "remise_percent" => 10,      // {pourcentage de remise sur ce montant de TVA}
-            "FraisPort"     => 1,
-            "portTTC"        => 10,      // montant des frais de ports TTC
-            // par defaut la TVA = 19.6 %
-            "portHT"         => 0,       // montant des frais de ports HT
-            "portTVA"        => 19.6,    // valeur de la TVA a appliquer sur le montant HT
-            "AccompteExige" => 1,
-            "accompte"         => 0,     // montant de l'acompte (TTC)
-            "accompte_percent" => 15,    // pourcentage d'acompte (TTC)
-            "Remarque" => "Avec un acompte, svp..." );
+        // on sup les 2 cm en bas
+        $pdf->SetAutoPagebreak(False);
+        $pdf->SetMargins(0,0,0);
 
-        $pdf->addTVAs( $params, $tab_tva, $tot_prods);
-        $pdf->addCadreEurosFrancs();
-        $pdf->Output();
+        // nb de page pour le multi-page : 18 lignes
+        $sql = 'select count(*) FROM ligne_facture where id_facture=' .$var_id_facture;
+        $result = mysqli_query($mysqli, $sql)  or die ('Erreur SQL : ' .$sql .mysqli_connect_error() );
+        $row_client = mysqli_fetch_row($result);
+        mysqli_free_result($result);
+        $nb_page = $row_client[0];
+        $sql = 'select abs(FLOOR(-' . $nb_page . '/18))';
+        $result = mysqli_query($mysqli, $sql)  or die ('Erreur SQL : ' .$sql .mysqli_connect_error() );
+        $row_client = mysqli_fetch_row($result);
+        mysqli_free_result($result);
+        $nb_page = $row_client[0];
+
+        $num_page = 1; $limit_inf = 0; $limit_sup = 18;
+        While ($num_page <= $nb_page)
+        {
+            $pdf->AddPage();
+
+            // logo : 80 de largeur et 55 de hauteur
+            $pdf->Image('logo_societe.png', 10, 10, 80, 55);
+
+            // n° page en haute à droite
+            $pdf->SetXY( 120, 5 ); $pdf->SetFont( "Arial", "B", 12 ); $pdf->Cell( 160, 8, $num_page . '/' . $nb_page, 0, 0, 'C');
+
+            // n° facture, date echeance et reglement et obs
+            $select = 'select date,numero,mnt_ttc,mnt_ht,mnt_tva,obs,reglement,date_echeance FROM facture where id_facture=' .$var_id_facture;
+            $result = mysqli_query($mysqli, $select)  or die ('Erreur SQL : ' .$select .mysqli_connect_error() );
+            $row = mysqli_fetch_row($result);
+            mysqli_free_result($result);
+
+            $champ_date = date_create($row[0]); $annee = date_format($champ_date, 'Y');
+            $num_fact = "FACTURE N° " . $annee .'-' . str_pad($row[1], 4, '0', STR_PAD_LEFT);
+            $pdf->SetLineWidth(0.1); $pdf->SetFillColor(192); $pdf->Rect(120, 15, 85, 8, "DF");
+            $pdf->SetXY( 120, 15 ); $pdf->SetFont( "Arial", "B", 12 ); $pdf->Cell( 85, 8, $num_fact, 0, 0, 'C');
+
+            // nom du fichier final
+            $nom_file = "fact_" . $annee .'-' . str_pad($row[1], 4, '0', STR_PAD_LEFT) . ".pdf";
+
+            // date facture
+            $champ_date = date_create($row[0]); $date_fact = date_format($champ_date, 'd/m/Y');
+            $pdf->SetFont('Arial','',11); $pdf->SetXY( 122, 30 );
+            $pdf->Cell( 60, 8, "MA VILLE, le " . $date_fact, 0, 0, '');
+
+            // si derniere page alors afficher total
+            if ($num_page == $nb_page)
+            {
+                // les totaux, on n'affiche que le HT. le cadre après les lignes, demarre a 213
+                $pdf->SetLineWidth(0.1); $pdf->SetFillColor(192); $pdf->Rect(5, 213, 90, 8, "DF");
+                // HT, la TVA et TTC sont calculés après
+                $nombre_format_francais = "Total HT : " . number_format($row[3], 2, ',', ' ') . " €";
+                $pdf->SetFont('Arial','',10); $pdf->SetXY( 95, 213 ); $pdf->Cell( 63, 8, $nombre_format_francais, 0, 0, 'C');
+                // en bas à droite
+                $pdf->SetFont('Arial','B',8); $pdf->SetXY( 181, 227 ); $pdf->Cell( 24, 6, number_format($row[3], 2, ',', ' '), 0, 0, 'R');
+
+                // trait vertical cadre totaux, 8 de hauteur -> 213 + 8 = 221
+                $pdf->Rect(5, 213, 200, 8, "D"); $pdf->Line(95, 213, 95, 221); $pdf->Line(158, 213, 158, 221);
+
+                // reglement
+                $pdf->SetXY( 5, 225 ); $pdf->Cell( 38, 5, "Mode de Règlement :", 0, 0, 'R'); $pdf->Cell( 55, 5, $row[6], 0, 0, 'L');
+                // echeance
+                $champ_date = date_create($row[7]); $date_ech = date_format($champ_date, 'd/m/Y');
+                $pdf->SetXY( 5, 230 ); $pdf->Cell( 38, 5, "Date Echéance :", 0, 0, 'R'); $pdf->Cell( 38, 5, $date_ech, 0, 0, 'L');
+            }
+
+            // observations
+            $pdf->SetFont( "Arial", "BU", 10 ); $pdf->SetXY( 5, 75 ) ; $pdf->Cell($pdf->GetStringWidth("Observations"), 0, "Observations", 0, "L");
+            $pdf->SetFont( "Arial", "", 10 ); $pdf->SetXY( 5, 78 ) ; $pdf->MultiCell(190, 4, $row[5], 0, "L");
+
+            // adr fact du client
+            $select = "select nom,adr1,adr2,adr3,cp,ville,num_tva from client c join facture f on c.id_client=f.id_client where id_facture=" . $var_id_facture;
+            $result = mysqli_query($mysqli, $select)  or die ('Erreur SQL : ' .$select .mysqli_connect_error() );
+            $row_client = mysqli_fetch_row($result);
+            mysqli_free_result($result);
+            $pdf->SetFont('Arial','B',11); $x = 110 ; $y = 50;
+            $pdf->SetXY( $x, $y ); $pdf->Cell( 100, 8, $row_client[0], 0, 0, ''); $y += 4;
+            if ($row_client[1]) { $pdf->SetXY( $x, $y ); $pdf->Cell( 100, 8, $row_client[1], 0, 0, ''); $y += 4;}
+            if ($row_client[2]) { $pdf->SetXY( $x, $y ); $pdf->Cell( 100, 8, $row_client[2], 0, 0, ''); $y += 4;}
+            if ($row_client[3]) { $pdf->SetXY( $x, $y ); $pdf->Cell( 100, 8, $row_client[3], 0, 0, ''); $y += 4;}
+            if ($row_client[4] || $row_client[5]) { $pdf->SetXY( $x, $y ); $pdf->Cell( 100, 8, $row_client[4] . ' ' .$row_client[5] , 0, 0, ''); $y += 4;}
+            if ($row_client[6]) { $pdf->SetXY( $x, $y ); $pdf->Cell( 100, 8, 'N° TVA Intra : ' . $row_client[6], 0, 0, '');}
+
+            // ***********************
+            // le cadre des articles
+            // ***********************
+            // cadre avec 18 lignes max ! et 118 de hauteur --> 95 + 118 = 213 pour les traits verticaux
+            $pdf->SetLineWidth(0.1); $pdf->Rect(5, 95, 200, 118, "D");
+            // cadre titre des colonnes
+            $pdf->Line(5, 105, 205, 105);
+            // les traits verticaux colonnes
+            $pdf->Line(145, 95, 145, 213); $pdf->Line(158, 95, 158, 213); $pdf->Line(176, 95, 176, 213); $pdf->Line(187, 95, 187, 213);
+            // titre colonne
+            $pdf->SetXY( 1, 96 ); $pdf->SetFont('Arial','B',8); $pdf->Cell( 140, 8, "Libellé", 0, 0, 'C');
+            $pdf->SetXY( 145, 96 ); $pdf->SetFont('Arial','B',8); $pdf->Cell( 13, 8, "Qté", 0, 0, 'C');
+            $pdf->SetXY( 156, 96 ); $pdf->SetFont('Arial','B',8); $pdf->Cell( 22, 8, "PU HT", 0, 0, 'C');
+            $pdf->SetXY( 177, 96 ); $pdf->SetFont('Arial','B',8); $pdf->Cell( 10, 8, "TVA", 0, 0, 'C');
+            $pdf->SetXY( 185, 96 ); $pdf->SetFont('Arial','B',8); $pdf->Cell( 22, 8, "TOTAL HT", 0, 0, 'C');
+
+            // les articles
+            $pdf->SetFont('Arial','',8);
+            $y = 97;
+            // 1ere page = LIMIT 0,18 ;  2eme page = LIMIT 18,36 etc...
+            $sql = 'select libelle,qte,pu,taux_tva FROM ligne_facture where id_facture=' .$var_id_facture . ' order by libelle';
+            $sql .= ' LIMIT ' . $limit_inf . ',' . $limit_sup;
+            $res = mysqli_query($mysqli, $sql)  or die ('Erreur SQL : ' .$sql .mysqli_connect_error() );
+            while ($data =  mysqli_fetch_assoc($res))
+            {
+                // libelle
+                $pdf->SetXY( 7, $y+9 ); $pdf->Cell( 140, 5, $data['libelle'], 0, 0, 'L');
+                // qte
+                $pdf->SetXY( 145, $y+9 ); $pdf->Cell( 13, 5, strrev(wordwrap(strrev($data['qte']), 3, ' ', true)), 0, 0, 'R');
+                // PU
+                $nombre_format_francais = number_format($data['pu'], 2, ',', ' ');
+                $pdf->SetXY( 158, $y+9 ); $pdf->Cell( 18, 5, $nombre_format_francais, 0, 0, 'R');
+                // Taux
+                $nombre_format_francais = number_format($data['taux_tva'], 2, ',', ' ');
+                $pdf->SetXY( 177, $y+9 ); $pdf->Cell( 10, 5, $nombre_format_francais, 0, 0, 'R');
+                // total
+                $nombre_format_francais = number_format($data['pu']*$data['qte'], 2, ',', ' ');
+                $pdf->SetXY( 187, $y+9 ); $pdf->Cell( 18, 5, $nombre_format_francais, 0, 0, 'R');
+
+                $pdf->Line(5, $y+14, 205, $y+14);
+
+                $y += 6;
+            }
+            mysqli_free_result($res);
+
+            // si derniere page alors afficher cadre des TVA
+            if ($num_page == $nb_page)
+            {
+                // le detail des totaux, demarre a 221 après le cadre des totaux
+                $pdf->SetLineWidth(0.1); $pdf->Rect(130, 221, 75, 24, "D");
+                // les traits verticaux
+                $pdf->Line(147, 221, 147, 245); $pdf->Line(164, 221, 164, 245); $pdf->Line(181, 221, 181, 245);
+                // les traits horizontaux pas de 6 et demarre a 221
+                $pdf->Line(130, 227, 205, 227); $pdf->Line(130, 233, 205, 233); $pdf->Line(130, 239, 205, 239);
+                // les titres
+                $pdf->SetFont('Arial','B',8); $pdf->SetXY( 181, 221 ); $pdf->Cell( 24, 6, "TOTAL", 0, 0, 'C');
+                $pdf->SetFont('Arial','',8);
+                $pdf->SetXY( 105, 221 ); $pdf->Cell( 25, 6, "Taux TVA", 0, 0, 'R');
+                $pdf->SetXY( 105, 227 ); $pdf->Cell( 25, 6, "Total HT", 0, 0, 'R');
+                $pdf->SetXY( 105, 233 ); $pdf->Cell( 25, 6, "Total TVA", 0, 0, 'R');
+                $pdf->SetXY( 105, 239 ); $pdf->Cell( 25, 6, "Total TTC", 0, 0, 'R');
+
+                // les taux de tva et HT et TTC
+                $col_ht = 0; $col_tva = 0; $col_ttc = 0;
+                $taux = 0; $tot_tva = 0; $tot_ttc = 0;
+                $x = 130;
+                $sql = 'select taux_tva,sum( round(pu * qte,2) ) tot_ht FROM ligne_facture where id_facture=' .$var_id_facture . ' group by taux_tva order by taux_tva';
+                $res = mysqli_query($mysqli, $sql)  or die ('Erreur SQL : ' .$sql .mysqli_connect_error() );
+                while ($data =  mysqli_fetch_assoc($res))
+                {
+                    $pdf->SetXY( $x, 221 ); $pdf->Cell( 17, 6, $data['taux_tva'] . ' %', 0, 0, 'C');
+                    $taux = $data['taux_tva'];
+
+                    $nombre_format_francais = number_format($data['tot_ht'], 2, ',', ' ');
+                    $pdf->SetXY( $x, 227 ); $pdf->Cell( 17, 6, $nombre_format_francais, 0, 0, 'R');
+                    $col_ht = $data['tot_ht'];
+
+                    $col_tva = $col_ht - ($col_ht * (1-($taux/100)));
+                    $nombre_format_francais = number_format($col_tva, 2, ',', ' ');
+                    $pdf->SetXY( $x, 233 ); $pdf->Cell( 17, 6, $nombre_format_francais, 0, 0, 'R');
+
+                    $col_ttc = $col_ht + $col_tva;
+                    $nombre_format_francais = number_format($col_ttc, 2, ',', ' ');
+                    $pdf->SetXY( $x, 239 ); $pdf->Cell( 17, 6, $nombre_format_francais, 0, 0, 'R');
+
+                    $tot_tva += $col_tva ; $tot_ttc += $col_ttc;
+
+                    $x += 17;
+                }
+                mysqli_free_result($res);
+
+                $nombre_format_francais = "Net à payer TTC : " . number_format($tot_ttc, 2, ',', ' ') . " €";
+                $pdf->SetFont('Arial','B',12); $pdf->SetXY( 5, 213 ); $pdf->Cell( 90, 8, $nombre_format_francais, 0, 0, 'C');
+                // en bas à droite
+                $pdf->SetFont('Arial','B',8); $pdf->SetXY( 181, 239 ); $pdf->Cell( 24, 6, number_format($tot_ttc, 2, ',', ' '), 0, 0, 'R');
+                // TVA
+                $nombre_format_francais = "Total TVA : " . number_format($tot_tva, 2, ',', ' ') . " €";
+                $pdf->SetFont('Arial','',10); $pdf->SetXY( 158, 213 ); $pdf->Cell( 47, 8, $nombre_format_francais, 0, 0, 'C');
+                // en bas à droite
+                $pdf->SetFont('Arial','B',8); $pdf->SetXY( 181, 233 ); $pdf->Cell( 24, 6, number_format($tot_tva, 2, ',', ' '), 0, 0, 'R');
+            }
+
+            // **************************
+            // pied de page
+            // **************************
+            $pdf->SetLineWidth(0.1); $pdf->Rect(5, 260, 200, 6, "D");
+            $pdf->SetXY( 1, 260 ); $pdf->SetFont('Arial','',7);
+            $pdf->Cell( $pdf->GetPageWidth(), 7, "Clause de réserve de propriété (loi 80.335 du 12 mai 1980) : Les marchandises vendues demeurent notre propriété jusqu'au paiement intégral de celles-ci.", 0, 0, 'C');
+
+            $y1 = 270;
+            //Positionnement en bas et tout centrer
+            $pdf->SetXY( 1, $y1 ); $pdf->SetFont('Arial','B',10);
+            $pdf->Cell( $pdf->GetPageWidth(), 5, "REF BANCAIRE : FR76 xxx - BIC : xxxx", 0, 0, 'C');
+
+            $pdf->SetFont('Arial','',10);
+
+            $pdf->SetXY( 1, $y1 + 4 );
+            $pdf->Cell( $pdf->GetPageWidth(), 5, "NOM SOCIETE", 0, 0, 'C');
+
+            $pdf->SetXY( 1, $y1 + 8 );
+            $pdf->Cell( $pdf->GetPageWidth(), 5, "ADRESSE 1 + CP + VILLE", 0, 0, 'C');
+
+            $pdf->SetXY( 1, $y1 + 12 );
+            $pdf->Cell( $pdf->GetPageWidth(), 5, "Tel + Mail + SIRET", 0, 0, 'C');
+
+            $pdf->SetXY( 1, $y1 + 16 );
+            $pdf->Cell( $pdf->GetPageWidth(), 5, "Adresse web", 0, 0, 'C');
+
+            // par page de 18 lignes
+            $num_page++; $limit_inf += 18; $limit_sup += 18;
+        }
+
+        $pdf->Output("I", $nom_file);
         //return new SuccessResponse;
     }
 }

@@ -56,6 +56,16 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 controller: 'systemFilesController',
                 pageName: 'Twoje pliki',
             })
+            .when(base + '/dokumenty', {
+                templateUrl: templateBase + 'Documents.html',
+                controller: 'documentsController',
+                pageName: 'Lista dokumentów',
+            })
+            .when(base + '/dokument/dodaj', {
+                templateUrl: templateBase + 'Document-Edit.html',
+                controller: 'documentEditController',
+                pageName: 'Edycja dokumentu',
+            })
         ;
 
         $locationProvider.html5Mode({
@@ -719,6 +729,51 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
+    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document) {
+        $scope.data = {
+            id: $routeParams.id,
+            document: {
+            },
+            validation: {
+                name: true,
+            }
+        }
+        if ($routeParams.id) {
+            document.get(function (response) {
+                $scope.data.document = response.data;
+            }, $routeParams.id);
+        }
+        $scope.data.send = function () {
+            $scope.data.validation.name = $scope.data.document.name?false:true
+            validate = true
+            angular.forEach($scope.data.validation, (el)=>{
+                if(el){
+                    validate = false
+                }
+            })
+            if(!validate){
+                return
+            }
+            var data = $scope.data.document;
+            if ($routeParams.id) {
+                $http.put(apiBase + '/document/' + $routeParams.id, data).then(function (response) {
+                    if (response.data.success) {
+                        //$location.path('/katalog/produkty');
+                    }
+                });
+                //$scope.messages = response.data.errors
+            } else {
+                $http.post(apiBase + '/document', data).then(function (response) {
+                    if (response.data.id) {
+                        $scope.data.id = response.data.id;
+                        $location.path('/dokument/'+response.data.id, false);
+                    }
+                    //$scope.messages = response.data.errors
+                });
+            }
+        }
+    })
+
     .controller('uploadController', function ($scope, $element, Upload, productImages, deleteDialog, $http) {
         $scope.files = [];
         $scope.deleteImage = function (rows, row) {
@@ -824,6 +879,14 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
+    .factory('document', function ($http) {
+        return {
+            get: function (callback, id) {
+                $http.get(apiBase + '/document/' + id).then(callback);
+            }
+        }
+    })
+
     .factory('catalogCategories', function ($http) {
         return {
             get: function (callback) {
@@ -879,6 +942,69 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.products = [];
             pagination.page = 1;
             loadPage();
+        }
+    })
+
+    .controller('documentsController', function ($rootScope, $scope, $http, documents, deleteDialog) {
+        var pagination = {
+            page: 1,
+            limit: 20,
+        };
+        var filters = [];
+        var filtersNames = [];
+        $scope.products = [];
+        $rootScope.filters = filters;
+        var getData = function (pagination, data) {
+            if (data && (data.length > 0)) {
+                return data;
+            }
+            return pagination
+        }
+        var loadPage = function () {
+            documents.get(function (response) {
+                angular.forEach(response.data.products, function (value, key) {
+                    $scope.products.push(value);
+                });
+                pagination = getData(pagination, response.data.pagination);
+                filters = getData(filters, response.data.filters);
+                filtersNames = getData(filtersNames, response.data.filtersNames);
+                $rootScope.filters = filters;
+                $rootScope.filtersNames = filtersNames;
+            }, pagination, $rootScope.filters);
+        }
+        $scope.deleteRow = function (rows, row) {
+            deleteDialog.show({
+                title: 'Usunięcie produktu',
+                templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
+                apiUrl: '/catalog/product/',
+                data: {
+                    rows: rows,
+                    row: row,
+                }
+            });
+        }
+        $scope.fluentLoad = function () {
+            pagination.page++;
+            loadPage();
+        }
+        loadPage();
+        $rootScope.filterRefreshCallback = function () {
+            $scope.products = [];
+            pagination.page = 1;
+            loadPage();
+        }
+    })
+
+    .factory('documents', function ($http, $httpParamSerializerJQLike) {
+        return {
+            get: function (callback, pagination, filters) {
+                var pagin = $httpParamSerializerJQLike({pagination: pagination});
+                var filt = $httpParamSerializerJQLike({filters: filters});
+                if (pagin) {
+                    pagin += '&';
+                }
+                $http.get(apiBase + '/document?' + pagin + filt).then(callback);
+            }
         }
     })
 

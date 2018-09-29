@@ -39,6 +39,7 @@ textarea {
     box-sizing: border-box;
     margin-bottom: 25px;
     overflow: hidden;
+    box-shadow: 5px 5px 5px #ddd;
 }
 
 .box .header {
