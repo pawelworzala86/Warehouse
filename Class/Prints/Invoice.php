@@ -89,7 +89,7 @@ class Invoice extends \FPDF {
     }
 
     function rysujTablice($header, $data) {
-        $wysokosc = 6;
+        $wysokosc = 5;
         for ($i = 0; $i < count($header); $i++)
             $this->Cell($this->szerokosci[$i], $wysokosc, iconv('UTF-8', 'cp1250//TRANSLIT', $header[$i]), 1, 0, $this->rozmieszczenieTekstu[$i], true);
         $this->Ln();
@@ -317,14 +317,14 @@ class Invoice extends \FPDF {
         $this->SetFont($this->font, '', 10);
     }
 
-    function addFooter() {
+    function addFooter($text) {
         $y = $this->GetY();
         $x = $this->GetX();
         $this->SetFont($this->font, '', 8);
         $this->SetY($this->h - 15);
         $this->Cell(190, 5, "Strona " . $this->PageNo() . " z {nb}", 0, 1, "R");
         $this->SetY($this->h - 15);
-        $this->Cell(190, 5, iconv('UTF-8', 'cp1250//TRANSLIT', "Dokument wydrukowany za pomocą skryptu PHP."), 0, 1, "L");
+        $this->Cell(190, 5, iconv('UTF-8', 'cp1250//TRANSLIT', $text), 0, 1, "L");
         $this->SetXY($x, $y);
         $this->SetFont($this->font, '', 10);
     }

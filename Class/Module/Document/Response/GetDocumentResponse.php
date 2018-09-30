@@ -30,6 +30,54 @@ class GetDocumentResponse extends Response
     private $bankName;
     private $swift;
     private $bankNumber;
+    private $issuePlace;
+    private $deliveryDate;
+    private $payed;
+    private $toPay;
+
+    public function getToPay(): ?float
+    {
+        return $this->toPay;
+    }
+
+    public function setToPay(float $toPay = null): GetDocumentResponse
+    {
+        $this->toPay = $toPay;
+        return $this;
+    }
+
+    public function getPayed(): ?float
+    {
+        return $this->payed;
+    }
+
+    public function setPayed(float $payed = null): GetDocumentResponse
+    {
+        $this->payed = $payed;
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?string
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(string $deliveryDate = null): GetDocumentResponse
+    {
+        $this->deliveryDate = $deliveryDate;
+        return $this;
+    }
+
+    public function getIssuePlace(): ?string
+    {
+        return $this->issuePlace;
+    }
+
+    public function setIssuePlace(string $issuePlace = null): GetDocumentResponse
+    {
+        $this->issuePlace = $issuePlace;
+        return $this;
+    }
 
     public function getBankNumber(): ?string
     {

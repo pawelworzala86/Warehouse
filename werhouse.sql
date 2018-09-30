@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Czas generowania: 29 Wrz 2018, 21:53
+-- Czas generowania: 30 Wrz 2018, 06:22
 -- Wersja serwera: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- Wersja PHP: 7.2.10-0ubuntu0.18.04.1
 
@@ -90,7 +90,34 @@ CREATE TABLE `contractor` (
   `deleted_by` int(11) DEFAULT NULL,
   `deleted_ip_id` int(11) DEFAULT NULL,
   `name` varchar(250) DEFAULT NULL,
-  `address_id` int(11) DEFAULT NULL
+  `address_id` int(11) DEFAULT NULL,
+  `code` varchar(90) DEFAULT NULL,
+  `contact_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `contractor_contact`
+--
+
+CREATE TABLE `contractor_contact` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `phone` varchar(250) DEFAULT NULL,
+  `fax` varchar(250) DEFAULT NULL,
+  `mail` varchar(250) DEFAULT NULL,
+  `www` varchar(250) DEFAULT NULL,
+  `contractor_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -114,7 +141,15 @@ CREATE TABLE `document` (
   `name` varchar(90) DEFAULT NULL,
   `contractor_id` int(11) DEFAULT NULL,
   `date` date DEFAULT NULL,
-  `description` text
+  `description` text,
+  `net` float DEFAULT NULL,
+  `gross` float DEFAULT NULL,
+  `tax` float DEFAULT NULL,
+  `pay_date` date DEFAULT NULL,
+  `payment` varchar(250) DEFAULT NULL,
+  `bank_name` varchar(250) DEFAULT NULL,
+  `swift` varchar(250) DEFAULT NULL,
+  `bank_number` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -352,12 +387,48 @@ CREATE TABLE `session` (
   `deleted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- --------------------------------------------------------
+
 --
--- Zrzut danych tabeli `session`
+-- Struktura tabeli dla tabeli `stock`
 --
 
-INSERT INTO `session` (`sessid`, `access`, `data`, `ip_id`, `user_id`, `deleted`) VALUES
-(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538250739, 'userId|i:1;', 2, 1, NULL);
+CREATE TABLE `stock` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `count` float DEFAULT NULL,
+  `document_id` int(11) DEFAULT NULL,
+  `document_product_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `stock_view`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `stock_view` (
+`id` int(11)
+,`uuid` binary(16)
+,`product_id` int(11)
+,`count` double
+,`added_by` int(11)
+,`deleted` int(11)
+,`name` varchar(250)
+,`sku` varchar(250)
+,`net` float
+,`vat` varchar(10)
+);
 
 -- --------------------------------------------------------
 
@@ -378,15 +449,17 @@ CREATE TABLE `user` (
   `deleted_by` int(11) DEFAULT NULL,
   `deleted_ip_id` int(11) DEFAULT NULL,
   `mail` varchar(250) DEFAULT NULL,
-  `password` varchar(250) DEFAULT NULL
+  `password` varchar(250) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `contact_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Zrzut danych tabeli `user`
 --
 
-INSERT INTO `user` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`) VALUES
-(1, 0x05867f4d98570fd6716b73dc00976b21, 1523047519, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79');
+INSERT INTO `user` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `address_id`, `contact_id`) VALUES
+(1, 0x05867f4d98570fd6716b73dc00976b21, 1523047519, NULL, 1, 1538278227, 1, 4, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 16, 11);
 
 -- --------------------------------------------------------
 
@@ -419,6 +492,15 @@ CREATE TABLE `user_register` (
 DROP TABLE IF EXISTS `product_file_view`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `product_file_view`  AS  select `file`.`id` AS `file_id`,`file`.`uuid` AS `file_uuid`,`file`.`added` AS `added`,`product_files`.`deleted` AS `deleted`,`file`.`size` AS `size`,`file`.`url` AS `url`,`file`.`name` AS `name`,`file`.`type` AS `type`,`product_files`.`id` AS `product_files_id`,`product_files`.`uuid` AS `product_files_uuid`,`product_files`.`product_id` AS `product_id`,`product`.`uuid` AS `product_uuid` from ((`file` left join `product_files` on((`file`.`id` = `product_files`.`file_id`))) left join `product` on((`product_files`.`product_id` = `product`.`id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `stock_view`
+--
+DROP TABLE IF EXISTS `stock_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `stock_view`  AS  select `product`.`id` AS `id`,`product`.`uuid` AS `uuid`,`stock`.`product_id` AS `product_id`,sum(`stock`.`count`) AS `count`,`stock`.`added_by` AS `added_by`,`stock`.`deleted` AS `deleted`,`product`.`name` AS `name`,`product`.`sku` AS `sku`,`product`.`sell_net` AS `net`,`product`.`vat` AS `vat` from (`stock` left join `product` on((`product`.`id` = `stock`.`product_id`))) group by `stock`.`product_id` ;
 
 --
 -- Indeksy dla zrzutów tabel
@@ -461,7 +543,24 @@ ALTER TABLE `contractor`
   ADD KEY `updated_by` (`updated_by`),
   ADD KEY `updated_ip_id` (`updated_ip_id`),
   ADD KEY `deleted_by` (`deleted_by`),
-  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `address_id` (`address_id`),
+  ADD KEY `contact_id` (`contact_id`);
+
+--
+-- Indeksy dla tabeli `contractor_contact`
+--
+ALTER TABLE `contractor_contact`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD UNIQUE KEY `added_by_2` (`added_by`,`deleted`,`contractor_id`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `contractor_id` (`contractor_id`);
 
 --
 -- Indeksy dla tabeli `document`
@@ -489,7 +588,9 @@ ALTER TABLE `document_product`
   ADD KEY `updated_by` (`updated_by`),
   ADD KEY `updated_ip_id` (`updated_ip_id`),
   ADD KEY `deleted_by` (`deleted_by`),
-  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `document_id` (`document_id`),
+  ADD KEY `product_id` (`product_id`);
 
 --
 -- Indeksy dla tabeli `file`
@@ -553,6 +654,22 @@ ALTER TABLE `session`
   ADD KEY `user_id` (`user_id`);
 
 --
+-- Indeksy dla tabeli `stock`
+--
+ALTER TABLE `stock`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `document_id` (`document_id`),
+  ADD KEY `document_product_id` (`document_product_id`);
+
+--
 -- Indeksy dla tabeli `user`
 --
 ALTER TABLE `user`
@@ -564,7 +681,9 @@ ALTER TABLE `user`
   ADD KEY `updated_by` (`updated_by`),
   ADD KEY `updated_ip_id` (`updated_ip_id`),
   ADD KEY `deleted_by` (`deleted_by`),
-  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `address_id` (`address_id`),
+  ADD KEY `contact_id` (`contact_id`);
 
 --
 -- Indeksy dla tabeli `user_register`
@@ -600,6 +719,12 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT dla tabeli `contractor`
 --
 ALTER TABLE `contractor`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `contractor_contact`
+--
+ALTER TABLE `contractor_contact`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -643,6 +768,12 @@ ALTER TABLE `product_files`
 --
 ALTER TABLE `root_todo`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
+
+--
+-- AUTO_INCREMENT dla tabeli `stock`
+--
+ALTER TABLE `stock`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `user`

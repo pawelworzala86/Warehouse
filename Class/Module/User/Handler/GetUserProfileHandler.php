@@ -25,26 +25,30 @@ class GetUserProfileHandler extends Handler
         if($userModel->getAddressId()) {
             $addressModel = (new AddressModel)
                 ->load($userModel->getAddressId());
-            $address = (new Address)
-                ->setId($addressModel->getUuid())
-                ->setName($addressModel->getName())
-                ->setFirstName($addressModel->getFirstName())
-                ->setLastName($addressModel->getLastName())
-                ->setStreet($addressModel->getStreet())
-                ->setPostcode($addressModel->getPostcode())
-                ->setCity($addressModel->getCity());
+            if($addressModel->isLoaded()) {
+                $address = (new Address)
+                    ->setId($addressModel->getUuid())
+                    ->setName($addressModel->getName())
+                    ->setFirstName($addressModel->getFirstName())
+                    ->setLastName($addressModel->getLastName())
+                    ->setStreet($addressModel->getStreet())
+                    ->setPostcode($addressModel->getPostcode())
+                    ->setCity($addressModel->getCity());
+            }
         }
 
         $contact = null;
         if($userModel->getContactId()) {
             $contactModel = (new ContractorContactModel)
                 ->load($userModel->getContactId());
-            $contact = (new Contact)
-                ->setId($contactModel->getUuid())
-                ->setPhone($contactModel->getPhone())
-                ->setFax($contactModel->getFax())
-                ->setMail($contactModel->getMail())
-                ->setWww($contactModel->getWww());
+            if($contactModel->isLoaded()) {
+                $contact = (new Contact)
+                    ->setId($contactModel->getUuid())
+                    ->setPhone($contactModel->getPhone())
+                    ->setFax($contactModel->getFax())
+                    ->setMail($contactModel->getMail())
+                    ->setWww($contactModel->getWww());
+            }
         }
 
         return (new GetUserProfileResponse)

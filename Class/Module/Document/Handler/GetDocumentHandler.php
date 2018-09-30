@@ -110,6 +110,10 @@ class GetDocumentHandler extends Handler
             ->setPayment($document->getPayment())
             ->setBankName($document->getBankName())
             ->setSwift($document->getSwift())
-            ->setBankNumber($document->getBankNumber());
+            ->setBankNumber($document->getBankNumber())
+            ->setIssuePlace($document->getIssuePlace())
+            ->setDeliveryDate($document->getDeliveryDate())
+            ->setPayed($document->getPayed())
+            ->setToPay($document->getToPay());
     }
 }

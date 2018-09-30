@@ -22,46 +22,94 @@ class CreateDocumentRequest extends UserRequest
     private $bankName;
     private $swift;
     private $bankNumber;
+    private $issuePlace;
+    private $deliveryDate;
+    private $payed;
+    private $toPay;
 
-    public function getBankNumber(): string
+    public function getToPay(): ?float
+    {
+        return $this->toPay;
+    }
+
+    public function setToPay(float $toPay = null): CreateDocumentRequest
+    {
+        $this->toPay = $toPay;
+        return $this;
+    }
+
+    public function getPayed(): ?float
+    {
+        return $this->payed;
+    }
+
+    public function setPayed(float $payed = null): CreateDocumentRequest
+    {
+        $this->payed = $payed;
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?string
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(string $deliveryDate = null): CreateDocumentRequest
+    {
+        $this->deliveryDate = $deliveryDate;
+        return $this;
+    }
+
+    public function getIssuePlace(): ?string
+    {
+        return $this->issuePlace;
+    }
+
+    public function setIssuePlace(string $issuePlace = null): CreateDocumentRequest
+    {
+        $this->issuePlace = $issuePlace;
+        return $this;
+    }
+
+    public function getBankNumber(): ?string
     {
         return $this->bankNumber;
     }
 
-    public function setBankNumber(string $bankNumber): CreateDocumentRequest
+    public function setBankNumber(string $bankNumber = null): CreateDocumentRequest
     {
         $this->bankNumber = $bankNumber;
         return $this;
     }
 
-    public function getSwift(): string
+    public function getSwift(): ?string
     {
         return $this->swift;
     }
 
-    public function setSwift(string $swift): CreateDocumentRequest
+    public function setSwift(string $swift = null): CreateDocumentRequest
     {
         $this->swift = $swift;
         return $this;
     }
 
-    public function getBankName(): string
+    public function getBankName(): ?string
     {
         return $this->bankName;
     }
 
-    public function setBankName(string $bankName): CreateDocumentRequest
+    public function setBankName(string $bankName = null): CreateDocumentRequest
     {
         $this->bankName = $bankName;
         return $this;
     }
 
-    public function getPayment(): string
+    public function getPayment(): ?string
     {
         return $this->payment;
     }
 
-    public function setPayment(string $payment): CreateDocumentRequest
+    public function setPayment(string $payment = null): CreateDocumentRequest
     {
         $this->payment = $payment;
         return $this;

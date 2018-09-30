@@ -43,13 +43,6 @@ class GetDocumentPrintHandler extends Handler
 
         $invoice->setFillColor(220, 220, 220);
 
-        function round00($value)
-        {
-            $value = round($value * 100) / 100;
-            $buf = number_format($value, 2, ',', ' ');
-            return $buf;
-        }
-
         $documentModel = (new DocumentModel)
             ->load($request->getId(), true);
         $contractorId = $documentModel->getContractorId();
@@ -89,17 +82,17 @@ class GetDocumentPrintHandler extends Handler
             'mail' => $contactModel->getMail(),
             'www' => $contactModel->getWww(),
         ];
-        
+
         $data_wystawienia = $documentModel->getDate();
-        $data_sprzedazy = '21.04.2017';
+        $data_sprzedazy = $documentModel->getDeliveryDate();
         $termin_zaplaty = $documentModel->getPayDate();
 
         $zaplacono = '24.60';
         $slownie = 'dwadzieścia cztery zł sześciedziat gr';
         $payments = [
-            null=>'',
-            'money'=>'Gotówka',
-            'wire'=>'Przelew',
+            null => '',
+            'money' => 'Gotówka',
+            'wire' => 'Przelew',
         ];
         $platnosc = $payments[$documentModel->getPayment()];
 
@@ -112,43 +105,88 @@ class GetDocumentPrintHandler extends Handler
         $nazwa_banku = $documentModel->getBankName();
         $swift = $documentModel->getSwift();
 
-        $suma = '24.60';
-        $pozostalo = '0.00';
-
-        $miejsce_wystawienia = 'Gdańsk';
-        $osoba_upowazniona = $addressModel->getFirstName().' '.$addressModel->getLastName();
-        $odbiorca = 'Tomek Nowak';
+        $miejsce_wystawienia = $documentModel->getIssuePlace();
+        $osoba_upowazniona = $userAddressModel->getFirstName() . ' ' . $userAddressModel->getLastName();
+        $odbiorca = $addressModel->getFirstName() . ' ' . $addressModel->getLastName();
         $bez_odbiorcy = '';
         $bez_wystawcy = '';
         $logo = '';
 
-        $pozycje_buf = [];
-        $pozycje_buf[] = array(1, 'pkwiu', 'pozycja 1', 2, 'szt', round00(10.00), '23', round00(20.00), round00(4.60), round00(24.60));
+        $documentProducts = (new DocumentProductCollection)
+            ->where(new Filter([
+                'name' => 'added_by',
+                'kind' => new FilterKind('='),
+                'value' => User::getId(),
+            ]))
+            ->where(new Filter([
+                'name' => 'deleted',
+                'kind' => new FilterKind('='),
+                'value' => 0,
+            ]))
+            ->where(new Filter([
+                'name' => 'document_id',
+                'kind' => new FilterKind('='),
+                'value' => $documentModel->getId(),
+            ]))
+            ->load();
+
+        $products = [];
+        $documentProducts->current();
+        $index = 1;
+        while ($product = $documentProducts->current()) {
+            $productModel = (new ProductModel)
+                ->load($product->getProductId());
+            $products[] = [
+                $index++,
+                $productModel->getSku(),
+                $productModel->getName(),
+                $product->getCount(),
+                'szt',
+                number_format($product->getNet(), 2),
+                $product->getVat(),
+                number_format($product->getSumNet(), 2),
+                number_format($product->getSumGross() - $product->getSumNet(), 2),
+                number_format($product->getSumGross(), 2)
+            ];
+            $documentProducts->next();
+        }
 
         $szerokosci = array(10, 25, 57, 10, 10, 17, 10, 17, 17, 17);
         $rozmieszczenieTekstu = array('C', 'L', 'L', 'C', 'C', 'R', 'C', 'R', 'R', 'R');
-        $header = array('Lp.', 'PKWiU', 'Nazwa produktu / usługi', 'Ilość', 'Jm', 'Cena netto', '%VAT', 'Wart. netto', 'Kwota VAT', 'Wart. brutto');
+        $header = array('Lp.', 'PKWiU', 'Nazwa produktu / usługi', 'Ilość', 'Jm', 'Netto', '%VAT', 'W.netto', 'W.VAT', 'W.brutto');
 
-        $stawkiSzerokosci = array(12, 17, 17, 17);
+        $stawkiSzerokosci = array(17, 17, 17, 17);
         $stawkiRozmieszczenieTekstu = array('R', 'R', 'R', 'R');
-        $stawkiHeader = array('', 'Wart. netto', 'Kwota VAT', 'Wart. brutto');
-        $stawkiVAT = array(
-            array('23 %', $pozycje_buf[0][5], $pozycje_buf[0][8], $pozycje_buf[0][9]),
-            array('Razem', $pozycje_buf[0][5], $pozycje_buf[0][8], $pozycje_buf[0][9]),
-        );
+        $stawkiHeader = array('', 'W.netto', 'W.VAT', 'W.brutto');
+        $vats = [];
+        foreach ($products as $product) {
+            @$vats[$product[6]]['sumNet'] += $product[7];
+            @$vats[$product[6]]['sumVat'] += $product[8];
+            @$vats[$product[6]]['sumGross'] += $product[9];
+        }
+        $vatTable = [];
+        foreach ($vats as $key => $value) {
+            $vatTable[] = [
+                $key,
+                number_format($value['sumNet'], 2),
+                number_format($value['sumVat'], 2),
+                number_format($value['sumGross'], 2),
+            ];
+        }
+        $vatTable[] = ['Razem', $documentModel->getNet(), $documentModel->getGross() - $documentModel->getNet(), $documentModel->getGross()];
 
         $platnosc1 = array(
-            array(21, 18, 'Termin zapłaty', $termin_zaplaty),
-            array(20, 35, 'Forma zapłaty', $platnosc),
-            array(9, 35, 'Bank', $nazwa_banku),
-            array(17, 35, 'BIK/SWIFT', $swift),
+            array(26, 23, 'Termin zapłaty', $termin_zaplaty),
+            array(25, 30, 'Forma zapłaty', $platnosc),
+            array(9, 30, 'Bank', $nazwa_banku),
+            array(20, 27, 'BIK/SWIFT', $swift),
         );
 
         $platnosc2 = array(
-            array(19, 76, 'Numer konta', $numer_konta),
-            array(12, 17, 'Razem', round00($suma)),
-            array(16, 17, 'Zapłacono', round00($zaplacono)),
-            array(16, 17, 'Do zapłaty', round00($pozostalo)),
+            array(25, 64, 'Numer konta', $numer_konta),
+            array(14, 15, 'Razem', number_format($documentModel->getGross(), 2)),
+            array(21, 15, 'Zapłacono', number_format($documentModel->getPayed(), 2)),
+            array(21, 15, 'Do zapłaty', number_format($documentModel->getToPay(), 2)),
         );
 
         $platnosc3 = array(
@@ -156,13 +194,15 @@ class GetDocumentPrintHandler extends Handler
         );
 
         $platnosc4 = array(
-            array(10, 180, 'Uwagi', $uwagi),
+            array(20, 170, 'Uwagi', $uwagi),
         );
+
+        $footerText = "Druk z programu magazynowego autorstwa: Paweł Worzała.";
 
         $invoice->AliasNbPages();
         $invoice->SetAutoPageBreak(0);
         $invoice->addPage();
-        $invoice->addFooter();
+        $invoice->addFooter($footerText);
 
         //$invoice->rysujLogo($logo);
         $invoice->rysujDataRow('Data wystawienia', $data_wystawienia);
@@ -170,58 +210,58 @@ class GetDocumentPrintHandler extends Handler
         $invoice->rysujDataRow('Data dostawy', $data_sprzedazy);
         $invoice->Ln(5);
 
-        $sellerAddress['telefon'] = $sellerAddress['telefon']?("\nTelefon: ".$sellerAddress['telefon']):'';
-        $sellerAddress['fax'] = $sellerAddress['fax']?("\nFax: ".$sellerAddress['fax']):'';
-        $sellerAddress['mail'] = $sellerAddress['mail']?("\nMail: ".$sellerAddress['mail']):'';
-        $sellerAddress['www'] = $sellerAddress['www']?("\nWWW: ".$sellerAddress['www']):'';
-        $invoice->rysujSprzedawca($sellerAddress['nazwa'].
-            "\nNIP: ".$sellerAddress['nip'].
-            "\n".$sellerAddress['ulica'].
-            "\n".$sellerAddress['kod_pocztowy'].
-            "\n".$sellerAddress['miejscowosc'].
-            $sellerAddress['telefon'].
-            $sellerAddress['fax'].
-            $sellerAddress['mail'].
+        $sellerAddress['telefon'] = $sellerAddress['telefon'] ? ("\nTelefon: " . $sellerAddress['telefon']) : '';
+        $sellerAddress['fax'] = $sellerAddress['fax'] ? ("\nFax: " . $sellerAddress['fax']) : '';
+        $sellerAddress['mail'] = $sellerAddress['mail'] ? ("\nMail: " . $sellerAddress['mail']) : '';
+        $sellerAddress['www'] = $sellerAddress['www'] ? ("\nWWW: " . $sellerAddress['www']) : '';
+        $invoice->rysujSprzedawca($sellerAddress['nazwa'] .
+            "\nNIP: " . $sellerAddress['nip'] .
+            "\n" . $sellerAddress['ulica'] .
+            "\n" . $sellerAddress['kod_pocztowy'] .
+            "\n" . $sellerAddress['miejscowosc'] .
+            $sellerAddress['telefon'] .
+            $sellerAddress['fax'] .
+            $sellerAddress['mail'] .
             $sellerAddress['www']);
-        
-        
-        $buyerAddress['telefon'] = $buyerAddress['telefon']?("\nTelefon: ".$buyerAddress['telefon']):'';
-        $buyerAddress['fax'] = $buyerAddress['fax']?("\nFax: ".$buyerAddress['fax']):'';
-        $buyerAddress['mail'] = $buyerAddress['mail']?("\nMail: ".$buyerAddress['mail']):'';
-        $buyerAddress['www'] = $buyerAddress['www']?("\nWWW: ".$buyerAddress['www']):'';
-        $invoice->rysujNabywca($buyerAddress['nazwa'].
-            "\n.NIP: ".$buyerAddress['nip'].
-            "\n".$buyerAddress['ulica'].
-            "\n".$buyerAddress['kod_pocztowy'].
-            "\n".$buyerAddress['miejscowosc'].
-            $buyerAddress['telefon'].
-            $buyerAddress['fax'].
-            $buyerAddress['mail'].
+
+
+        $buyerAddress['telefon'] = $buyerAddress['telefon'] ? ("\nTelefon: " . $buyerAddress['telefon']) : '';
+        $buyerAddress['fax'] = $buyerAddress['fax'] ? ("\nFax: " . $buyerAddress['fax']) : '';
+        $buyerAddress['mail'] = $buyerAddress['mail'] ? ("\nMail: " . $buyerAddress['mail']) : '';
+        $buyerAddress['www'] = $buyerAddress['www'] ? ("\nWWW: " . $buyerAddress['www']) : '';
+        $invoice->rysujNabywca($buyerAddress['nazwa'] .
+            "\n.NIP: " . $buyerAddress['nip'] .
+            "\n" . $buyerAddress['ulica'] .
+            "\n" . $buyerAddress['kod_pocztowy'] .
+            "\n" . $buyerAddress['miejscowosc'] .
+            $buyerAddress['telefon'] .
+            $buyerAddress['fax'] .
+            $buyerAddress['mail'] .
             $buyerAddress['www']);
-        
-        
+
+
         $invoice->rysujTytul($numer_dokumentu);
 
         $invoice->setSzerokosci($szerokosci);
         $invoice->setRozmieszczenieTekstu($rozmieszczenieTekstu);
-        $invoice->rysujTablice($header, $pozycje_buf);
+        $invoice->rysujTablice($header, $products);
 
         $invoice->setSzerokosci($stawkiSzerokosci);
         $invoice->setRozmieszczenieTekstu($stawkiRozmieszczenieTekstu);
-        $invoice->rysujStawkiVAT($stawkiHeader, $stawkiVAT);
+        $invoice->rysujStawkiVAT($stawkiHeader, $vatTable);
 
         $invoice->Ln(5);
-        $invoice->rysujSuma('Suma:', round00($suma));
+        $invoice->rysujSuma('Suma:', number_format($documentModel->getGross(), 2));
         $invoice->rysujPlatnosc($platnosc1);
         $invoice->rysujPlatnosc($platnosc2);
-        $invoice->rysujPlatnosc($platnosc3);
+        //$invoice->rysujPlatnosc($platnosc3);//słownie
         $invoice->rysujPlatnosc($platnosc4);
         $invoice->Ln(5);
 
         $invoice->CheckPageBreak(41);
         $invoice->rysujWystawca($osoba_upowazniona);
         $invoice->rysujOdbiorca($odbiorca);
-        $invoice->addFooter();
+        $invoice->addFooter($footerText);
 
         $invoice->Output();
 

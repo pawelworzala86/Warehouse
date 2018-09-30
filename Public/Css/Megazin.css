@@ -47,7 +47,6 @@ textarea {
     font-weight: 400;
     border: none;
     padding: 8px 12px;
-    background-color: rgba(64, 128, 256, 0.08);
     color: #666;
     border-bottom: 1px solid rgba(64, 128, 256, 0.3);
 }
@@ -352,4 +351,24 @@ tab article{
 
 .center{
     text-align: center;
+}
+
+a,
+a:hover,
+a:focus,
+a:active,
+.material-icons{
+    color: #68c !important;
+}
+
+a:hover,
+a:focus,
+a:active,
+.material-icons{
+    color: #68c !important;
+    font-weight: 500;
+}
+
+#menu .row{
+    margin-bottom: 15px;
 }

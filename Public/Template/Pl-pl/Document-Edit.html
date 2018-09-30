@@ -118,17 +118,29 @@
             <div class="col col-xs-7">
                 <div class="card">
                     <div class="title">Dane podstawowe</div>
-                    <div class="form-group col col-xs-8">
+                    <div class="form-group col col-xs-7">
                         <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
                         <input type="text" ng-model="data.document.name"
                                ng-class="{'error': data.validation.name&&!data.document.name}"/>
                         <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
                     </div>
-                    <div class="form-group col col-xs-4">
+                    <div class="form-group col col-xs-5">
                         <label ng-class="{'error': data.validation.date&&!data.document.date}">Data wystawienia</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.date"
                                ng-class="{'error': data.validation.date&&!data.document.date}"/>
                         <p ng-if="data.validation.date&&!data.document.date">Wprowadź datę.</p>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}">Miejsce wystawienia</label>
+                        <input type="text" ng-model="data.document.issuePlace"
+                               ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}"/>
+                        <p ng-if="data.validation.issuePlace&&!data.document.issuePlace">Wprowadź miejsce wystawienia.</p>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}">Data dostawy</label>
+                        <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.deliveryDate"
+                               ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}"/>
+                        <p ng-if="data.validation.deliveryDate&&!data.document.deliveryDate">Wprowadź datę dostawy.</p>
                     </div>
                 </div>
             </div>
@@ -159,9 +171,9 @@
                             <div class="col col-xs-2 right">Cena netto</div>
                             <div class="col col-xs-1 center">Ilość</div>
                             <div class="col col-xs-4">
-                                <div class="col col-xs-4 count right">W. netto</div>
-                                <div class="col col-xs-4 count right">W. vat</div>
-                                <div class="col col-xs-4 count right">W. brutto</div>
+                                <div class="col col-xs-4 count right">W.netto</div>
+                                <div class="col col-xs-4 count right">W.VAT</div>
+                                <div class="col col-xs-4 count right">W.brutto</div>
                             </div>
                         </div>
                         <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
@@ -227,6 +239,14 @@
                     <div class="form-group col col-xs-12">
                         <label>Numer konta</label>
                         <input type="text" ng-model="data.document.bankNumber"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Zapłacono</label>
+                        <input ng-change="data.payedRefresh()" type="text" ng-model="data.document.payed"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Do zapłaty</label>
+                        <input ng-change="data.toPayRefresh()" type="text" ng-model="data.document.toPay"/>
                     </div>
                 </div>
             </div>

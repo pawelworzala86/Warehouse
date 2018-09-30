@@ -4,12 +4,12 @@
         position: absolute;
         margin-top: -2px;
         left: 20px;
-        opacity: 0.3;
+        opacity: 0.4;
         cursor: pointer;
     }
 
     .zoom-in:hover {
-        opacity: 0.8;
+        opacity: 0.9;
     }
 
     .table .row, .table .header {
@@ -46,8 +46,10 @@
         <div class="header">
             <input ng-show="documents.length>0" type="checkbox" id="chbx" ng-click="checkAll(documents)"><label ng-show="documents.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
-                <div class="col col-xs-2"><input placeholder="Numer" type="text" ng-model="filters.name" ng-change="filter()"></div>
+                <div class="col col-xs-3"><input placeholder="Numer" type="text" ng-model="filters.name" ng-change="filter()"></div>
                 <div class="col col-xs-2"><input placeholder="Data" type="text" ng-model="filters.date" ng-change="filter()"></div>
+                <div class="col col-xs-4"><input placeholder="Kontrahent" type="text" ng-model="filters.contractorName" ng-change="filter()"></div>
+                <div class="col col-xs-3"><input style="margin-left: 13px;" class="right" placeholder="W.brutto" type="text" ng-model="filters.gross" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="documents.length>0">
                 <div class="col col-xs-2">Numer</div>
@@ -58,9 +60,11 @@
             <div class="head">
                 <input type="checkbox" id="chbx{{document.id}}" ng-click="check(document)"><label for="chbx{{document.id}}"
                                                                                                 class="checkbox"></label>
-                <i class="material-icons zoom-in" ng-click="loadDetail(documents, document)">zoom_in</i>
-                <div class="col col-xs-2">{{document.name}}</div>
+                <i class="material-icons zoom-in" ng-click="loadDetail('/document', documents, document)">zoom_in</i>
+                <div class="col col-xs-3">{{document.name}}</div>
                 <div class="col col-xs-2">{{document.date}}</div>
+                <div class="col col-xs-4"><a ng-href="/kontrahent/{{document.contractorId}}">{{document.contractorName}}</a></div>
+                <div class="col col-xs-3 right">{{document.gross}}</div>
                 <div class="buttons">
                     <a download="true" ng-href="/api/document/{{document.id}}/print" target="_blank"><i class="material-icons">print</i></a>
                     <a ng-href="/dokument/{{document.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>

@@ -62,7 +62,7 @@
             <div class="head">
                 <input type="checkbox" id="chbx{{product.id}}" ng-click="check(product)"><label for="chbx{{product.id}}"
                                                                                                 class="checkbox"></label>
-                <i class="material-icons zoom-in" ng-click="loadDetail(products, product)">zoom_in</i>
+                <i class="material-icons zoom-in" ng-click="loadDetail('/catalog/product', products, product)">zoom_in</i>
                 <div class="col col-xs-2">{{product.sku}}</div>
                 <div class="col col-xs-10">{{product.name}}</div>
                 <div class="buttons">

@@ -9,6 +9,7 @@ use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
+use App\Module\Document\Collection\DocumentViewCollection;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
 use App\Request\EmptyRequest;
@@ -24,7 +25,7 @@ class GetDocumentsHandler extends Handler
 {
     public function __invoke(PaginationRequest $request): GetDocumentsResponse
     {
-        $documents = (new DocumentCollection)
+        $documents = (new DocumentViewCollection)
             ->setPagination($request->getPagination())
             ->setFilters($request->getFilters())
             ->where(new Filter([
@@ -45,9 +46,12 @@ class GetDocumentsHandler extends Handler
         while($document = $documents->current()){
             $docs->add(
                 (new Document)
-                    ->setId($document->getUuid())
+                    ->setId($document->getId())
                     ->setName($document->getName())
                     ->setDate($document->getDate())
+                    ->setContractorName($document->getContractorName())
+                    ->setGross($document->getGross())
+                    ->setContractorId($document->getContractorId())
             );
             $documents->next();
         }

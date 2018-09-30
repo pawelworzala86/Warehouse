@@ -528,9 +528,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 scope: $scope,
             });
         }
-        $scope.loadDetail = (products, product)=>{
+        $scope.loadDetail = (url, products, product)=>{
             product.detail = true
-            $http.get(apiBase + $scope.deleteUrl+'/'+product.id).then(function (response) {
+            $http.get(apiBase + url+'/'+product.id).then(function (response) {
                 product.detail = response.data
             });
         }
@@ -786,6 +786,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 name: true,
                 date: true,
                 payDate: true,
+                issuePlace: true,
+                deliveryDate: true,
             },
             contractorShow: false,
             find: {
@@ -841,6 +843,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.data.validation.name = $scope.data.document.name?false:true
             $scope.data.validation.date = $scope.data.document.date?false:true
             $scope.data.validation.payDate = $scope.data.document.payDate?false:true
+            $scope.data.validation.issuePlace = $scope.data.document.issuePlace?false:true
+            $scope.data.validation.deliveryDate = $scope.data.document.deliveryDate?false:true
             validate = true
             angular.forEach($scope.data.validation, (el)=>{
                 if(el){
@@ -970,6 +974,31 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.data.document.sumNet = sumNet.toFixed(2)
             $scope.data.document.sumGross = sumGross.toFixed(2)
             $scope.data.document.tax = (sumGross-sumNet).toFixed(2)
+            $scope.data.refreshSummary()
+        }
+        $scope.data.refreshSummary = ()=>{
+            sumGross = 0
+            angular.forEach($scope.data.document.products, (product)=>{
+                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+            })
+            if(!$scope.data.document.payed) {
+                $scope.data.document.payed = sumGross.toFixed(2)
+                $scope.data.document.toPay = 0
+            }
+        }
+        $scope.data.payedRefresh = ()=>{
+            sumGross = 0
+            angular.forEach($scope.data.document.products, (product)=>{
+                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+            })
+            $scope.data.document.toPay = (sumGross-parseFloat($scope.data.document.payed)).toFixed(2)
+        }
+        $scope.data.toPayRefresh = ()=>{
+            sumGross = 0
+            angular.forEach($scope.data.document.products, (product)=>{
+                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+            })
+            $scope.data.document.payed = (sumGross-parseFloat($scope.data.document.toPay)).toFixed(2)
         }
     })
 
@@ -1336,6 +1365,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage()
         }
+        $scope.deleteUrl = '/document'
     })
 
     .factory('documents', function ($http, $httpParamSerializerJQLike) {
@@ -1394,7 +1424,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             deleteDialog.show({
                 title: 'Usunięcie dokumentu',
                 templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/document/',
+                apiUrl: '/contractor/',
                 data: {
                     rows: rows,
                     row: row,

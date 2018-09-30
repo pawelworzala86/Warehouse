@@ -9,6 +9,7 @@ use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\AddressModel;
+use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\Contractor\Request\CreateContractorRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Contractor\Model\ContractorModel;

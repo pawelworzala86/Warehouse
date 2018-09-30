@@ -83,12 +83,12 @@
 
 .table .row .buttons .material-icons {
     cursor: pointer;
-    opacity: 0.3;
+    opacity: 0.4;
     font-size: 1.45em;
 }
 
 .table .row .buttons .material-icons:hover {
-    opacity: 0.8;
+    opacity: 0.9;
 }
 
 .table-empty {

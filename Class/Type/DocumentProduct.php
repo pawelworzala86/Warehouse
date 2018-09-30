@@ -15,6 +15,18 @@ class DocumentProduct extends Type
     private $vat;
     private $sumNet;
     private $sumGross;
+    private $issuePlace;
+
+    public function getIssuePlace(): ?string
+    {
+        return $this->issuePlace;
+    }
+
+    public function setIssuePlace(string $issuePlace = null): DocumentProduct
+    {
+        $this->issuePlace = $issuePlace;
+        return $this;
+    }
 
     public function getSumGross(): float
     {

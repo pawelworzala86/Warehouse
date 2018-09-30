@@ -21,6 +21,58 @@ class DocumentModel extends Model
     private $bankName;
     private $swift;
     private $bankNumber;
+    private $issuePlace;
+    private $deliveryDate;
+    private $payed;
+    private $toPay;
+
+    public function getToPay(): ?float
+    {
+        return $this->toPay;
+    }
+
+    public function setToPay(float $toPay = null): DocumentModel
+    {
+        $this->set('to_pay', $toPay);
+        $this->toPay = $toPay;
+        return $this;
+    }
+
+    public function getPayed(): ?float
+    {
+        return $this->payed;
+    }
+
+    public function setPayed(float $payed = null): DocumentModel
+    {
+        $this->set('payed', $payed);
+        $this->payed = $payed;
+        return $this;
+    }
+
+    public function getDeliveryDate(): ?string
+    {
+        return $this->deliveryDate;
+    }
+
+    public function setDeliveryDate(string $deliveryDate = null): DocumentModel
+    {
+        $this->set('delivery_date', $deliveryDate);
+        $this->deliveryDate = $deliveryDate;
+        return $this;
+    }
+
+    public function getIssuePlace(): ?string
+    {
+        return $this->issuePlace;
+    }
+
+    public function setIssuePlace(string $issuePlace = null): DocumentModel
+    {
+        $this->set('issue_place', $issuePlace);
+        $this->issuePlace = $issuePlace;
+        return $this;
+    }
 
     public function getBankNumber(): ?string
     {

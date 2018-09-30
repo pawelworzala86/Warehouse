@@ -17,6 +17,7 @@ class DeleteCatalogProductHandler extends Handler
         $productModel = new ProductModel;
 
         $productModel->load($request->getId(), true);
+        $productModel->setUuid($productModel->getUuid());
 
         $productModel->delete();
 

@@ -58,7 +58,7 @@
             <div class="head">
                 <input type="checkbox" id="chbx{{contractor.id}}" ng-click="check(contractor)"><label for="chbx{{contractor.id}}"
                                                                                                 class="checkbox"></label>
-                <i class="material-icons zoom-in" ng-click="loadDetail(contractors, contractor)">zoom_in</i>
+                <i class="material-icons zoom-in" ng-click="loadDetail('/contractor', contractors, contractor)">zoom_in</i>
                 <div class="col col-xs-2">{{contractor.code}}</div>
                 <div class="col col-xs-2">{{contractor.name}}</div>
                 <div class="buttons">

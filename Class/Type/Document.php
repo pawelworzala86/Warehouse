@@ -9,6 +9,42 @@ class Document extends Type
     private $name;
     private $id;
     private $date;
+    private $contractorName;
+    private $gross;
+    private $contractorId;
+
+    public function getContractorId(): ?UUID
+    {
+        return $this->contractorId;
+    }
+
+    public function setContractorId(UUID $contractorId = null): Document
+    {
+        $this->contractorId = $contractorId;
+        return $this;
+    }
+
+    public function getGross(): float
+    {
+        return $this->gross;
+    }
+
+    public function setGross(float $gross): Document
+    {
+        $this->gross = $gross;
+        return $this;
+    }
+
+    public function getContractorName(): ?string
+    {
+        return $this->contractorName;
+    }
+
+    public function setContractorName(string $contractorName = null): Document
+    {
+        $this->contractorName = $contractorName;
+        return $this;
+    }
 
     function setDate(string $date): Document
     {

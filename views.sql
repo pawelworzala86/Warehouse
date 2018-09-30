@@ -13,3 +13,10 @@ sum(`werhouse`.`stock`.`count`) AS `count`,`werhouse`.`stock`.`added_by` AS `add
 `werhouse`.`product`.`name` AS `name`,`werhouse`.`product`.`sku` AS `sku`, product.sell_net as net, product.vat
 from (`werhouse`.`stock` left join `werhouse`.`product` on((`werhouse`.`product`.`id` = `werhouse`.`stock`.`product_id`)))
 group by `werhouse`.`stock`.`product_id`
+
+create or replace view document_view as
+select
+document.uuid as id, document.name, document.`date`, document.added_by, document.deleted, contractor.name as contractor_name, gross,
+contractor.uuid as contractor_id
+from document
+left join contractor on contractor.id=document.contractor_id

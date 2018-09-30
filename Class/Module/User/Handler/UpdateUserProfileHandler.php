@@ -43,9 +43,11 @@ class UpdateUserProfileHandler extends Handler
             if($oldAddress->getCity()!==$address->getCity()) $changed = true;
 
             if($changed) {
-                $oldAddress
-                    ->setUuid($oldAddress->getUuid())
-                    ->delete();
+                if($oldAddress->isLoaded()) {
+                    $oldAddress
+                        ->setUuid($oldAddress->getUuid())
+                        ->delete();
+                }
                 $addressId = (new AddressModel)
                     ->setUuid(Common::getUuid())
                     ->setName($address->getName())
@@ -72,9 +74,11 @@ class UpdateUserProfileHandler extends Handler
             if($oldAddress->getWww()!==$contact->getWww()) $changed = true;
 
             if($changed) {
-                $oldAddress
-                    ->setUuid($oldAddress->getUuid())
-                    ->delete();
+                if($oldAddress->isLoaded()) {
+                    $oldAddress
+                        ->setUuid($oldAddress->getUuid())
+                        ->delete();
+                }
                 $contactId = (new ContractorContactModel)
                     ->setUuid(Common::getUuid())
                     ->setPhone($contact->getPhone())
