@@ -26,6 +26,7 @@ class Model
         $this->beforeLoadFunctions = [];
         $this->afterLoadFunctions = [];
         $this->where = [];
+        $this->order = [];
         if (method_exists($this, 'initPagination')) {
             $this->initPagination();
         }
@@ -213,6 +214,8 @@ class Model
         } else {
             $where = !empty($where2)?' where ' . trim($where2, 'and '):'';
         }
+
+        $this->order(' id desc ');
 
         $order = '';
         if (isset($this->order) && (count($this->order) > 0)) {

@@ -46,7 +46,7 @@ class GetDocumentsHandler extends Handler
         while($document = $documents->current()){
             $docs->add(
                 (new Document)
-                    ->setId($document->getId())
+                    ->setId($document->getUuid())
                     ->setName($document->getName())
                     ->setDate($document->getDate())
                     ->setContractorName($document->getContractorName())

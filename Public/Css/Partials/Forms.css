@@ -7,8 +7,8 @@ button{
 }
 
 input[type=button]:hover,
-button:hover{
-    font-weight: 500 !important;
+button:hover {
+    color: #0d74fb !important;
 }
 
 input[type=text],
@@ -51,10 +51,11 @@ textarea{
     font-size: 0.85em;
     font-weight: 500;
     margin-left: 5px;
+    color: #aaa;
 }
 
 button.sender{
-    margin-top: 25px;
+    margin: 20px 0px;
 }
 
 .form-group {
@@ -168,4 +169,8 @@ input.error{
 
 .form-group.checkbox label{
     margin-top: 3px;
+}
+
+input.date{
+    width: 80px;
 }

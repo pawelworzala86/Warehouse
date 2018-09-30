@@ -32,8 +32,8 @@
         margin: 0px 2%;
     }
 
-    .table.products .row:hover input,
-    .table.products .row:hover select{
+    .table.products .row:hover input:hover,
+    .table.products .row select:hover{
         border: 1px solid rgba(0, 0, 0, 0.4);
     }
 
@@ -47,7 +47,7 @@
         top: 3px;
         font-size: 20px;
         cursor: pointer;
-        opacity: 0.3;
+        opacity: 0.7;
     }
 
     .material-icons.delete:hover{
@@ -66,28 +66,24 @@
         background: transparent;
     }
 
-    .table.products .row:hover,
-    .table.products .row:hover input,
-    .table.products .row:hover select{
-        font-weight: 500;
-    }
-
     .resume{
         padding-right: 22px;
         padding-bottom: 15px;
     }
 
     .resume strong{
-        width: 100px;
+        width: 60px;
         float: right;
         position: relative;
-        margin-top: 3px;
+        margin-top: 2px;
         font-size: 14px;
+        color: #555;
     }
 
     .resume p{
-        margin: 5px 0px;
-        font-size: 0.9em;
+        margin: 4px 0px;
+        font-size: 0.85em;
+        color: #aaa;
     }
 
     .table.products .header .col{
@@ -111,6 +107,12 @@
         position: relative;
     }
 
+    .col.name{
+        font-size: 11px;
+        font-weight: 400;
+        padding-top: 2px;
+    }
+
 </style>
 <div class="container">
     <article>
@@ -126,7 +128,7 @@
                     <div class="form-group col col-xs-5">
                         <label ng-class="{'error': data.validation.date&&!data.document.date}">Data wystawienia</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.date"
-                               ng-class="{'error': data.validation.date&&!data.document.date}"/>
+                               ng-class="{'error': data.validation.date&&!data.document.date}" class="date"/>
                     </div>
                     <div class="form-group col col-xs-6">
                         <label ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}">Miejsce wystawienia</label>
@@ -136,7 +138,7 @@
                     <div class="form-group col col-xs-6">
                         <label ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}">Data dostawy</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.deliveryDate"
-                               ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}"/>
+                               ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}" class="date"/>
                     </div>
                 </div>
             </div>
@@ -174,7 +176,7 @@
                         </div>
                         <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
                             <i class="material-icons delete" ng-click="remove(data.document.products, product)">delete</i>
-                            <div class="col col-xs-4">{{product.name}}</div>
+                            <div class="col col-xs-4 name">{{product.name}}</div>
                             <div class="col col-xs-1 count">
                                 <select ng-model="product.vat" ng-change="data.callcNet(product)">
                                     <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
@@ -199,7 +201,7 @@
             </div>
         </div>
         <div class="row">
-            <div class="col col-xs-5">
+            <div class="col col-xs-7">
                 <div class="card">
                     <div class="title">Dodatkowe informacje</div>
                     <div class="form-group col col-xs-12 textarea">
@@ -208,7 +210,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-xs-7">
+            <div class="col col-xs-5">
                 <div class="card">
                     <div class="title">Płatności</div>
                     <div class="form-group col col-xs-6">
@@ -246,7 +248,9 @@
                 </div>
             </div>
         </div>
-        <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
+        <div class="fixed-bottom">
+            <button class="sender icon" ng-click="data.send()">Zapisz</button>
+        </div>
     </article>
 </div>
 <div class="modal contractor" ng-class="{'show': data.contractorShow}">

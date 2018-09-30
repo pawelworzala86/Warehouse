@@ -8,6 +8,7 @@ use App\Type\UUID;
 class DocumentViewModel extends Model
 {
     private $id;
+    private $uuid;
     private $name;
     private $date;
     private $addedBy;
@@ -105,7 +106,19 @@ class DocumentViewModel extends Model
         return $this->id;
     }
 
-    public function setId(UUID $id): DocumentViewModel
+    public function setUuid(UUID $uuid): DocumentViewModel
+    {
+        $this->set('uuid', hex2bin($uuid));
+        $this->uuid = $uuid;
+        return $this;
+    }
+
+    public function getUuid(): UUID
+    {
+        return $this->uuid;
+    }
+
+    public function setId(int $id): DocumentViewModel
     {
         $this->set('id', $id);
         $this->id = $id;

@@ -63,10 +63,13 @@ class UpdateDocumentHandler extends Handler
         while ($product = $products->current()) {
             $documentProduct = (new DocumentProductModel)
                 ->load($product->getId(), true);
-            $documentProductId = (new DocumentProductModel)
-                ->load($product->getId(), true)
-                ->getId();
-            $productId = $documentProduct->getProductId();
+            $documentProductId = null;
+            $productId = null;
+            if($documentProduct->getId()) {
+                $documentProductId = $documentProduct->getId();
+                $productId = $documentProduct->getProductId();
+            }else{
+            }
             $pro = null;
             if($documentProduct->isLoaded()) {
                 $pro = (new ProductModel)
@@ -126,8 +129,9 @@ class UpdateDocumentHandler extends Handler
                             'value' => $documentProductId,
                         ]))
                         ->load();
-                    if($stock->isLoaded()){
-                        $count = $product->getCount();
+                    if($stock->getCount()){
+                        $count = $stock->getCount();
+                        $count = $product->getCount()-$count;
                         (new StockModel)
                             ->setId($stock->getId())
                             ->setUuid($stock->getUuid())

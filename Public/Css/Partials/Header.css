@@ -87,11 +87,12 @@ header i.right,
 }
 
 header .button{
-    margin-right: 15px;
+    padding: 15px !important;
+    border: 1px solid #ddd;
 }
+
 header .button.right{
-    margin-right: 0px;
-    margin-left: 15px;
+    margin-right: -1px;
 }
 
 header h1{
@@ -105,9 +106,24 @@ header p{
     margin: 0px;
     padding: 0px;
     color: #888;
-    font-size: 0.75em;
+    font-size: 0.65em;
 }
 
 header .pageTitle{
     float: left;
+    margin: 10px 0;
+    font-size: 1.35em;
+    margin-left: 40px;
+}
+
+header{
+    left: 0 !important;
+    position: absolute !important;
+    right: 0 !important;
+    background: #fff !important;
+    z-index: 10;
+}
+
+header{
+    padding: 0 !important;
 }

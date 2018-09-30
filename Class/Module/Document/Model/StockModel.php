@@ -16,12 +16,12 @@ class StockModel extends Model
     private $documentId;
     private $documentProductId;
 
-    public function getDocumentProductId(): int
+    public function getDocumentProductId(): ?int
     {
         return $this->documentProductId;
     }
 
-    public function setDocumentProductId(int $documentProductId): StockModel
+    public function setDocumentProductId(int $documentProductId = null): StockModel
     {
         $this->set('document_product_id', $documentProductId);
         $this->documentProductId = $documentProductId;
@@ -40,7 +40,7 @@ class StockModel extends Model
         return $this;
     }
 
-    public function getCount(): float
+    public function getCount(): ?float
     {
         return $this->count;
     }
@@ -88,7 +88,7 @@ class StockModel extends Model
         return $this;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }

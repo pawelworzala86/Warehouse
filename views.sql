@@ -16,7 +16,7 @@ group by `werhouse`.`stock`.`product_id`
 
 create or replace view document_view as
 select
-document.uuid as id, document.name, document.`date`, document.added_by, document.deleted, contractor.name as contractor_name, gross,
+document.uuid as uuid, document.id as id, document.name, document.`date`, document.added_by, document.deleted, contractor.name as contractor_name, gross,
 contractor.uuid as contractor_id
 from document
 left join contractor on contractor.id=document.contractor_id
