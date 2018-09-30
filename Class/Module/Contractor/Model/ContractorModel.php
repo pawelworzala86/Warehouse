@@ -13,6 +13,19 @@ class ContractorModel extends Model
     private $addressId;
     private $contactId;
     private $code;
+    private $nip;
+
+    public function getNip(): ?string
+    {
+        return $this->nip;
+    }
+
+    public function setNip(string $nip = null): ContractorModel
+    {
+        $this->set('nip', $nip);
+        $this->nip = $nip;
+        return $this;
+    }
 
     public function getContactId(): ?int
     {

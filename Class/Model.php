@@ -351,6 +351,6 @@ class Model
 
     function isLoaded()
     {
-        return count($this->updatedFields) > 0;
+        return ($this->updatedFields)>0;
     }
 }

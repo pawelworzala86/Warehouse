@@ -10,7 +10,7 @@ class Type
 {
     public function __construct($datas = null)
     {
-        if (is_array($datas)) {
+        if (is_array($datas)&&!is_string($datas)) {
             foreach ($datas as $key => $data) {
                 $name = Common::camelCase($key);
                 $setter = 'set' . ucfirst($name);

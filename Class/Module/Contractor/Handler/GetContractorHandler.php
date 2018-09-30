@@ -34,31 +34,41 @@ class GetContractorHandler extends Handler
         $contractor = (new ContractorModel)
             ->load($request->getId(), true);
 
-        $addressModel = (new AddressModel)
-            ->load($contractor->getAddressId());
-
-        $address = (new Address)
-            ->setName($addressModel->getName())
-            ->setFirstName($addressModel->getFirstName())
-            ->setLastName($addressModel->getLastName())
-            ->setStreet($addressModel->getStreet())
-            ->setCity($addressModel->getCity())
-            ->setPostcode($addressModel->getPostcode());
+        $addressModel = new AddressModel;
+        if($contractor->getAddressId()) {
+            $addressModel
+                ->load($contractor->getAddressId());
+        }
+        $address = null;
+        if($addressModel->isLoaded()) {
+            $address = (new Address)
+                ->setId($addressModel->getUuid())
+                ->setName($addressModel->getName())
+                ->setFirstName($addressModel->getFirstName())
+                ->setLastName($addressModel->getLastName())
+                ->setStreet($addressModel->getStreet())
+                ->setCity($addressModel->getCity())
+                ->setPostcode($addressModel->getPostcode());
+        }
 
         $contactModel = (new ContractorContactModel)
             ->load($contractor->getContactId());
-        $contact = (new Contact)
-            ->setPhone($contactModel->getPhone())
-            ->setFax($contactModel->getFax())
-            ->setMail($contactModel->getMail())
-            ->setWww($contactModel->getWww())
-            ->setId($contactModel->getUuid());
+        $contact = null;
+        if($contractor->getContactId()) {
+            $contact = (new Contact)
+                ->setPhone($contactModel->getPhone())
+                ->setFax($contactModel->getFax())
+                ->setMail($contactModel->getMail())
+                ->setWww($contactModel->getWww())
+                ->setId($contactModel->getUuid());
+        }
 
         return (new GetContractorResponse)
             ->setId($contractor->getUuid())
             ->setCode($contractor->getCode())
             ->setName($contractor->getName())
             ->setAddress($address)
-            ->setContact($contact);
+            ->setContact($contact)
+            ->setNip($contractor->getNip());
     }
 }

@@ -50,21 +50,26 @@ class CreateContractorHandler extends Handler
             ->setName($request->getName())
             ->setAddressId($addressId)
             ->setCode($request->getCode())
+            ->setNip($request->getNip())
             ->insert();
 
+        $contactId = null;
         $contact = $request->getContact();
-        $contactId = (new ContractorContactModel)
-                    ->setUuid(Common::getUuid())
-                    ->setPhone($contact->getPhone())
-                    ->setFax($contact->getFax())
-                    ->setMail($contact->getMail())
-                    ->setWww($contact->getWww())
-                    ->setContractorId($contractorId)
-                    ->insert();
+        if($contact) {
+            $contactId = (new ContractorContactModel)
+                ->setUuid(Common::getUuid())
+                ->setPhone($contact->getPhone())
+                ->setFax($contact->getFax())
+                ->setMail($contact->getMail())
+                ->setWww($contact->getWww())
+                ->setContractorId($contractorId)
+                ->insert();
+        }
 
         $contractorModel = (new ContractorModel)
             ->load($contractorId);
         $contractorModel
+            ->setUuid($contractorModel->getUuid())
             ->setContactId($contactId)
             ->update();
 

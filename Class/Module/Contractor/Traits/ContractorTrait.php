@@ -14,6 +14,18 @@ trait ContractorTrait
     private $code;
     private $contact;
     private $contractorId;
+    private $nip;
+
+    public function getNip(): ?string
+    {
+        return $this->nip;
+    }
+
+    public function setNip(string $nip = null)
+    {
+        $this->nip = $nip;
+        return $this;
+    }
 
     function setContractorId(int $contractorId = null)
     {

@@ -28,12 +28,12 @@ class AddressModel extends Model
         return $this;
     }
 
-    public function getUuid(): UUID
+    public function getUuid(): ?UUID
     {
         return $this->uuid;
     }
 
-    public function setUuid(UUID $uuid): AddressModel
+    public function setUuid(UUID $uuid = null): AddressModel
     {
         $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;

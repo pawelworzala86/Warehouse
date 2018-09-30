@@ -1035,6 +1035,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             document: {
             },
             validation: {
+                code: true,
                 name: true,
             }
         }
@@ -1050,6 +1051,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         $scope.data.send = function () {
             $scope.data.validation.name = $scope.data.contractor.name?false:true
+            $scope.data.validation.code = $scope.data.contractor.code?false:true
             validate = true
             angular.forEach($scope.data.validation, (el)=>{
                 if(el){
