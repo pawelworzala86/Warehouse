@@ -46,6 +46,9 @@ class CreateDocumentHandler extends Handler
             ->setGross($request->getSumGross())
             ->setPayDate($request->getPayDate())
             ->setPayment($request->getPayment())
+            ->setBankName($request->getBankName())
+            ->setSwift($request->getSwift())
+            ->setBankNumber($request->getBankNumber())
             ->insert();
 
         $products = $request->getProducts();

@@ -107,6 +107,9 @@ class GetDocumentHandler extends Handler
             ->setTax($document->getTax())
             ->setGross($document->getGross())
             ->setPayDate($document->getPayDate())
-            ->setPayment($document->getPayment());
+            ->setPayment($document->getPayment())
+            ->setBankName($document->getBankName())
+            ->setSwift($document->getSwift())
+            ->setBankNumber($document->getBankNumber());
     }
 }

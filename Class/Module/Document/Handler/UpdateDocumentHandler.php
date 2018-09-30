@@ -50,6 +50,9 @@ class UpdateDocumentHandler extends Handler
             ->setGross($request->getSumGross())
             ->setPayDate($request->getPayDate())
             ->setPayment($request->getPayment())
+            ->setBankName($request->getBankName())
+            ->setSwift($request->getSwift())
+            ->setBankNumber($request->getBankNumber())
             ->update();
 
         $products->rewind();

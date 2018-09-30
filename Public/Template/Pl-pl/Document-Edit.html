@@ -176,7 +176,7 @@
                             <div class="col col-xs-1 count"><input class="center" type="text" ng-model="product.count" ng-change="data.callcNet(product)"></div>
                             <div class="col col-xs-4">
                                 <div class="col col-xs-4 count"><input class="right" type="text" ng-model="product.sumNet" ng-change="data.callcSumNet(product)"></div>
-                                <div class="col col-xs-4 count right">{{product.sumVat}}</div>
+                                <div class="col col-xs-4 count right" style="padding: 0px 3px;">{{product.sumVat}}</div>
                                 <div class="col col-xs-4 count"><input class="right" type="text" ng-model="product.sumGross" ng-change="data.callcSumGross(product)"></div>
                             </div>
                         </div>
@@ -215,6 +215,18 @@
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.payDate"
                                ng-class="{'error': data.validation.payDate&&!data.document.payDate}"/>
                         <p ng-if="data.validation.payDate&&!data.document.payDate">Wprowadź datę.</p>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Nazwa banku</label>
+                        <input type="text" ng-model="data.document.bankName"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>BIK/SWIFT</label>
+                        <input type="text" ng-model="data.document.swift"/>
+                    </div>
+                    <div class="form-group col col-xs-12">
+                        <label>Numer konta</label>
+                        <input type="text" ng-model="data.document.bankNumber"/>
                     </div>
                 </div>
             </div>

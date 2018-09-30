@@ -147,7 +147,7 @@ class Invoice extends \FPDF {
 
     function rysujTytul($tytul) {
         $this->SetFont($this->font, '', 20);
-        $this->Cell(190, 10, iconv('UTF-8', 'cp1250//TRANSLIT', 'Faktura VAT     ' . $tytul), 0, 0, 'C', false);
+        $this->Cell(190, 10, iconv('UTF-8', 'cp1250//TRANSLIT', $tytul), 0, 0, 'C', false);
         $this->SetFont($this->font, '', 10);
         $this->Ln(15);
     }

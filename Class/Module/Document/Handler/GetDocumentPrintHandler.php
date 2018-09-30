@@ -92,19 +92,25 @@ class GetDocumentPrintHandler extends Handler
         
         $data_wystawienia = $documentModel->getDate();
         $data_sprzedazy = '21.04.2017';
-        $termin_zaplaty = '21.04.2017';
+        $termin_zaplaty = $documentModel->getPayDate();
 
         $zaplacono = '24.60';
         $slownie = 'dwadzieścia cztery zł sześciedziat gr';
-        $platnosc = 'gotówka';
+        $payments = [
+            null=>'',
+            'money'=>'Gotówka',
+            'wire'=>'Przelew',
+        ];
+        $platnosc = $payments[$documentModel->getPayment()];
 
         $uwagi = '';
         $pozycje = 1;
 
-        $numer_dokumentu = 'FV/1/2017';
+        $numer_dokumentu = $documentModel->getName();
 
-        $numer_konta = '0000-0000-0000-0000-0000-00';
-        $nazwa_banku = 'bankTest';
+        $numer_konta = $documentModel->getBankNumber();
+        $nazwa_banku = $documentModel->getBankName();
+        $swift = $documentModel->getSwift();
 
         $suma = '24.60';
         $pozostalo = '0.00';
@@ -135,7 +141,7 @@ class GetDocumentPrintHandler extends Handler
             array(21, 18, 'Termin zapłaty', $termin_zaplaty),
             array(20, 35, 'Forma zapłaty', $platnosc),
             array(9, 35, 'Bank', $nazwa_banku),
-            array(17, 35, 'BIK/SWIFT', ''),
+            array(17, 35, 'BIK/SWIFT', $swift),
         );
 
         $platnosc2 = array(

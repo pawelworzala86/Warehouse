@@ -19,13 +19,49 @@ class CreateDocumentRequest extends UserRequest
     private $sumGross;
     private $payDate;
     private $payment;
+    private $bankName;
+    private $swift;
+    private $bankNumber;
+
+    public function getBankNumber(): string
+    {
+        return $this->bankNumber;
+    }
+
+    public function setBankNumber(string $bankNumber): CreateDocumentRequest
+    {
+        $this->bankNumber = $bankNumber;
+        return $this;
+    }
+
+    public function getSwift(): string
+    {
+        return $this->swift;
+    }
+
+    public function setSwift(string $swift): CreateDocumentRequest
+    {
+        $this->swift = $swift;
+        return $this;
+    }
+
+    public function getBankName(): string
+    {
+        return $this->bankName;
+    }
+
+    public function setBankName(string $bankName): CreateDocumentRequest
+    {
+        $this->bankName = $bankName;
+        return $this;
+    }
 
     public function getPayment(): string
     {
         return $this->payment;
     }
 
-    public function setPayment(string $payment): UpdateDocumentRequest
+    public function setPayment(string $payment): CreateDocumentRequest
     {
         $this->payment = $payment;
         return $this;
@@ -36,7 +72,7 @@ class CreateDocumentRequest extends UserRequest
         return $this->payDate;
     }
 
-    public function setPayDate(string $payDate): UpdateDocumentRequest
+    public function setPayDate(string $payDate): CreateDocumentRequest
     {
         $this->payDate = $payDate;
         return $this;

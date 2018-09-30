@@ -20,6 +20,42 @@ class UpdateDocumentRequest extends UserRequest
     private $sumGross;
     private $payDate;
     private $payment;
+    private $bankName;
+    private $swift;
+    private $bankNumber;
+
+    public function getBankNumber(): string
+    {
+        return $this->bankNumber;
+    }
+
+    public function setBankNumber(string $bankNumber): UpdateDocumentRequest
+    {
+        $this->bankNumber = $bankNumber;
+        return $this;
+    }
+
+    public function getSwift(): string
+    {
+        return $this->swift;
+    }
+
+    public function setSwift(string $swift): UpdateDocumentRequest
+    {
+        $this->swift = $swift;
+        return $this;
+    }
+
+    public function getBankName(): string
+    {
+        return $this->bankName;
+    }
+
+    public function setBankName(string $bankName): UpdateDocumentRequest
+    {
+        $this->bankName = $bankName;
+        return $this;
+    }
 
     public function getPayment(): string
     {

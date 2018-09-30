@@ -18,6 +18,45 @@ class DocumentModel extends Model
     private $gross;
     private $payDate;
     private $payment;
+    private $bankName;
+    private $swift;
+    private $bankNumber;
+
+    public function getBankNumber(): ?string
+    {
+        return $this->bankNumber;
+    }
+
+    public function setBankNumber(string $bankNumber = null): DocumentModel
+    {
+        $this->set('bank_number', $bankNumber);
+        $this->bankNumber = $bankNumber;
+        return $this;
+    }
+
+    public function getSwift(): ?string
+    {
+        return $this->swift;
+    }
+
+    public function setSwift(string $swift = null): DocumentModel
+    {
+        $this->set('swift', $swift);
+        $this->swift = $swift;
+        return $this;
+    }
+
+    public function getBankName(): ?string
+    {
+        return $this->bankName;
+    }
+
+    public function setBankName(string $bankName = null): DocumentModel
+    {
+        $this->set('bank_name', $bankName);
+        $this->bankName = $bankName;
+        return $this;
+    }
 
     public function getPayment(): ?string
     {
