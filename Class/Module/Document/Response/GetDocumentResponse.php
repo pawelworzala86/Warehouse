@@ -25,6 +25,30 @@ class GetDocumentResponse extends Response
     private $net;
     private $tax;
     private $gross;
+    private $payDate;
+    private $payment;
+
+    public function getPayment(): string
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(string $payment): GetDocumentResponse
+    {
+        $this->payment = $payment;
+        return $this;
+    }
+
+    public function getPayDate(): string
+    {
+        return $this->payDate;
+    }
+
+    public function setPayDate(string $payDate): GetDocumentResponse
+    {
+        $this->payDate = $payDate;
+        return $this;
+    }
 
     public function getGross(): ?float
     {

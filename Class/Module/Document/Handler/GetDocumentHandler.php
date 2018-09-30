@@ -105,6 +105,8 @@ class GetDocumentHandler extends Handler
             ->setProducts($products)
             ->setNet($document->getNet())
             ->setTax($document->getTax())
-            ->setGross($document->getGross());
+            ->setGross($document->getGross())
+            ->setPayDate($document->getPayDate())
+            ->setPayment($document->getPayment());
     }
 }

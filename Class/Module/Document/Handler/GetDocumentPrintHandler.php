@@ -90,7 +90,7 @@ class GetDocumentPrintHandler extends Handler
             'www' => $contactModel->getWww(),
         ];
         
-        $data_wystawienia = '21.04.2017';
+        $data_wystawienia = $documentModel->getDate();
         $data_sprzedazy = '21.04.2017';
         $termin_zaplaty = '21.04.2017';
 

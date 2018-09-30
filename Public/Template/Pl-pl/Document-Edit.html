@@ -191,12 +191,30 @@
             </div>
         </div>
         <div class="row">
-            <div class="col col-xs-12">
+            <div class="col col-xs-5">
                 <div class="card">
                     <div class="title">Dodatkowe informacje</div>
                     <div class="form-group col col-xs-12 textarea">
                         <label>Opis</label>
                         <textarea ng-model="data.document.description"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-xs-7">
+                <div class="card">
+                    <div class="title">Płatności</div>
+                    <div class="form-group col col-xs-6">
+                        <label>Rodzaj płatności</label>
+                        <select ng-model="data.document.payment">
+                            <option value="money">Gotówka</option>
+                            <option value="wire">Przelew</option>
+                        </select>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label ng-class="{'error': data.validation.payDate&&!data.document.payDate}">Data zapłaty</label>
+                        <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.payDate"
+                               ng-class="{'error': data.validation.payDate&&!data.document.payDate}"/>
+                        <p ng-if="data.validation.payDate&&!data.document.payDate">Wprowadź datę.</p>
                     </div>
                 </div>
             </div>

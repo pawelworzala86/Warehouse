@@ -44,6 +44,8 @@ class CreateDocumentHandler extends Handler
             ->setNet($request->getSumNet())
             ->setTax($request->getTax())
             ->setGross($request->getSumGross())
+            ->setPayDate($request->getPayDate())
+            ->setPayment($request->getPayment())
             ->insert();
 
         $products = $request->getProducts();

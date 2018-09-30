@@ -16,6 +16,32 @@ class DocumentModel extends Model
     private $net;
     private $tax;
     private $gross;
+    private $payDate;
+    private $payment;
+
+    public function getPayment(): ?string
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(string $payment = null): DocumentModel
+    {
+        $this->set('payment', $payment);
+        $this->payment = $payment;
+        return $this;
+    }
+
+    public function getPayDate(): ?string
+    {
+        return $this->payDate;
+    }
+
+    public function setPayDate(string $payDate = null): DocumentModel
+    {
+        $this->set('pay_date', $payDate);
+        $this->payDate = $payDate;
+        return $this;
+    }
 
     public function getGross(): ?float
     {

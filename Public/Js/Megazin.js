@@ -785,11 +785,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             validation: {
                 name: true,
                 date: true,
+                payDate: true,
             },
             contractorShow: false,
             find: {
                 name: '',
                 date: '',
+                payDate: '',
             },
             products: [],
             stocks: [],
@@ -838,6 +840,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.send = function () {
             $scope.data.validation.name = $scope.data.document.name?false:true
             $scope.data.validation.date = $scope.data.document.date?false:true
+            $scope.data.validation.payDate = $scope.data.document.payDate?false:true
             validate = true
             angular.forEach($scope.data.validation, (el)=>{
                 if(el){

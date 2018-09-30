@@ -17,6 +17,30 @@ class CreateDocumentRequest extends UserRequest
     private $tax;
     private $sumNet;
     private $sumGross;
+    private $payDate;
+    private $payment;
+
+    public function getPayment(): string
+    {
+        return $this->payment;
+    }
+
+    public function setPayment(string $payment): UpdateDocumentRequest
+    {
+        $this->payment = $payment;
+        return $this;
+    }
+
+    public function getPayDate(): string
+    {
+        return $this->payDate;
+    }
+
+    public function setPayDate(string $payDate): UpdateDocumentRequest
+    {
+        $this->payDate = $payDate;
+        return $this;
+    }
 
     public function getSumGross(): ?float
     {
