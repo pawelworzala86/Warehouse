@@ -13,6 +13,32 @@ class UserModel extends Model
     private $password;
     private $uuid;
     private $id;
+    private $addressId;
+    private $contactId;
+
+    public function getContactId(): ?int
+    {
+        return $this->contactId;
+    }
+
+    public function setContactId(int $contactId = null)
+    {
+        $this->set('contact_id', $contactId);
+        $this->contactId = $contactId;
+        return $this;
+    }
+
+    public function getAddressId(): ?int
+    {
+        return $this->addressId;
+    }
+
+    public function setAddressId(int $addressId = null)
+    {
+        $this->set('address_id', $addressId);
+        $this->addressId = $addressId;
+        return $this;
+    }
 
     public function getId(): int
     {

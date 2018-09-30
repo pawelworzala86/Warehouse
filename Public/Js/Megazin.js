@@ -258,16 +258,18 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('userProfilController', function ($scope) {
+    .controller('userProfilController', function ($scope, userProfil, $http) {
         $scope.data = {
-            basic: {},
-        };
-        $scope.tabs = [
-            {id: 1, name: 'Dane podstawowe', templateUrl: '/Public/Template/Pl-pl/User/Cards/CardBasic.html'},
-            //{id: 2, name: 'Opisy', templateUrl: '/Public/Template/Pl-pl/User/Cards/CardDescription.html'},
-            //{id: 3, name: 'Zdjęcia i zał.', templateUrl: '/Public/Template/Pl-pl/User/Cards/CardPhotos.html'},
-            //{id: 4, name: 'Dostawcy', disable: true}
-        ];
+            profile: {
+            }
+        }
+        userProfil.get(function (response) {
+            $scope.data.profile =  response.data
+        })
+        $scope.data.send = ()=>{
+            $http.post(apiBase + '/user/profile', $scope.data.profile, (response)=>{
+            })
+        }
     })
 
     .factory('getTemplate', function ($http) {
@@ -1342,6 +1344,14 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     pagin += '&';
                 }
                 $http.get(apiBase + '/document?' + pagin + filt).then(callback);
+            }
+        }
+    })
+
+    .factory('userProfil', function ($http) {
+        return {
+            get: function (callback) {
+                $http.get(apiBase + '/user/profile').then(callback);
             }
         }
     })

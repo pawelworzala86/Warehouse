@@ -1,3 +1,57 @@
 <div class="container">
-    <tabs tabs="tabs" data="data"></tabs>
+    <article>
+        <div class="row">
+            <div class="col col-xs-6">
+                <div class="card">
+                    <div class="title">Adres korespondencyjny</div>
+                    <div class="form-group col col-xs-12">
+                        <label>Nazwa adresowa</label>
+                        <input type="text" ng-model="data.profile.address.name"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Imię</label>
+                        <input type="text" ng-model="data.profile.address.firstName"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Nazwisko</label>
+                        <input type="text" ng-model="data.profile.address.lastName"/>
+                    </div>
+                    <div class="form-group col col-xs-12">
+                        <label>Ulica i numer</label>
+                        <input type="text" ng-model="data.profile.address.street"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Kod pocztowy</label>
+                        <input type="text" ng-model="data.profile.address.postcode"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Miasto</label>
+                        <input type="text" ng-model="data.profile.address.city"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-xs-6">
+                <div class="card">
+                    <div class="title">Dane kontaktowe</div>
+                    <div class="form-group col col-xs-6">
+                        <label>Telefon</label>
+                        <input type="text" ng-model="data.profile.contact.phone"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Fax</label>
+                        <input type="text" ng-model="data.profile.contact.fax"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Mail</label>
+                        <input type="text" ng-model="data.profile.contact.mail"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>WWW</label>
+                        <input type="text" ng-model="data.profile.contact.www"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
+    </article>
 </div>

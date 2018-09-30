@@ -20,6 +20,7 @@ use App\Module\Document\Model\DocumentModel;
 use App\Module\Document\Response\GetDocumentResponse;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
+use App\Module\User\Model\UserModel;
 use App\Prints\Invoice;
 use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
@@ -59,17 +60,23 @@ class GetDocumentPrintHandler extends Handler
             ->load($addressId);
         $contactModel = (new ContractorContactModel)
             ->load($contractorModel->getContactId());
+        $userModel = (new UserModel)
+            ->load(User::getId());
+        $userAddressModel = (new AddressModel)
+            ->load($userModel->getAddressId());
+        $userContactModel = (new ContractorContactModel)
+            ->load($userModel->getContactId());
 
         $sellerAddress = [
-            'nazwa' => 'Mirek Testowy',
+            'nazwa' => $userAddressModel->getName(),
             'nip' => '345-345-345',
-            'ulica' => 'ul. Krótka 23/23',
-            'miejscowosc' => 'Tczew',
-            'kod_pocztowy' => '44-444',
-            'telefon' => '423-235-235',
-            'fax' => '34-342-234',
-            'mail' => 'test@pl.pl',
-            'www' => 'test.pl',
+            'ulica' => $userAddressModel->getStreet(),
+            'miejscowosc' => $userAddressModel->getCity(),
+            'kod_pocztowy' => $userAddressModel->getPostcode(),
+            'telefon' => $userContactModel->getPhone(),
+            'fax' => $userContactModel->getFax(),
+            'mail' => $userContactModel->getMail(),
+            'www' => $userContactModel->getWww(),
         ];
         $buyerAddress = [
             'nazwa' => $addressModel->getName(),
