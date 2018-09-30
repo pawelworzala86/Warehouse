@@ -28,22 +28,22 @@
         <div class="header">
             <input ng-show="files.length>0" type="checkbox" id="chbx" ng-click="checkAll(files)"><label ng-show="files.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
-                <div class="col col-6"><input placeholder="Nazwa pliku" type="text" ng-model="filters.name" ng-change="filter()"></div>
-                <div class="col col-3"><input placeholder="Typ pliku" type="text" ng-model="filters.type" ng-change="filter()"></div>
-                <div class="col col-3"><input placeholder="Rozmiar pliku" type="text" ng-model="filters.size" ng-change="filter()"></div>
+                <div class="col col-xs-6"><input placeholder="Nazwa pliku" type="text" ng-model="filters.name" ng-change="filter()"></div>
+                <div class="col col-xs-3"><input placeholder="Typ pliku" type="text" ng-model="filters.type" ng-change="filter()"></div>
+                <div class="col col-xs-3"><input placeholder="Rozmiar pliku" type="text" ng-model="filters.size" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="files.length>0">
-                <div class="col col-6">Nazwa pliku</div>
-                <div class="col col-3">Typ pliku</div>
-                <div class="col col-3">Rozmiar pliku</div>
+                <div class="col col-xs-6">Nazwa pliku</div>
+                <div class="col col-xs-3">Typ pliku</div>
+                <div class="col col-xs-3">Rozmiar pliku</div>
             </div>-->
         </div>
         <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
                                                                                             class="checkbox"></label>
-            <div class="col col-6">{{file.name}}</div>
-            <div class="col col-3">{{file.type}}</div>
-            <div class="col col-3">{{formatSizeUnits(file.size)}}</div>
+            <div class="col col-xs-6">{{file.name}}</div>
+            <div class="col col-xs-3">{{file.type}}</div>
+            <div class="col col-xs-3">{{formatSizeUnits(file.size)}}</div>
             <div class="buttons">
                 <a target="_self" ng-href="{{file.url}}" download="{{file.name}}">
                     <i data-nodrag="" class="material-icons" ng-click="download(file)">cloud_download</i>

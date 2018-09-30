@@ -10,6 +10,18 @@ trait ContractorTrait
     private $name;
     private $id;
     private $address;
+    private $code;
+
+    function setCode(string $code = null)
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    function getCode(): ?string
+    {
+        return $this->code;
+    }
 
     function setAddress(Address $address = null)
     {

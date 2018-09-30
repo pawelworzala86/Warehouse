@@ -773,11 +773,12 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document, contractorSearch, productSearch) {
+    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document, contractorSearch, productSearch, stockSearch) {
         $scope.data = {
             id: $routeParams.id,
             document: {
                 products: [],
+                stocks: [],
             },
             validation: {
                 name: true,
@@ -789,6 +790,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 date: '',
             },
             products: [],
+            stocks: [],
         }
         $scope.data.vatRates = [
             {
@@ -872,6 +874,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $scope.data.products = response.data.products
             }, $scope.data.find.name)
         }
+        $scope.data.reloadStock = ()=>{
+            stockSearch.get((response)=>{
+                $scope.data.stocks = response.data.stocks
+            }, $scope.data.find.name)
+        }
         $scope.data.selectContractor = (contractor)=>{
             $scope.data.contractorId = contractor.id
             $scope.data.contractorShow = false
@@ -886,17 +893,32 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.productHide = ()=>{
             $scope.data.productShow = false
         }
+        $scope.data.stockHide = ()=>{
+            $scope.data.stockShow = false
+        }
         $scope.data.showSelectProduct = ()=>{
             $scope.data.productShow = true
         }
+        $scope.data.showSelectStock = ()=>{
+            $scope.data.stockShow = true
+        }
         $scope.data.reloadContractor()
         $scope.data.reloadProduct()
+        $scope.data.reloadStock()
         $scope.data.selectProduct = (product)=>{
             $scope.data.productShow = false
             product.count = 1
-            //product.vat = '23'
+            product.vat = product.vat+''
             $scope.data.document.products.push(product)
             $scope.data.callcNet(product)
+            $scope.data.refreshResume()
+        }
+        $scope.data.selectStock = (stock)=>{
+            $scope.data.stockShow = false
+            stock.count = 1
+            stock.vat = stock.vat+''
+            $scope.data.document.products.push(stock)
+            $scope.data.callcNet(stock)
             $scope.data.refreshResume()
         }
         $scope.remove = (rows, row)=>{
@@ -943,6 +965,14 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.data.document.sumNet = sumNet.toFixed(2)
             $scope.data.document.sumGross = sumGross.toFixed(2)
             $scope.data.document.tax = (sumGross-sumNet).toFixed(2)
+        }
+    })
+
+    .factory('stockSearch', function ($http) {
+        return {
+            get: function (callback, search) {
+                $http.post(apiBase + '/stock/search', {search: search}).then(callback);
+            }
         }
     })
 
@@ -1327,6 +1357,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $rootScope.filters = filters;
         $scope.filters = {
             name: '',
+            code: '',
         }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
@@ -1374,6 +1405,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     name: 'name',
                     kind: '%',
                     value: $scope.filters.name,
+                })
+            }
+            if($scope.filters.code) {
+                $rootScope.filters.push({
+                    name: 'code',
+                    kind: '%',
+                    value: $scope.filters.code,
                 })
             }
             $scope.contractors = [];

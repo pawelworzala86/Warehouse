@@ -46,12 +46,12 @@
         <div class="header">
             <input ng-show="products.length>0" type="checkbox" id="chbx" ng-click="checkAll(products)"><label ng-show="products.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
-                <div class="col col-2"><input placeholder="SKU" type="text" ng-model="filters.sku" ng-change="filter()"></div>
-                <div class="col col-10"><input placeholder="Nazwa produktu" type="text" ng-model="filters.name" ng-change="filter()"></div>
+                <div class="col col-xs-2"><input placeholder="SKU" type="text" ng-model="filters.sku" ng-change="filter()"></div>
+                <div class="col col-xs-10"><input placeholder="Nazwa produktu" type="text" ng-model="filters.name" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="products.length>0">
-                <div class="col col-2">SKU</div>
-                <div class="col col-10">Nazwa produktu</div>
+                <div class="col col-xs-2">SKU</div>
+                <div class="col col-xs-10">Nazwa produktu</div>
             </div>-->
         </div>
         <div ng-show="products.length==0" class="table-empty">
@@ -63,8 +63,8 @@
                 <input type="checkbox" id="chbx{{product.id}}" ng-click="check(product)"><label for="chbx{{product.id}}"
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in" ng-click="loadDetail(products, product)">zoom_in</i>
-                <div class="col col-2">{{product.sku}}</div>
-                <div class="col col-10">{{product.name}}</div>
+                <div class="col col-xs-2">{{product.sku}}</div>
+                <div class="col col-xs-10">{{product.name}}</div>
                 <div class="buttons">
                     <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
                     <i data-nodrag="" class="material-icons" ng-click="deleteRow(products, product)">delete_forever</i>

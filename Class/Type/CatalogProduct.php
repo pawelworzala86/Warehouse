@@ -11,6 +11,18 @@ class CatalogProduct extends Type
     private $sku;
     private $net;
     private $vat;
+    private $count;
+
+    function setCount(float $count = null): CatalogProduct
+    {
+        $this->count = $count;
+        return $this;
+    }
+
+    function getCount(): ?float
+    {
+        return $this->count;
+    }
 
     function setVat(float $vat = null): CatalogProduct
     {

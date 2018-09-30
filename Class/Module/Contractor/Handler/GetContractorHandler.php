@@ -45,6 +45,7 @@ class GetContractorHandler extends Handler
 
         return (new GetContractorResponse)
             ->setId($contractor->getUuid())
+            ->setCode($contractor->getCode())
             ->setName($contractor->getName())
             ->setAddress($address);
     }

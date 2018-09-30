@@ -47,6 +47,7 @@ class GetContractorsHandler extends Handler
                 (new Contractor)
                     ->setId($contractor->getUuid())
                     ->setName($contractor->getName())
+                    ->setCode($contractor->getCode())
             );
             $contractors->next();
         }

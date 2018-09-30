@@ -63,6 +63,7 @@ class UpdateContractorHandler extends Handler
             ->setUuid($contractor->getUuid())
             ->setName($request->getName())
             ->setAddressId($addressId)
+            ->setCode($request->getCode())
             ->update();
 
         return (new SuccessResponse);

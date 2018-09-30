@@ -109,16 +109,16 @@
 <div class="container">
     <article>
         <div class="row">
-            <div class="col col-7">
+            <div class="col col-xs-7">
                 <div class="card">
                     <div class="title">Dane podstawowe</div>
-                    <div class="form-group col col-8">
+                    <div class="form-group col col-xs-8">
                         <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
                         <input type="text" ng-model="data.document.name"
                                ng-class="{'error': data.validation.name&&!data.document.name}"/>
                         <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
                     </div>
-                    <div class="form-group col col-4">
+                    <div class="form-group col col-xs-4">
                         <label ng-class="{'error': data.validation.date&&!data.document.date}">Data wystawienia</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.date"
                                ng-class="{'error': data.validation.date&&!data.document.date}"/>
@@ -126,7 +126,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-5">
+            <div class="col col-xs-5">
                 <div class="card">
                     <div class="title">Kontrahent</div>
                     <div class="contractor-data">
@@ -141,41 +141,42 @@
             </div>
         </div>
         <div class="row">
-            <div class="col col-12">
+            <div class="col col-xs-12">
                 <div class="card">
                     <div class="title">Produkty/usługi</div>
                     <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectProduct()">Dodaj pozycję</button>
+                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectStock()">Dodaj pozycję</button>
                     <div class="table products">
                         <div class="header" ng-if="data.document.products.length>0">
-                            <div class="col col-4">Nazwa produktu</div>
-                            <div class="col col-1">VAT</div>
-                            <div class="col col-2 right">Cena netto</div>
-                            <div class="col col-1 center">Ilość</div>
-                            <div class="col col-4">
-                                <div class="col col-4 count right">W. netto</div>
-                                <div class="col col-4 count right">W. vat</div>
-                                <div class="col col-4 count right">W. brutto</div>
+                            <div class="col col-xs-4">Nazwa produktu</div>
+                            <div class="col col-xs-1">VAT</div>
+                            <div class="col col-xs-2 right">Cena netto</div>
+                            <div class="col col-xs-1 center">Ilość</div>
+                            <div class="col col-xs-4">
+                                <div class="col col-xs-4 count right">W. netto</div>
+                                <div class="col col-xs-4 count right">W. vat</div>
+                                <div class="col col-xs-4 count right">W. brutto</div>
                             </div>
                         </div>
                         <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
                             <i class="material-icons delete" ng-click="remove(data.document.products, product)">delete</i>
-                            <div class="col col-4">{{product.name}}</div>
-                            <div class="col col-1 count">
+                            <div class="col col-xs-4">{{product.name}}</div>
+                            <div class="col col-xs-1 count">
                                 <select ng-model="product.vat" ng-change="data.callcNet(product)">
                                     <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
                                 </select>
                             </div>
-                            <div class="col col-2 count"><input class="right" type="text" ng-model="product.net" ng-change="data.callcNet(product)"></div>
-                            <div class="col col-1 count"><input class="center" type="text" ng-model="product.count" ng-change="data.callcNet(product)"></div>
-                            <div class="col col-4">
-                                <div class="col col-4 count"><input class="right" type="text" ng-model="product.sumNet" ng-change="data.callcSumNet(product)"></div>
-                                <div class="col col-4 count right">{{product.sumVat}}</div>
-                                <div class="col col-4 count"><input class="right" type="text" ng-model="product.sumGross" ng-change="data.callcSumGross(product)"></div>
+                            <div class="col col-xs-2 count"><input class="right" type="text" ng-model="product.net" ng-change="data.callcNet(product)"></div>
+                            <div class="col col-xs-1 count"><input class="center" type="text" ng-model="product.count" ng-change="data.callcNet(product)"></div>
+                            <div class="col col-xs-4">
+                                <div class="col col-xs-4 count"><input class="right" type="text" ng-model="product.sumNet" ng-change="data.callcSumNet(product)"></div>
+                                <div class="col col-xs-4 count right">{{product.sumVat}}</div>
+                                <div class="col col-xs-4 count"><input class="right" type="text" ng-model="product.sumGross" ng-change="data.callcSumGross(product)"></div>
                             </div>
                         </div>
                     </div>
-                    <div class="col col-6" ng-if="data.document.products.length>0"></div>
-                    <div class="col col-6 right resume" ng-if="data.document.products.length>0">
+                    <div class="col col-xs-6" ng-if="data.document.products.length>0"></div>
+                    <div class="col col-xs-6 right resume" ng-if="data.document.products.length>0">
                         <p>Łączna suma netto: <strong>{{data.document.sumNet}}</strong></p>
                         <p>Podatek VAT: <strong>{{data.document.tax}}</strong></p>
                         <p>Łączna suma brutto: <strong>{{data.document.sumGross}}</strong></p>
@@ -184,10 +185,10 @@
             </div>
         </div>
         <div class="row">
-            <div class="col col-12">
+            <div class="col col-xs-12">
                 <div class="card">
                     <div class="title">Dodatkowe informacje</div>
-                    <div class="form-group col col-12 textarea">
+                    <div class="form-group col col-xs-12 textarea">
                         <label>Opis</label>
                         <textarea ng-model="data.document.description"></textarea>
                     </div>
@@ -203,18 +204,18 @@
             <h3>Wybierz kontrahenta</h3><i ng-click="data.contractorHide()" class="material-icons close">close</i>
         </div>
         <div class="body">
-            <div class="form-group col col-12">
+            <div class="form-group col col-xs-12">
                 <label>Nazwa kontrahenta</label>
                 <input ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.contractors.length>0">
                 <div class="header">
-                    <div class="col col-12">Nazwa kontrahenta</div>
+                    <div class="col col-xs-12">Nazwa kontrahenta</div>
                 </div>
                 <div>
                     <div ng-click="data.selectContractor(contractor)" class="row"
                          ng-repeat="contractor in data.contractors">
-                        <div class="col col-12">
+                        <div class="col col-xs-12">
                             {{contractor.name}}
                         </div>
                     </div>
@@ -229,20 +230,46 @@
             <h3>Wybierz produkt</h3><i ng-click="data.productHide()" class="material-icons close">close</i>
         </div>
         <div class="body">
-            <div class="form-group col col-12">
+            <div class="form-group col col-xs-12">
                 <label>Nazwa produktu</label>
                 <input ng-change="data.reloadProduct()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.products.length>0">
                 <div class="header">
-                    <div class="col col-12">Nazwa produktu</div>
+                    <div class="col col-xs-12">Nazwa produktu</div>
                 </div>
                 <div>
                     <div ng-click="data.selectProduct(product)" class="row"
                          ng-repeat="product in data.products">
-                        <div class="col col-12">
+                        <div class="col col-xs-12">
                             {{product.name}}
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal stock product" ng-class="{'show': data.stockShow}">
+    <div class="content">
+        <div class="header">
+            <h3>Wybierz produkt</h3><i ng-click="data.stockHide()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="form-group col col-xs-12">
+                <label>Nazwa produktu</label>
+                <input ng-change="data.reloadStock()" type="text" ng-model="data.find.name"/>
+            </div>
+            <div class="table" ng-if="data.stocks.length>0">
+                <div class="header">
+                    <div class="col col-xs-10">Nazwa produktu</div>
+                    <div class="col col-xs-2">Ilość</div>
+                </div>
+                <div>
+                    <div ng-click="data.selectStock(stock)" class="row"
+                         ng-repeat="stock in data.stocks">
+                        <div class="col col-xs-10">{{stock.name}}</div>
+                        <div class="col col-xs-2">{{stock.count}}</div>
                     </div>
                 </div>
             </div>

@@ -16,6 +16,32 @@ class StockViewModel extends Model
     private $deleted;
     private $sku;
     private $name;
+    private $net;
+    private $vat;
+
+    function setVat(float $vat = null): StockViewModel
+    {
+        $this->set('vat', $vat);
+        $this->vat = $vat;
+        return $this;
+    }
+
+    function getVat(): ?float
+    {
+        return $this->vat;
+    }
+
+    function setNet(float $net = null): StockViewModel
+    {
+        $this->set('net', $net);
+        $this->net = $net;
+        return $this;
+    }
+
+    function getNet(): ?float
+    {
+        return $this->net;
+    }
 
     function setName(string $name = null): StockViewModel
     {

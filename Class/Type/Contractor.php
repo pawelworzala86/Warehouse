@@ -9,6 +9,18 @@ class Contractor extends Type
     private $name;
     private $id;
     private $address;
+    private $code;
+
+    function setCode(string $code = null): Contractor
+    {
+        $this->code = $code;
+        return $this;
+    }
+
+    function getCode(): ?string
+    {
+        return $this->code;
+    }
 
     public function getAddress(): ?Address
     {

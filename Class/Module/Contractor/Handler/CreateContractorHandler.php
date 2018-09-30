@@ -48,6 +48,7 @@ class CreateContractorHandler extends Handler
             ->setUuid($uuid)
             ->setName($request->getName())
             ->setAddressId($addressId)
+            ->setCode($request->getCode())
             ->insert();
 
         return (new CreateContractorResponse)

@@ -14,6 +14,8 @@ $grid .= '.col {' . PHP_EOL .
     TAB . 'padding: 0px 10px;' . PHP_EOL .
     TAB . 'box-sizing: border-box;' . PHP_EOL .
     TAB . 'min-height: 1px;' . PHP_EOL .
+    TAB . 'padding-left: 2px;' . PHP_EOL .
+    TAB . 'padding-right: 2px;' . PHP_EOL .
     '}' . PHP_EOL;
 
 //.table .col
@@ -25,7 +27,7 @@ for ($i = 0; $i < GRID_X; $i++) {
         $left = (100 / GRID_X) * (float)$i;
         $left = number_format($left, 5);
     }
-    $style = '.table .col-' . ($i + 1) . ' {' . PHP_EOL .
+    $style = '.table .col-xs-' . ($i + 1) . ' {' . PHP_EOL .
         TAB . 'width: ' . ((100 / GRID_X) * ($i + 1)) . '%;' . PHP_EOL .
         '}' . PHP_EOL;
     $grid .= $style;
@@ -40,7 +42,7 @@ for ($i = 0; $i < GRID_X; $i++) {
         $left = (100 / GRID_X) * (float)$i;
         $left = number_format($left, 5);
     }
-    $style = '.col-' . ($i + 1) . ' {' . PHP_EOL .
+    $style = '.col-xs-' . ($i + 1) . ' {' . PHP_EOL .
         TAB . 'left: ' . $left . '%;' . PHP_EOL .
         TAB . 'width: ' . ((100 / GRID_X) * ($i + 1)) . '%;' . PHP_EOL .
         '}' . PHP_EOL;
