@@ -122,11 +122,15 @@
 
 .table .header input{
     width: 100%;
-    border: 1px solid #ddd;
+    border: 1px solid transparent;
     box-sizing: border-box;
     margin-bottom: 3px;
     left: -5px;
     position: relative;
+}
+
+.table .header input:hover {
+    border: 1px solid #ddd;
 }
 
 .table .header .filters .col{

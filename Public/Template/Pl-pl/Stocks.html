@@ -12,7 +12,11 @@
         opacity: 0.8;
     }
 
-    .table .row, .table .header {
+    .table .row {
+        padding: 5px 20px 5px 50px;
+    }
+
+    .table .header {
         padding: 5px 5px 5px 50px;
     }
 </style>
@@ -48,7 +52,7 @@
             <div class="filters">
                 <div class="col col-xs-2"><input placeholder="SKU" type="text" ng-model="filters.sku" ng-change="filter()"></div>
                 <div class="col col-xs-8"><input placeholder="Nazwa produktu" type="text" ng-model="filters.name" ng-change="filter()"></div>
-                <div class="col col-xs-2"><input placeholder="Ilość" type="text" ng-model="filters.count" ng-change="filter()"></div>
+                <div class="col col-xs-2"><input class="right" placeholder="Ilość" type="text" ng-model="filters.count" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="stocks.length>0">
                 <div class="col col-xs-2">SKU</div>
@@ -66,7 +70,7 @@
                 <i class="material-icons zoom-in" ng-click="loadDetail(stocks, stock)">zoom_in</i>
                 <div class="col col-xs-2">{{stock.sku}}</div>
                 <div class="col col-xs-8">{{stock.name}}</div>
-                <div class="col col-xs-2">{{stock.count}}</div>
+                <div class="col col-xs-2 right">{{stock.count}}</div>
             </div>
             <div class="detail" ng-if="stock.detail">
                 <p>{{stock.detail.descriptionShort}}</p>

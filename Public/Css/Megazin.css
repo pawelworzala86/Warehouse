@@ -293,7 +293,9 @@ tab article{
     margin-bottom: 5px;
 }
 
-.modal{
+.modal.contractor,
+.modal.product,
+.modal.stock{
     display: none;
 }
 
@@ -314,7 +316,7 @@ tab article{
 
 .card .title{
     margin-bottom: 15px;
-    padding: 0px 15px;
+    padding: 0 10px;
     font-size: 22px;
     font-weight: 400;
     color: #666;

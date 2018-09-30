@@ -10,6 +10,6 @@ return [
     Router::get('/document', Handler\GetDocumentsHandler::class),
     Router::get('/document/{id}', Handler\GetDocumentHandler::class),
     Router::put('/document/{id}', Handler\UpdateDocumentHandler::class),
+    Router::get('/document/{id}/print', Handler\GetDocumentPrintHandler::class),
     Router::delete('/document/{id}', Handler\DeleteDocumentHandler::class),
-    Router::get('/document/test', Handler\DocumentTestHandler::class),
 ];
