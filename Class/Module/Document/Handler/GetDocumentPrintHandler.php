@@ -194,7 +194,7 @@ class GetDocumentPrintHandler extends Handler
         );
 
         $platnosc4 = array(
-            array(20, 170, 'Uwagi', $uwagi),
+            array(20, 170, 'Uwagi', $documentModel->getDescription()),
         );
 
         $footerText = "Druk z programu magazynowego autorstwa: Paweł Worzała.";

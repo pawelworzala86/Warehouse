@@ -154,7 +154,8 @@
     width: 100%;
     box-sizing: border-box;
     font-size: 0.9em;
-    margin-bottom: 15px;
+    padding-bottom: 15px;
+    padding-top: 5px;
 }
 
 .table-mini .header{

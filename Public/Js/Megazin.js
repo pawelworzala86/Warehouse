@@ -1492,6 +1492,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $rootScope.filters = filters;
         $scope.filters = {
             name: '',
+            sku: '',
+            count: '',
         }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
@@ -1528,6 +1530,18 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     name: 'name',
                     kind: '%',
                     value: $scope.filters.name,
+                })
+            }if($scope.filters.sku) {
+                $rootScope.filters.push({
+                    name: 'sku',
+                    kind: '%',
+                    value: $scope.filters.sku,
+                })
+            }if($scope.filters.count) {
+                $rootScope.filters.push({
+                    name: 'count',
+                    kind: '%',
+                    value: $scope.filters.count,
                 })
             }
             $scope.stocks = [];
