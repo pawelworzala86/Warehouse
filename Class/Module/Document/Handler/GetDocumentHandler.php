@@ -67,7 +67,7 @@ class GetDocumentHandler extends Handler
                 ->load($prod->getProductId());
             $products->add(
                 (new DocumentProduct)
-                    ->setId($prod->getUuid())
+                    ->setId($product->getUuid())
                     ->setName($product->getName())
                     ->setSku($product->getSku())
                     ->setCount($prod->getCount())
@@ -81,8 +81,9 @@ class GetDocumentHandler extends Handler
         $products->rewind();
 
         $addressModel = (new AddressModel)
-            ->load($contractor->getUuid(), true);
+            ->load($contractor->getAddressId());
         $address = (new Address)
+            //->setId($addressModel->getUuid())
             ->setName($addressModel->getName())
             ->setFirstName($addressModel->getFirstName())
             ->setLastName($addressModel->getLastName())
@@ -93,6 +94,7 @@ class GetDocumentHandler extends Handler
         $contractorResp = (new Contractor)
             ->setId($contractor->getUuid())
             ->setName($contractor->getName())
+            ->setCode($contractor->getCode())
             ->setAddress($address);
 
         return (new GetDocumentResponse)

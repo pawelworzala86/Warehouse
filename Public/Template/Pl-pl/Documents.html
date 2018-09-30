@@ -15,6 +15,51 @@
     .table .row, .table .header {
         padding: 5px 75px 5px 50px;
     }
+
+    .summary{
+        float: left;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
+    .contractor .mini{
+        font-size: 0.85em;
+        color: #666;
+    }
+
+    .contractor .text{
+        font-size: 0.85em;
+        color: #444;
+    }
+
+    .contractor .name{
+        font-weight: 400;
+    }
+    
+    .payed p,
+    .payed strong{
+        float: left;
+    }
+
+    .table .detail .payed p{
+        width: 90px;
+        margin: 0;
+    }
+
+    .table .detail .payed strong{
+        color: #555;
+        margin-top: 2px;
+        width: 84px;
+        text-align: right;
+    }
+
+    .table .payed .row{
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
+        padding: 0 !important;
+    }
+    .table .payed .row:hover{
+        background: transparent;
+    }
 </style>
 <div class="container documents">
     <div class="buttons">
@@ -72,7 +117,31 @@
                 </div>
             </div>
             <div class="detail" ng-if="document.detail">
-                <p>{{document.detail.descriptionShort}}</p>
+                <div class="table-mini">
+                    <div class="header">
+                        <div class="col col-xs-2">SKU</div>
+                        <div class="col col-xs-6">Nazwa produktu</div>
+                        <div class="col col-xs-2 right">W.netto</div>
+                        <div class="col col-xs-2 right">W.brutto</div>
+                    </div>
+                    <div class="row" ng-repeat="product in document.detail.products">
+                        <div class="col col-xs-2"><a ng-href="/katalog/produkt/{{product.id}}">{{product.sku}}</a></div>
+                        <div class="col col-xs-6">{{product.name}}</div>
+                        <div class="col col-xs-2 right">{{product.sumNet}}</div>
+                        <div class="col col-xs-2 right">{{product.sumGross}}</div>
+                    </div>
+                </div>
+                <div class="summary contractor col col-xs-4">
+                    <div class="mini">{{document.detail.contractor.name}}</div>
+                    <div class="name">{{document.detail.contractor.address.name}}</div>
+                    <div class="text">{{document.detail.contractor.address.firstName}} {{document.detail.contractor.address.lastName}}</div>
+                    <div class="text">{{document.detail.contractor.address.street}}</div>
+                    <div class="text">{{document.detail.contractor.address.postcode}} {{data.contractor.address.city}}</div>
+                </div>
+                <div class="summary col col-xs-4 payed">
+                    <div class="row"><p>Zapłacono: </p><strong>{{document.detail.payed}}</strong></div>
+                    <div class="row"><p>Do zapłaty: </p><strong>{{document.detail.toPay}}</strong></div>
+                </div>
             </div>
         </div>
         <div ng-show="documents.length==0" class="table-empty">
