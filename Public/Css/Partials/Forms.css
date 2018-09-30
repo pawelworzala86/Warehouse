@@ -1,12 +1,14 @@
 input[type=button],
-button {
-    padding: 3px 8px;
+button{
     background: #fff;
-    border: none;
     outline: none;
-    border: 1px solid rgba(64, 128, 256, 0.3);
-    border-radius: 30px;
-    box-shadow: 2px 2px 2px #aaa;
+    border: none;
+    color: #68c !important;
+}
+
+input[type=button]:hover,
+button:hover{
+    font-weight: 500 !important;
 }
 
 input[type=text],
@@ -76,8 +78,8 @@ button{
 button .material-icons{
     position: absolute;
     font-size: 1.5em;
-    top: 1px;
-    left: 8px;
+    top: -1px;
+    left: 10px;
     color: rgba(64, 128, 256, 0.6);
 }
 
@@ -130,13 +132,8 @@ button.small{
 }
 
 button.danger {
-    background: rgba(256, 64, 64, 0.1) !important;
-    border: 1px solid rgba(256, 64, 64, 0.3) !important;
-}
-
-button.danger:hover {
-    background: rgba(256, 64, 64, 0.2) !important;
-    color: rgba(256, 64, 64, 0.9) !important;
+    background: transparent;
+    border: none;
 }
 
 input.error{

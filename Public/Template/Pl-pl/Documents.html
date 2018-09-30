@@ -60,6 +60,13 @@
     .table .payed .row:hover{
         background: transparent;
     }
+    .table .payed strong.to-pay {
+        color: #c44;
+    }
+    .table .payed .term {
+        margin-bottom: 5px;
+        float: left;
+    }
 </style>
 <div class="container documents">
     <div class="buttons">
@@ -139,8 +146,9 @@
                     <div class="text">{{document.detail.contractor.address.postcode}} {{data.contractor.address.city}}</div>
                 </div>
                 <div class="summary col col-xs-4 payed">
+                    <div class="term"><p>Termin płatności: </p><strong>{{document.detail.payDate}}</strong></div>
                     <div class="row"><p>Zapłacono: </p><strong>{{document.detail.payed}}</strong></div>
-                    <div class="row"><p>Do zapłaty: </p><strong>{{document.detail.toPay}}</strong></div>
+                    <div class="row"><p>Do zapłaty: </p><strong ng-class="{'to-pay': document.detail.toPay>0}">{{document.detail.toPay}}</strong></div>
                 </div>
             </div>
         </div>

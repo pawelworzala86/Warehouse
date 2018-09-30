@@ -781,6 +781,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             document: {
                 products: [],
                 stocks: [],
+                date: (date = new Date()).getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate(),
+                deliveryDate: (date = new Date()).getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate(),
+                payDate: (date = (new Date()))?(date.setDate(date.getDate()+14)?(date.getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate()):''):'',
             },
             validation: {
                 name: true,

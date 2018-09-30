@@ -3,12 +3,10 @@
         <div class="form-group col col-xs-4">
             <label ng-class="{'error': data.validation.sku&&!data.product.sku}">SKU</label>
             <input type="text" ng-model="data.product.sku" ng-class="{'error': data.validation.sku&&!data.product.sku}"/>
-            <p ng-if="data.validation.sku&&!data.product.sku">Wprowadź SKU produktu.</p>
         </div>
         <div class="form-group col col-xs-8">
             <label ng-class="{'error': data.validation.name&&!data.product.name}">Nazwa produktu</label>
             <input type="text" ng-model="data.product.name" ng-class="{'error': data.validation.name&&!data.product.name}"/>
-            <p ng-if="data.validation.name&&!data.product.name">Wprowadź nazwę produktu.</p>
         </div>
         <div class="form-group col col-xs-6 checkbox">
             <input type="checkbox" ng-model="data.product.toSell"/><label>Product do sprzedaży</label>

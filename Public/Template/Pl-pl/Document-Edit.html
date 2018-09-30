@@ -122,25 +122,21 @@
                         <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
                         <input type="text" ng-model="data.document.name"
                                ng-class="{'error': data.validation.name&&!data.document.name}"/>
-                        <p ng-if="data.validation.name&&!data.document.name">Wprowadź numer dokumentu.</p>
                     </div>
                     <div class="form-group col col-xs-5">
                         <label ng-class="{'error': data.validation.date&&!data.document.date}">Data wystawienia</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.date"
                                ng-class="{'error': data.validation.date&&!data.document.date}"/>
-                        <p ng-if="data.validation.date&&!data.document.date">Wprowadź datę.</p>
                     </div>
                     <div class="form-group col col-xs-6">
                         <label ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}">Miejsce wystawienia</label>
                         <input type="text" ng-model="data.document.issuePlace"
                                ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}"/>
-                        <p ng-if="data.validation.issuePlace&&!data.document.issuePlace">Wprowadź miejsce wystawienia.</p>
                     </div>
                     <div class="form-group col col-xs-6">
                         <label ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}">Data dostawy</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.deliveryDate"
                                ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}"/>
-                        <p ng-if="data.validation.deliveryDate&&!data.document.deliveryDate">Wprowadź datę dostawy.</p>
                     </div>
                 </div>
             </div>
@@ -154,7 +150,7 @@
                         <div class="text">{{data.contractor.address.street}}</div>
                         <div class="text">{{data.contractor.address.postcode}} {{data.contractor.address.city}}</div>
                     </div>
-                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
+                    <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
                 </div>
             </div>
         </div>
@@ -226,7 +222,6 @@
                         <label ng-class="{'error': data.validation.payDate&&!data.document.payDate}">Data zapłaty</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.payDate"
                                ng-class="{'error': data.validation.payDate&&!data.document.payDate}"/>
-                        <p ng-if="data.validation.payDate&&!data.document.payDate">Wprowadź datę.</p>
                     </div>
                     <div class="form-group col col-xs-6">
                         <label>Nazwa banku</label>

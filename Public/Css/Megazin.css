@@ -32,14 +32,12 @@ textarea {
 }
 
 .box {
-    border: 1px solid rgba(64, 128, 256, 0.3);
     border-radius: 15px;
     float: left;
     width: 100%;
     box-sizing: border-box;
     margin-bottom: 25px;
     overflow: hidden;
-    box-shadow: 5px 5px 5px #ddd;
 }
 
 .box .header {
@@ -48,7 +46,7 @@ textarea {
     border: none;
     padding: 8px 12px;
     color: #666;
-    border-bottom: 1px solid rgba(64, 128, 256, 0.3);
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
 }
 
 .box .body {
@@ -62,12 +60,13 @@ textarea {
     float: left;
     width: 100%;
     box-sizing: border-box;
-    padding: 10px;
-    border-top: 1px solid rgba(64, 128, 256, 0.3);
+    padding: 5px 10px;
+    border-top: 1px dashed rgba(0, 0, 0, 0.2);
 }
 
 .box .footer .buttons {
     margin: 0;
+    margin-left: -7px;
 }
 
 .box .footer .buttons button {
@@ -123,13 +122,11 @@ fluentLoader {
     box-sizing: border-box;
 }
 
-fluentLoader p {
-    border: 1px solid rgba(64, 128, 256, 0.3);
-    border-radius: 30px;
+fluentLoader p{
     display: inline-block;
     padding: 3px 8px;
     cursor: pointer;
-    box-shadow: 2px 2px 2px #aaa;
+    color: #68c !important;
 }
 
 upload .borderBox,
@@ -303,14 +300,11 @@ tab article{
 }
 
 .card{
-    border: 1px solid #ccc;
     float: left;
     box-sizing: border-box;
     padding: 5px;
     width: 100%;
     margin: 10px 0px;
-    box-shadow: 3px 3px 3px #ddd;
-    border-radius: 15px;
 }
 
 .card .title{
@@ -320,6 +314,8 @@ tab article{
     font-weight: 400;
     color: #666;
     padding-top: 10px;
+    border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
+    padding-bottom: 5px;
 }
 
 .row{

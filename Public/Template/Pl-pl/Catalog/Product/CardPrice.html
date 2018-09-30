@@ -3,19 +3,16 @@
         <div class="form-group col col-xs-5">
             <label ng-class="{'error': data.validation.sellNet&&!data.product.sellNet}">Cena netto sprzedaży</label>
             <input ng-change="data.sellCalc(true)" type="text" ng-model="data.product.sellNet" ng-class="{'error': data.product.validation.sellNet&&!data.product.sellNet}"/>
-            <p ng-if="data.validation.sellNet&&!data.product.sellNet">Wprowadź cenę netto sprzedaży produktu.</p>
         </div>
         <div class="form-group col col-xs-2">
             <label ng-class="{'error': data.validation.vat&&!data.product.vat}">Stawka VAT</label>
             <select ng-change="data.sellCalc(true)" ng-model="data.product.vat" ng-class="{'error': data.product.validation.vat&&!data.product.vat}">
                 <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
             </select>
-            <p ng-if="data.validation.vat&&!data.product.vat">Wybierz stawkę VAT.</p>
         </div>
         <div class="form-group col col-xs-5">
             <label ng-class="{'error': data.validation.sellGross&&!data.product.sellGross}">Cena brutto sprzedaży</label>
             <input ng-change="data.sellCalc()" type="text" ng-model="data.product.sellGross" ng-class="{'error': data.product.validation.sellGross&&!data.product.sellGross}"/>
-            <p ng-if="data.validation.sellGross&&!data.product.sellGross">Wprowadź cenę brutto sprzedaży produktu.</p>
         </div>
     </div>
     <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
