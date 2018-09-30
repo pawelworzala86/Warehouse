@@ -48,6 +48,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col col-xs-6">
+                <div class="card">
+                    <div class="title">Dane kontaktowe</div>
+                    <div class="form-group col col-xs-6">
+                        <label>Telefon</label>
+                        <input type="text" ng-model="data.contractor.contact.phone"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Fax</label>
+                        <input type="text" ng-model="data.contractor.contact.fax"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>Mail</label>
+                        <input type="text" ng-model="data.contractor.contact.mail"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label>WWW</label>
+                        <input type="text" ng-model="data.contractor.contact.www"/>
+                    </div>
+                </div>
+            </div>
         </div>
         <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
     </article>

@@ -9,6 +9,7 @@ use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\AddressModel;
+use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Collection\DocumentProductCollection;
 use App\Module\Document\Model\DocumentProductModel;
@@ -41,46 +42,68 @@ class GetDocumentPrintHandler extends Handler
 
         $invoice->setFillColor(220, 220, 220);
 
-        function round00($value) {
+        function round00($value)
+        {
             $value = round($value * 100) / 100;
             $buf = number_format($value, 2, ',', ' ');
             return $buf;
         }
 
-        $rodzaj_dokumentu = 'Faktura';
-        $md_nazwa = 'ACME';
-        $md_nip = '356-634-346';
-        $md_ulica = 'ul. Długa 23/23';
-        $md_miejscowosc = 'Gdańsk';
-        $md_kod_pocztowy = '11-222';
-        $md_telefon = '423-235-235';
-        $md_fax = '34-342-234';
-        $md_mail = 'test@pl.pl';
-        $md_www = 'test.pl';
-        $kl_nazwa = 'Mirek Testowy';
-        $kl_nip = '345-345-345';
-        $kl_ulica = 'ul. Krótka 23/23';
-        $kl_miejscowosc = 'Tczew';
-        $kl_kod_pocztowy = '44-444';
-        $kl_telefon = '234-235-325';
-        $kl_fax = '';
-        $kl_mail = 'mirek.testowy@pl.pl';
-        $kl_www = '';
+        $documentModel = (new DocumentModel)
+            ->load($request->getId(), true);
+        $contractorId = $documentModel->getContractorId();
+        $contractorModel = (new ContractorModel)
+            ->load($contractorId);
+        $addressId = $contractorModel->getAddressId();
+        $addressModel = (new AddressModel)
+            ->load($addressId);
+        $contactModel = (new ContractorContactModel)
+            ->load($contractorModel->getContactId());
+
+        $sellerAddress = [
+            'nazwa' => 'Mirek Testowy',
+            'nip' => '345-345-345',
+            'ulica' => 'ul. Krótka 23/23',
+            'miejscowosc' => 'Tczew',
+            'kod_pocztowy' => '44-444',
+            'telefon' => '423-235-235',
+            'fax' => '34-342-234',
+            'mail' => 'test@pl.pl',
+            'www' => 'test.pl',
+        ];
+        $buyerAddress = [
+            'nazwa' => $addressModel->getName(),
+            'nip' => '356-634-346',
+            'ulica' => $addressModel->getStreet(),
+            'miejscowosc' => $addressModel->getCity(),
+            'kod_pocztowy' => $addressModel->getPostcode(),
+            'telefon' => $contactModel->getPhone(),
+            'fax' => $contactModel->getFax(),
+            'mail' => $contactModel->getMail(),
+            'www' => $contactModel->getWww(),
+        ];
+        
         $data_wystawienia = '21.04.2017';
         $data_sprzedazy = '21.04.2017';
         $termin_zaplaty = '21.04.2017';
+
         $zaplacono = '24.60';
         $slownie = 'dwadzieścia cztery zł sześciedziat gr';
         $platnosc = 'gotówka';
+
         $uwagi = '';
         $pozycje = 1;
+
         $numer_dokumentu = 'FV/1/2017';
+
         $numer_konta = '0000-0000-0000-0000-0000-00';
         $nazwa_banku = 'bankTest';
+
         $suma = '24.60';
         $pozostalo = '0.00';
+
         $miejsce_wystawienia = 'Gdańsk';
-        $osoba_upowazniona = 'Jan Kowalski';
+        $osoba_upowazniona = $addressModel->getFirstName().' '.$addressModel->getLastName();
         $odbiorca = 'Tomek Nowak';
         $bez_odbiorcy = '';
         $bez_wystawcy = '';
@@ -133,40 +156,37 @@ class GetDocumentPrintHandler extends Handler
         $invoice->rysujDataRow('Miejsce wystawienia', $miejsce_wystawienia);
         $invoice->rysujDataRow('Data dostawy', $data_sprzedazy);
         $invoice->Ln(5);
-        if ($md_telefon)
-            $md_telefon = "\nTelefon: $md_telefon";
-        else
-            $md_telefon = '';
-        if ($md_fax)
-            $md_fax = "\nFax: $md_fax";
-        else
-            $md_fax = '';
-        if ($md_mail)
-            $md_mail = "\nMail: $md_mail";
-        else
-            $md_mail = '';
-        if ($md_www)
-            $md_www = "\nWWW: $md_www";
-        else
-            $md_www = '';
-        $invoice->rysujSprzedawca("$md_nazwa\nNIP: $md_nip\n$md_ulica\n$md_kod_pocztowy $md_miejscowosc$md_telefon$md_fax$md_mail$md_www");
-        if ($kl_telefon)
-            $kl_telefon = "\nTelefon: $kl_telefon";
-        else
-            $kl_telefon = '';
-        if ($kl_fax)
-            $kl_fax = "\nFax: $kl_fax";
-        else
-            $kl_fax = '';
-        if ($kl_mail)
-            $kl_mail = "\nMail: $kl_mail";
-        else
-            $kl_mail = '';
-        if ($kl_www)
-            $kl_www = "\nWWW: $kl_www";
-        else
-            $kl_www = '';
-        $invoice->rysujNabywca("$kl_nazwa\nNIP: $kl_nip\n$kl_ulica\n$kl_kod_pocztowy $kl_miejscowosc$kl_telefon$kl_fax$kl_mail$kl_www");
+
+        $sellerAddress['telefon'] = $sellerAddress['telefon']?("\nTelefon: ".$sellerAddress['telefon']):'';
+        $sellerAddress['fax'] = $sellerAddress['fax']?("\nFax: ".$sellerAddress['fax']):'';
+        $sellerAddress['mail'] = $sellerAddress['mail']?("\nMail: ".$sellerAddress['mail']):'';
+        $sellerAddress['www'] = $sellerAddress['www']?("\nWWW: ".$sellerAddress['www']):'';
+        $invoice->rysujSprzedawca($sellerAddress['nazwa'].
+            "\nNIP: ".$sellerAddress['nip'].
+            "\n".$sellerAddress['ulica'].
+            "\n".$sellerAddress['kod_pocztowy'].
+            "\n".$sellerAddress['miejscowosc'].
+            $sellerAddress['telefon'].
+            $sellerAddress['fax'].
+            $sellerAddress['mail'].
+            $sellerAddress['www']);
+        
+        
+        $buyerAddress['telefon'] = $buyerAddress['telefon']?("\nTelefon: ".$buyerAddress['telefon']):'';
+        $buyerAddress['fax'] = $buyerAddress['fax']?("\nFax: ".$buyerAddress['fax']):'';
+        $buyerAddress['mail'] = $buyerAddress['mail']?("\nMail: ".$buyerAddress['mail']):'';
+        $buyerAddress['www'] = $buyerAddress['www']?("\nWWW: ".$buyerAddress['www']):'';
+        $invoice->rysujNabywca($buyerAddress['nazwa'].
+            "\n.NIP: ".$buyerAddress['nip'].
+            "\n".$buyerAddress['ulica'].
+            "\n".$buyerAddress['kod_pocztowy'].
+            "\n".$buyerAddress['miejscowosc'].
+            $buyerAddress['telefon'].
+            $buyerAddress['fax'].
+            $buyerAddress['mail'].
+            $buyerAddress['www']);
+        
+        
         $invoice->rysujTytul($numer_dokumentu);
 
         $invoice->setSzerokosci($szerokosci);

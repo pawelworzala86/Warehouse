@@ -9,6 +9,7 @@ use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\AddressModel;
+use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\Contractor\Request\CreateContractorRequest;
 use App\Module\Contractor\Request\UpdateContractorRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
@@ -32,7 +33,7 @@ class UpdateContractorHandler extends Handler
             ->load($request->getId(), true);
         
         $address = $request->getAddress();
-        $addressId = null;
+        $addressId = $contractor->getAddressId();
         
         if($address) {
             $oldAddress =  (new AddressModel)
@@ -46,6 +47,9 @@ class UpdateContractorHandler extends Handler
             if($oldAddress->getCity()!==$address->getCity()) $changed = true;
             
             if($changed) {
+                $oldAddress
+                    ->setUuid($oldAddress->getUuid())
+                    ->delete();
                 $addressId = (new AddressModel)
                     ->setUuid(Common::getUuid())
                     ->setName($address->getName())
@@ -58,11 +62,39 @@ class UpdateContractorHandler extends Handler
             }
         }
 
+        $contact = $request->getContact();
+        $contactId = $contractor->getContactId();
+
+        if($contact) {
+            $oldAddress =  (new ContractorContactModel)
+                ->load($contractor->getContactId());
+            $changed = false;
+            if($oldAddress->getPhone()!==$contact->getPhone()) $changed = true;
+            if($oldAddress->getFax()!==$contact->getFax()) $changed = true;
+            if($oldAddress->getMail()!==$contact->getMail()) $changed = true;
+            if($oldAddress->getWww()!==$contact->getWww()) $changed = true;
+
+            if($changed) {
+                $oldAddress
+                    ->setUuid($oldAddress->getUuid())
+                    ->delete();
+                $contactId = (new ContractorContactModel)
+                    ->setUuid(Common::getUuid())
+                    ->setPhone($contact->getPhone())
+                    ->setFax($contact->getFax())
+                    ->setMail($contact->getMail())
+                    ->setWww($contact->getWww())
+                    ->setContractorId($contractor->getId())
+                    ->insert();
+            }
+        }
+
         (new ContractorModel)
             ->setId($contractor->getId())
             ->setUuid($contractor->getUuid())
             ->setName($request->getName())
             ->setAddressId($addressId)
+            ->setContactId($contactId)
             ->setCode($request->getCode())
             ->update();
 

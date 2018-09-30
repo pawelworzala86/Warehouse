@@ -11,7 +11,20 @@ class ContractorModel extends Model
     private $uuid;
     private $name;
     private $addressId;
+    private $contactId;
     private $code;
+
+    public function getContactId(): ?int
+    {
+        return $this->contactId;
+    }
+
+    public function setContactId(int $contactId = null): ContractorModel
+    {
+        $this->set('contact_id', $contactId);
+        $this->contactId = $contactId;
+        return $this;
+    }
 
     function setCode(string $code = null): ContractorModel
     {

@@ -40,4 +40,4 @@ class AddTableToDatabase
 }
 
 $addTableToDatabase = new AddTableToDatabase;
-$addTableToDatabase->add('stock');
+$addTableToDatabase->add('contractor_contact');

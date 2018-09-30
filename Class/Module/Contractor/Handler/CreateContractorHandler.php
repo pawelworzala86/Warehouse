@@ -44,12 +44,28 @@ class CreateContractorHandler extends Handler
                 ->insert();
         }
 
-        (new ContractorModel)
+        $contractorId = (new ContractorModel)
             ->setUuid($uuid)
             ->setName($request->getName())
             ->setAddressId($addressId)
             ->setCode($request->getCode())
             ->insert();
+
+        $contact = $request->getContact();
+        $contactId = (new ContractorContactModel)
+                    ->setUuid(Common::getUuid())
+                    ->setPhone($contact->getPhone())
+                    ->setFax($contact->getFax())
+                    ->setMail($contact->getMail())
+                    ->setWww($contact->getWww())
+                    ->setContractorId($contractorId)
+                    ->insert();
+
+        $contractorModel = (new ContractorModel)
+            ->load($contractorId);
+        $contractorModel
+            ->setContactId($contactId)
+            ->update();
 
         return (new CreateContractorResponse)
             ->setId($uuid);

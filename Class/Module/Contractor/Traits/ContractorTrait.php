@@ -3,6 +3,7 @@
 namespace App\Module\Contractor\Traits;
 
 use App\Type\Address;
+use App\Type\Contact;
 use App\Type\UUID;
 
 trait ContractorTrait
@@ -11,6 +12,30 @@ trait ContractorTrait
     private $id;
     private $address;
     private $code;
+    private $contact;
+    private $contractorId;
+
+    function setContractorId(int $contractorId = null)
+    {
+        $this->contractorId = $contractorId;
+        return $this;
+    }
+
+    function getContractorId(): ?int
+    {
+        return $this->contractorId;
+    }
+
+    function setContact(Contact $contact = null)
+    {
+        $this->contact = $contact;
+        return $this;
+    }
+
+    function getContact(): ?Contact
+    {
+        return $this->contact;
+    }
 
     function setCode(string $code = null)
     {

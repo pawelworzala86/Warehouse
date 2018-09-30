@@ -9,6 +9,7 @@ use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\AddressModel;
+use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\Contractor\Request\GetContractorRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Contractor\Model\ContractorModel;
@@ -19,6 +20,7 @@ use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
 use App\Response\SuccessResponse;
 use App\Type\Address;
+use App\Type\Contact;
 use App\Type\Contractor;
 use App\Type\Contractors;
 use App\Type\Filter;
@@ -43,10 +45,20 @@ class GetContractorHandler extends Handler
             ->setCity($addressModel->getCity())
             ->setPostcode($addressModel->getPostcode());
 
+        $contactModel = (new ContractorContactModel)
+            ->load($contractor->getContactId());
+        $contact = (new Contact)
+            ->setPhone($contactModel->getPhone())
+            ->setFax($contactModel->getFax())
+            ->setMail($contactModel->getMail())
+            ->setWww($contactModel->getWww())
+            ->setId($contactModel->getUuid());
+
         return (new GetContractorResponse)
             ->setId($contractor->getUuid())
             ->setCode($contractor->getCode())
             ->setName($contractor->getName())
-            ->setAddress($address);
+            ->setAddress($address)
+            ->setContact($contact);
     }
 }
