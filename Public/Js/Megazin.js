@@ -401,7 +401,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         var modal = null;
         return function (functions) {
             if (functions) {
-                var templateUrl = functions.templateUrl();
+                var templateUrl = functions.templateUrl?functions.templateUrl():null;
                 modal = btfModal({
                     controller: 'modalController',
                     controllerAs: 'modal',
@@ -535,7 +535,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('catalogCategoriesController', function ($scope, $http, catalogCategories, modal, deleteDialog) {
+    .controller('catalogCategoriesController', function (showError, $scope, $http, catalogCategories, modal, deleteDialog) {
         $scope.categories = [];
         catalogCategories.get(function (response) {
             $scope.categories = response.data.categories ? response.data.categories : [];
@@ -551,6 +551,10 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 cancel: function () {
                 },
                 accept: function (callback, scope) {
+                    if(!scope.data||!scope.data.name){
+                        showError.show('Wprowadź nazwę kategorii')
+                        return
+                    }
                     $http.post(apiBase + '/catalog/category', scope.data).then(function (response) {
                         $scope.categories.push({
                             id: response.data.id,
@@ -675,34 +679,6 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     cancel: function () {
                     },
                     accept: function (callback, scope) {
-                        /*if (options.data.selects && (options.data.selects.length > 0)) {
-                            var ids = [];
-                            angular.forEach(options.data.selects, function (value, key) {
-                                ids.push(value.id);
-                            });
-                            $http.post(apiBase + options.apiUrl + '/mass/delete', {ids: ids}).then(function (response) {
-                                if (response.data.success) {
-                                    options.scope.selects = [];
-                                    options.scope.clear(options.scope[options.scope.itemsName]);
-                                    callback();
-                                }
-                            });
-                        } else {
-                            $http.delete(apiBase + options.apiUrl + options.data.row.id).then(function (response) {
-                                var i = 0;
-                                var index = null;
-                                angular.forEach(options.data.rows, function (value, key) {
-                                    if (value.id == options.data.row.id) {
-                                        index = i;
-                                    }
-                                    i++;
-                                });
-                                if (index !== null) {
-                                    options.data.rows.splice(index, 1);
-                                }
-                                callback();
-                            });
-                        }*/
                     },
                     data: function () {
                         return options.data;
