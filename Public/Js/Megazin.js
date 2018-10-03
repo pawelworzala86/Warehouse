@@ -1046,6 +1046,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             //alert(loadedType)
             $scope.data.document.type = loadedType
         })
+        $scope.$watch('data.document.type', ()=>{
+            if(!$routeParams.id) {
+                $http.get(apiBase + '/document/number/' + $scope.data.document.type).then((response) => {
+                    $scope.data.document.name = response.data.name
+                })
+            }
+        })
     })
 
     .factory('stockSearch', function ($http) {

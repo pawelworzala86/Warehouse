@@ -16,13 +16,13 @@
         cursor: pointer;
     }
 
-    .table.products{
+    .table.products {
         padding: 0px 15px;
         margin-bottom: 15px;
     }
 
     .table.products input,
-    .table.products select{
+    .table.products select {
         background: #fff !important;
         border: 1px solid rgba(0, 0, 0, 0.15);
         top: -4px;
@@ -33,15 +33,15 @@
     }
 
     .table.products .row:hover input:hover,
-    .table.products .row select:hover{
+    .table.products .row select:hover {
         border: 1px solid rgba(0, 0, 0, 0.4);
     }
 
-    .table.products select{
+    .table.products select {
         height: 24px;
     }
 
-    .material-icons.delete{
+    .material-icons.delete {
         position: absolute;
         left: 0px;
         top: 3px;
@@ -50,7 +50,7 @@
         opacity: 0.7;
     }
 
-    .material-icons.delete:hover{
+    .material-icons.delete:hover {
         opacity: 0.6;
     }
 
@@ -60,18 +60,18 @@
 
     .table.products .row,
     .table.products .header,
-    .table.products .row:hover{
+    .table.products .row:hover {
         border-bottom: transparent;
         padding: 5px 5px 5px 20px;
         background: transparent;
     }
 
-    .resume{
+    .resume {
         padding-right: 22px;
         padding-bottom: 15px;
     }
 
-    .resume strong{
+    .resume strong {
         width: 60px;
         float: right;
         position: relative;
@@ -80,34 +80,34 @@
         color: #555;
     }
 
-    .resume p{
+    .resume p {
         margin: 4px 0px;
         font-size: 0.85em;
         color: #aaa;
     }
 
-    .table.products .header .col{
+    .table.products .header .col {
         font-size: 0.9em;
         padding: 0px 2px;
     }
 
-    .contractor-data .mini{
+    .contractor-data .mini {
         font-size: 0.65em;
         color: #666;
     }
 
-    .contractor-data .text{
+    .contractor-data .text {
         font-size: 14px;
         color: #666;
     }
 
-    textarea{
+    textarea {
         min-height: 75px;
         display: block;
         position: relative;
     }
 
-    .col.name{
+    .col.name {
         font-size: 11px;
         font-weight: 400;
         padding-top: 2px;
@@ -115,18 +115,18 @@
 
     .row.options,
     .fixed-bottom.options,
-    .hide{
+    .hide {
         display: none;
     }
 
     .row.options.show,
     .fixed-bottom.options.show,
-    .hide.show{
+    .hide.show {
         display: block;
     }
 
     .kind,
-    .row.options{
+    .row.options {
         float: left;
         width: 100%;
         box-sizing: border-box;
@@ -170,14 +170,17 @@
                                ng-class="{'error': data.validation.date&&!data.document.date}" class="date"/>
                     </div>
                     <div class="form-group col col-xs-6">
-                        <label ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}">Miejsce wystawienia</label>
+                        <label ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}">Miejsce
+                            wystawienia</label>
                         <input type="text" ng-model="data.document.issuePlace"
                                ng-class="{'error': data.validation.issuePlace&&!data.document.issuePlace}"/>
                     </div>
                     <div class="form-group col col-xs-6">
-                        <label ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}">Data dostawy</label>
+                        <label ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}">Data
+                            dostawy</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.deliveryDate"
-                               ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}" class="date"/>
+                               ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}"
+                               class="date"/>
                     </div>
                 </div>
             </div>
@@ -187,11 +190,14 @@
                     <div class="contractor-data">
                         <div class="mini">{{data.contractor.name}}</div>
                         <div class="name">{{data.contractor.address.name}}</div>
-                        <div class="text">{{data.contractor.address.firstName}} {{data.contractor.address.lastName}}</div>
+                        <div class="text">{{data.contractor.address.firstName}} {{data.contractor.address.lastName}}
+                        </div>
                         <div class="text">{{data.contractor.address.street}}</div>
                         <div class="text">{{data.contractor.address.postcode}} {{data.contractor.address.city}}</div>
                     </div>
-                    <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectContractor()">Wybierz kontrahenta</button>
+                    <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectContractor()">Wybierz
+                        kontrahenta
+                    </button>
                 </div>
             </div>
         </div>
@@ -199,8 +205,12 @@
             <div class="col col-xs-12">
                 <div class="card">
                     <div class="title">Produkty/usługi</div>
-                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectProduct()">Dodaj pozycję</button>
-                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectStock()">Dodaj pozycję</button>
+                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectProduct()">Dodaj
+                        pozycję
+                    </button>
+                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectStock()">Dodaj
+                        pozycję
+                    </button>
                     <div class="table products">
                         <div class="header" ng-if="data.document.products.length>0">
                             <div class="col col-xs-4">Nazwa produktu</div>
@@ -214,19 +224,26 @@
                             </div>
                         </div>
                         <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
-                            <i class="material-icons delete" ng-click="remove(data.document.products, product)">delete</i>
+                            <i class="material-icons delete"
+                               ng-click="remove(data.document.products, product)">delete</i>
                             <div class="col col-xs-4 name">{{product.name}}</div>
                             <div class="col col-xs-1 count">
                                 <select ng-model="product.vat" ng-change="data.callcNet(product)">
                                     <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
                                 </select>
                             </div>
-                            <div class="col col-xs-2 count"><input class="right" type="text" ng-model="product.net" ng-change="data.callcNet(product)"></div>
-                            <div class="col col-xs-1 count"><input class="center" type="text" ng-model="product.count" ng-change="data.callcNet(product)"></div>
+                            <div class="col col-xs-2 count"><input class="right" type="text" ng-model="product.net"
+                                                                   ng-change="data.callcNet(product)"></div>
+                            <div class="col col-xs-1 count"><input class="center" type="text" ng-model="product.count"
+                                                                   ng-change="data.callcNet(product)"></div>
                             <div class="col col-xs-4">
-                                <div class="col col-xs-4 count"><input class="right" type="text" ng-model="product.sumNet" ng-change="data.callcSumNet(product)"></div>
+                                <div class="col col-xs-4 count"><input class="right" type="text"
+                                                                       ng-model="product.sumNet"
+                                                                       ng-change="data.callcSumNet(product)"></div>
                                 <div class="col col-xs-4 count right" style="padding: 0px 3px;">{{product.sumVat}}</div>
-                                <div class="col col-xs-4 count"><input class="right" type="text" ng-model="product.sumGross" ng-change="data.callcSumGross(product)"></div>
+                                <div class="col col-xs-4 count"><input class="right" type="text"
+                                                                       ng-model="product.sumGross"
+                                                                       ng-change="data.callcSumGross(product)"></div>
                             </div>
                         </div>
                     </div>
@@ -240,7 +257,8 @@
             </div>
         </div>
         <div class="row options" ng-class="{'show': data.document.type}">
-            <div class="col col-xs-7">
+            <div class="col" ng-class="{'col-xs-7': ((data.document.type==='fvp')||(data.document.type==='fvs')),
+                    'col-xs-12': !((data.document.type==='fvp')||(data.document.type==='fvs'))}">
                 <div class="card">
                     <div class="title">Dodatkowe informacje</div>
                     <div class="form-group col col-xs-12 textarea">
@@ -249,18 +267,21 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-xs-5">
+            <div class="col col-xs-5" ng-if="(data.document.type==='fvp')||(data.document.type==='fvs')">
                 <div class="card">
                     <div class="title">Płatności</div>
                     <div class="form-group col col-xs-6">
-                        <label ng-class="{'error': data.validation.payment&&!data.document.payment}">Rodzaj płatności</label>
-                        <select ng-model="data.document.payment" ng-class="{'error': data.validation.payment&&!data.document.payment}">
+                        <label ng-class="{'error': data.validation.payment&&!data.document.payment}">Rodzaj
+                            płatności</label>
+                        <select ng-model="data.document.payment"
+                                ng-class="{'error': data.validation.payment&&!data.document.payment}">
                             <option value="money">Gotówka</option>
                             <option value="wire">Przelew</option>
                         </select>
                     </div>
                     <div class="form-group col col-xs-6">
-                        <label ng-class="{'error': data.validation.payDate&&!data.document.payDate}">Data zapłaty</label>
+                        <label ng-class="{'error': data.validation.payDate&&!data.document.payDate}">Data
+                            zapłaty</label>
                         <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.payDate"
                                ng-class="{'error': data.validation.payDate&&!data.document.payDate}"/>
                     </div>
