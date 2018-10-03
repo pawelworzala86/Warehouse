@@ -37,7 +37,7 @@ class CreateCatalogProductHandler extends Handler
             )
             ->load();
 
-        if($productModel->isLoaded()){
+        if($productModel->getId()){
             return (new ErrorResponse)
                 ->setMessages(['SKU exists in other product!']);
         }

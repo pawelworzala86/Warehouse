@@ -65,12 +65,12 @@ class DocumentProductModel extends Model
         return $this;
     }
 
-    public function getCount(): float
+    public function getCount(): ?float
     {
         return $this->count;
     }
 
-    public function setCount(float $count): DocumentProductModel
+    public function setCount(float $count = null): DocumentProductModel
     {
         $this->set('count', $count);
         $this->count = $count;
@@ -113,12 +113,12 @@ class DocumentProductModel extends Model
         return $this;
     }
 
-    public function getUuid(): UUID
+    public function getUuid(): ?UUID
     {
         return $this->uuid;
     }
 
-    public function setUuid(UUID $uuid): DocumentProductModel
+    public function setUuid(UUID $uuid = null): DocumentProductModel
     {
         $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;

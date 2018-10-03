@@ -84,7 +84,7 @@ class Invoice extends \FPDF {
     function CheckPageBreak($wysokosc) {
         if ($this->GetY() + $wysokosc > $this->PageBreakTrigger) {
             $this->AddPage($this->CurOrientation);
-            $this->addFooter();
+            $this->addFooter('');
         }
     }
 

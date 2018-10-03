@@ -76,12 +76,12 @@ class StockModel extends Model
         return $this;
     }
     
-    public function getProductId(): int
+    public function getProductId(): ?int
     {
         return $this->productId;
     }
 
-    public function setProductId(int $productId): StockModel
+    public function setProductId(int $productId = null): StockModel
     {
         $this->set('product_id', $productId);
         $this->productId = $productId;
@@ -93,19 +93,19 @@ class StockModel extends Model
         return $this->id;
     }
 
-    public function setId(int $id): StockModel
+    public function setId(int $id = null): StockModel
     {
         $this->set('id', $id);
         $this->id = $id;
         return $this;
     }
 
-    public function getUuid(): UUID
+    public function getUuid(): ?UUID
     {
         return $this->uuid;
     }
 
-    public function setUuid(UUID $uuid): StockModel
+    public function setUuid(UUID $uuid = null): StockModel
     {
         $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;

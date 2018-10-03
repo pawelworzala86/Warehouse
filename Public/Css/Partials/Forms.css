@@ -150,7 +150,7 @@ input.error{
 }
 
 .form-group label.error{
-    color: rgba(255, 0, 0, 0.8);
+    color: rgba(255, 0, 0, 0.7);
 }
 
 .form-group:not(.textarea){

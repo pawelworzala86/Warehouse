@@ -63,49 +63,24 @@ class UpdateDocumentHandler extends Handler
         while ($product = $products->current()) {
             $documentProduct = (new DocumentProductModel)
                 ->load($product->getId(), true);
-            $documentProductId = null;
-            $productId = null;
-            if($documentProduct->getId()) {
-                $documentProductId = $documentProduct->getId();
-                $productId = $documentProduct->getProductId();
-            }else{
-            }
+            $documentProductId = $documentProduct->getId();
+            $productId = $documentProduct->getProductId();
             $pro = null;
-            if($documentProduct->isLoaded()) {
+            if($documentProduct->getId()) {
                 $pro = (new ProductModel)
                     ->load($documentProduct->getProductId());
                 $productId = $pro->getId();
             }
             $oldProduct = (new DocumentProductModel)
-                ->where(new Filter([
-                    'name' => 'added_by',
-                    'kind' => new FilterKind('='),
-                    'value' => User::getId(),
-                ]))
-                ->where(new Filter([
-                    'name' => 'deleted',
-                    'kind' => new FilterKind('='),
-                    'value' => 0,
-                ]))
-                ->where(new Filter([
-                    'name' => 'document_id',
-                    'kind' => new FilterKind('='),
-                    'value' => $document->getId(),
-                ]))
-                ->where(new Filter([
-                    'name' => 'product_id',
-                    'kind' => new FilterKind('='),
-                    'value' => $pro?$pro->getId():null,
-                ]))
-                ->load();
-            if($oldProduct->isLoaded()&&$documentProduct->isLoaded()){
+                ->load($documentProduct->getId());
+            if($oldProduct->isLoaded()&&$documentProductId){
                 if($product->getDeleted()){
                     (new DocumentProductModel)
-                        ->setUuid($oldProduct->getId())
+                        ->setUuid($oldProduct->getUuid())
                         ->delete();
                 }else {
                     (new DocumentProductModel)
-                        ->setUuid($product->getId())
+                        ->setId($documentProductId)
                         ->setCount($product->getCount())
                         ->setNet($product->getNet())
                         ->setSumNet($product->getSumNet())
@@ -129,9 +104,10 @@ class UpdateDocumentHandler extends Handler
                             'value' => $documentProductId,
                         ]))
                         ->load();
-                    if($stock->getCount()){
-                        $count = $stock->getCount();
-                        $count = $product->getCount()-$count;
+                    if($stock->getId()){
+                        $oldCount = $oldProduct->getCount();
+                        $newCount = $product->getCount();
+                        $count = $oldCount+($newCount-$oldCount);
                         (new StockModel)
                             ->setId($stock->getId())
                             ->setUuid($stock->getUuid())
