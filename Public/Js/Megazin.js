@@ -124,7 +124,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $rootScope.$on('$routeChangeStart', function ($event, next, current) {
             $rootScope.filters = [];
             $rootScope.filtersNames = [];
-            if (next.hasOwnProperty('$$route')&&!next['$$route'].pageName) {
+            if (next.hasOwnProperty('$$route') && !next['$$route'].pageName) {
                 return;
             }
             $rootScope.pageName = next['$$route'].pageName;
@@ -216,23 +216,23 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage();
         }
-        $scope.filter = ()=>{
+        $scope.filter = () => {
             $rootScope.filters = []
-            if($scope.filters.name) {
+            if ($scope.filters.name) {
                 $rootScope.filters.push({
                     name: 'name',
                     kind: '%',
                     value: $scope.filters.name,
                 })
             }
-            if($scope.filters.type) {
+            if ($scope.filters.type) {
                 $rootScope.filters.push({
                     name: 'type',
                     kind: '%',
                     value: $scope.filters.type,
                 })
             }
-            if($scope.filters.size) {
+            if ($scope.filters.size) {
                 $rootScope.filters.push({
                     name: 'type',
                     kind: '%',
@@ -260,14 +260,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
 
     .controller('userProfilController', function ($scope, userProfil, $http) {
         $scope.data = {
-            profile: {
-            }
+            profile: {}
         }
         userProfil.get(function (response) {
-            $scope.data.profile =  response.data
+            $scope.data.profile = response.data
         })
-        $scope.data.send = ()=>{
-            $http.post(apiBase + '/user/profile', $scope.data.profile, (response)=>{
+        $scope.data.send = () => {
+            $http.post(apiBase + '/user/profile', $scope.data.profile, (response) => {
             })
         }
     })
@@ -307,10 +306,10 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 buttons.addClass('buttons');
                 angular.forEach(scope.tabsNames, function (value, key) {
                     var idVisibleHTml = '';
-                    if(value.idRequired){
+                    if (value.idRequired) {
                         idVisibleHTml = ' ng-class="{\'disable\': !$parent.data.id}" ';
                     }
-                    var tab = angular.element('<tab '+idVisibleHTml+' class="tab" tab-id="'+value.id+'" name="'+value.name+'">'+value.name+'</tab>');
+                    var tab = angular.element('<tab ' + idVisibleHTml + ' class="tab" tab-id="' + value.id + '" name="' + value.name + '">' + value.name + '</tab>');
                     tab.data('name', value.name);
                     tab.bind('click', function ($event) {
                         var elem = angular.element($event.target);
@@ -496,7 +495,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         $scope.clear = function (rows) {
             angular.forEach(rows, function (value, key) {
-                if(value.selected) {
+                if (value.selected) {
                     value.deleted = true;
                 }
             });
@@ -506,7 +505,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             angular.forEach(rows, function (value, key) {
                 data.push(value.id);
             });
-            $http.post(apiBase + $scope.deleteUrl+'/mass/xls', {ids: data}).then(function (response) {
+            $http.post(apiBase + $scope.deleteUrl + '/mass/xls', {ids: data}).then(function (response) {
                 var anchor = angular.element('<a/>');
                 anchor.attr({
                     href: response.data.url,
@@ -528,9 +527,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 scope: $scope,
             });
         }
-        $scope.loadDetail = (url, products, product)=>{
+        $scope.loadDetail = (url, products, product) => {
             product.detail = true
-            $http.get(apiBase + url+'/'+product.id).then(function (response) {
+            $http.get(apiBase + url + '/' + product.id).then(function (response) {
                 product.detail = response.data
             });
         }
@@ -713,7 +712,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('catalogEditProductController', function ($routeParams, $scope, $http, $location, catalogProduct, $compile) {
+    .controller('catalogEditProductController', function (showError, $routeParams, $scope, $http, $location, catalogProduct, $compile) {
         $scope.data = {
             id: $routeParams.id,
             product: {
@@ -753,22 +752,33 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         if ($routeParams.id) {
             catalogProduct.get(function (response) {
                 $scope.data.product = response.data;
-                $scope.data.product.vat = $scope.data.product.vat+''
+                $scope.data.product.vat = $scope.data.product.vat + ''
             }, $routeParams.id);
         }
         $scope.data.send = function () {
-            $scope.data.validation.name = $scope.data.product.name?false:true
-            $scope.data.validation.sku = $scope.data.product.sku?false:true
-            $scope.data.validation.sellNet = $scope.data.product.sellNet?false:true
-            $scope.data.validation.sellGross = $scope.data.product.sellGross?false:true
-            $scope.data.validation.vat = $scope.data.product.vat?false:true
+            $scope.data.validation.name = $scope.data.product.name ? false : true
+            $scope.data.validation.sku = $scope.data.product.sku ? false : true
+            $scope.data.validation.sellNet = $scope.data.product.sellNet ? false : true
+            $scope.data.validation.sellGross = $scope.data.product.sellGross ? false : true
+            $scope.data.validation.vat = $scope.data.product.vat ? false : true
             validate = true
-            angular.forEach($scope.data.validation, (el)=>{
-                if(el){
+            angular.forEach($scope.data.validation, (el) => {
+                if (el) {
                     validate = false
                 }
             })
-            if(!validate){
+            if (!validate) {
+                if ($scope.data.validation.sku) {
+                    showError.show('Wprowadź kod SKU')
+                } else if ($scope.data.validation.name) {
+                    showError.show('Wprowadź nazwę towaru')
+                }else if ($scope.data.validation.sellNet) {
+                    showError.show('Wprowadź cenę sprzedaży netto')
+                }else if ($scope.data.validation.sellGross) {
+                    showError.show('Wprowadź cenę sprzedaży brutto')
+                }else if ($scope.data.validation.vat) {
+                    showError.show('Wybierz stawkę VAT')
+                }
                 return
             }
             var data = $scope.data.product;
@@ -783,7 +793,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $http.post(apiBase + '/catalog/product', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
-                        $location.path('/katalog/produkt/'+response.data.id, false);
+                        $location.path('/katalog/produkt/' + response.data.id, false);
                     }
                     //$scope.messages = response.data.errors
                 });
@@ -793,31 +803,36 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             {id: 1, name: 'Podstawowe', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardBasic.html'},
             {id: 2, name: 'Ceny', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardPrice.html'},
             {id: 3, name: 'Opisy', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardDescription.html'},
-            {id: 4, name: 'Zdjęcia', templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardPhotos.html', idRequired: true},
+            {
+                id: 4,
+                name: 'Zdjęcia',
+                templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardPhotos.html',
+                idRequired: true
+            },
             {id: 5, name: 'Dostawcy', disable: true}
         ];
         $scope.imagesUploadOptions = {}
         buyCalcBlock = false
-        $scope.data.sellCalc = (fromNet = false)=>{
+        $scope.data.sellCalc = (fromNet = false) => {
             buyCalcBlock = true
-            if(fromNet) {
-                if(!$scope.data.product.sellNet){
+            if (fromNet) {
+                if (!$scope.data.product.sellNet) {
                     sellCalcBlock = false
                     return
                 }
-                net = parseFloat((''+$scope.data.product.sellNet).replace(',', '.'))
+                net = parseFloat(('' + $scope.data.product.sellNet).replace(',', '.'))
                 vat = $scope.data.product.vat
                 vat = (100 + parseFloat(vat)) / 100
-                gross = Math.round(net * vat*100)/100
+                gross = Math.round(net * vat * 100) / 100
                 $scope.data.product.sellGross = gross.toFixed(2)
-            }else{
-                if(!$scope.data.product.sellGross){
+            } else {
+                if (!$scope.data.product.sellGross) {
                     sellCalcBlock = false
                     return
                 }
-                gross = parseFloat((''+$scope.data.product.sellGross).replace(',', '.'))
+                gross = parseFloat(('' + $scope.data.product.sellGross).replace(',', '.'))
                 vat = $scope.data.product.vat
-                vat = 100/(100 + parseFloat(vat))
+                vat = 100 / (100 + parseFloat(vat))
                 net = Math.round(gross * vat * 100) / 100
                 $scope.data.product.sellNet = net.toFixed(2)
             }
@@ -831,9 +846,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             document: {
                 products: [],
                 stocks: [],
-                date: (date = new Date()).getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate(),
-                deliveryDate: (date = new Date()).getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate(),
-                payDate: (date = (new Date()))?(date.setDate(date.getDate()+14)?(date.getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate()):''):'',
+                date: (date = new Date()).getFullYear() + '-' + ((month = (date.getMonth() + 1)) < 10 ? ('0' + month) : month) + '-' + date.getDate(),
+                deliveryDate: (date = new Date()).getFullYear() + '-' + ((month = (date.getMonth() + 1)) < 10 ? ('0' + month) : month) + '-' + date.getDate(),
+                payDate: (date = (new Date())) ? (date.setDate(date.getDate() + 14) ? (date.getFullYear() + '-' + ((month = (date.getMonth() + 1)) < 10 ? ('0' + month) : month) + '-' + date.getDate()) : '') : '',
                 payment: 'money',
             },
             validation: {
@@ -878,19 +893,19 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         loadedType = '';
         if ($routeParams.id) {
             document.get(function (response) {
-                loadedType =  response.data.type
+                loadedType = response.data.type
                 $scope.data.document = response.data
                 $scope.data.contractorId = $scope.data.document.contractorId
-                if($scope.data.document.contractorId){
-                    $http.get(apiBase + '/contractor/' + $scope.data.contractorId).then((response)=>{
+                if ($scope.data.document.contractorId) {
+                    $http.get(apiBase + '/contractor/' + $scope.data.contractorId).then((response) => {
                         $scope.data.contractor = response.data
                     })
                 }
-                if(!$scope.data.document.products){
+                if (!$scope.data.document.products) {
                     $scope.data.document.products = []
                 }
-                angular.forEach($scope.data.document.products, (product)=>{
-                    product.vat = product.vat+''
+                angular.forEach($scope.data.document.products, (product) => {
+                    product.vat = product.vat + ''
                     $scope.data.callcNet(product)
                 })
                 $scope.data.refreshResume()
@@ -898,40 +913,40 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             }, $routeParams.id);
         }
         $scope.data.send = function () {
-            $scope.data.validation.name = $scope.data.document.name?false:true
-            $scope.data.validation.date = $scope.data.document.date?false:true
-            $scope.data.validation.payDate = $scope.data.document.payDate?false:true
-            $scope.data.validation.issuePlace = $scope.data.document.issuePlace?false:true
-            $scope.data.validation.deliveryDate = $scope.data.document.deliveryDate?false:true
-            $scope.data.validation.payment = $scope.data.document.payment?false:true
+            $scope.data.validation.name = $scope.data.document.name ? false : true
+            $scope.data.validation.date = $scope.data.document.date ? false : true
+            $scope.data.validation.payDate = $scope.data.document.payDate ? false : true
+            $scope.data.validation.issuePlace = $scope.data.document.issuePlace ? false : true
+            $scope.data.validation.deliveryDate = $scope.data.document.deliveryDate ? false : true
+            $scope.data.validation.payment = $scope.data.document.payment ? false : true
             validate = true
-            angular.forEach($scope.data.validation, (el)=>{
-                if(el){
+            angular.forEach($scope.data.validation, (el) => {
+                if (el) {
                     validate = false
                 }
             })
-            if(!$scope.data.document.products.length>0){
+            if (!$scope.data.document.products.length > 0) {
                 validate = false
-            }else if(!$scope.data.contractorId) {
+            } else if (!$scope.data.contractorId) {
                 validate = false
             }
-            if(!validate){
-                if($scope.data.validation.name){
+            if (!validate) {
+                if ($scope.data.validation.name) {
                     showError.show('Wprowadź numer dokumentu')
-                }else if($scope.data.validation.date){
+                } else if ($scope.data.validation.date) {
                     showError.show('Wprowadź datę dokumentu')
-                }else if($scope.data.validation.payDate){
+                } else if ($scope.data.validation.payDate) {
                     showError.show('Wprowadź datę zapłaty')
-                }else if($scope.data.validation.issuePlace){
+                } else if ($scope.data.validation.issuePlace) {
                     showError.show('Wprowadź miejsce wystawienia')
-                }else if($scope.data.validation.deliveryDate){
+                } else if ($scope.data.validation.deliveryDate) {
                     showError.show('Wprowadź datę otrzymania')
-                }else if(!$scope.data.document.products.length>0){
+                } else if (!$scope.data.document.products.length > 0) {
                     showError.show('Wybierz jakieś produkty')
-                }else if(!$scope.data.contractorId){
+                } else if (!$scope.data.contractorId) {
                     showError.show('Wybierz kontrahenta')
-                }else if($scope.data.validation.payment){
-                    if((data.document.type==='fvp')||(data.document.type==='fvs')) {
+                } else if ($scope.data.validation.payment) {
+                    if ((data.document.type === 'fvp') || (data.document.type === 'fvs')) {
                         showError.show('Wybierz metodę płatności')
                     }
                 }
@@ -950,151 +965,151 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $http.post(apiBase + '/document', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
-                        $location.path('/dokument/'+response.data.id, false);
+                        $location.path('/dokument/' + response.data.id, false);
                     }
                     //$scope.messages = response.data.errors
                 });
             }
         }
-        $scope.data.reloadContractor = ()=>{
-            contractorSearch.get((response)=>{
+        $scope.data.reloadContractor = () => {
+            contractorSearch.get((response) => {
                 $scope.data.contractors = response.data.contractors
             }, $scope.data.find.name)
         }
-        $scope.data.reloadProduct = ()=>{
-            productSearch.get((response)=>{
+        $scope.data.reloadProduct = () => {
+            productSearch.get((response) => {
                 $scope.data.products = response.data.products
             }, $scope.data.find.name)
         }
-        $scope.data.reloadStock = ()=>{
-            stockSearch.get((response)=>{
+        $scope.data.reloadStock = () => {
+            stockSearch.get((response) => {
                 $scope.data.stocks = response.data.stocks
             }, $scope.data.find.name)
         }
-        $scope.data.selectContractor = (contractor)=>{
+        $scope.data.selectContractor = (contractor) => {
             $scope.data.contractorId = contractor.id
             $scope.data.contractorShow = false
             $scope.data.contractor = contractor
         }
-        $scope.data.showSelectContractor = ()=>{
+        $scope.data.showSelectContractor = () => {
             $scope.data.contractorShow = true
         }
-        $scope.data.contractorHide = ()=>{
+        $scope.data.contractorHide = () => {
             $scope.data.contractorShow = false
         }
-        $scope.data.productHide = ()=>{
+        $scope.data.productHide = () => {
             $scope.data.productShow = false
         }
-        $scope.data.stockHide = ()=>{
+        $scope.data.stockHide = () => {
             $scope.data.stockShow = false
         }
-        $scope.data.showSelectProduct = ()=>{
+        $scope.data.showSelectProduct = () => {
             $scope.data.productShow = true
         }
-        $scope.data.showSelectStock = ()=>{
+        $scope.data.showSelectStock = () => {
             $scope.data.stockShow = true
         }
         $scope.data.reloadContractor()
         $scope.data.reloadProduct()
         $scope.data.reloadStock()
-        $scope.data.selectProduct = (product)=>{
+        $scope.data.selectProduct = (product) => {
             $scope.data.productShow = false
             product.count = 1
-            product.vat = product.vat+''
+            product.vat = product.vat + ''
             product.productId = product.id
             delete product.id
             $scope.data.document.products.push(product)
             $scope.data.callcNet(product)
             $scope.data.refreshResume()
         }
-        $scope.data.selectStock = (stock)=>{
+        $scope.data.selectStock = (stock) => {
             $scope.data.stockShow = false
             stock.count = 1
-            stock.vat = stock.vat+''
+            stock.vat = stock.vat + ''
             stock.productId = stock.id
             delete stock.id
             $scope.data.document.products.push(stock)
             $scope.data.callcNet(stock)
             $scope.data.refreshResume()
         }
-        $scope.remove = (rows, row)=>{
+        $scope.remove = (rows, row) => {
             row.deleted = true
         }
-        $scope.data.callcNet = (product)=>{
-            net = (product.net+'').replace?parseFloat((product.net+'').replace(',','.')):0
-            count = (product.count+'').replace?parseFloat((product.count+'').replace(',','.')):0
-            product.sumNet = (net*count).toFixed(2)
+        $scope.data.callcNet = (product) => {
+            net = (product.net + '').replace ? parseFloat((product.net + '').replace(',', '.')) : 0
+            count = (product.count + '').replace ? parseFloat((product.count + '').replace(',', '.')) : 0
+            product.sumNet = (net * count).toFixed(2)
 
             vat = product.vat
-            product.sumVat = ((net*count)*(product.vat/100)).toFixed(2)
+            product.sumVat = ((net * count) * (product.vat / 100)).toFixed(2)
 
-            product.sumGross = ((net*count)+((net*count)*(product.vat/100))).toFixed(2)
+            product.sumGross = ((net * count) + ((net * count) * (product.vat / 100))).toFixed(2)
             $scope.data.refreshResume()
         }
-        $scope.data.callcSumNet = (product)=>{
-            sumNet = (product.sumNet+'').replace?parseFloat((product.sumNet+'').replace(',','.')):0
-            count = (product.count+'').replace?parseFloat((product.count+'').replace(',','.')):0
-            product.net = (sumNet/count).toFixed(2)
+        $scope.data.callcSumNet = (product) => {
+            sumNet = (product.sumNet + '').replace ? parseFloat((product.sumNet + '').replace(',', '.')) : 0
+            count = (product.count + '').replace ? parseFloat((product.count + '').replace(',', '.')) : 0
+            product.net = (sumNet / count).toFixed(2)
 
             vat = product.vat
-            product.sumVat = (sumNet*(product.vat/100)).toFixed(2)
+            product.sumVat = (sumNet * (product.vat / 100)).toFixed(2)
 
-            product.sumGross = (sumNet+(sumNet*(product.vat/100))).toFixed(2)
-            $scope.data.refreshResume()
-            //$scope.data.callcNet()
-        }
-        $scope.data.callcSumGross = (product)=>{
-            sumGross = (product.sumGross+'').replace?parseFloat((product.sumGross+'').replace(',','.')):0
-            count = (product.count+'').replace?parseFloat((product.count+'').replace(',','.')):0
-            vat = product.vat
-            product.sumVat = ((sumGross/(100+parseFloat(product.vat)))*parseFloat(product.vat)).toFixed(2)
-            product.sumNet = (sumGross-product.sumVat).toFixed(2)
-            product.net = (product.sumNet/count).toFixed(2)
+            product.sumGross = (sumNet + (sumNet * (product.vat / 100))).toFixed(2)
             $scope.data.refreshResume()
             //$scope.data.callcNet()
         }
-        $scope.data.refreshResume = ()=>{
+        $scope.data.callcSumGross = (product) => {
+            sumGross = (product.sumGross + '').replace ? parseFloat((product.sumGross + '').replace(',', '.')) : 0
+            count = (product.count + '').replace ? parseFloat((product.count + '').replace(',', '.')) : 0
+            vat = product.vat
+            product.sumVat = ((sumGross / (100 + parseFloat(product.vat))) * parseFloat(product.vat)).toFixed(2)
+            product.sumNet = (sumGross - product.sumVat).toFixed(2)
+            product.net = (product.sumNet / count).toFixed(2)
+            $scope.data.refreshResume()
+            //$scope.data.callcNet()
+        }
+        $scope.data.refreshResume = () => {
             sumNet = 0
             sumGross = 0
-            angular.forEach($scope.data.document.products, (product)=>{
+            angular.forEach($scope.data.document.products, (product) => {
                 sumNet += parseFloat(product.sumNet)
-                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+                sumGross += parseFloat(product.net) * parseFloat(product.count) * (100 + parseFloat(product.vat)) / 100
             })
             $scope.data.document.sumNet = sumNet.toFixed(2)
             $scope.data.document.sumGross = sumGross.toFixed(2)
-            $scope.data.document.tax = (sumGross-sumNet).toFixed(2)
+            $scope.data.document.tax = (sumGross - sumNet).toFixed(2)
             $scope.data.refreshSummary()
         }
-        $scope.data.refreshSummary = ()=>{
+        $scope.data.refreshSummary = () => {
             sumGross = 0
-            angular.forEach($scope.data.document.products, (product)=>{
-                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+            angular.forEach($scope.data.document.products, (product) => {
+                sumGross += parseFloat(product.net) * parseFloat(product.count) * (100 + parseFloat(product.vat)) / 100
             })
-            if(!$scope.data.document.payed) {
+            if (!$scope.data.document.payed) {
                 $scope.data.document.payed = sumGross.toFixed(2)
                 $scope.data.document.toPay = 0
             }
-            if(!$routeParams.id) {
+            if (!$routeParams.id) {
                 $scope.data.toPayRefresh()
             }
         }
-        $scope.data.payedRefresh = ()=>{
+        $scope.data.payedRefresh = () => {
             sumGross = 0
-            angular.forEach($scope.data.document.products, (product)=>{
-                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+            angular.forEach($scope.data.document.products, (product) => {
+                sumGross += parseFloat(product.net) * parseFloat(product.count) * (100 + parseFloat(product.vat)) / 100
             })
-            $scope.data.document.toPay = (sumGross-parseFloat($scope.data.document.payed)).toFixed(2)
+            $scope.data.document.toPay = (sumGross - parseFloat($scope.data.document.payed)).toFixed(2)
         }
-        $scope.data.toPayRefresh = ()=>{
+        $scope.data.toPayRefresh = () => {
             sumGross = 0
-            angular.forEach($scope.data.document.products, (product)=>{
-                sumGross += parseFloat(product.net)*parseFloat(product.count)*(100+parseFloat(product.vat))/100
+            angular.forEach($scope.data.document.products, (product) => {
+                sumGross += parseFloat(product.net) * parseFloat(product.count) * (100 + parseFloat(product.vat)) / 100
             })
-            $scope.data.document.payed = (sumGross-parseFloat($scope.data.document.toPay)).toFixed(2)
+            $scope.data.document.payed = (sumGross - parseFloat($scope.data.document.toPay)).toFixed(2)
         }
-        $scope.$watch('data.document.kind', ()=>{
+        $scope.$watch('data.document.kind', () => {
             //$scope.data.document.type = '';
-            if($scope.data.document.kind=='add'){
+            if ($scope.data.document.kind == 'add') {
                 $scope.data.typeOption = [
                     {
                         name: 'Faktura zakupu',
@@ -1105,7 +1120,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                         value: 'pz',
                     },
                 ]
-            }else{
+            } else {
                 $scope.data.typeOption = [
                     {
                         name: 'Faktura sprzedaż',
@@ -1120,8 +1135,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             //alert(loadedType)
             $scope.data.document.type = loadedType
         })
-        $scope.$watch('data.document.type', ()=>{
-            if(!$routeParams.id) {
+        $scope.$watch('data.document.type', () => {
+            if (!$routeParams.id) {
                 $http.get(apiBase + '/document/number/' + $scope.data.document.type).then((response) => {
                     $scope.data.document.name = response.data.name
                 })
@@ -1167,20 +1182,23 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('contractorEditController', function ($routeParams, $scope, $http, $location, contractor) {
+    .controller('contractorEditController', function (showError, $routeParams, $scope, $http, $location, contractor) {
         $scope.data = {
             id: $routeParams.id,
-            document: {
-            },
+            document: {},
             validation: {
                 code: true,
                 name: true,
+            },
+            contractor: {
+                name: null,
+                code: null,
             }
         }
         $scope.filters = {
             name: '',
         }
-        loadPage = ()=> {
+        loadPage = () => {
             if ($routeParams.id) {
                 contractor.get(function (response) {
                     $scope.data.contractor = response.data;
@@ -1188,15 +1206,20 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             }
         }
         $scope.data.send = function () {
-            $scope.data.validation.name = $scope.data.contractor.name?false:true
-            $scope.data.validation.code = $scope.data.contractor.code?false:true
+            $scope.data.validation.name = $scope.data.contractor.name ? false : true
+            $scope.data.validation.code = $scope.data.contractor.code ? false : true
             validate = true
-            angular.forEach($scope.data.validation, (el)=>{
-                if(el){
+            angular.forEach($scope.data.validation, (el) => {
+                if (el) {
                     validate = false
                 }
             })
-            if(!validate){
+            if (!validate) {
+                if ($scope.data.validation.code) {
+                    showError.show('Wprowadź kod kontrahenta')
+                } else if ($scope.data.validation.name) {
+                    showError.show('Wprowadź nazwę kontrahenta')
+                }
                 return
             }
             var data = $scope.data.contractor;
@@ -1211,15 +1234,15 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $http.post(apiBase + '/contractor', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
-                        $location.path('/kontrahent/'+response.data.id, false);
+                        $location.path('/kontrahent/' + response.data.id, false);
                     }
                     //$scope.messages = response.data.errors
                 });
             }
         }
-        $scope.filter = ()=>{
+        $scope.filter = () => {
             $rootScope.filters = []
-            if($scope.filters.name) {
+            if ($scope.filters.name) {
                 $rootScope.filters.push({
                     name: 'name',
                     kind: '%',
@@ -1239,7 +1262,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             deleteDialog.show({
                 title: 'Usunięcie zdjęcia',
                 templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/catalog/product/'+$scope.$parent.data.id+'/image/',
+                apiUrl: '/catalog/product/' + $scope.$parent.data.id + '/image/',
                 data: {
                     rows: rows,
                     row: row,
@@ -1292,7 +1315,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     }).success(function (resp) {
                         angular.forEach(resp.file, function (value, key) {
                             $http.put(apiBase + '/catalog/product/' + $scope.$parent.data.id + '/image/' + value.id).then(function () {
-                                if(!$scope.files){
+                                if (!$scope.files) {
                                     $scope.files = [];
                                 }
                                 $scope.files.push(value);
@@ -1414,16 +1437,16 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage();
         }
-        $scope.filter = ()=>{
+        $scope.filter = () => {
             $rootScope.filters = []
-            if($scope.filters.sku) {
+            if ($scope.filters.sku) {
                 $rootScope.filters.push({
                     name: 'sku',
                     kind: '%',
                     value: $scope.filters.sku,
                 })
             }
-            if($scope.filters.name) {
+            if ($scope.filters.name) {
                 $rootScope.filters.push({
                     name: 'name',
                     kind: '%',
@@ -1488,16 +1511,16 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage();
         }
-        $scope.filter = ()=>{
+        $scope.filter = () => {
             $rootScope.filters = []
-            if($scope.filters.name) {
+            if ($scope.filters.name) {
                 $rootScope.filters.push({
                     name: 'name',
                     kind: '%',
                     value: $scope.filters.name,
                 })
             }
-            if($scope.filters.date) {
+            if ($scope.filters.date) {
                 $rootScope.filters.push({
                     name: 'date',
                     kind: '%',
@@ -1584,16 +1607,16 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage();
         }
-        $scope.filter = ()=>{
+        $scope.filter = () => {
             $rootScope.filters = []
-            if($scope.filters.name) {
+            if ($scope.filters.name) {
                 $rootScope.filters.push({
                     name: 'name',
                     kind: '%',
                     value: $scope.filters.name,
                 })
             }
-            if($scope.filters.code) {
+            if ($scope.filters.code) {
                 $rootScope.filters.push({
                     name: 'code',
                     kind: '%',
@@ -1661,21 +1684,23 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             pagination.page = 1;
             loadPage();
         }
-        $scope.filter = ()=>{
+        $scope.filter = () => {
             $rootScope.filters = []
-            if($scope.filters.name) {
+            if ($scope.filters.name) {
                 $rootScope.filters.push({
                     name: 'name',
                     kind: '%',
                     value: $scope.filters.name,
                 })
-            }if($scope.filters.sku) {
+            }
+            if ($scope.filters.sku) {
                 $rootScope.filters.push({
                     name: 'sku',
                     kind: '%',
                     value: $scope.filters.sku,
                 })
-            }if($scope.filters.count) {
+            }
+            if ($scope.filters.count) {
                 $rootScope.filters.push({
                     name: 'count',
                     kind: '%',
@@ -1753,7 +1778,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 if (response.data.success) {
                     $rootScope.user.logged = true;
                     $location.path('/panel');
-                }else{
+                } else {
                     $scope.messages = response.data.messages
                 }
             });
