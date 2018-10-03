@@ -48,7 +48,7 @@ class DeleteImageFromCatalogProductHandler extends Handler
             ]))
             ->load();
 
-        print_r([$productId, $imageId]);
+        $productFiles->setUuid($productFiles->getUuid());
         $productFiles->delete();
         /*$productModel = new ProductModel;
         $productModel->load($request->getId(), true);

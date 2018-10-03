@@ -65,15 +65,17 @@ class UpdateDocumentHandler extends Handler
                 ->load($product->getId(), true);
             $documentProductId = $documentProduct->getId();
             $productId = $documentProduct->getProductId();
-            $pro = null;
+            /*$pro = null;
             if($documentProduct->getId()) {
                 $pro = (new ProductModel)
                     ->load($documentProduct->getProductId());
                 $productId = $pro->getId();
-            }
+            }*/
             $oldProduct = (new DocumentProductModel)
                 ->load($documentProduct->getId());
-            if($oldProduct->isLoaded()&&$documentProductId){
+            if($product->getId()){
+                $productModel = (new ProductModel)
+                    ->load($product->getProductId());
                 if($product->getDeleted()){
                     (new DocumentProductModel)
                         ->setUuid($oldProduct->getUuid())
@@ -111,7 +113,7 @@ class UpdateDocumentHandler extends Handler
                         (new StockModel)
                             ->setId($stock->getId())
                             ->setUuid($stock->getUuid())
-                            ->setProductId($oldProduct->getId())
+                            ->setProductId($productModel->getId())
                             ->setCount($count)
                             ->setDocumentProductId($documentProductId)
                             ->update();
@@ -119,7 +121,7 @@ class UpdateDocumentHandler extends Handler
                         (new StockModel)
                             ->setUuid(Common::getUuid())
                             ->setDocumentId($document->getId())
-                            ->setProductId($productId)
+                            ->setProductId($productModel->getId())
                             ->setCount($product->getCount())
                             ->setDocumentProductId($documentProductId)
                             ->insert();

@@ -318,7 +318,6 @@ tab article{
 
 .row{
     float: left;
-    width: 100%;
     box-sizing: border-box;
 }
 
@@ -365,6 +364,7 @@ button{
 
 #menu .row{
     margin-bottom: 15px;
+    width: 100%;
 }
 
 .table.products .header .col {
@@ -382,7 +382,6 @@ button{
     border-top: 1px solid #aaa;
     background: #fff;
     z-index: 100;
-    padding-left: 200px;
 }
 
 .fixed-bottom button{

@@ -921,6 +921,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.data.productShow = false
             product.count = 1
             product.vat = product.vat+''
+            product.productId = product.id
+            delete product.id
             $scope.data.document.products.push(product)
             $scope.data.callcNet(product)
             $scope.data.refreshResume()

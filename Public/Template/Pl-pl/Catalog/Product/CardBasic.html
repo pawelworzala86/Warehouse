@@ -1,18 +1,30 @@
 <article>
     <div class="row">
-        <div class="form-group col col-xs-4">
-            <label ng-class="{'error': data.validation.sku&&!data.product.sku}">SKU</label>
-            <input type="text" ng-model="data.product.sku" ng-class="{'error': data.validation.sku&&!data.product.sku}"/>
+        <div class="col col-xs-4">
+            <div class="card">
+                <div class="title">Opcje produktu</div>
+                <div class="form-group col col-xs-6 checkbox">
+                    <input type="checkbox" ng-model="data.product.toSell"/><label>Product do sprzedaży</label>
+                </div>
+                <div class="form-group col col-xs-6 checkbox">
+                    <input type="checkbox" ng-model="data.product.partial"/><label>Półproduct</label>
+                </div>
+            </div>
         </div>
-        <div class="form-group col col-xs-8">
-            <label ng-class="{'error': data.validation.name&&!data.product.name}">Nazwa produktu</label>
-            <input type="text" ng-model="data.product.name" ng-class="{'error': data.validation.name&&!data.product.name}"/>
-        </div>
-        <div class="form-group col col-xs-6 checkbox">
-            <input type="checkbox" ng-model="data.product.toSell"/><label>Product do sprzedaży</label>
-        </div>
-        <div class="form-group col col-xs-6 checkbox">
-            <input type="checkbox" ng-model="data.product.partial"/><label>Półproduct</label>
+        <div class="col col-xs-8">
+            <div class="card">
+                <div class="title">Nazwy/kody</div>
+                <div class="form-group col col-xs-4">
+                    <label ng-class="{'error': data.validation.sku&&!data.product.sku}">SKU</label>
+                    <input type="text" ng-model="data.product.sku"
+                           ng-class="{'error': data.validation.sku&&!data.product.sku}"/>
+                </div>
+                <div class="form-group col col-xs-8">
+                    <label ng-class="{'error': data.validation.name&&!data.product.name}">Nazwa produktu</label>
+                    <input type="text" ng-model="data.product.name"
+                           ng-class="{'error': data.validation.name&&!data.product.name}"/>
+                </div>
+            </div>
         </div>
     </div>
     <div class="fixed-bottom">

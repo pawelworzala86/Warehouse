@@ -16,6 +16,18 @@ class DocumentProduct extends Type
     private $sumNet;
     private $sumGross;
     private $issuePlace;
+    private $productId;
+
+    public function getProductId(): ?UUID
+    {
+        return $this->productId;
+    }
+
+    public function setProductId(UUID $productId = null): DocumentProduct
+    {
+        $this->productId = $productId;
+        return $this;
+    }
 
     public function getIssuePlace(): ?string
     {
@@ -105,13 +117,13 @@ class DocumentProduct extends Type
         return $this->sku;
     }
 
-    function setId(UUID $id): DocumentProduct
+    function setId(UUID $id = null): DocumentProduct
     {
         $this->id = $id;
         return $this;
     }
 
-    function getId(): UUID
+    function getId(): ?UUID
     {
         return $this->id;
     }

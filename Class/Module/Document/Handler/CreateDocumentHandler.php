@@ -60,7 +60,7 @@ class CreateDocumentHandler extends Handler
         $products->rewind();
         while ($product = $products->current()) {
             $productModel = (new ProductModel)
-                ->load($product->getId(), true);
+                ->load($product->getProductId(), true);
             $productId = $productModel->getId();
             $documentProductId = (new DocumentProductModel)
                     ->setUuid(Common::getUuid())

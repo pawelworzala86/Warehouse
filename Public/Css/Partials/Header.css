@@ -191,4 +191,7 @@ header {
         font-size: 1em;
         color: #888;
     }
+    .fixed-bottom{
+        padding-left: 200px;
+    }
 }

@@ -9,8 +9,8 @@ use App\Type\UUID;
 
 class UpdateDocumentRequest extends UserRequest
 {
-    public $name;
-    public $id;
+    private $name;
+    private $id;
     private $contractorId;
     private $products;
     private $date;

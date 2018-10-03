@@ -67,7 +67,8 @@ class GetDocumentHandler extends Handler
                 ->load($prod->getProductId());
             $products->add(
                 (new DocumentProduct)
-                    ->setId($product->getUuid())
+                    ->setId($prod->getUuid())
+                    ->setProductId($product->getUuid())
                     ->setName($product->getName())
                     ->setSku($product->getSku())
                     ->setCount($prod->getCount())
