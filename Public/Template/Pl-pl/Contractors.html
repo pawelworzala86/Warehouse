@@ -45,8 +45,8 @@
         <div class="header">
             <input type="checkbox" ng-show="selects.length>0" id="chbx" ng-click="checkAll(contractors)"><label ng-show="selects.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
-                <div class="col col-xs-2"><input placeholder="Kod" type="text" ng-model="filters.code" ng-change="filter()"></div>
-                <div class="col col-xs-2"><input placeholder="Nazwa" type="text" ng-model="filters.name" ng-change="filter()"></div>
+                <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Kod" type="text" ng-model="filters.code" ng-change="filter()"></div>
+                <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Nazwa" type="text" ng-model="filters.name" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="contractors.length>0">
                 <div class="col col-xs-2">Numer</div>

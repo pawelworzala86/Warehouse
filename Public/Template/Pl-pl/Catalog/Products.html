@@ -45,8 +45,8 @@
         <div class="header">
             <input ng-show="products.length>0" type="checkbox" id="chbx" ng-click="checkAll(products)"><label ng-show="products.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
-                <div class="col col-xs-2"><input placeholder="SKU" type="text" ng-model="filters.sku" ng-change="filter()"></div>
-                <div class="col col-xs-10"><input placeholder="Nazwa produktu" type="text" ng-model="filters.name" ng-change="filter()"></div>
+                <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="SKU" type="text" ng-model="filters.sku" ng-change="filter()"></div>
+                <div class="col col-xs-10"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Nazwa produktu" type="text" ng-model="filters.name" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="products.length>0">
                 <div class="col col-xs-2">SKU</div>
