@@ -63,12 +63,12 @@
 </style>
 <!--<div id="loading"><i class="material-icons rotate big">refresh</i></div>-->
 <header>
+    <i ng-click="showMenu=true" class="material-icons menu-toggle button menu">menu</i>
     <div class="pageTitle">
         <p ng-show="pageName">Obecna strona</p>
         <h1 ng-show="pageName">{{pageName}}</h1>
     </div>
     <i ng-if="user.logged" ng-click="logout()" class="material-icons right button">exit_to_app</i>
-    <i ng-click="showMenu=true" class="material-icons menu-toggle button right">menu</i>
 </header>
 <div ng-show="showMenu" id="menu">
     <div class="menu-body">

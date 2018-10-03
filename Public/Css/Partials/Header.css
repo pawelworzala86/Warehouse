@@ -4,7 +4,7 @@ header,
     box-sizing: border-box;
 }
 
-header{
+header {
     float: left;
     border-bottom: 1px solid rgba(0, 0, 0, 0.2);
     padding: 8px 15px;
@@ -42,7 +42,7 @@ header i.right,
     box-sizing: border-box;
 }
 
-#menu .menu-body{
+#menu .menu-body {
     position: absolute;
     border: 1px solid #aaa;
     background: rgba(255, 255, 255, 0.75);
@@ -51,16 +51,15 @@ header i.right,
     box-sizing: border-box;
     top: 50px;
     box-shadow: 5px 5px 5px #ddd;
-    border-radius: 15px;
 }
 
-#menu .menu-body .material-icons{
+#menu .menu-body .material-icons {
     position: absolute;
     right: 5px;
     top: 5px;
 }
 
-#menu .links-group .primary{
+#menu .links-group .primary {
     margin: 0px;
     padding: 0px;
     font-weight: 400;
@@ -69,7 +68,7 @@ header i.right,
     color: #555;
 }
 
-#menu .links-group .sub{
+#menu .links-group .sub {
     float: left;
     width: 100%;
     font-weight: 300;
@@ -81,42 +80,47 @@ header i.right,
     font-weight: 400;
 }
 
-#menu .links-group{
+#menu .links-group {
     float: left;
     padding: 0px 10px;
 }
 
-header .button{
+#menu .container {
+    padding-bottom: 25px;
+    padding-top: 25px;
+}
+
+header .button {
     padding: 15px !important;
     border: 1px solid #ddd;
 }
 
-header .button.right{
+header .button.right {
     margin-right: -1px;
 }
 
-header h1{
+header h1 {
     margin: 0px;
     padding: 0px;
     font-weight: 400;
     font-size: 1.15em;
 }
 
-header p{
+header p {
     margin: 0px;
     padding: 0px;
     color: #888;
     font-size: 0.65em;
 }
 
-header .pageTitle{
+header .pageTitle {
     float: left;
     margin: 10px 0;
     font-size: 1.35em;
-    margin-left: 40px;
+    margin-left: 15px;
 }
 
-header{
+header {
     left: 0 !important;
     position: absolute !important;
     right: 0 !important;
@@ -124,6 +128,67 @@ header{
     z-index: 10;
 }
 
-header{
+header {
     padding: 0 !important;
+    z-index: 100;
+}
+
+@media all and (min-width: 900px) {
+    header .button.menu {
+        display: none;
+    }
+
+    #menu .menu-body {
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+
+    #menu {
+        display: block !important;
+        position: fixed;
+        width: 200px;
+        top: 62px;
+        bottom: 0;
+        height: auto;
+        z-index: 10;
+    }
+
+    #menu .links-group {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    #menu .row {
+        margin-bottom: 0 !important;
+    }
+
+    #menu .links-group .sub {
+        margin-left: 10px;
+        font-size: 1.15em;
+        font-weight: 400 !important;
+    }
+
+    #menu .links-group {
+        font-size: 0.9em;
+        font-weight: 500;
+        color: #888;
+    }
+    #menu .menu-body .material-icons{
+        display: none;
+    }
+    .container{
+        padding-left: 225px !important;
+    }
+    #menu .container{
+        padding-left: 25px !important;
+    }
+    #menu .header{
+        display: none;
+    }
+    #menu .links-group .primary{
+        font-size: 1em;
+        color: #888;
+    }
 }
