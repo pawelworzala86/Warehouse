@@ -27,6 +27,18 @@ class CreateDocumentRequest extends UserRequest
     private $payed;
     private $toPay;
     private $kind;
+    private $type;
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): CreateDocumentRequest
+    {
+        $this->type = $type;
+        return $this;
+    }
 
     public function getKind(): string
     {

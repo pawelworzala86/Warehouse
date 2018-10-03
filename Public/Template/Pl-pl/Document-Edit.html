@@ -113,24 +113,49 @@
         padding-top: 2px;
     }
 
+    .row.options,
+    .fixed-bottom.options,
+    .hide{
+        display: none;
+    }
+
+    .row.options.show,
+    .fixed-bottom.options.show,
+    .hide.show{
+        display: block;
+    }
+
+    .kind,
+    .row.options{
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
 </style>
 <div class="container">
     <article>
-        <div class="row">
-            <div class="col col-xs-12">
+        <div class="kind">
+            <div class="col col-xs-6">
                 <div class="card">
                     <div class="title">Rodzaj dokumentu</div>
-                    <div class="form-group col col-xs-12">
+                    <div class="form-group col col-xs-6">
                         <label>Wybierz rodzaj</label>
                         <select ng-model="data.document.kind">
                             <option value="add">Przychód</option>
                             <option value="dec">Rozchód</option>
                         </select>
                     </div>
+                    <div class="form-group col col-xs-6 hide" ng-class="{'show': data.document.kind}">
+                        <label>Wybierz dokument</label>
+                        <select ng-model="data.document.type">
+                            <option ng-repeat="type in data.typeOption" value="{{type.value}}">{{type.name}}</option>
+                        </select>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row options" ng-class="{'show': data.document.type}">
             <div class="col col-xs-7">
                 <div class="card">
                     <div class="title">Dane podstawowe</div>
@@ -170,7 +195,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row options" ng-class="{'show': data.document.type}">
             <div class="col col-xs-12">
                 <div class="card">
                     <div class="title">Produkty/usługi</div>
@@ -214,7 +239,7 @@
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row options" ng-class="{'show': data.document.type}">
             <div class="col col-xs-7">
                 <div class="card">
                     <div class="title">Dodatkowe informacje</div>
@@ -228,8 +253,8 @@
                 <div class="card">
                     <div class="title">Płatności</div>
                     <div class="form-group col col-xs-6">
-                        <label>Rodzaj płatności</label>
-                        <select ng-model="data.document.payment">
+                        <label ng-class="{'error': data.validation.payment&&!data.document.payment}">Rodzaj płatności</label>
+                        <select ng-model="data.document.payment" ng-class="{'error': data.validation.payment&&!data.document.payment}">
                             <option value="money">Gotówka</option>
                             <option value="wire">Przelew</option>
                         </select>
@@ -262,7 +287,7 @@
                 </div>
             </div>
         </div>
-        <div class="fixed-bottom">
+        <div class="fixed-bottom options" ng-class="{'show': data.document.type}">
             <button class="sender icon" ng-click="data.send()">Zapisz</button>
         </div>
     </article>

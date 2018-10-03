@@ -118,6 +118,7 @@ class GetDocumentHandler extends Handler
             ->setDeliveryDate($document->getDeliveryDate())
             ->setPayed($document->getPayed())
             ->setToPay($document->getToPay())
-            ->setKind($document->getKind());
+            ->setKind($document->getKind())
+            ->setType($document->getType());
     }
 }

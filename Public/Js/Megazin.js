@@ -784,6 +784,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 date: (date = new Date()).getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate(),
                 deliveryDate: (date = new Date()).getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate(),
                 payDate: (date = (new Date()))?(date.setDate(date.getDate()+14)?(date.getFullYear()+'-'+((month = (date.getMonth()+1))<10?('0'+month):month)+'-'+date.getDate()):''):'',
+                payment: 'money',
             },
             validation: {
                 name: true,
@@ -791,6 +792,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 payDate: true,
                 issuePlace: true,
                 deliveryDate: true,
+                payment: false,
             },
             contractorShow: false,
             find: {
@@ -823,9 +825,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 value: '0'
             }
         ]
+        loadedType = '';
         if ($routeParams.id) {
             document.get(function (response) {
-                $scope.data.document = response.data;
+                loadedType =  response.data.type
+                $scope.data.document = response.data
                 $scope.data.contractorId = $scope.data.document.contractorId
                 if($scope.data.document.contractorId){
                     $http.get(apiBase + '/contractor/' + $scope.data.contractorId).then((response)=>{
@@ -840,6 +844,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     $scope.data.callcNet(product)
                 })
                 $scope.data.refreshResume()
+                $scope.data.document.type = loadedType
             }, $routeParams.id);
         }
         $scope.data.send = function () {
@@ -848,6 +853,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.data.validation.payDate = $scope.data.document.payDate?false:true
             $scope.data.validation.issuePlace = $scope.data.document.issuePlace?false:true
             $scope.data.validation.deliveryDate = $scope.data.document.deliveryDate?false:true
+            $scope.data.validation.payment = $scope.data.document.payment?false:true
             validate = true
             angular.forEach($scope.data.validation, (el)=>{
                 if(el){
@@ -961,6 +967,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
 
             product.sumGross = (sumNet+(sumNet*(product.vat/100))).toFixed(2)
             $scope.data.refreshResume()
+            //$scope.data.callcNet()
         }
         $scope.data.callcSumGross = (product)=>{
             sumGross = (product.sumGross+'').replace?parseFloat((product.sumGross+'').replace(',','.')):0
@@ -970,6 +977,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             product.sumNet = (sumGross-product.sumVat).toFixed(2)
             product.net = (product.sumNet/count).toFixed(2)
             $scope.data.refreshResume()
+            //$scope.data.callcNet()
         }
         $scope.data.refreshResume = ()=>{
             sumNet = 0
@@ -992,6 +1000,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $scope.data.document.payed = sumGross.toFixed(2)
                 $scope.data.document.toPay = 0
             }
+            if(!$routeParams.id) {
+                $scope.data.toPayRefresh()
+            }
         }
         $scope.data.payedRefresh = ()=>{
             sumGross = 0
@@ -1007,6 +1018,34 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             })
             $scope.data.document.payed = (sumGross-parseFloat($scope.data.document.toPay)).toFixed(2)
         }
+        $scope.$watch('data.document.kind', ()=>{
+            //$scope.data.document.type = '';
+            if($scope.data.document.kind=='add'){
+                $scope.data.typeOption = [
+                    {
+                        name: 'Faktura zakupu',
+                        value: 'fvp',
+                    },
+                    {
+                        name: 'PZ',
+                        value: 'pz',
+                    },
+                ]
+            }else{
+                $scope.data.typeOption = [
+                    {
+                        name: 'Faktura sprzedaż',
+                        value: 'fvs',
+                    },
+                    {
+                        name: 'WZ',
+                        value: 'wz',
+                    },
+                ]
+            }
+            //alert(loadedType)
+            $scope.data.document.type = loadedType
+        })
     })
 
     .factory('stockSearch', function ($http) {
