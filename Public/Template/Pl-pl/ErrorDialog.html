@@ -1,0 +1,22 @@
+<style>
+    .material-icons,
+    .material-icons:hover{
+        font-size: 45px;
+        color: #b44 !important;
+        float: left;
+        width: 100%;
+        text-align: center;
+        margin-bottom: 15px;
+    }
+</style>
+<div class="modal error">
+    <div class="content">
+        <div class="body">
+            <i class="material-icons">error</i>
+            {{modal.data.message}}
+        </div>
+        <div class="footer">
+            <button ng-click="modal.cancel()">Zamknij</button>
+        </div>
+    </div>
+</div>

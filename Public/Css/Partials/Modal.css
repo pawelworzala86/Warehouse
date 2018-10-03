@@ -17,7 +17,6 @@
     overflow: hidden;
     background: #fff;
     box-shadow: 5px 5px 5px #aaa;
-    border-radius: 15px;
     border: 1px solid #ddd;
 }
 
@@ -60,6 +59,29 @@
     right: 0px;
     font-size: 1.75em !important;
     top: 1px;
+}
+
+.modal.error{
+    font-size: 25px;
+    font-weight: 100;
+    text-align: center;
+}
+
+.modal.error .footer button {
+    float: none;
+    margin-left: 0;
+}
+
+.modal.error .header{
+    display: none;
+}
+
+.modal.error .footer{
+    border: none;
+    padding: 15px;
+    text-align: center;
+    padding-top: 0px;
+    padding-bottom: 25px;
 }
 
 @media only screen and (max-width:768px)  {

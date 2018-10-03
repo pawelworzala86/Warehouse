@@ -663,6 +663,56 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
+    .factory('errorDialog', function ($http, modal) {
+        return {
+            show: function (options) {
+                modal({
+                    templateUrl: function () {
+                        return options.templateUrl
+                    },
+                    title: function () {
+                        return options.title
+                    },
+                    cancel: function () {
+                    },
+                    accept: function (callback, scope) {
+                        /*if (options.data.selects && (options.data.selects.length > 0)) {
+                            var ids = [];
+                            angular.forEach(options.data.selects, function (value, key) {
+                                ids.push(value.id);
+                            });
+                            $http.post(apiBase + options.apiUrl + '/mass/delete', {ids: ids}).then(function (response) {
+                                if (response.data.success) {
+                                    options.scope.selects = [];
+                                    options.scope.clear(options.scope[options.scope.itemsName]);
+                                    callback();
+                                }
+                            });
+                        } else {
+                            $http.delete(apiBase + options.apiUrl + options.data.row.id).then(function (response) {
+                                var i = 0;
+                                var index = null;
+                                angular.forEach(options.data.rows, function (value, key) {
+                                    if (value.id == options.data.row.id) {
+                                        index = i;
+                                    }
+                                    i++;
+                                });
+                                if (index !== null) {
+                                    options.data.rows.splice(index, 1);
+                                }
+                                callback();
+                            });
+                        }*/
+                    },
+                    data: function () {
+                        return options.data;
+                    }
+                }).activate();
+            }
+        }
+    })
+
     .controller('catalogEditProductController', function ($routeParams, $scope, $http, $location, catalogProduct, $compile) {
         $scope.data = {
             id: $routeParams.id,
@@ -775,7 +825,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('documentEditController', function ($routeParams, $scope, $http, $location, document, contractorSearch, productSearch, stockSearch) {
+    .controller('documentEditController', function (showError, $routeParams, $scope, $http, $location, document, contractorSearch, productSearch, stockSearch, errorDialog) {
         $scope.data = {
             id: $routeParams.id,
             document: {
@@ -860,7 +910,31 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     validate = false
                 }
             })
+            if(!$scope.data.document.products.length>0){
+                validate = false
+            }else if(!$scope.data.contractorId) {
+                validate = false
+            }
             if(!validate){
+                if($scope.data.validation.name){
+                    showError.show('Wprowadź numer dokumentu')
+                }else if($scope.data.validation.date){
+                    showError.show('Wprowadź datę dokumentu')
+                }else if($scope.data.validation.payDate){
+                    showError.show('Wprowadź datę zapłaty')
+                }else if($scope.data.validation.issuePlace){
+                    showError.show('Wprowadź miejsce wystawienia')
+                }else if($scope.data.validation.deliveryDate){
+                    showError.show('Wprowadź datę otrzymania')
+                }else if(!$scope.data.document.products.length>0){
+                    showError.show('Wybierz jakieś produkty')
+                }else if(!$scope.data.contractorId){
+                    showError.show('Wybierz kontrahenta')
+                }else if($scope.data.validation.payment){
+                    if((data.document.type==='fvp')||(data.document.type==='fvs')) {
+                        showError.show('Wybierz metodę płatności')
+                    }
+                }
                 return
             }
             var data = $scope.data.document
@@ -1053,6 +1127,20 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 })
             }
         })
+    })
+
+    .factory('showError', function (errorDialog) {
+        return {
+            show: function (message) {
+                errorDialog.show({
+                    title: '',
+                    templateUrl: '/Public/Template/Pl-pl/ErrorDialog.html',
+                    data: {
+                        message: message
+                    }
+                })
+            }
+        }
     })
 
     .factory('stockSearch', function ($http) {
