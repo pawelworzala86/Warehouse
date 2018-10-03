@@ -26,6 +26,18 @@ class CreateDocumentRequest extends UserRequest
     private $deliveryDate;
     private $payed;
     private $toPay;
+    private $kind;
+
+    public function getKind(): string
+    {
+        return $this->kind;
+    }
+
+    public function setKind(string $kind): CreateDocumentRequest
+    {
+        $this->kind = $kind;
+        return $this;
+    }
 
     public function getToPay(): ?float
     {

@@ -25,6 +25,19 @@ class DocumentModel extends Model
     private $deliveryDate;
     private $payed;
     private $toPay;
+    private $kind;
+
+    public function getKind(): string
+    {
+        return $this->kind;
+    }
+
+    public function setKind(string $kind): DocumentModel
+    {
+        $this->set('kind', $kind);
+        $this->kind = $kind;
+        return $this;
+    }
 
     public function getToPay(): ?float
     {
@@ -145,7 +158,7 @@ class DocumentModel extends Model
         $this->gross = $gross;
         return $this;
     }
-    
+
     public function getTax(): ?float
     {
         return $this->tax;

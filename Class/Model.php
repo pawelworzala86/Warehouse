@@ -215,7 +215,9 @@ class Model
             $where = !empty($where2)?' where ' . trim($where2, 'and '):'';
         }
 
-        $this->order(' id desc ');
+        if (!isset($this->order) || (count($this->order) == 0)) {
+            $this->order(' id desc ');
+        }
 
         $order = '';
         if (isset($this->order) && (count($this->order) > 0)) {

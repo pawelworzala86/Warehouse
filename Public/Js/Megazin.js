@@ -931,6 +931,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.data.stockShow = false
             stock.count = 1
             stock.vat = stock.vat+''
+            stock.productId = stock.id
+            delete stock.id
             $scope.data.document.products.push(stock)
             $scope.data.callcNet(stock)
             $scope.data.refreshResume()
