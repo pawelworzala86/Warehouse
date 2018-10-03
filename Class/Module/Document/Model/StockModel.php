@@ -15,6 +15,19 @@ class StockModel extends Model
     private $count;
     private $documentId;
     private $documentProductId;
+    private $stockId;
+
+    public function getStockId(): ?int
+    {
+        return $this->stockId;
+    }
+
+    public function setStockId(int $stockId = null): StockModel
+    {
+        $this->set('stock_id', $stockId);
+        $this->stockId = $stockId;
+        return $this;
+    }
 
     public function getDocumentProductId(): ?int
     {

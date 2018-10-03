@@ -32,7 +32,7 @@ class Database
                 $ret = $sth->execute();
             return $ret;
         } catch (\PDOException $e) {
-            $this->setErrorMsg($e->getMessage());
+            print_r([$e->getMessage(), $this->sql, $param]);
         }
         return null;
     }

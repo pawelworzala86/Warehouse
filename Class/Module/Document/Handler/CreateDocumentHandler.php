@@ -82,6 +82,7 @@ class CreateDocumentHandler extends Handler
                     ->setProductId($productId)
                     ->setCount($product->getCount())
                     ->setDocumentProductId($documentProductId)
+                    //->setAdd(1)
                     ->insert();
             }else if($request->getKind()==='dec'){
                 //$oldCount = $docProd->getCount();
@@ -105,108 +106,91 @@ class CreateDocumentHandler extends Handler
                         'kind' => new FilterKind('='),
                         'value' => $productId,
                     ]))
-                    /*->where(new Filter([
-                        'name' => 'document_id',
-                        'kind' => new FilterKind('='),
-                        'value' => $document->getId(),
-                    ]))*/
-                    /*->where(new Filter([
+                    ->where(new Filter([
                         'name' => 'count',
                         'kind' => new FilterKind('>'),
                         'value' => 0,
-                    ]))*/
+                    ]))
                     ->order(' id desc ')
                     ->load();
                 $stockModel->rewind();
-                //print_r([$productModel->getId(), $count, $stockModel]);
+                //print_r([$productId]);
                 while ($stock = $stockModel->current()) {
-                    $documentProductModel = (new DocumentProductModel)
-                        ->load($stock->getDocumentProductId());
+                    //$documentProductModel = (new DocumentProductModel)
+                    //    ->load($stock->getDocumentProductId());
                     //$originalCount = $documentProductModel->getCount();
-                    if (!($count > 0)) {
+                    if ($count <= 0) {
                         break;
                     }
-                    $stock->setUuid($stock->getUuid());
+                    //$stock->setUuid($stock->getUuid());
                     //$stockCount = $stockModel->getCount();
                     //print_r([$originalCount, $count]);
-                    $stockU = (new StockModel)
-                        ->load($stock->getId());
-                    $stockU->setUuid($stock->getUuid());
-                    $stockCount = $stockU->getCount();
-                    //print_r([$stockCount, $count]);
-                    if($stockCount<=$count){
-                        if ($stockCount - $count <= 0) {
-                            $stockU->setCount(0);
-                            $count -= $stockCount;
-                            $stockU->update();
-                        } else {
-                            $stockU->setCount($stockCount - $count);
+                    //$stockU = (new StockModel)
+                    //    ->load($stock->getId());
+                    //$stockU->setUuid($stock->getUuid());
+                    $stockCount = $stock->getCount();
+                    //print_r([$stock->getId()]);
+                    if($stockCount>=$count){
+                        //if ($stockCount - $count <= 0) {
+                            //$stockU->setCount(0);
+                            //$count = 0;//$stockCount;
+                            //$stockU->update();
+
+                            (new StockModel)
+                                ->setUuid(Common::getUuid())
+                                ->setDocumentId($documentId)
+                                ->setProductId($productId)
+                                ->setCount(-$count)
+                                ->setDocumentProductId($documentProductId)
+                                ->setStockId($stock->getId())
+                                ->insert();
                             $count = 0;
-                            $stockU->update();
-                        }
+                        /*} else {
+                            //$stockU->setCount($stockCount - $count);
+                            $count = 0;
+                            //$stockU->update();
+                            (new StockModel)
+                                ->setUuid(Common::getUuid())
+                                ->setDocumentId($documentId)
+                                ->setProductId($productId)
+                                ->setCount(-$count)
+                                ->setDocumentProductId($documentProductId)
+                                ->setStockId($stock->getId())
+                                ->insert();
+                        }*/
                     }else {
-                        if ($stockCount - $count <= 0) {
-                            $stockU->setCount(0);
+                        /*if ($stockCount - $count <= 0) {
+                            //$stockU->setCount(0);
                             $count -= $stockCount;
-                            $stockU->update();
-                        } else {
-                            $stockU->setCount($stockCount - $count);
-                            $count = 0;
+                            //$stockU->update();
+                            (new StockModel)
+                                ->setUuid(Common::getUuid())
+                                ->setDocumentId($documentId)
+                                ->setProductId($productId)
+                                ->setCount(-$stockCount)
+                                ->setDocumentProductId($documentProductId)
+                                ->setStockId($stock->getId())
+                                ->insert();
+                        } else {*/
+                            //$stockU->setCount($stockCount - $count);
+
                             //print_r(['update']);
-                            $stockU->update();
-                        }
+                            //$stockU->update();
+                            (new StockModel)
+                                ->setUuid(Common::getUuid())
+                                ->setDocumentId($documentId)
+                                ->setProductId($productId)
+                                ->setCount(-$stockCount)
+                                ->setDocumentProductId($documentProductId)
+                                ->setStockId($stock->getId())
+                                ->insert();
+                        $count -= $stockCount;
+                        //}
                     }
                     $stockModel->next();
                 }
                 if($count>0){
-                    $productModel = (new ProductModel)
-                        ->load($product->getId(), true);
-                    $count = $product->getCount();
-                    $stockModel = (new StockCollection)
-                        ->where(new Filter([
-                            'name' => 'added_by',
-                            'kind' => new FilterKind('='),
-                            'value' => User::getId(),
-                        ]))
-                        ->where(new Filter([
-                            'name' => 'deleted',
-                            'kind' => new FilterKind('='),
-                            'value' => 0,
-                        ]))
-                        ->where(new Filter([
-                            'name' => 'product_id',
-                            'kind' => new FilterKind('='),
-                            'value' => $productModel->getId(),
-                        ]))
-                        ->where(new Filter([
-                            'name' => 'count',
-                            'kind' => new FilterKind('>'),
-                            'value' => 0,
-                        ]))
-                        ->order(' id asc ')
-                        ->load();
-                    $stockModel->rewind();
-                    while($stock = $stockModel->current()){
-                        if(!($count>0)){
-                            break;
-                        }
-
-                        $stockU = (new StockModel)
-                            ->load($stock->getId());
-                        $stockU->setUuid($stock->getUuid());
-                        $stockCount = $stock->getCount();
-                        //print_r([$stockCount, $count]);
-                        if($stockCount-$count<=0){
-                            $stockU->setCount(0);
-                            $count -= $stockCount;
-                            $stockU->update();
-                        }else{
-                            $stockU->setCount($stockCount-$count);
-                            $count = 0;
-                            $stockU->update();
-                        }
-                        $stockModel->next();
-                    }
+                    throw new \Exception('Stock is out!');
                 }
             }else{
                 throw new \Exception('Kind error!');

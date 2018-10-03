@@ -286,7 +286,7 @@ class Model
         $params = [];
         $set = [];
         foreach ($this->updatedFields as $key => $value) {
-            $set[] = ' ' . $key . '=? ';
+            $set[] = ' `' . $key . '`=? ';
             if ($key == 'uuid') {
                 $params[] = $value;
             } else {
