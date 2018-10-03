@@ -535,7 +535,43 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('catalogCategoriesController', function (showError, $scope, $http, catalogCategories, modal, deleteDialog) {
+    .factory('modalDialog', ($http, $compile, $rootScope)=>{
+        let modal = {
+            show: (options)=>{
+                if(!$rootScope.modalIndex){
+                    $rootScope.modalIndex = 100000
+                }
+                $rootScope.modalIndex++
+                $http.get(options.templateUrl).then((response)=>{
+                    node = angular.element(response.data)
+                    $compile(node.contents())(options.scope)
+                    options.scope.modal = {}
+                    options.scope.modal.close = ()=>{
+                        node.remove()
+                    }
+                    options.scope.modal.title = options.title
+                    options.scope.modal.message = options.title
+                    angular.element(document.body).append(node)
+                })
+            }
+        }
+        return modal
+    })
+
+    .factory('modalError', (modalDialog, $http, $compile, $rootScope)=>{
+        let modal = {
+            show: (scope, title)=>{
+                modalDialog.show({
+                    scope: scope,
+                    title: title,
+                    templateUrl: '/Public/Template/Pl-pl/ErrorDialog.html',
+                })
+            }
+        }
+        return modal
+    })
+
+    .controller('catalogCategoriesController', function (modalError, modalDialog, showError, $scope, $http, catalogCategories, modal, deleteDialog) {
         $scope.categories = [];
         catalogCategories.get(function (response) {
             $scope.categories = response.data.categories ? response.data.categories : [];
@@ -552,7 +588,12 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 },
                 accept: function (callback, scope) {
                     if(!scope.data||!scope.data.name){
-                        showError.show('Wprowadź nazwę kategorii')
+                        modalError.show($scope, 'Wprowadź nazwę kategorii')
+                        /*modalDialog.show({
+                            scope: $scope,
+                            templateUrl: '/Public/Template/Pl-pl/ErrorDialog.html',
+                        })*/
+
                         return
                     }
                     $http.post(apiBase + '/catalog/category', scope.data).then(function (response) {
