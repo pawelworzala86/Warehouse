@@ -136,24 +136,41 @@ class GetDocumentPrintHandler extends Handler
         while ($product = $documentProducts->current()) {
             $productModel = (new ProductModel)
                 ->load($product->getProductId());
-            $products[] = [
-                $index++,
-                $productModel->getSku(),
-                $productModel->getName(),
-                $product->getCount(),
-                'szt',
-                number_format($product->getNet(), 2),
-                $product->getVat(),
-                number_format($product->getSumNet(), 2),
-                number_format($product->getSumGross() - $product->getSumNet(), 2),
-                number_format($product->getSumGross(), 2)
-            ];
+            if(($documentModel->getType()=='fvp')||($documentModel->getType()=='fvs')) {
+                $products[] = [
+                    $index++,
+                    $productModel->getSku(),
+                    $productModel->getName(),
+                    $product->getCount(),
+                    'szt',
+                    number_format($product->getNet(), 2),
+                    $product->getVat(),
+                    number_format($product->getSumNet(), 2),
+                    number_format($product->getSumGross() - $product->getSumNet(), 2),
+                    number_format($product->getSumGross(), 2)
+                ];
+            }else{
+                $products[] = [
+                    $index++,
+                    $productModel->getSku(),
+                    $productModel->getName(),
+                    $product->getCount(),
+                ];
+            }
             $documentProducts->next();
         }
-
-        $szerokosci = array(10, 25, 57, 10, 10, 17, 10, 17, 17, 17);
-        $rozmieszczenieTekstu = array('C', 'L', 'L', 'C', 'C', 'R', 'C', 'R', 'R', 'R');
-        $header = array('Lp.', 'SKU', 'Nazwa produktu / usługi', 'Ilość', 'Jm', 'Netto', '%VAT', 'W.netto', 'W.VAT', 'W.brutto');
+        $szerokosci = [];
+        $rozmieszczenieTekstu = [];
+        $header = [];
+        if(($documentModel->getType()=='fvp')||($documentModel->getType()=='fvs')) {
+            $szerokosci = array(10, 25, 57, 10, 10, 17, 10, 17, 17, 17);
+            $rozmieszczenieTekstu = array('C', 'L', 'L', 'C', 'C', 'R', 'C', 'R', 'R', 'R');
+            $header = array('Lp.', 'SKU', 'Nazwa produktu / usługi', 'Ilość', 'Jm', 'Netto', '%VAT', 'W.netto', 'W.VAT', 'W.brutto');
+        }else{
+            $szerokosci = array(10, 35, 125, 20);
+            $rozmieszczenieTekstu = array('C', 'L', 'L', 'R');
+            $header = array('Lp.', 'SKU', 'Nazwa produktu / usługi', 'Ilość');
+        }
 
         $stawkiSzerokosci = array(17, 17, 17, 17);
         $stawkiRozmieszczenieTekstu = array('R', 'R', 'R', 'R');
@@ -214,7 +231,7 @@ class GetDocumentPrintHandler extends Handler
         $sellerAddress['fax'] = $sellerAddress['fax'] ? ("\nFax: " . $sellerAddress['fax']) : '';
         $sellerAddress['mail'] = $sellerAddress['mail'] ? ("\nMail: " . $sellerAddress['mail']) : '';
         $sellerAddress['www'] = $sellerAddress['www'] ? ("\nWWW: " . $sellerAddress['www']) : '';
-        $invoice->rysujSprzedawca($sellerAddress['nazwa'] .
+        $seller = $sellerAddress['nazwa'] .
             "\nNIP: " . $sellerAddress['nip'] .
             "\n" . $sellerAddress['ulica'] .
             "\n" . $sellerAddress['kod_pocztowy'] .
@@ -222,14 +239,14 @@ class GetDocumentPrintHandler extends Handler
             $sellerAddress['telefon'] .
             $sellerAddress['fax'] .
             $sellerAddress['mail'] .
-            $sellerAddress['www']);
+            $sellerAddress['www'];
 
 
         $buyerAddress['telefon'] = $buyerAddress['telefon'] ? ("\nTelefon: " . $buyerAddress['telefon']) : '';
         $buyerAddress['fax'] = $buyerAddress['fax'] ? ("\nFax: " . $buyerAddress['fax']) : '';
         $buyerAddress['mail'] = $buyerAddress['mail'] ? ("\nMail: " . $buyerAddress['mail']) : '';
         $buyerAddress['www'] = $buyerAddress['www'] ? ("\nWWW: " . $buyerAddress['www']) : '';
-        $invoice->rysujNabywca($buyerAddress['nazwa'] .
+        $buyer = $buyerAddress['nazwa'] .
             "\n.NIP: " . $buyerAddress['nip'] .
             "\n" . $buyerAddress['ulica'] .
             "\n" . $buyerAddress['kod_pocztowy'] .
@@ -237,7 +254,15 @@ class GetDocumentPrintHandler extends Handler
             $buyerAddress['telefon'] .
             $buyerAddress['fax'] .
             $buyerAddress['mail'] .
-            $buyerAddress['www']);
+            $buyerAddress['www'];
+
+        if($documentModel->getKind()=='add') {
+            $invoice->rysujSprzedawca($buyer);
+            $invoice->rysujNabywca($seller);
+        }else{
+            $invoice->rysujSprzedawca($seller);
+            $invoice->rysujNabywca($buyer);
+        }
 
 
         $invoice->rysujTytul($numer_dokumentu);
@@ -246,21 +271,32 @@ class GetDocumentPrintHandler extends Handler
         $invoice->setRozmieszczenieTekstu($rozmieszczenieTekstu);
         $invoice->rysujTablice($header, $products);
 
-        $invoice->setSzerokosci($stawkiSzerokosci);
-        $invoice->setRozmieszczenieTekstu($stawkiRozmieszczenieTekstu);
-        $invoice->rysujStawkiVAT($stawkiHeader, $vatTable);
+        if(($documentModel->getType()=='fvp')||($documentModel->getType()=='fvs')) {
+            $invoice->setSzerokosci($stawkiSzerokosci);
+            $invoice->setRozmieszczenieTekstu($stawkiRozmieszczenieTekstu);
+            $invoice->rysujStawkiVAT($stawkiHeader, $vatTable);
 
-        $invoice->Ln(5);
-        $invoice->rysujSuma('Suma:', number_format($documentModel->getGross(), 2));
-        $invoice->rysujPlatnosc($platnosc1);
-        $invoice->rysujPlatnosc($platnosc2);
-        //$invoice->rysujPlatnosc($platnosc3);//słownie
+            $invoice->Ln(5);
+            $invoice->rysujSuma('Suma:', number_format($documentModel->getGross(), 2));
+            $invoice->rysujPlatnosc($platnosc1);
+            $invoice->rysujPlatnosc($platnosc2);
+            //$invoice->rysujPlatnosc($platnosc3);//słownie
+        }else{
+            $invoice->Ln(10);
+        }
         $invoice->rysujPlatnosc($platnosc4);
         $invoice->Ln(5);
 
         $invoice->CheckPageBreak(41);
-        $invoice->rysujWystawca($osoba_upowazniona);
-        $invoice->rysujOdbiorca($odbiorca);
+
+        if($documentModel->getKind()=='add') {
+            $invoice->rysujWystawca($odbiorca);
+            $invoice->rysujOdbiorca($osoba_upowazniona);
+        }else{
+            $invoice->rysujWystawca($osoba_upowazniona);
+            $invoice->rysujOdbiorca($odbiorca);
+        }
+
         $invoice->addFooter($footerText);
 
         $invoice->Output();
