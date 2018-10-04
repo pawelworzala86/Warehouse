@@ -61,6 +61,7 @@ class UpdateDocumentHandler extends Handler
             ->setPayed($request->getPayed())
             ->setToPay($request->getToPay())
             ->setKind($request->getKind())
+            ->setNameFrom($request->getNameFrom())
             ->update();
 
         $products->rewind();

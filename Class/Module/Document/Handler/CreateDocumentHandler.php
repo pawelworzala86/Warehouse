@@ -56,6 +56,7 @@ class CreateDocumentHandler extends Handler
             ->setToPay($request->getToPay())
             ->setKind($request->getKind())
             ->setType($request->getType())
+            ->setNameFrom($request->getNameFrom())
             ->insert();
 
         $products = $request->getProducts();

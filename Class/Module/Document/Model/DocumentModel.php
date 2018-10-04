@@ -27,6 +27,19 @@ class DocumentModel extends Model
     private $toPay;
     private $kind;
     private $type;
+    private $nameFrom;
+
+    public function getNameFrom(): ?string
+    {
+        return $this->nameFrom;
+    }
+
+    public function setNameFrom(string $nameFrom = null): DocumentModel
+    {
+        $this->set('name_from', $nameFrom);
+        $this->nameFrom = $nameFrom;
+        return $this;
+    }
 
     public function getType(): string
     {

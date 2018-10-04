@@ -28,6 +28,18 @@ class UpdateDocumentRequest extends UserRequest
     private $payed;
     private $toPay;
     private $kind;
+    private $nameFrom;
+
+    public function getNameFrom(): ?string
+    {
+        return $this->nameFrom;
+    }
+
+    public function setNameFrom(string $nameFrom = null): UpdateDocumentRequest
+    {
+        $this->nameFrom = $nameFrom;
+        return $this;
+    }
 
     public function getKind(): string
     {
