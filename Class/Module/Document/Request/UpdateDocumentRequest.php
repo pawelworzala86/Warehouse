@@ -29,6 +29,18 @@ class UpdateDocumentRequest extends UserRequest
     private $toPay;
     private $kind;
     private $nameFrom;
+    private $type;
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function setType(string $type): UpdateDocumentRequest
+    {
+        $this->type = $type;
+        return $this;
+    }
 
     public function getNameFrom(): ?string
     {

@@ -12,8 +12,10 @@
         cursor: pointer;
     }
 
-    .modal.product .row {
+    .modal.product .row,
+    .modal.contractor .row {
         cursor: pointer;
+        padding: 5px 10px 5px 10px;
     }
 
     .table.products {
@@ -132,6 +134,17 @@
         box-sizing: border-box;
     }
 
+    .modal .form-group.search {
+        padding-left: 45px;
+        position: relative;
+    }
+
+    .modal .material-icons.search {
+        position: absolute;
+        left: 0px;
+        font-size: 2.75em;
+    }
+
 </style>
 <div class="container">
     <article>
@@ -209,10 +222,12 @@
             <div class="col col-xs-12">
                 <div class="card">
                     <div class="title">Produkty/usługi</div>
-                    <button ng-if="data.document.kind=='add'" style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectProduct()">Dodaj
+                    <button ng-if="data.document.kind=='add'" style="margin-bottom: 15px;margin-left: 15px;"
+                            ng-click="data.showSelectProduct()">Dodaj
                         pozycję
                     </button>
-                    <button ng-if="data.document.kind=='dec'" style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectStock()">Dodaj
+                    <button ng-if="data.document.kind=='dec'" style="margin-bottom: 15px;margin-left: 15px;"
+                            ng-click="data.showSelectStock()">Dodaj
                         pozycję
                     </button>
                     <div class="table products">
@@ -323,20 +338,21 @@
             <h3>Wybierz kontrahenta</h3><i ng-click="data.contractorHide()" class="material-icons close">close</i>
         </div>
         <div class="body">
-            <div class="form-group col col-xs-12">
+            <div class="form-group col col-xs-12 search">
+                <i class="material-icons search">search</i>
                 <label>Nazwa kontrahenta</label>
                 <input ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.contractors.length>0">
-                <div class="header">
-                    <div class="col col-xs-12">Nazwa kontrahenta</div>
+                <div class="header row">
+                    <div class="col col-xs-4">Kod</div>
+                    <div class="col col-xs-8">Nazwa</div>
                 </div>
                 <div>
                     <div ng-click="data.selectContractor(contractor)" class="row"
                          ng-repeat="contractor in data.contractors">
-                        <div class="col col-xs-12">
-                            {{contractor.name}}
-                        </div>
+                        <div class="col col-xs-4">{{contractor.code}}</div>
+                        <div class="col col-xs-8">{{contractor.name}}</div>
                     </div>
                 </div>
             </div>
@@ -349,20 +365,21 @@
             <h3>Wybierz produkt</h3><i ng-click="data.productHide()" class="material-icons close">close</i>
         </div>
         <div class="body">
-            <div class="form-group col col-xs-12">
+            <div class="form-group col col-xs-12 search">
+                <i class="material-icons search">search</i>
                 <label>Nazwa produktu</label>
                 <input ng-change="data.reloadProduct()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.products.length>0">
-                <div class="header">
-                    <div class="col col-xs-12">Nazwa produktu</div>
+                <div class="header row">
+                    <div class="col col-xs-3">SKU</div>
+                    <div class="col col-xs-9">Nazwa produktu</div>
                 </div>
                 <div>
                     <div ng-click="data.selectProduct(product)" class="row"
                          ng-repeat="product in data.products">
-                        <div class="col col-xs-12">
-                            {{product.name}}
-                        </div>
+                        <div class="col col-xs-3">{{product.sku}}</div>
+                        <div class="col col-xs-9">{{product.name}}</div>
                     </div>
                 </div>
             </div>
@@ -375,20 +392,23 @@
             <h3>Wybierz produkt</h3><i ng-click="data.stockHide()" class="material-icons close">close</i>
         </div>
         <div class="body">
-            <div class="form-group col col-xs-12">
+            <div class="form-group col col-xs-12 search">
+                <i class="material-icons search">search</i>
                 <label>Nazwa produktu</label>
                 <input ng-change="data.reloadStock()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.stocks.length>0">
-                <div class="header">
-                    <div class="col col-xs-10">Nazwa produktu</div>
-                    <div class="col col-xs-2">Ilość</div>
+                <div class="header row">
+                    <div class="col col-xs-3">SKU</div>
+                    <div class="col col-xs-7">Nazwa produktu</div>
+                    <div class="col col-xs-2 right">Ilość</div>
                 </div>
                 <div>
                     <div ng-click="data.selectStock(stock)" class="row"
                          ng-repeat="stock in data.stocks">
-                        <div class="col col-xs-10">{{stock.name}}</div>
-                        <div class="col col-xs-2">{{stock.count}}</div>
+                        <div class="col col-xs-3">{{stock.sku}}</div>
+                        <div class="col col-xs-7">{{stock.name}}</div>
+                        <div class="col col-xs-2 right">{{stock.count}}</div>
                     </div>
                 </div>
             </div>

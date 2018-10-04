@@ -29,6 +29,18 @@ class CreateDocumentRequest extends UserRequest
     private $kind;
     private $type;
     private $nameFrom;
+    private $documentNumberId;
+
+    function setDocumentNumberId(UUID $documentNumberId = null): CreateDocumentRequest
+    {
+        $this->documentNumberId = $documentNumberId;
+        return $this;
+    }
+
+    function getDocumentNumberId(): ?UUID
+    {
+        return $this->documentNumberId;
+    }
 
     public function getNameFrom(): ?string
     {

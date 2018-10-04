@@ -12,8 +12,11 @@ class DeleteFileHandler extends Handler
     public function __invoke(DeleteFileRequest $request): SuccessResponse
     {
         $fileModel = new FileModel;
-        $fileModel->load($request->getId(), true);
-        $fileModel->delete();
+        $fileModel
+            ->load($request->getId(), true);
+        $fileModel
+            ->setUuid($fileModel->getUuid())
+            ->delete();
         return new SuccessResponse;
     }
 }

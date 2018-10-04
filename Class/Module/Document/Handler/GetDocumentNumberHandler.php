@@ -11,6 +11,7 @@ use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\AddressModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Collection\DocumentProductCollection;
+use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Document\Model\DocumentProductModel;
 use App\Module\Document\Request\GetDocumentNumberRequest;
 use App\Module\Document\Request\GetDocumentRequest;
@@ -38,6 +39,41 @@ class GetDocumentNumberHandler extends Handler
     public function __invoke(GetDocumentNumberRequest $request): GetDocumentNumberResponse
     {
         $type = $request->getType();
+
+        $numberModel = (new DocumentNumberModel)
+            ->where(
+                (new Filter)
+                ->setName('type')
+                ->setKind(new FilterKind('='))
+                ->setValue($type)
+            )
+            ->where(
+                (new Filter)
+                ->setName('deleted')
+                ->setKind(new FilterKind('='))
+                ->setValue(0)
+            )
+            ->load();
+
+        if(!$numberModel->getId()){
+            $id = (new DocumentNumberModel)
+                ->setUuid(Common::getUuid())
+                ->setNumber(0)
+                ->setMonth(10)
+                ->setYear(2018)
+                ->setType($type)
+                ->insert();
+            $numberModel = (new DocumentNumberModel)
+                ->load($id);
+            $numberModel->setUuid($numberModel->getUuid());
+        }
+
+        $number = $numberModel->getNumber()+1;
+        $numberModel->setNumber($number);
+
+        $year = $numberModel->getYear();
+        $month = $numberModel->getMonth();
+
         $typesNames = [
             'fvp'=>'FV-Z',
             'pz'=>'PZ',
@@ -45,10 +81,10 @@ class GetDocumentNumberHandler extends Handler
             'wz'=>'WZ',
         ];
 
-        //print_r($type);
-        $name = $typesNames[$type].'/1/2018';
+        $name = $typesNames[$type].'/'.$number.'/'.$year;
 
         return (new GetDocumentNumberResponse)
-            ->setName($name);
+            ->setName($name)
+            ->setDocumentNumberId($numberModel->getUuid());
     }
 }

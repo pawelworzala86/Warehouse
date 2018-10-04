@@ -82,7 +82,8 @@ class GetSearchContractorsHandler extends Handler
             $add = (new Contractor)
                 ->setId($contractor->getUuid())
                 ->setName($contractor->getName())
-                ->setAddress($address);
+                ->setAddress($address)
+                ->setCode($contractor->getCode());
             $docs->add($add);
             $contractors->next();
         }

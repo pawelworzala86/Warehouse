@@ -43,7 +43,7 @@ for ($i = 0; $i < GRID_X; $i++) {
         $left = number_format($left, 5);
     }
     $style = '.col-xs-' . ($i + 1) . ' {' . PHP_EOL .
-        TAB . 'left: ' . $left . '%;' . PHP_EOL .
+        //TAB . 'left: ' . $left . '%;' . PHP_EOL .
         TAB . 'width: ' . ((100 / GRID_X) * ($i + 1)) . '%;' . PHP_EOL .
         '}' . PHP_EOL;
     $grid .= $style;

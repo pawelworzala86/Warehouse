@@ -40,4 +40,4 @@ class AddTableToDatabase
 }
 
 $addTableToDatabase = new AddTableToDatabase;
-$addTableToDatabase->add('product_attachment');
+$addTableToDatabase->add('document_number');

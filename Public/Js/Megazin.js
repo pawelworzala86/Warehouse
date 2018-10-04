@@ -202,7 +202,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 data: {
                     rows: rows,
                     row: row,
-                    apiUrl: '/system/files/'
+                    id: row.id,
+                    apiUrl: '/system/files'
                 },
             });
         }
@@ -608,7 +609,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         return {
             show: function (scope, options) {
                 modalDialog.show(scope, {
-                    title: options.title,
+                    title: options['title']?options.title:'',
                     templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
                     data: options.data,
                     accept: (data, node) => {
@@ -946,13 +947,15 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         $scope.data.showSelectProduct = () => {
             $scope.data.productShow = true
+            $scope.data.reloadProduct()
         }
         $scope.data.showSelectStock = () => {
             $scope.data.stockShow = true
+            $scope.data.reloadStock()
         }
         //$scope.data.reloadContractor()
-        $scope.data.reloadProduct()
-        $scope.data.reloadStock()
+        //$scope.data.reloadProduct()
+        //$scope.data.reloadStock()
         $scope.data.selectProduct = (product) => {
             $scope.data.productShow = false
             product.count = 1
@@ -1077,9 +1080,10 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             $scope.data.document.type = loadedType
         })
         $scope.$watch('data.document.type', () => {
-            if (!$routeParams.id) {
+            if (!$routeParams.id&&$scope.data.document.type) {
                 $http.get(apiBase + '/document/number/' + $scope.data.document.type).then((response) => {
                     $scope.data.document.name = response.data.name
+                    $scope.data.document.documentNumberId = response.data.documentNumberId
                 })
             }
         })
@@ -1476,7 +1480,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 data: {
                     rows: rows,
                     row: row,
-                    apiUrl: '/catalog/product/'
+                    id: row.id,
+                    apiUrl: '/catalog/product'
                 },
             });
         }
@@ -1544,13 +1549,14 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             }, pagination, $rootScope.filters);
         }
         $scope.deleteRow = function (rows, row) {
-            deleteDialog.show({
+            deleteDialog.show($scope, {
                 title: 'Usunięcie dokumentu',
                 templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/document/',
                 data: {
                     rows: rows,
                     row: row,
+                    id: row.id,
+                    apiUrl: '/document',
                 }
             });
         }
@@ -1653,7 +1659,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 data: {
                     rows: rows,
                     row: row,
-                    apiUrl: '/contractor/'
+                    id: row.id,
+                    apiUrl: '/contractor'
                 },
             });
         }

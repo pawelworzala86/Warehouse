@@ -202,3 +202,7 @@
     position: relative;
     display: inline-block;
 }
+
+.table .row.deleted{
+    display: none;
+}

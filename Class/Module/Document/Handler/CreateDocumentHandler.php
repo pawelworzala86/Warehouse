@@ -10,6 +10,7 @@ use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Collection\StockCollection;
+use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Document\Model\DocumentProductModel;
 use App\Module\Document\Model\StockModel;
 use App\Module\Document\Request\CreateDocumentRequest;
@@ -34,6 +35,40 @@ class CreateDocumentHandler extends Handler
     {
         $contractor = (new ContractorModel)
             ->load($request->getContractorId(), true);
+
+        ////
+        $documentNumberId = $request->getDocumentNumberId();
+        $type = $request->getType();
+        $numberModel = (new DocumentNumberModel)
+            ->load($documentNumberId, true);
+        if(!$numberModel->getId()){
+            $id = (new DocumentNumberModel)
+                ->setUuid(Common::getUuid())
+                ->setNumber(0)
+                ->setMonth(10)
+                ->setYear(2018)
+                ->setType($type)
+                ->insert();
+            $numberModel = (new DocumentNumberModel)
+                ->load($id);
+        }
+        //$numberModel->setUuid($numberModel->getUuid());
+        $number = $numberModel->getNumber()+1;
+        //$numberModel->setNumber($number);
+        $year = $numberModel->getYear();
+        $month = $numberModel->getMonth();
+        $typesNames = [
+            'fvp'=>'FV-Z',
+            'pz'=>'PZ',
+            'fvs'=>'FV',
+            'wz'=>'WZ',
+        ];
+        $name = $typesNames[$type].'/'.$number.'/'.$year;
+        (new DocumentNumberModel)
+            ->setUuid($numberModel->getUuid())
+            ->setNumber($number)
+            ->update();
+        ////
 
         $uuid = Common::getUuid();
         $documentId = (new DocumentModel)

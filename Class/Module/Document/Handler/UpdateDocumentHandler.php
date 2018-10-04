@@ -44,7 +44,7 @@ class UpdateDocumentHandler extends Handler
         (new DocumentModel)
             ->setId($document->getId())
             ->setUuid($document->getUuid())
-            ->setName($request->getName())
+            ->setName($request->getDocumentNumberId()?$name:$request->getName())
             ->setContractorId($contractor->getId())
             ->setDate($request->getDate())
             ->setDescription($request->getDescription())
@@ -61,6 +61,7 @@ class UpdateDocumentHandler extends Handler
             ->setPayed($request->getPayed())
             ->setToPay($request->getToPay())
             ->setKind($request->getKind())
+            ->setType($request->getType())
             ->setNameFrom($request->getNameFrom())
             ->update();
 
