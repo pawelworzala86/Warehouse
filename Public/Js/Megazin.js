@@ -91,6 +91,11 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 controller: 'stocksController',
                 pageName: 'Stan towarów',
             })
+            .when(base + '/zamowienia', {
+                templateUrl: templateBase + 'Orders.html',
+                controller: 'ordersController',
+                pageName: 'Lista zamówień',
+            })
         ;
 
         $locationProvider.html5Mode({
@@ -1705,6 +1710,89 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                     pagin += '&';
                 }
                 $http.get(apiBase + '/contractor?' + pagin + filt).then(callback);
+            }
+        }
+    })
+
+    .controller('ordersController', function ($rootScope, $scope, $http, orders, deleteDialog) {
+        var pagination = {
+            page: 1,
+            limit: 20,
+        };
+        var filters = [];
+        var filtersNames = [];
+        $scope.orders = [];
+        $rootScope.filters = filters;
+        $scope.filters = {
+            number: '',
+        }
+        var getData = function (pagination, data) {
+            if (data && (data.length > 0)) {
+                return data;
+            }
+            return pagination
+        }
+        var loadPage = function () {
+            orders.get(function (response) {
+                angular.forEach(response.data.orders, function (value, key) {
+                    $scope.orders.push(value);
+                });
+                pagination = getData(pagination, response.data.pagination);
+                filters = getData(filters, response.data.filters);
+                filtersNames = getData(filtersNames, response.data.filtersNames);
+                $rootScope.filters = filters;
+                $rootScope.filtersNames = filtersNames;
+            }, pagination, $rootScope.filters);
+        }
+        $scope.fluentLoad = function () {
+            pagination.page++;
+            loadPage();
+        }
+        loadPage();
+        $rootScope.filterRefreshCallback = function () {
+            $scope.stocks = [];
+            pagination.page = 1;
+            loadPage();
+        }
+        $scope.filter = () => {
+            $rootScope.filters = []
+            if ($scope.filters.number) {
+                $rootScope.filters.push({
+                    name: 'number',
+                    kind: '%',
+                    value: $scope.filters.number,
+                })
+            }
+            $scope.stocks = [];
+            pagination.page = 1;
+            loadPage()
+        }
+        $scope.ordersRefresh = ()=>{
+            $http.get(apiBase+'/orders/refresh').then(()=>{
+            })
+        }
+        $scope.orderPrices = (order)=>{
+            $http.get(apiBase+'/orders/check/price').then((response)=>{
+                order.prices = response.data.prices
+            })
+        }
+        $scope.selectPrice = (prices, price)=>{
+            angular.forEach(prices, (p)=>{
+                p.selected = false
+            })
+            price.selected = true
+        }
+    })
+
+    .factory('orders', function ($http, $httpParamSerializerJQLike) {
+        return {
+            get: function (callback, pagination, filters) {
+                var pagin = $httpParamSerializerJQLike({pagination: pagination});
+                var filt = $httpParamSerializerJQLike({filters: filters});
+                if (pagin) {
+                    pagin += '&';
+                }
+                $http.get(apiBase + '/orders?' + pagin + filt).then(callback);
             }
         }
     })

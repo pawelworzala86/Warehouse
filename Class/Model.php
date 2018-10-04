@@ -224,7 +224,7 @@ class Model
             $order = ' order by ' . trim(join(', ', $this->order), ', ') . ' ';
         }
 
-        $sql = 'select ' . $fields . ' from ' . $this->table . ' ' . $where . ' ' . $order . ' ' . $limit . $offset;
+        $sql = 'select ' . $fields . ' from `' . $this->table . '` ' . $where . ' ' . $order . ' ' . $limit . $offset;
         //print_r([$sql, $params]);
         $result = $this->db()->getAll($sql, $params);
         $this->updatedFields = [];
@@ -302,7 +302,7 @@ class Model
             $params[] = IP::getId();
         }
 
-        $this->db()->execute('insert into ' . $this->table . ' set ' . join(', ', $set), $params);
+        $this->db()->execute('insert into `' . $this->table . '` set ' . join(', ', $set), $params);
         return $this->db()->insertId();
     }
 
@@ -340,7 +340,7 @@ class Model
             $where = ' where ' . $joined;
         }
 
-        $this->db()->execute('update ' . $this->table . ' set ' . join(', ', $set) . ' ' . $where, $params);
+        $this->db()->execute('update `' . $this->table . '` set ' . join(', ', $set) . ' ' . $where, $params);
     }
 
     function delete()
@@ -351,7 +351,7 @@ class Model
             IP::getId(),
             $this->get('uuid'),
         ];
-        $this->db()->execute('update ' . $this->table . ' set deleted=?, deleted_by=?, deleted_ip_id=? where uuid=?', $params);
+        $this->db()->execute('update `' . $this->table . '` set deleted=?, deleted_by=?, deleted_ip_id=? where uuid=?', $params);
     }
 
     function isLoaded()
