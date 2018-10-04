@@ -16,6 +16,19 @@ class DocumentProductModel extends Model
     private $sumNet;
     private $sumGross;
     private $vat;
+    private $documentProductId;
+
+    public function getDocumentProductId(): ?int
+    {
+        return $this->documentProductId;
+    }
+
+    public function setDocumentProductId(int $documentProductId = null): DocumentProductModel
+    {
+        $this->set('document_product_id', $documentProductId);
+        $this->documentProductId = $documentProductId;
+        return $this;
+    }
 
     public function getVat(): ?float
     {

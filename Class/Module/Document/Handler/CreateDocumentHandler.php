@@ -67,7 +67,9 @@ class CreateDocumentHandler extends Handler
                 ->load($product->getProductId(), true);
             //print_r([$productModel]);
             $productId = $productModel->getId();
-            $documentProductId = ($docProd = new DocumentProductModel)
+
+            if($request->getKind()==='add') {
+                $documentProductId = ($docProd = new DocumentProductModel)
                     ->setUuid(Common::getUuid())
                     ->setDocumentId($documentId)
                     ->setProductId($productId)
@@ -77,7 +79,6 @@ class CreateDocumentHandler extends Handler
                     ->setSumGross($product->getSumGross())
                     ->setVat($product->getVat())
                     ->insert();
-            if($request->getKind()==='add') {
                 (new StockModel)
                     ->setUuid(Common::getUuid())
                     ->setDocumentId($documentId)
@@ -124,6 +125,17 @@ class CreateDocumentHandler extends Handler
                     if ($count <= 0) {
                         break;
                     }
+                    $documentProductId = ($docProd = new DocumentProductModel)
+                        ->setUuid(Common::getUuid())
+                        ->setDocumentId($documentId)
+                        ->setProductId($productId)
+                        ->setCount($product->getCount())
+                        ->setNet($product->getNet())
+                        ->setSumNet($product->getSumNet())
+                        ->setSumGross($product->getSumGross())
+                        ->setVat($product->getVat())
+                        ->setDocumentProductId($stock->getDocumentProductId())
+                        ->insert();
                     //$stock->setUuid($stock->getUuid());
                     //$stockCount = $stockModel->getCount();
                     //print_r([$originalCount, $count]);
