@@ -128,7 +128,9 @@ fluentLoader p{
 }
 
 upload .borderBox,
-upload #uploadBorderBox {
+upload #uploadBorderBox,
+upload-attachment .borderBox,
+upload-attachment #uploadBorderBox {
     border: 1px dashed rgba(64, 128, 256, 0.5);
     min-width: 146px;
     min-height: 146px;
@@ -141,7 +143,8 @@ upload #uploadBorderBox {
     margin-bottom: 35px;
 }
 
-upload .borderBox .name{
+upload .borderBox .name,
+upload-attachment .borderBox .name{
     z-index: 1000;
     position: absolute;
     bottom: -30px;
@@ -154,7 +157,8 @@ upload .borderBox .name{
     overflow: hidden;
 }
 
-upload .borderBox .size{
+upload .borderBox .size,
+upload-attachment .borderBox .size{
     position: absolute;
     bottom: -42px;
     font-weight: 400;
@@ -163,7 +167,8 @@ upload .borderBox .size{
     text-align: center;
 }
 
-upload .borderBox .material-icons.delete{
+upload .borderBox .material-icons.delete,
+upload-attachment .borderBox .material-icons.delete{
     z-index: 1000;
     color: #f00;
     position: absolute;
@@ -174,7 +179,8 @@ upload .borderBox .material-icons.delete{
     border-radius: 15px;
 }
 
-upload #uploadBorderBox p {
+upload #uploadBorderBox p,
+upload-attachment #uploadBorderBox p {
     margin: 0;
     top: 50%;
     position: absolute;
@@ -186,7 +192,8 @@ upload #uploadBorderBox p {
     color: #666;
 }
 
-upload p.cancel {
+upload p.cancel,
+upload-attachment p.cancel {
     text-align: center;
     margin: 0;
     background: #f00;
@@ -202,7 +209,8 @@ upload p.cancel {
     cursor: pointer;
 }
 
-upload .material-icons.add {
+upload .material-icons.add,
+upload-attachment .material-icons.add{
     font-size: 5em;
     color: #888;
     left: 50%;
@@ -211,7 +219,8 @@ upload .material-icons.add {
     top: 0.9vh;
 }
 
-upload #uploadBorderBox p.progress{
+upload #uploadBorderBox p.progress,
+upload-attachment #uploadBorderBox p.progress{
     margin: 0;
     top: 50%;
     position: absolute;
@@ -225,15 +234,18 @@ upload #uploadBorderBox p.progress{
     box-sizing: border-box;
 }
 
-upload #uploadBorderBox p.progress {
+upload #uploadBorderBox p.progress,
+upload-attachment #uploadBorderBox p.progress {
 }
 
 
-upload input.hide{
+upload input.hide,
+upload-attachment input.hide{
     display: none;
 }
 
-upload img{
+upload img,
+upload-attachment img{
     position: absolute;
     left: 0;
     top: 0;

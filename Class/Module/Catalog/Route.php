@@ -21,6 +21,9 @@ return [
     Router::get('/catalog/product/{id}', Handler\GetCatalogProductHandler::class),
     Router::put('/catalog/product/{id}', Handler\UpdateCatalogProductHandler::class),
     Router::get('/catalog/product/{id}/image', Handler\GetCatalogProductImagesHandler::class),
+    Router::get('/catalog/product/{id}/attachment', Handler\GetCatalogProductAttachmentsHandler::class),
     Router::put('/catalog/product/{id}/image/{imageId}', Handler\AddImageToCatalogProductHandler::class),
+    Router::put('/catalog/product/{id}/attachment/{fileId}', Handler\AddAttachmentToCatalogProductHandler::class),
     Router::delete('/catalog/product/{id}/image/{imageId}', Handler\DeleteImageFromCatalogProductHandler::class),
+    Router::delete('/catalog/product/{id}/attachment/{fileId}', Handler\DeleteAttachmentFromCatalogProductHandler::class),
 ];

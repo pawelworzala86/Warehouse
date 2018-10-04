@@ -662,22 +662,33 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
                     data: options.data,
                     accept: (data, node) => {
-                        var ids = [];
-                        angular.forEach($rootScope.selects, function (value, key) {
-                            ids.push(value.id);
-                        });
-                        $http.post(apiBase + data.apiUrl + '/mass/delete', {ids: ids}).then(function (response) {
-                            if (response.data.success) {
-                                angular.forEach(data.rows, function (value, key) {
-                                    angular.forEach(data.row, function (v, k) {
-                                        if (v.id == value.id)
-                                            value.deleted = true
+                        if(data.id){
+                            $http.delete(apiBase + data.apiUrl+'/'+data.id, {id: data.id}).then(function (response) {
+                                if (response.data.success) {
+                                    node.remove()
+                                    if(data.row) {
+                                        data.row.deleted = true
+                                    }
+                                }
+                            });
+                        }else {
+                            var ids = [];
+                            angular.forEach($rootScope.selects, function (value, key) {
+                                ids.push(value.id);
+                            });
+                            $http.post(apiBase + data.apiUrl + '/mass/delete', {ids: ids}).then(function (response) {
+                                if (response.data.success) {
+                                    angular.forEach(data.rows, function (value, key) {
+                                        angular.forEach(data.row, function (v, k) {
+                                            if (v.id == value.id)
+                                                value.deleted = true
+                                        })
                                     })
-                                })
-                                node.remove()
-                                $rootScope.selects = []
-                            }
-                        });
+                                    node.remove()
+                                    $rootScope.selects = []
+                                }
+                            });
+                        }
                     }
                 })
             }
@@ -803,9 +814,16 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardPhotos.html',
                 idRequired: true
             },
-            {id: 5, name: 'Dostawcy', disable: true}
+            {
+                id: 5,
+                name: 'Załączniki',
+                templateUrl: '/Public/Template/Pl-pl/Catalog/Product/CardAttachments.html',
+                idRequired: true
+            },
+            {id: 6, name: 'Dostawcy', disable: true}
         ];
         $scope.imagesUploadOptions = {}
+        $scope.attachmentsUploadOptions = {}
         buyCalcBlock = false
         $scope.data.sellCalc = (fromNet = false) => {
             buyCalcBlock = true
@@ -1328,10 +1346,104 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         };
     })
 
+    .controller('uploadAttachmentController', function (productAttachments, $scope, $element, Upload, productImages, deleteDialog, $http) {
+        $scope.files = [];
+        $scope.setSelectOptions = function (deleteUrl, titleField, itemsName) {
+            $scope.deleteUrl = deleteUrl;
+            $scope.titleField = titleField;
+            $scope.itemsName = itemsName;
+        }
+        $scope.deleteAttachment = function (rows, row) {
+            deleteDialog.show($scope, {
+                title: 'Usunięcie załącznika',
+                templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
+                data: {
+                    id: row.id,
+                    row: row,
+                    apiUrl: $scope.deleteUrl+$scope.$parent.data.product.id+'/attachment',
+                },
+                accept: (data, node) => {
+                    data.row.remove()
+                }
+            });
+        }
+        if ($scope.$parent.data.id) {
+            productAttachments.get(function (response) {
+                $scope.files = response.data.files;
+            }, $scope.$parent.data.id);
+        }
+        $scope.drop = function (e) {
+            $scope.submit();
+        }
+        $scope.select = function (event) {
+            $scope.submit();
+            event.preventDefault();
+        }
+        $scope.submit = function () {
+            $scope.upload($scope.file);
+        };
+        $scope.abort = function (event) {
+            if ($scope.xhr) {
+                $scope.xhr.abort();
+            }
+            $scope.uploading = false;
+            event ? event.preventDefault() : {};
+        };
+        $scope.upload = function (file) {
+            var files = [];
+            angular.forEach(file, function (value, key) {
+                files.push(value);
+                var fileReader = new FileReader();
+                fileReader.readAsDataURL(value);
+                fileReader.onload = function (e) {
+                    var dataUrl = e.target.result;
+                    var name = value.name;
+                    var type = value.type;
+                    var base64Data = dataUrl.substr(dataUrl.indexOf('base64,') + 'base64,'.length);
+                    $scope.uploading = true;
+                    Upload.upload({
+                        url: apiBase + '/files/upload',
+                        data: {
+                            file: [{
+                                name: name,
+                                type: type,
+                                data: base64Data,
+                            }]
+                        }
+                    }).success(function (resp) {
+                        angular.forEach(resp.file, function (value, key) {
+                            $http.put(apiBase + '/catalog/product/' + $scope.$parent.data.id + '/attachment/' + value.id).then(function () {
+                                if (!$scope.files) {
+                                    $scope.files = [];
+                                }
+                                $scope.files.push(value);
+                            });
+                        });
+                        $scope.abort();
+                    }).error(function (resp) {
+                    }).progress(function (evt) {
+                        $scope.progress = (parseFloat(Math.round(100 * (evt.loaded / evt.total)))).toFixed(2) + '%';
+                    }).xhr(function (e, xhr) {
+                        $scope.xhr = xhr;
+                    });
+                    ;
+                }
+            });
+        };
+    })
+
     .factory('productImages', function ($http) {
         return {
             get: function (callback, id) {
                 $http.get(apiBase + '/catalog/product/' + id + '/image').then(callback);
+            }
+        }
+    })
+
+    .factory('productAttachments', function ($http) {
+        return {
+            get: function (callback, id) {
+                $http.get(apiBase + '/catalog/product/' + id + '/attachment').then(callback);
             }
         }
     })
@@ -1344,6 +1456,17 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             },
             templateUrl: '/Public/Template/Pl-pl/UploadImage.html',
             controller: 'uploadController',
+        }
+    })
+
+    .directive('uploadAttachment', function ($rootScope) {
+        return {
+            restrict: 'E',
+            scope: {
+                data: '=data'
+            },
+            templateUrl: '/Public/Template/Pl-pl/UploadAttachment.html',
+            controller: 'uploadAttachmentController',
         }
     })
 

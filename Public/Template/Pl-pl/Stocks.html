@@ -4,12 +4,7 @@
         position: absolute;
         margin-top: -2px;
         left: 20px;
-        opacity: 0.3;
         cursor: pointer;
-    }
-
-    .zoom-in:hover {
-        opacity: 0.8;
     }
 
     .table .row {
@@ -21,11 +16,6 @@
     }
 </style>
 <div class="container stocks">
-    <div class="buttons">
-        <a ng-href="/katalog/produkt/dodaj">
-            <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj stock</button>
-        </a>
-    </div>
     <div class="table" ng-controller="selectTableController">
         {{setSelectOptions('/stock', 'name', 'stocks')}}
         <div ng-show="selects.length>0" class="box">

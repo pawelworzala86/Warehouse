@@ -3,8 +3,17 @@ file.id as file_id, product_files.id as id, file.uuid as file_uuid, file.added a
 file.size as size, file.url as url, file.name as name, file.type as type,
 product_files.id as product_files_id, product_files.uuid as product_files_uuid,
 product_id, product.uuid as product_uuid
-FROM file
-left join product_files on file.id=product_files.file_id
+FROM product_files
+left join file on file.id=product_files.file_id
+left join product on product_id=product.id
+
+create or replace view product_attachment_view as SELECT
+file.id as file_id, product_attachment.id as id, file.uuid as file_uuid, file.added as added, product_attachment.deleted as deleted,
+file.size as size, file.url as url, file.name as name, file.type as type,
+product_attachment.id as product_files_id, product_attachment.uuid as product_files_uuid,
+product_id, product.uuid as product_uuid
+FROM product_attachment
+left join file on file.id=product_attachment.file_id
 left join product on product_id=product.id
 
 create or replace view stock_view as select

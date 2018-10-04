@@ -92,7 +92,12 @@ header i.right,
 
 header .button {
     padding: 15px !important;
-    border: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+}
+
+header .button:first-child {
+    border: none;
+    border-right: 1px solid #ddd;
 }
 
 header .button.right {

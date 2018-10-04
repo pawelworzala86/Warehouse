@@ -1,0 +1,28 @@
+<style>
+    .loader {
+        border: 8px solid #f3f3f3;
+        border-top: 8px solid #3498db;
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+        animation: spin 2s linear infinite;
+        margin: 14px;
+    }
+</style>
+<div class="borderBox" ng-repeat="file in files" ng-if="!file.deleted">
+    {{setSelectOptions('/catalog/product/', 'name', 'files')}}
+    <img ng-src="{{file.url}}"/>
+    <p class="name">{{file.name}}</p>
+    <p class="size">{{$root.formatSizeUnits(file.size)}}</p>
+    <i class="material-icons delete" ng-click="deleteAttachment(files, file)">close</i>
+</div>
+<div style="float: left; position: relative;">
+    <div ngf-select="select($event)" ngf-drop="drop()" ngf-multiple="true" ng-model="file"
+         id="uploadBorderBox" ngf-pattern="'image/*'" ngf-max-size="2MB" ngf-accept="'image/*'">
+        <p ng-show="!uploading">Upuść tutaj pliki do uploadu lub kliknij tu.</p>
+        <p ng-show="uploading" class="progress">{{progress}}</p>
+        <i ng-show="!uploading" class="material-icons add">add_a_photo</i>
+        <div ng-show="uploading" class="loader"></div>
+    </div>
+    <p ng-show="uploading" class="cancel" ng-click="abort($event)">Anuluj</p>
+</div>
