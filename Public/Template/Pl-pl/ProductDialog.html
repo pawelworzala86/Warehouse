@@ -1,4 +1,14 @@
-<div class="modal big">
+<style>
+    .product-detail .sku{
+        font-size: 1.25em;
+        padding-left: 2px;
+    }
+    .product-detail .name{
+        font-size: 1.75em;
+        font-weight: 400;
+    }
+</style>
+<div class="modal big product-detail">
     <div class="content">
         <div class="header">
             <h3>Widok produktu</h3><i ng-click="modal.close()" class="material-icons close">close</i>
@@ -6,26 +16,10 @@
         <div class="body">
             <div class="detail">
                 <div class="col col-xs-12">
-                    <div class="card">
-                        <div class="title">Nazwy/kody</div>
-                        <div class="col col-xs-4">
-                            <div class="group">
-                                <label>SKU</label>
-                                <input type="text" class="value" ng-model="data.sku" ng-change="data.saveShow=true;">
-                            </div>
-                        </div>
-                        <div class="col col-xs-8">
-                            <div class="group">
-                                <label>Nazwa</label>
-                                <input type="text" class="value" ng-model="data.name" ng-change="data.saveShow=true;">
-                            </div>
-                        </div>
-                    </div>
+                    <div class="sku">{{data.sku}}</div>
+                    <div class="name">{{data.sku}}</div>
                 </div>
             </div>
-        </div>
-        <div class="footer row buttons" ng-show="data.saveShow">
-            <button ng-click="saveDetail('/catalog/product', data);modal.close()">Zapisz</button>
         </div>
     </div>
 </div>

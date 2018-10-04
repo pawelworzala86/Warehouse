@@ -2,7 +2,7 @@ var base = '';
 var apiBase = '/api';
 var templateBase = '/Public/Template/Pl-pl/';
 
-angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload'])
+angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
 
     .config(function ($routeProvider, $locationProvider, $compileProvider, $httpProvider) {
         $routeProvider

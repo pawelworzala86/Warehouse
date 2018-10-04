@@ -341,7 +341,7 @@
             <div class="form-group col col-xs-12 search">
                 <i class="material-icons search">search</i>
                 <label>Nazwa kontrahenta</label>
-                <input ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.contractors.length>0">
                 <div class="header row">
@@ -368,7 +368,7 @@
             <div class="form-group col col-xs-12 search">
                 <i class="material-icons search">search</i>
                 <label>Nazwa produktu</label>
-                <input ng-change="data.reloadProduct()" type="text" ng-model="data.find.name"/>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadProduct()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.products.length>0">
                 <div class="header row">
@@ -395,7 +395,7 @@
             <div class="form-group col col-xs-12 search">
                 <i class="material-icons search">search</i>
                 <label>Nazwa produktu</label>
-                <input ng-change="data.reloadStock()" type="text" ng-model="data.find.name"/>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadStock()" type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.stocks.length>0">
                 <div class="header row">

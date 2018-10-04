@@ -2,8 +2,8 @@
     .zoom-in {
         float: left;
         position: absolute;
-        margin-top: -2px;
-        left: 20px;
+        margin-top: -3px;
+        left: 24px;
         cursor: pointer;
     }
 
@@ -49,7 +49,7 @@
                 <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
                                                  placeholder="Kod" type="text" ng-model="filters.code"
                                                  ng-change="filter()"></div>
-                <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                <div class="col col-xs-10"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
                                                  placeholder="Nazwa" type="text" ng-model="filters.name"
                                                  ng-change="filter()"></div>
             </div>
@@ -66,7 +66,7 @@
                 <i class="material-icons zoom-in"
                    ng-click="loadDetail('/contractor', contractors, contractor)">zoom_in</i>
                 <div class="col col-xs-2">{{contractor.code}}</div>
-                <div class="col col-xs-2">{{contractor.name}}</div>
+                <div class="col col-xs-10">{{contractor.name}}</div>
                 <div class="buttons">
                     <a ng-href="/kontrahent/{{contractor.id}}"><i data-nodrag=""
                                                                   class="material-icons">mode_edit</i></a>
