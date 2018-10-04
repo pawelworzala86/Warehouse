@@ -347,88 +347,18 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('filtersController', function ($rootScope, $scope, modal) {
-        $scope.add = function () {
-            modal({
-                templateUrl: function () {
-                    return '/Public/Template/Pl-pl/FilterDialog.html'
-                },
-                title: function () {
-                    return 'Dodawanie nowego filtra'
-                },
-                cancel: function () {
-                },
-                accept: function (callback, scope) {
-                    var filter = {
-                        name: scope.name,
-                        kind: scope.kind,
-                        value: scope.value,
+    .factory('showError', function (modalDialog) {
+        return {
+            show: function (scope, message) {
+                modalDialog.show(scope, {
+                    title: '',
+                    templateUrl: '/Public/Template/Pl-pl/ErrorDialog.html',
+                    data: {
+                        message: message
                     }
-                    $rootScope.filters.push(filter);
-                    callback();
-                },
-                data: function () {
-                    return {};
-                }
-            }).activate();
-        }
-        var findInSelect = function (rows, row) {
-            var index = -1;
-            angular.forEach(rows, function (value, key) {
-                if (value.id == row.id) {
-                    index = key;
-                }
-            });
-            return index;
-        }
-        $scope.del = function (rows, row) {
-            var index = findInSelect(rows, row);
-            if (index > -1) {
-                rows.splice(index, 1);
-            }
-            index = findInSelect($rootScope.filters, row);
-            if (index > -1) {
-                $rootScope.filters.splice(index, 1);
+                })
             }
         }
-        $scope.search = function () {
-            $rootScope.showFilter = false;
-            $rootScope.filterRefreshCallback();
-        }
-    })
-
-    .factory('modal', function (btfModal) {
-        var modal = null;
-        return function (functions) {
-            if (functions) {
-                var templateUrl = functions.templateUrl ? functions.templateUrl() : null;
-                modal = btfModal({
-                    controller: 'modalController',
-                    controllerAs: 'modal',
-                    templateUrl: templateUrl,
-                });
-                modal.functions = functions;
-            }
-            return modal;
-        };
-    })
-
-    .controller('modalController', function ($scope, modal) {
-        this.title = modal().functions.title();
-        if (modal().functions.data) {
-            this.data = modal().functions.data();
-        }
-        this.cancel = function () {
-            var m = modal();
-            m.functions.cancel();
-            m.deactivate();
-        };
-        this.accept = function () {
-            var m = modal();
-            m.functions.accept(function () {
-                m.deactivate();
-            }, this);
-        };
     })
 
     .controller('landingController', function ($scope) {
@@ -695,28 +625,6 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .factory('errorDialog', function ($http, modal) {
-        return {
-            show: function (options) {
-                modal({
-                    templateUrl: function () {
-                        return options.templateUrl
-                    },
-                    title: function () {
-                        return options.title
-                    },
-                    cancel: function () {
-                    },
-                    accept: function (callback, scope) {
-                    },
-                    data: function () {
-                        return options.data;
-                    }
-                }).activate();
-            }
-        }
-    })
-
     .controller('catalogEditProductController', function (showError, $routeParams, $scope, $http, $location, catalogProduct, $compile) {
         $scope.data = {
             id: $routeParams.id,
@@ -774,15 +682,15 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             })
             if (!validate) {
                 if ($scope.data.validation.sku) {
-                    showError.show('Wprowadź kod SKU')
+                    showError.show($scope, 'Wprowadź kod SKU')
                 } else if ($scope.data.validation.name) {
-                    showError.show('Wprowadź nazwę towaru')
+                    showError.show($scope, 'Wprowadź nazwę towaru')
                 } else if ($scope.data.validation.sellNet) {
-                    showError.show('Wprowadź cenę sprzedaży netto')
+                    showError.show($scope, 'Wprowadź cenę sprzedaży netto')
                 } else if ($scope.data.validation.sellGross) {
-                    showError.show('Wprowadź cenę sprzedaży brutto')
+                    showError.show($scope, 'Wprowadź cenę sprzedaży brutto')
                 } else if ($scope.data.validation.vat) {
-                    showError.show('Wybierz stawkę VAT')
+                    showError.show($scope, 'Wybierz stawkę VAT')
                 }
                 return
             }
@@ -852,7 +760,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .controller('documentEditController', function (showError, $routeParams, $scope, $http, $location, document, contractorSearch, productSearch, stockSearch, errorDialog) {
+    .controller('documentEditController', function (showError, $routeParams, $scope, $http, $location, document, contractorSearch, productSearch, stockSearch) {
         $scope.data = {
             id: $routeParams.id,
             document: {
@@ -944,22 +852,22 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             }
             if (!validate) {
                 if ($scope.data.validation.name) {
-                    showError.show('Wprowadź numer dokumentu')
+                    showError.show($scope, 'Wprowadź numer dokumentu')
                 } else if ($scope.data.validation.date) {
-                    showError.show('Wprowadź datę dokumentu')
+                    showError.show($scope, 'Wprowadź datę dokumentu')
                 } else if ($scope.data.validation.payDate) {
-                    showError.show('Wprowadź datę zapłaty')
+                    showError.show($scope, 'Wprowadź datę zapłaty')
                 } else if ($scope.data.validation.issuePlace) {
-                    showError.show('Wprowadź miejsce wystawienia')
+                    showError.show($scope, 'Wprowadź miejsce wystawienia')
                 } else if ($scope.data.validation.deliveryDate) {
-                    showError.show('Wprowadź datę otrzymania')
+                    showError.show($scope, 'Wprowadź datę otrzymania')
                 } else if (!$scope.data.document.products.length > 0) {
-                    showError.show('Wybierz jakieś produkty')
+                    showError.show($scope, 'Wybierz jakieś produkty')
                 } else if (!$scope.data.contractorId) {
-                    showError.show('Wybierz kontrahenta')
+                    showError.show($scope, 'Wybierz kontrahenta')
                 } else if ($scope.data.validation.payment) {
                     if ((data.document.type === 'fvp') || (data.document.type === 'fvs')) {
-                        showError.show('Wybierz metodę płatności')
+                        showError.show($scope, 'Wybierz metodę płatności')
                     }
                 }
                 return
@@ -1156,7 +1064,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         })
     })
 
-    .factory('showError', function (errorDialog) {
+    /*.factory('showError', function (errorDialog) {
         return {
             show: function (message) {
                 errorDialog.show({
@@ -1168,7 +1076,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 })
             }
         }
-    })
+    })*/
 
     .factory('stockSearch', function ($http) {
         return {
@@ -1228,9 +1136,9 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             })
             if (!validate) {
                 if ($scope.data.validation.code) {
-                    showError.show('Wprowadź kod kontrahenta')
+                    showError.show($scope, 'Wprowadź kod kontrahenta')
                 } else if ($scope.data.validation.name) {
-                    showError.show('Wprowadź nazwę kontrahenta')
+                    showError.show($scope, 'Wprowadź nazwę kontrahenta')
                 }
                 return
             }
