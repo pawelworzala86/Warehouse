@@ -7,16 +7,18 @@ use App\Module\Files\Model\FileModel;
 use App\Module\Files\Request\DeleteFileRequest;
 use App\Request\UuidCollectionRequest;
 use App\Response\SuccessResponse;
+use App\Type\UUID;
 
 class DeleteMassFilesHandler extends Handler
 {
     public function __invoke(UuidCollectionRequest $request): SuccessResponse
     {
         $ids = $request->getIds();
+        $ids->rewind();
         while($uuid = $ids->current()){
-            $fileModel = new FileModel;
-            $fileModel->load($uuid, true);
-            $fileModel->delete();
+            $productModel = new FileModel;
+            $productModel->setUuid(new UUID($uuid));
+            $productModel->delete();
             $ids->next();
         }
         return new SuccessResponse;

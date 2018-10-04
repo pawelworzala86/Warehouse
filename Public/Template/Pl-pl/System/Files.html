@@ -10,7 +10,7 @@
             <div class="header">Zaznaczone elementy</div>
             <div class="body">
                 <div class="selects">
-                    <div class="select" ng-repeat="select in selects">
+                    <div class="select" ng-repeat="select in $root.selects">
                         {{select.name}}
                         <i data-nodrag="" class="material-icons"
                            ng-click="delSelect(select, files)">delete_forever</i>
@@ -38,7 +38,7 @@
                 <div class="col col-xs-3">Rozmiar pliku</div>
             </div>-->
         </div>
-        <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files">
+        <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files" ng-if="!deleted">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
                                                                                             class="checkbox"></label>
             <div class="col col-xs-6">{{file.name}}</div>

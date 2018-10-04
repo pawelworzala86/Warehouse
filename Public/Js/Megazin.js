@@ -122,6 +122,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             };
         });
         $rootScope.$on('$routeChangeStart', function ($event, next, current) {
+            $rootScope.selects = []
             $rootScope.filters = [];
             $rootScope.filtersNames = [];
             if (next.hasOwnProperty('$$route') && !next['$$route'].pageName) {
@@ -163,7 +164,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         };
     })
 
-    .controller('systemFilesController', function ($rootScope, $scope, getFiles, deleteDialog) {
+    .controller('systemFilesController', function (modalDialog, $rootScope, $scope, getFiles, deleteDialog) {
         var pagination = {
             page: 1,
             limit: 20,
@@ -196,14 +197,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             }, pagination, $rootScope.filters);
         }
         $scope.deleteRow = function (rows, row) {
-            deleteDialog.show({
-                title: 'Usunięcie produktu',
-                templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/system/files/',
+            deleteDialog.show($scope, {
+                title: 'Usunięcie pliku',
                 data: {
                     rows: rows,
                     row: row,
-                }
+                    apiUrl: '/system/files/'
+                },
             });
         }
         $scope.fluentLoad = function () {
@@ -401,7 +401,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         var modal = null;
         return function (functions) {
             if (functions) {
-                var templateUrl = functions.templateUrl?functions.templateUrl():null;
+                var templateUrl = functions.templateUrl ? functions.templateUrl() : null;
                 modal = btfModal({
                     controller: 'modalController',
                     controllerAs: 'modal',
@@ -434,15 +434,15 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
     .controller('landingController', function ($scope) {
     })
 
-    .controller('selectTableController', function ($scope, deleteDialog, $http) {
-        $scope.selects = [];
+    .controller('selectTableController', function ($rootScope, $scope, deleteDialog, $http) {
+        $rootScope.selects = [];
         $scope.setSelectOptions = function (deleteUrl, titleField, itemsName) {
             $scope.deleteUrl = deleteUrl;
             $scope.titleField = titleField;
             $scope.itemsName = itemsName;
         }
         var removeFromSelect = function (index, row) {
-            $scope.selects.splice(index, 1);
+            $rootScope.selects.splice(index, 1);
             var element = angular.element(document.querySelector('#chbx' + row.id));
             element.prop('checked', false);
             row.selected = false;
@@ -455,7 +455,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 id: row.id,
                 name: row[$scope.titleField],
             }
-            $scope.selects.push(data);
+            $rootScope.selects.push(data);
             var element = angular.element(document.querySelector('#chbx' + row.id));
             element.prop('checked', true);
             row.selected = true;
@@ -470,9 +470,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             return index;
         }
         var addOrRemove = function (row) {
-            var index = findInSelect($scope.selects, row);
+            var index = findInSelect($rootScope.selects, row);
             if (index < 0) {
-                addToSelect(row);
+                if (!row.deleted) {
+                    addToSelect(row);
+                }
             } else {
                 removeFromSelect(index, row);
             }
@@ -486,7 +488,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             addOrRemove(row);
         }
         $scope.delSelect = function (row, rows) {
-            var index = findInSelect($scope.selects, row);
+            var index = findInSelect($rootScope.selects, row);
             removeFromSelect(index, row);
             var index = findInSelect(rows, row);
             if (index > -1) {
@@ -515,16 +517,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             });
         }
         $scope.massDelete = function (rows, row) {
-            deleteDialog.show({
+            deleteDialog.show($scope, {
                 title: 'Usunięcie wielu pozycji',
-                templateUrl: '/Public/Template/Pl-pl/DeleteMassDialog.html',
-                apiUrl: $scope.deleteUrl,
                 data: {
-                    selects: $scope.selects,
                     rows: rows,
                     row: row,
+                    apiUrl: $scope.deleteUrl
                 },
-                scope: $scope,
             });
         }
         $scope.loadDetail = (url, products, product) => {
@@ -535,78 +534,74 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
     })
 
-    .factory('modalDialog', ($http, $compile, $rootScope)=>{
-        let modal = {
-            show: (options)=>{
-                if(!$rootScope.modalIndex){
+    .factory('modalDialog', ($http, $compile, $rootScope) => {
+        return {
+            show: (scopeFrom, options) => {
+                if (!$rootScope.modalIndex) {
                     $rootScope.modalIndex = 100000
                 }
                 $rootScope.modalIndex++
-                $http.get(options.templateUrl).then((response)=>{
-                    node = angular.element(response.data)
-                    $compile(node.contents())(options.scope)
-                    options.scope.modal = {}
-                    options.scope.modal.close = ()=>{
+                $http.get(options.templateUrl).then((response) => {
+                    var node = angular.element(response.data)
+                    var scope = scopeFrom.$new()
+                    scope.modal = {}
+                    scope.modal.close = () => {
                         node.remove()
                     }
-                    options.scope.modal.title = options.title
-                    options.scope.modal.message = options.title
+                    scope.modal.title = options.title
+                    scope.modal.message = options.title
+                    if (options.accept) {
+                        scope.modal.accept = () => {
+                            options.accept(scope.data, node)
+                        }
+                    }
+                    if (options.data) {
+                        scope.data = options.data
+                    }
+                    scope.modal.zIndex = $rootScope.modalIndex
+                    $compile(node.contents())(scope)
                     angular.element(document.body).append(node)
                 })
             }
         }
-        return modal
     })
 
-    .factory('modalError', (modalDialog, $http, $compile, $rootScope)=>{
-        let modal = {
-            show: (scope, title)=>{
-                modalDialog.show({
-                    scope: scope,
+    .factory('modalError', (modalDialog, $http, $compile, $rootScope) => {
+        return {
+            show: (scope, title) => {
+                modalDialog.show(scope, {
                     title: title,
                     templateUrl: '/Public/Template/Pl-pl/ErrorDialog.html',
                 })
             }
         }
-        return modal
     })
 
-    .controller('catalogCategoriesController', function (modalError, modalDialog, showError, $scope, $http, catalogCategories, modal, deleteDialog) {
+    .controller('catalogCategoriesController', function (modalError, modalDialog, showError, $scope, $http, catalogCategories, deleteDialog) {
         $scope.categories = [];
         catalogCategories.get(function (response) {
             $scope.categories = response.data.categories ? response.data.categories : [];
         })
         $scope.add = function (item, items) {
-            modal({
-                templateUrl: function () {
-                    return '/Public/Template/Pl-pl/Catalog/AddCategoryDialog.html'
-                },
-                title: function () {
-                    return 'Dodawanie nowej kategorii do katalogu'
-                },
-                cancel: function () {
-                },
-                accept: function (callback, scope) {
-                    if(!scope.data||!scope.data.name){
+            modalDialog.show($scope, {
+                title: 'Dodawanie nowej kategorii do katalogu',
+                templateUrl: '/Public/Template/Pl-pl/Catalog/AddCategoryDialog.html',
+                accept: (data, node) => {
+                    if (!data || !data.name) {
                         modalError.show($scope, 'Wprowadź nazwę kategorii')
-                        /*modalDialog.show({
-                            scope: $scope,
-                            templateUrl: '/Public/Template/Pl-pl/ErrorDialog.html',
-                        })*/
-
                         return
                     }
-                    $http.post(apiBase + '/catalog/category', scope.data).then(function (response) {
+                    $http.post(apiBase + '/catalog/category', data).then(function (response) {
                         $scope.categories.push({
                             id: response.data.id,
-                            name: scope.data.name,
-                            parentId: scope.data.parentId,
+                            name: data.name,
+                            parentId: data.parentId,
                             categories: [],
                         });
-                        callback();
+                        node.remove()
                     });
                 }
-            }).activate();
+            })
         }
         $scope.treeOptions = {
             beforeDrop: function (event) {
@@ -627,82 +622,50 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             },
         };
         $scope.edit = function (element) {
-            modal({
-                templateUrl: function () {
-                    return '/Public/Template/Pl-pl/Catalog/AddCategoryDialog.html'
-                },
-                title: function () {
-                    return 'Edycja kategorii do katalogu'
-                },
-                cancel: function () {
-                },
-                accept: function (callback, scope) {
+            modalDialog.show($scope, {
+                title: 'Dodawanie nowej kategorii do katalogu',
+                templateUrl: '/Public/Template/Pl-pl/Catalog/AddCategoryDialog.html',
+                data: element,
+                accept: (data, node) => {
                     $http.put(apiBase + '/catalog/category/' + element.id, {
-                        id: scope.data.id,
-                        name: scope.data.name,
-                        parentId: scope.data.parentId,
+                        id: data.id,
+                        name: data.name,
+                        parentId: data.parentId,
                     }).then(function (response) {
-                        element.name = scope.data.name;
-                        callback();
+                        element.name = data.name;
+                        node.remove()
                     });
-                },
-                data: function () {
-                    return {
-                        id: element.id,
-                        name: element.name,
-                        parentId: element.parentId,
-                    }
                 }
-            }).activate();
+            })
         }
     })
 
-    .factory('deleteDialog', function ($http, modal) {
+    .factory('deleteDialog', function ($http, modalDialog, $rootScope) {
         return {
-            show: function (options) {
-                modal({
-                    templateUrl: function () {
-                        return options.templateUrl
-                    },
-                    title: function () {
-                        return options.title
-                    },
-                    cancel: function () {
-                    },
-                    accept: function (callback, scope) {
-                        if (options.data.selects && (options.data.selects.length > 0)) {
-                            var ids = [];
-                            angular.forEach(options.data.selects, function (value, key) {
-                                ids.push(value.id);
-                            });
-                            $http.post(apiBase + options.apiUrl + '/mass/delete', {ids: ids}).then(function (response) {
-                                if (response.data.success) {
-                                    options.scope.selects = [];
-                                    options.scope.clear(options.scope[options.scope.itemsName]);
-                                    callback();
-                                }
-                            });
-                        } else {
-                            $http.delete(apiBase + options.apiUrl + options.data.row.id).then(function (response) {
-                                var i = 0;
-                                var index = null;
-                                angular.forEach(options.data.rows, function (value, key) {
-                                    if (value.id == options.data.row.id) {
-                                        index = i;
-                                    }
-                                    i++;
-                                });
-                                if (index !== null) {
-                                    options.data.rows.splice(index, 1);
-                                }
-                                callback();
-                            });
-                        }
-                    },
-                    data: function () {
-                        return options.data;
+            show: function (scope, options) {
+                modalDialog.show(scope, {
+                    title: options.title,
+                    templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
+                    data: options.data,
+                    accept: (data, node) => {
+                        var ids = [];
+                        angular.forEach($rootScope.selects, function (value, key) {
+                            ids.push(value.id);
+                        });
+                        $http.post(apiBase + data.apiUrl + '/mass/delete', {ids: ids}).then(function (response) {
+                            if (response.data.success) {
+                                angular.forEach(data.rows, function (value, key) {
+                                    angular.forEach(data.row, function (v, k) {
+                                        if (v.id == value.id)
+                                            value.deleted = true
+                                    })
+                                })
+                                node.remove()
+                                $rootScope.selects = []
+                            }
+                        });
                     }
-                }).activate();
+                })
             }
         }
     })
@@ -789,11 +752,11 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     showError.show('Wprowadź kod SKU')
                 } else if ($scope.data.validation.name) {
                     showError.show('Wprowadź nazwę towaru')
-                }else if ($scope.data.validation.sellNet) {
+                } else if ($scope.data.validation.sellNet) {
                     showError.show('Wprowadź cenę sprzedaży netto')
-                }else if ($scope.data.validation.sellGross) {
+                } else if ($scope.data.validation.sellGross) {
                     showError.show('Wprowadź cenę sprzedaży brutto')
-                }else if ($scope.data.validation.vat) {
+                } else if ($scope.data.validation.vat) {
                     showError.show('Wybierz stawkę VAT')
                 }
                 return
@@ -1434,14 +1397,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             }, pagination, $rootScope.filters);
         }
         $scope.deleteRow = function (rows, row) {
-            deleteDialog.show({
+            deleteDialog.show($scope, {
                 title: 'Usunięcie produktu',
-                templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/catalog/product/',
                 data: {
                     rows: rows,
                     row: row,
-                }
+                    apiUrl: '/catalog/product/'
+                },
             });
         }
         $scope.fluentLoad = function () {
@@ -1604,14 +1566,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
             }, pagination, $rootScope.filters);
         }
         $scope.deleteRow = function (rows, row) {
-            deleteDialog.show({
-                title: 'Usunięcie dokumentu',
-                templateUrl: '/Public/Template/Pl-pl/DeleteDialog.html',
-                apiUrl: '/contractor/',
+            deleteDialog.show($scope, {
+                title: 'Usunięcie kontrahenta',
                 data: {
                     rows: rows,
                     row: row,
-                }
+                    apiUrl: '/contractor/'
+                },
             });
         }
         $scope.fluentLoad = function () {

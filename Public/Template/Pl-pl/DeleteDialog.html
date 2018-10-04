@@ -1,14 +1,14 @@
 <div class="modal">
 <div class="content">
     <div class="header">
-        <h3>{{modal.title}}</h3><i ng-click="modal.cancel()" class="material-icons close">close</i>
+        <h3>{{modal.title}}</h3><i ng-click="modal.close()" class="material-icons close">close</i>
     </div>
     <div class="body">
         Czy potwierdzasz usunięcie wskazanego elementu?
     </div>
     <div class="footer">
         <button class="danger" ng-click="modal.accept()">Usuń</button>
-        <button ng-click="modal.cancel()">Zamknij</button>
+        <button ng-click="modal.close()">Zamknij</button>
     </div>
 </div>
 </div>
