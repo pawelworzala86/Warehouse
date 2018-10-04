@@ -1,19 +1,21 @@
 <?php
 
-namespace App\Module\Catalog\Handler;
+namespace App\Module\Document\Handler;
 
 use App\Common;
 use App\Handler;
 use App\Module\Catalog\Collection\ProductCollection;
 use App\Module\Catalog\Model\ProductModel;
 use App\Response\XlsResponse;
+use App\Module\Document\Collection\DocumentCollection;
+use App\Module\Document\Collection\DocumentViewCollection;
 use App\Request\UuidCollectionRequest;
 use App\Type\File;
 use App\Type\UUID;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class GetCatalogProductsXlsHandler extends Handler
+class GetDocumentsXlsHandler extends Handler
 {
     public function __invoke(UuidCollectionRequest $request): XlsResponse
     {
@@ -29,20 +31,24 @@ class GetCatalogProductsXlsHandler extends Handler
 
         $letter = 'A';
 
-        $products = new ProductCollection;
-        $products->load($ids, true);
+        $documents = new DocumentViewCollection;
+        $documents->load($ids, true);
 
         $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
-        $products->rewind();
+        $documents->rewind();
         $index = 2;
-        $sheet->setCellValue('A1', 'SKU');
-        $sheet->setCellValue('B1', 'Nazwa');
-        while($product = $products->current()) {
-            $sheet->setCellValue('A'.$index, $product->getSku());
-            $sheet->setCellValue('B'.$index, $product->getName());
+        $sheet->setCellValue('A1', 'Numer');
+        $sheet->setCellValue('B1', 'Data');
+        $sheet->setCellValue('C1', 'Kontrahent');
+        $sheet->setCellValue('D1', 'W.brutto');
+        while($product = $documents->current()) {
+            $sheet->setCellValue('A'.$index, $product->getName());
+            $sheet->setCellValue('B'.$index, $product->getDate());
+            $sheet->setCellValue('C'.$index, $product->getContractorName());
+            $sheet->setCellValue('D'.$index, $product->getGross());
             $index++;
-            $products->next();
+            $documents->next();
         }
 
         $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
@@ -52,7 +58,7 @@ class GetCatalogProductsXlsHandler extends Handler
         $uuid = $file->setType('application/vnd.ms-excel')
             ->setUrl('/Files/'.$uuid.'.xlsx')
             ->setSize(filesize(DIR.'/Files/'.$uuid.'.xlsx'))
-            ->setName('products.xlsx')
+            ->setName('documents.xlsx')
             ->save(false);
 
         return (new XlsResponse)

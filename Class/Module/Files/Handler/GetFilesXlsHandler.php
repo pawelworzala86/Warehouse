@@ -4,9 +4,7 @@ namespace App\Module\Files\Handler;
 
 use App\Common;
 use App\Handler;
-use App\Module\Catalog\Collection\ProductCollection;
-use App\Module\Catalog\Model\ProductModel;
-use App\Module\Catalog\Response\GetCatalogProductsXlsResponse;
+use App\Response\XlsResponse;
 use App\Module\Files\Collection\FileCollection;
 use App\Request\UuidCollectionRequest;
 use App\Type\File;
@@ -15,7 +13,7 @@ use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class GetFilesXlsHandler extends Handler
 {
-    public function __invoke(UuidCollectionRequest $request): GetCatalogProductsXlsResponse
+    public function __invoke(UuidCollectionRequest $request): XlsResponse
     {
         $uuid = Common::getUuid();
         $ids = [];
@@ -37,9 +35,12 @@ class GetFilesXlsHandler extends Handler
         $files->rewind();
         $index = 2;
         $sheet->setCellValue('A1', 'Nazwa');
+        $sheet->setCellValue('B1', 'Typ pliku');
+        $sheet->setCellValue('C1', 'Rozmiar pliku');
         while($file = $files->current()) {
-            //$sheet->setCellValue(($letter++).($index++).'', 'Hello World !');
             $sheet->setCellValue('A'.$index, $file->getName());
+            $sheet->setCellValue('B'.$index, $file->getType());
+            $sheet->setCellValue('C'.$index, $file->getSize());
             $index++;
             $files->next();
         }
@@ -55,7 +56,7 @@ class GetFilesXlsHandler extends Handler
             ->setUuid($uuid)
             ->save();
 
-        return (new GetCatalogProductsXlsResponse)
+        return (new XlsResponse)
             ->setId($file->getUuid())
             ->setUrl($file->getUrl())
             ->setName($file->getName());

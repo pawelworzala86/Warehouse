@@ -27,7 +27,7 @@
         </a>
     </div>
     <div class="table" ng-controller="selectTableController">
-        {{setSelectOptions('/catalog/stock', 'name', 'stocks')}}
+        {{setSelectOptions('/stock', 'name', 'stocks')}}
         <div ng-show="selects.length>0" class="box">
             <div class="header">Zaznaczone elementy</div>
             <div class="body">
@@ -43,7 +43,7 @@
                 <div class="buttons">
                     <button class="small">Pobierz PDF</button>
                     <button class="small" ng-click="massXls(selects)">Pobierz XLS</button>
-                    <button class="small danger" ng-click="massDelete(stocks, selects)">Usuń</button>
+                    <!--<button class="small danger" ng-click="massDelete(stocks, selects)">Usuń</button>-->
                 </div>
             </div>
         </div>

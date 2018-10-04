@@ -1,18 +1,16 @@
 <?php
 
-namespace App\Module\Catalog\Response;
+namespace App\Response;
 
-use App\Response\Response;
-use App\Type\CatalogCategoriesList;
 use App\Type\UUID;
 
-class GetCatalogProductsXlsResponse extends Response
+class XlsResponse extends Response
 {
     private $id;
     private $url;
     private $name;
 
-    function setName(string $name): GetCatalogProductsXlsResponse
+    function setName(string $name): XlsResponse
     {
         $this->name = $name;
         return $this;
@@ -23,7 +21,7 @@ class GetCatalogProductsXlsResponse extends Response
         return $this->name;
     }
 
-    function setId(UUID $id): GetCatalogProductsXlsResponse
+    function setId(UUID $id): XlsResponse
     {
         $this->id = $id;
         return $this;
@@ -34,7 +32,7 @@ class GetCatalogProductsXlsResponse extends Response
         return $this->id;
     }
 
-    function setUrl(string $url): GetCatalogProductsXlsResponse
+    function setUrl(string $url): XlsResponse
     {
         $this->url = $url;
         return $this;

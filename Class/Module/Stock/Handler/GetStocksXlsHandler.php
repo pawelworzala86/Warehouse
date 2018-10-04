@@ -1,19 +1,23 @@
 <?php
 
-namespace App\Module\Catalog\Handler;
+namespace App\Module\Stock\Handler;
 
 use App\Common;
 use App\Handler;
 use App\Module\Catalog\Collection\ProductCollection;
 use App\Module\Catalog\Model\ProductModel;
+use App\Module\Document\Collection\StockCollection;
+use App\Module\Stock\Collection\StockViewCollection;
 use App\Response\XlsResponse;
+use App\Module\Document\Collection\DocumentCollection;
+use App\Module\Document\Collection\DocumentViewCollection;
 use App\Request\UuidCollectionRequest;
 use App\Type\File;
 use App\Type\UUID;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
-class GetCatalogProductsXlsHandler extends Handler
+class GetStocksXlsHandler extends Handler
 {
     public function __invoke(UuidCollectionRequest $request): XlsResponse
     {
@@ -29,20 +33,22 @@ class GetCatalogProductsXlsHandler extends Handler
 
         $letter = 'A';
 
-        $products = new ProductCollection;
-        $products->load($ids, true);
+        $stocks = new StockViewCollection;
+        $stocks->load($ids, true);
 
         $spreadsheet = new Spreadsheet;
         $sheet = $spreadsheet->getActiveSheet();
-        $products->rewind();
+        $stocks->rewind();
         $index = 2;
         $sheet->setCellValue('A1', 'SKU');
-        $sheet->setCellValue('B1', 'Nazwa');
-        while($product = $products->current()) {
+        $sheet->setCellValue('B1', 'Name');
+        $sheet->setCellValue('C1', 'Ilość');
+        while($product = $stocks->current()) {
             $sheet->setCellValue('A'.$index, $product->getSku());
             $sheet->setCellValue('B'.$index, $product->getName());
+            $sheet->setCellValue('C'.$index, $product->getCount());
             $index++;
-            $products->next();
+            $stocks->next();
         }
 
         $writer = IOFactory::createWriter($spreadsheet, "Xlsx");
@@ -52,7 +58,7 @@ class GetCatalogProductsXlsHandler extends Handler
         $uuid = $file->setType('application/vnd.ms-excel')
             ->setUrl('/Files/'.$uuid.'.xlsx')
             ->setSize(filesize(DIR.'/Files/'.$uuid.'.xlsx'))
-            ->setName('products.xlsx')
+            ->setName('stocks.xlsx')
             ->save(false);
 
         return (new XlsResponse)
