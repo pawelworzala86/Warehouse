@@ -1,0 +1,31 @@
+<div class="modal big">
+    <div class="content">
+        <div class="header">
+            <h3>Widok produktu</h3><i ng-click="modal.close()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="detail">
+                <div class="col col-xs-12">
+                    <div class="card">
+                        <div class="title">Nazwy/kody</div>
+                        <div class="col col-xs-4">
+                            <div class="group">
+                                <label>SKU</label>
+                                <input type="text" class="value" ng-model="data.sku" ng-change="data.saveShow=true;">
+                            </div>
+                        </div>
+                        <div class="col col-xs-8">
+                            <div class="group">
+                                <label>Nazwa</label>
+                                <input type="text" class="value" ng-model="data.name" ng-change="data.saveShow=true;">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer row buttons" ng-show="data.saveShow">
+            <button ng-click="saveDetail('/catalog/product', data);modal.close()">Zapisz</button>
+        </div>
+    </div>
+</div>

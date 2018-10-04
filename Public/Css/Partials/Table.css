@@ -108,6 +108,26 @@
     box-sizing: border-box;
 }
 
+.table .modal-detail{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    background: rgba(255, 255, 255, 0.8);
+    z-index: 100;
+    bottom: 0;
+}
+
+.table .modal-detail .detail{
+    background: #fff;
+    padding: 50px;
+}
+
+.table .modal-detail .material-icons{
+    float: right;
+    cursor: pointer;
+}
+
 .table .detail p{
     font-size: 0.85em;
     text-align: justify;
@@ -148,6 +168,9 @@
     border-bottom: none;
     border-top: 1px dashed #ccc;
     padding: 0px !important;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
 }
 
 .table-mini{
@@ -158,10 +181,24 @@
     font-size: 0.9em;
     padding-bottom: 15px;
     padding-top: 5px;
+    margin-bottom: 25px;
 }
 
 .table-mini .header{
     padding: 0 !important;
     margin-bottom: 2px;
     border: none;
+    font-size: 0.9em;
+    font-weight: 400;
+}
+
+.table .modal-detail .row {
+    padding: 0;
+    border: none;
+    margin-bottom: 50px;
+    float: none;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    display: inline-block;
 }

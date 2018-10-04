@@ -87,12 +87,12 @@ class ContractorContactModel extends Model
         return $this;
     }
 
-    public function getUuid(): UUID
+    public function getUuid(): ?UUID
     {
         return $this->uuid;
     }
 
-    public function setUuid(UUID $uuid): ContractorContactModel
+    public function setUuid(UUID $uuid = null): ContractorContactModel
     {
         $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;

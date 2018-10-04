@@ -209,10 +209,10 @@
             <div class="col col-xs-12">
                 <div class="card">
                     <div class="title">Produkty/usługi</div>
-                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectProduct()">Dodaj
+                    <button ng-if="data.document.kind=='add'" style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectProduct()">Dodaj
                         pozycję
                     </button>
-                    <button style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectStock()">Dodaj
+                    <button ng-if="data.document.kind=='dec'" style="margin-bottom: 15px;margin-left: 15px;" ng-click="data.showSelectStock()">Dodaj
                         pozycję
                     </button>
                     <div class="table products">

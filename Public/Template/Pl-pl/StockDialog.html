@@ -1,0 +1,28 @@
+<style>
+    .stock-dialog .name{
+        font-size: 1.75em;
+    }
+    .stock-dialog .count{
+        font-size: 2.75em;
+        font-weight: 100;
+        text-align: right;
+    }
+</style>
+<div class="modal big stock-dialog">
+    <div class="content">
+        <div class="header">
+            <h3>Widok stanu magazynowego</h3><i ng-click="modal.close()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="detail">
+                <div class="col col-xs-8">
+                    <div class="sku">{{data.sku}}</div>
+                    <div class="name">{{data.name}}</div>
+                </div>
+                <div class="col col-xs-4">
+                    <div class="count">{{data.count}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

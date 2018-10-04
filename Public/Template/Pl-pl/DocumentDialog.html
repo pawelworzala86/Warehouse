@@ -1,0 +1,148 @@
+<style>
+    .summary {
+        float: left;
+        margin-top: -10px;
+        margin-bottom: 10px;
+    }
+
+    .contractor .mini {
+        font-size: 0.85em;
+        color: #666;
+    }
+
+    .contractor .text {
+        font-size: 0.85em;
+        color: #444;
+    }
+
+    .payed p,
+    .payed strong {
+        float: left;
+    }
+
+    .table .detail .payed p {
+        width: 90px;
+        margin: 0;
+    }
+
+    .table .detail .payed strong {
+        color: #555;
+        margin-top: 2px;
+        width: 84px;
+        text-align: right;
+        float: right;
+    }
+
+    .table .payed .row {
+        border-bottom: 1px dashed rgba(0, 0, 0, 0.3);
+        padding: 0 !important;
+    }
+
+    .table .payed .row:hover {
+        background: transparent;
+    }
+
+    .table .payed strong.to-pay {
+        color: #c44;
+    }
+
+    .table .payed .term {
+        margin-bottom: 5px;
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .table .summary.contractor {
+        margin-bottom: 25px;
+        margin-top: 15px;
+    }
+
+    .table .summary.contractor .title,
+    .table .summary.description .title {
+        font-size: 0.85em;
+        font-weight: 400;
+    }
+
+    .summary .term{
+        float: left;
+        width: 100%;
+        margin-bottom: 2px;
+        font-size: 0.95em;
+    }
+    .summary .term p{
+        margin: 0;
+    }
+    .payed strong{
+        float: right;
+        margin-top: 2px;
+    }
+    .summary .title{
+        font-weight: 400;
+        font-size: 0.85em;
+    }
+</style>
+<div class="modal big">
+    <div class="content">
+        <div class="header">
+            <h3>Widok dokumentu</h3><a ng-click="modal.close()" href="/dokument/{{data.id}}">Edytuj</a><i ng-click="modal.close()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="detail">
+                <div class="summary contractor col col-xs-4">
+                    <div class="title">Kontrahent</div>
+                    <div class="mini">{{data.contractor.name}}</div>
+                    <div class="name">{{data.contractor.address.name}}</div>
+                    <div class="text">{{data.contractor.address.firstName}}
+                        {{data.contractor.address.lastName}}
+                    </div>
+                    <div class="text">{{data.contractor.address.street}}</div>
+                    <div class="text">{{data.contractor.address.postcode}}
+                        {{data.contractor.address.city}}
+                    </div>
+                </div>
+                <div class="table-mini">
+                    <div class="header">
+                        <div class="col col-xs-2">SKU</div>
+                        <div class="col" ng-class="{'col-xs-5': ((data.type=='fvp')||(data.type=='fvs')),
+                            'col-xs-9': !((data.type=='fvp')||(data.type=='fvs'))}">Nazwa produktu
+                        </div>
+                        <div class="col col-xs-1 right">Ilość</div>
+                        <div class="col col-xs-2 right"
+                             ng-if="(data.type=='fvp')||(data.type=='fvs')">W.netto
+                        </div>
+                        <div class="col col-xs-2 right"
+                             ng-if="(data.type=='fvp')||(data.type=='fvs')">W.brutto
+                        </div>
+                    </div>
+                    <div class="row" ng-repeat="product in data.products">
+                        <div class="col col-xs-2"><a ng-href="/katalog/produkt/{{product.id}}">{{product.sku}}</a>
+                        </div>
+                        <div class="col" ng-class="{'col-xs-5': ((data.type=='fvp')||(data.type=='fvs')),
+                            'col-xs-9': !((data.type=='fvp')||(data.type=='fvs'))}">
+                            {{product.name}}
+                        </div>
+                        <div class="col col-xs-1 right">{{product.count}}</div>
+                        <div class="col col-xs-2 right"
+                             ng-if="(data.type=='fvp')||(data.type=='fvs')">{{product.sumNet}}
+                        </div>
+                        <div class="col col-xs-2 right"
+                             ng-if="(data.type=='fvp')||(data.type=='fvs')">
+                            {{product.sumGross}}
+                        </div>
+                    </div>
+                </div>
+                <div class="summary col col-xs-8 description">
+                    <div class="title">Opis</div>
+                    <p>{{data.descriptionShort}}</p>
+                </div>
+                <div class="summary col col-xs-4 payed">
+                    <div class="term"><p>Termin płatności: </p><strong>{{data.payDate}}</strong></div>
+                    <div class="term"><p>Zapłacono: </p><strong>{{data.payed}}</strong></div>
+                    <div class="term"><p>Do zapłaty: </p><strong ng-class="{'to-pay': data.toPay>0}">{{data.toPay}}</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,111 @@
+<div class="modal big">
+    <div class="content">
+        <div class="header">
+            <h3>Widok kontrahenta</h3><i ng-click="modal.close()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="detail">
+                <div class="row">
+                    <div class="col col-xs-12">
+                        <div class="card">
+                            <div class="title">Dane podstawowe</div>
+                            <div class="col col-xs-4">
+                                <div class="group">
+                                    <label>Kod kontrahenta</label>
+                                    <input type="text" class="value" ng-model="data.code" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-8">
+                                <div class="group">
+                                    <label>Nazwa kontrahenta</label>
+                                    <input type="text" class="value" ng-model="data.name" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-4">
+                                <div class="group">
+                                    <label>NIP</label>
+                                    <input type="text" class="value" ng-model="data.nip" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col col-xs-8">
+                        <div class="card">
+                            <div class="title">Adres korespondencyjny</div>
+                            <div class="col col-xs-12">
+                                <div class="group">
+                                    <label>Nazwa adresowa</label>
+                                    <input type="text" class="value" ng-model="data.address.name" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-6">
+                                <div class="group">
+                                    <label>Imię</label>
+                                    <input type="text" class="value" ng-model="data.address.firstname" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-6">
+                                <div class="group">
+                                    <label>Nazwisko</label>
+                                    <input type="text" class="value" ng-model="data.address.lastname" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-12">
+                                <div class="group">
+                                    <label>Ulica i numer</label>
+                                    <input type="text" class="value" ng-model="data.address.street" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-6">
+                                <div class="group">
+                                    <label>Kod pocztowy</label>
+                                    <input type="text" class="value" ng-model="data.address.postcode" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-6">
+                                <div class="group">
+                                    <label>Miasto</label>
+                                    <input type="text" class="value" ng-model="data.address.city" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xs-4">
+                        <div class="card">
+                            <div class="title">Dane kontaktowe</div>
+                            <div class="col col-xs-12">
+                                <div class="group">
+                                    <label>Telefon</label>
+                                    <input type="text" class="value" ng-model="data.contact.phone" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-12">
+                                <div class="group">
+                                    <label>Fax</label>
+                                    <input type="text" class="value" ng-model="data.contact.fax" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-12">
+                                <div class="group">
+                                    <label>Mail</label>
+                                    <input type="text" class="value" ng-model="data.contact.mail" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                            <div class="col col-xs-12">
+                                <div class="group">
+                                    <label>WWW</label>
+                                    <input type="text" class="value" ng-model="data.contact.www" ng-change="data.saveShow=true;">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="footer row buttons" ng-show="data.saveShow">
+            <button ng-click="saveDetail('/contractor', data);modal.close()">Zapisz</button>
+        </div>
+    </div>
+</div>

@@ -364,7 +364,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
     .controller('landingController', function ($scope) {
     })
 
-    .controller('selectTableController', function ($rootScope, $scope, deleteDialog, $http) {
+    .controller('selectTableController', function (modalDialog, $rootScope, $scope, deleteDialog, $http) {
         $rootScope.selects = [];
         $scope.setSelectOptions = function (deleteUrl, titleField, itemsName) {
             $scope.deleteUrl = deleteUrl;
@@ -470,10 +470,27 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 },
             });
         }
-        $scope.loadDetail = (url, products, product) => {
-            product.detail = true
+        $scope.loadDetail = (url, products, product, template = null) => {
+            //product.detail = true
             $http.get(apiBase + url + '/' + product.id).then(function (response) {
-                product.detail = response.data
+                //product.detail = response.data
+                let dialogTemplate = url.substring(1)
+                dialogTemplate = dialogTemplate.charAt(0).toUpperCase()+dialogTemplate.substring(1)
+                if(template){
+                    //template = url.substring(1)
+                    template = template.charAt(0).toUpperCase()+template.substring(1)
+                }
+                modalDialog.show($scope, {
+                    title: '',
+                    templateUrl: '/Public/Template/Pl-pl/'+(template?template:dialogTemplate)+'Dialog.html',
+                    data: response.data
+                })
+            });
+        }
+        $scope.saveDetail = (url, detailRow) => {
+            //product.detail = true
+            $http.put(apiBase + url + '/' + detailRow.id, detailRow).then(function (response) {
+                $scope.$parent.reload(detailRow)
             });
         }
     })
@@ -491,11 +508,13 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     scope.modal = {}
                     scope.modal.close = () => {
                         node.remove()
+                        angular.element(document.body).removeClass('modal')
                     }
                     scope.modal.title = options.title
                     scope.modal.message = options.title
                     if (options.accept) {
                         scope.modal.accept = () => {
+                            angular.element(document.body).removeClass('modal')
                             options.accept(scope.data, node)
                         }
                     }
@@ -505,6 +524,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                     scope.modal.zIndex = $rootScope.modalIndex
                     $compile(node.contents())(scope)
                     angular.element(document.body).append(node)
+                    angular.element(document.body).addClass('modal')
                 })
             }
         }
@@ -1441,6 +1461,14 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $rootScope.filtersNames = filtersNames;
             }, pagination, $rootScope.filters);
         }
+        $scope.reload = (row)=>{
+            angular.forEach($scope.products, function (value, key) {
+                if(value.id==row.id){
+                    value.sku = row.sku
+                    value.name = row.name
+                }
+            });
+        }
         $scope.deleteRow = function (rows, row) {
             deleteDialog.show($scope, {
                 title: 'Usunięcie produktu',
@@ -1609,6 +1637,14 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 $rootScope.filters = filters;
                 $rootScope.filtersNames = filtersNames;
             }, pagination, $rootScope.filters);
+        }
+        $scope.reload = (row)=>{
+            angular.forEach($scope.contractors, function (value, key) {
+                if(value.id==row.id){
+                    value.code = row.code
+                    value.name = row.name
+                }
+            });
         }
         $scope.deleteRow = function (rows, row) {
             deleteDialog.show($scope, {

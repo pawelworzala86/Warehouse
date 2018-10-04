@@ -6,18 +6,25 @@
     top: 0;
     left: 0;
     z-index: 10000;
+    overflow-x: auto;
 }
 
 .modal .content {
     width: 60%;
     margin-left: 20%;
-    margin-top: 100px;
+    margin-top: 60px;
     box-sizing: border-box;
     float: left;
     overflow: hidden;
     background: #fff;
     box-shadow: 5px 5px 5px #aaa;
     border: 1px solid #ddd;
+    margin-bottom: 60px;
+}
+
+.modal.big .content {
+    margin-left: 5%;
+    width: 90%;
 }
 
 .modal .header {
@@ -26,6 +33,7 @@
     box-sizing: border-box;
     position: relative;
     border-bottom: 1px solid #ddd;
+    float: left;
 }
 
 .modal .body {
@@ -41,17 +49,26 @@
     padding: 12px 15px;
     border-top: 1px solid #ddd;
     float: left;
+    margin: 0;
 }
 
 .modal .header h3 {
     padding: 0;
     margin: 0;
     font-weight: 400;
+    float: left;
+}
+
+.modal .header a {
+    margin-top: 1px;
+    float: left;
+    margin-left: 15px;
 }
 
 .modal .footer button {
     float: right;
     margin-left: 15px;
+    font-size: 0.8em;
 }
 
 .modal .header .close {
@@ -83,6 +100,28 @@
     text-align: center;
     padding-top: 0px;
     padding-bottom: 25px;
+}
+
+.modal-detail .title{
+    margin-bottom: 10px;
+    font-weight: 400;
+    font-size: 1.4em;
+    border-bottom: 1px dashed #ccc;
+    padding-bottom: 5px;
+}
+
+.modal-detail button{
+    font-weight: 400;
+    font-size: 1.4em;
+}
+.modal-detail .buttons{
+    text-align: center;
+}
+
+body.modal{
+    position: relative;
+    height: auto;
+    overflow-y: hidden;
 }
 
 @media only screen and (max-width:768px)  {

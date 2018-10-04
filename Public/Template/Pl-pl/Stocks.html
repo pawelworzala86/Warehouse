@@ -16,6 +16,11 @@
     }
 </style>
 <div class="container stocks">
+    <div class="buttons">
+        <a ng-href="/dokument/dodaj">
+            <button class="icon"><i class="material-icons">add_circle_outline</i>Przyjmnij/Wydaj</button>
+        </a>
+    </div>
     <div class="table" ng-controller="selectTableController">
         {{setSelectOptions('/stock', 'name', 'stocks')}}
         <div ng-show="selects.length>0" class="box">
@@ -61,9 +66,6 @@
                 <div class="col col-xs-2">{{stock.sku}}</div>
                 <div class="col col-xs-8">{{stock.name}}</div>
                 <div class="col col-xs-2 right">{{stock.count}}</div>
-            </div>
-            <div class="detail" ng-if="stock.detail">
-                <p>{{stock.detail.descriptionShort}}</p>
             </div>
         </div>
         <fluentLoader ng-click="fluentLoad()" ng-show="stocks.length>0">

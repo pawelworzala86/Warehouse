@@ -286,7 +286,8 @@ tab article{
 .angular-ui-tree-drag,
 .angular-ui-tree-placeholder,
 .angular-ui-tree-handle {
-    border: 1px dashed #ccc;
+    border-bottom: 1px dashed #ccc;
+    margin: 2px 0px;
 }
 
 .angular-ui-tree-node .title {
@@ -342,17 +343,17 @@ tab article{
 .card .title{
     margin-bottom: 15px;
     padding: 0 10px;
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 400;
-    color: #666;
+    color: #555;
     padding-top: 10px;
     border-bottom: 1px dashed rgba(0, 0, 0, 0.2);
     padding-bottom: 5px;
 }
 
 .row{
-    float: left;
     box-sizing: border-box;
+    display: inline-block;
 }
 
 ::-webkit-input-placeholder {
@@ -430,4 +431,48 @@ button{
 .material-icons:hover {
     color: #555 !important;
     opacity: 1;
+}
+
+.group{
+    margin-bottom: 10px;
+}
+
+label{
+    font-size: 0.85em;
+    margin-left: 5px;
+    width: 100%;
+    float: left;
+}
+
+.value{
+    font-size: 1.1em;
+    min-width: 1px;
+    min-height: 18px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+input[type=text],
+input[type=password],
+textarea,
+option,
+select {
+    border: 1px solid transparent;
+    border-left: 2px solid #68c;
+}
+
+input[type=text]:hover,
+input[type=password]:hover,
+textarea:hover,
+option:hover,
+select:hover,
+input[type=text]:focus,
+input[type=password]:focus,
+textarea:focus,
+option:focus,
+select:focus {
+    border-left: 2px solid #68c;
+    border-bottom: 1px solid #68c;
+    background-color: rgba(102, 136, 204, 0.1) !important;
+    color: #333;
 }

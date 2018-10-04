@@ -61,16 +61,13 @@
             <div class="head">
                 <input type="checkbox" id="chbx{{product.id}}" ng-click="check(product)"><label for="chbx{{product.id}}"
                                                                                                 class="checkbox"></label>
-                <i class="material-icons zoom-in" ng-click="loadDetail('/catalog/product', products, product)">zoom_in</i>
+                <i class="material-icons zoom-in" ng-click="loadDetail('/catalog/product', products, product, 'product')">zoom_in</i>
                 <div class="col col-xs-2">{{product.sku}}</div>
                 <div class="col col-xs-10">{{product.name}}</div>
                 <div class="buttons">
                     <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
                     <i data-nodrag="" class="material-icons" ng-click="deleteRow(products, product)">delete_forever</i>
                 </div>
-            </div>
-            <div class="detail" ng-if="product.detail">
-                <p>{{product.detail.descriptionShort}}</p>
             </div>
         </div>
         <fluentLoader ng-click="fluentLoad()" ng-show="products.length>0">
