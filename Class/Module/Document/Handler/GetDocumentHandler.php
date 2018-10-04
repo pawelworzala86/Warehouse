@@ -11,6 +11,8 @@ use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Contractor\Model\AddressModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Collection\DocumentProductCollection;
+use App\Module\Document\Collection\DocumentProductViewCollection;
+use App\Module\Document\Collection\DocumentViewCollection;
 use App\Module\Document\Model\DocumentProductModel;
 use App\Module\Document\Request\GetDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
@@ -64,7 +66,7 @@ class GetDocumentHandler extends Handler
         $productsCollection->rewind();
         while ($prod = $productsCollection->current()) {
             $product = (new ProductModel)
-                ->load($prod->getProductId());
+               ->load($prod->getProductId());
             $products->add(
                 (new DocumentProduct)
                     ->setId($prod->getUuid())

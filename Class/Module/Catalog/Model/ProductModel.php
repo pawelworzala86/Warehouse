@@ -128,12 +128,12 @@ class ProductModel extends Model
         return $this;
     }
 
-    public function getUuid(): UUID
+    public function getUuid(): ?UUID
     {
         return $this->uuid;
     }
 
-    public function setUuid(UUID $uuid): ProductModel
+    public function setUuid(UUID $uuid = null): ProductModel
     {
         $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;

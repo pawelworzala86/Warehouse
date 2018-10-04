@@ -114,7 +114,7 @@ class CreateDocumentHandler extends Handler
                         'kind' => new FilterKind('>'),
                         'value' => 0,
                     ]))
-                    ->order(' id desc ')
+                    ->order(' id asc ')
                     ->load();
                 $stockModel->rewind();
                 //print_r([$productId]);
@@ -125,17 +125,6 @@ class CreateDocumentHandler extends Handler
                     if ($count <= 0) {
                         break;
                     }
-                    $documentProductId = ($docProd = new DocumentProductModel)
-                        ->setUuid(Common::getUuid())
-                        ->setDocumentId($documentId)
-                        ->setProductId($productId)
-                        ->setCount($product->getCount())
-                        ->setNet($product->getNet())
-                        ->setSumNet($product->getSumNet())
-                        ->setSumGross($product->getSumGross())
-                        ->setVat($product->getVat())
-                        ->setDocumentProductId($stock->getDocumentProductId())
-                        ->insert();
                     //$stock->setUuid($stock->getUuid());
                     //$stockCount = $stockModel->getCount();
                     //print_r([$originalCount, $count]);
@@ -149,7 +138,17 @@ class CreateDocumentHandler extends Handler
                             //$stockU->setCount(0);
                             //$count = 0;//$stockCount;
                             //$stockU->update();
-
+                        $documentProductId = ($docProd = new DocumentProductModel)
+                            ->setUuid(Common::getUuid())
+                            ->setDocumentId($documentId)
+                            ->setProductId($productId)
+                            ->setCount($count)
+                            ->setNet($product->getNet())
+                            ->setSumNet($product->getSumNet())
+                            ->setSumGross($product->getSumGross())
+                            ->setVat($product->getVat())
+                            ->setDocumentProductId($stock->getDocumentProductId())
+                            ->insert();
                             (new StockModel)
                                 ->setUuid(Common::getUuid())
                                 ->setDocumentId($documentId)
@@ -173,6 +172,17 @@ class CreateDocumentHandler extends Handler
                                 ->insert();
                         }*/
                     }else {
+                        $documentProductId = ($docProd = new DocumentProductModel)
+                            ->setUuid(Common::getUuid())
+                            ->setDocumentId($documentId)
+                            ->setProductId($productId)
+                            ->setCount($stockCount)
+                            ->setNet($product->getNet())
+                            ->setSumNet($product->getSumNet())
+                            ->setSumGross($product->getSumGross())
+                            ->setVat($product->getVat())
+                            ->setDocumentProductId($stock->getDocumentProductId())
+                            ->insert();
                         /*if ($stockCount - $count <= 0) {
                             //$stockU->setCount(0);
                             $count -= $stockCount;
