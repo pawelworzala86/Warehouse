@@ -15,6 +15,18 @@ trait ContractorTrait
     private $contact;
     private $contractorId;
     private $nip;
+    private $supplier;
+
+    public function getSupplier(): ?bool
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(bool $supplier = false)
+    {
+        $this->supplier = $supplier;
+        return $this;
+    }
 
     public function getNip(): ?string
     {

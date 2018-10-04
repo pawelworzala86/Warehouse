@@ -101,6 +101,7 @@ class UpdateContractorHandler extends Handler
             ->setContactId($contactId)
             ->setCode($request->getCode())
             ->setNip($request->getNip())
+            ->setSupplier($request->getSupplier())
             ->update();
 
         return (new SuccessResponse);

@@ -914,7 +914,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.reloadContractor = () => {
             contractorSearch.get((response) => {
                 $scope.data.contractors = response.data.contractors
-            }, $scope.data.find.name)
+            }, $scope.data.find.name, $scope.data.document.kind=='add')
         }
         $scope.data.reloadProduct = () => {
             productSearch.get((response) => {
@@ -933,6 +933,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         }
         $scope.data.showSelectContractor = () => {
             $scope.data.contractorShow = true
+            $scope.data.reloadContractor()
         }
         $scope.data.contractorHide = () => {
             $scope.data.contractorShow = false
@@ -949,7 +950,7 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
         $scope.data.showSelectStock = () => {
             $scope.data.stockShow = true
         }
-        $scope.data.reloadContractor()
+        //$scope.data.reloadContractor()
         $scope.data.reloadProduct()
         $scope.data.reloadStock()
         $scope.data.selectProduct = (product) => {
@@ -1108,8 +1109,8 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
 
     .factory('contractorSearch', function ($http) {
         return {
-            get: function (callback, search) {
-                $http.post(apiBase + '/contractor/search', {search: search}).then(callback);
+            get: function (callback, search, supplier = false) {
+                $http.post(apiBase + '/contractor/search', {search: search, supplier: supplier}).then(callback);
             }
         }
     })

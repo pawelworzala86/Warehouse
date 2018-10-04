@@ -157,6 +157,11 @@ input.error{
     height: 56px;
 }
 
+.form-group.checkbox{
+    padding-top: 18px;
+    height: 14px;
+}
+
 .form-group.checkbox input{
     width: auto;
 }

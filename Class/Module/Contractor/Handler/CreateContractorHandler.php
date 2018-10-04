@@ -51,6 +51,7 @@ class CreateContractorHandler extends Handler
             ->setAddressId($addressId)
             ->setCode($request->getCode())
             ->setNip($request->getNip())
+            ->setSupplier($request->getSupplier())
             ->insert();
 
         $contactId = null;

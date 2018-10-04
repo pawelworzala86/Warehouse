@@ -14,6 +14,19 @@ class ContractorModel extends Model
     private $contactId;
     private $code;
     private $nip;
+    private $supplier;
+
+    public function getSupplier(): ?bool
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(bool $supplier = false): ContractorModel
+    {
+        $this->set('supplier', $supplier);
+        $this->supplier = $supplier;
+        return $this;
+    }
 
     public function getNip(): ?string
     {

@@ -9,6 +9,18 @@ use App\Type\UUID;
 class GetSearchContractorsRequest extends UserRequest
 {
     public $search;
+    public $supplier;
+
+    public function getSupplier(): bool
+    {
+        return $this->supplier;
+    }
+
+    public function setSupplier(bool $supplier)
+    {
+        $this->supplier = $supplier;
+        return $this;
+    }
 
     public function getSearch(): string
     {

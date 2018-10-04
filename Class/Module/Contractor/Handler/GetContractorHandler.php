@@ -69,6 +69,7 @@ class GetContractorHandler extends Handler
             ->setName($contractor->getName())
             ->setAddress($address)
             ->setContact($contact)
-            ->setNip($contractor->getNip());
+            ->setNip($contractor->getNip())
+            ->setSupplier($contractor->getSupplier());
     }
 }

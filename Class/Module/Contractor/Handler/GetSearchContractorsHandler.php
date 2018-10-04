@@ -35,7 +35,7 @@ class GetSearchContractorsHandler extends Handler
         $pagination->setLimit(5);
         $pagination->setPage(1);
 
-        $contractors = (new ContractorCollection)
+        $contractorsCollection = (new ContractorCollection)
             ->setPagination($pagination)
             ->where(new Filter([
                 'name' => 'added_by',
@@ -51,8 +51,15 @@ class GetSearchContractorsHandler extends Handler
                 'name' => 'name',
                 'kind' => new FilterKind('%'),
                 'value' => $request->getSearch(),
-            ]))
-            ->load();
+            ]));
+        if($request->getSupplier()) {
+            $contractorsCollection->where(new Filter([
+                'name' => 'supplier',
+                'kind' => new FilterKind('='),
+                'value' => true,
+            ]));
+        }
+        $contractors = $contractorsCollection->load();
 
         $docs = new Contractors;
         $docs->rewind();
