@@ -10,6 +10,7 @@ return [
     Router::get('/document', Handler\GetDocumentsHandler::class),
     Router::post('/document/mass/delete', Handler\DeleteMassDocumentHandler::class),
     Router::post('/document/mass/xls', Handler\GetDocumentsXlsHandler::class),
+    Router::post('/document/mass/pdf', Handler\GetDocumentsPdfHandler::class),
     Router::get('/document/{id}', Handler\GetDocumentHandler::class),
     Router::put('/document/{id}', Handler\UpdateDocumentHandler::class),
     Router::get('/document/{id}/print', Handler\GetDocumentPrintHandler::class),

@@ -153,7 +153,7 @@ class GetDocumentPrintHandler extends Handler
 
         $szerokosci = array(10, 25, 57, 10, 10, 17, 10, 17, 17, 17);
         $rozmieszczenieTekstu = array('C', 'L', 'L', 'C', 'C', 'R', 'C', 'R', 'R', 'R');
-        $header = array('Lp.', 'PKWiU', 'Nazwa produktu / usługi', 'Ilość', 'Jm', 'Netto', '%VAT', 'W.netto', 'W.VAT', 'W.brutto');
+        $header = array('Lp.', 'SKU', 'Nazwa produktu / usługi', 'Ilość', 'Jm', 'Netto', '%VAT', 'W.netto', 'W.VAT', 'W.brutto');
 
         $stawkiSzerokosci = array(17, 17, 17, 17);
         $stawkiRozmieszczenieTekstu = array('R', 'R', 'R', 'R');

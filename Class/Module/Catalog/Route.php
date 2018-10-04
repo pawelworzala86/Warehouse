@@ -17,6 +17,7 @@ return [
     Router::delete('/catalog/product/{id}', Handler\DeleteCatalogProductHandler::class),
     Router::post('/catalog/product/mass/delete', Handler\DeleteMassCatalogProductHandler::class),
     Router::post('/catalog/product/mass/xls', Handler\GetCatalogProductsXlsHandler::class),
+    Router::post('/catalog/product/mass/pdf', Handler\GetCatalogProductsPdfHandler::class),
     Router::get('/catalog/product/{id}', Handler\GetCatalogProductHandler::class),
     Router::put('/catalog/product/{id}', Handler\UpdateCatalogProductHandler::class),
     Router::get('/catalog/product/{id}/image', Handler\GetCatalogProductImagesHandler::class),

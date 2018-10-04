@@ -516,6 +516,20 @@ angular.module('Megazin', ['ngRoute', 'btford.modal', 'ui.tree', 'ngFileUpload']
                 })[0].click();
             });
         }
+        $scope.massPdf = function (rows) {
+            var data = [];
+            angular.forEach(rows, function (value, key) {
+                data.push(value.id);
+            });
+            $http.post(apiBase + $scope.deleteUrl + '/mass/pdf', {ids: data}).then(function (response) {
+                var anchor = angular.element('<a/>');
+                anchor.attr({
+                    href: response.data.url,
+                    target: '_blank',
+                    download: response.data.name
+                })[0].click();
+            });
+        }
         $scope.massDelete = function (rows, row) {
             deleteDialog.show($scope, {
                 title: 'Usunięcie wielu pozycji',
