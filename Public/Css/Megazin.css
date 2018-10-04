@@ -143,6 +143,10 @@ upload-attachment #uploadBorderBox {
     margin-bottom: 35px;
 }
 
+upload-attachment .borderBox {
+    width: 100%;
+}
+
 upload .borderBox .name,
 upload-attachment .borderBox .name{
     z-index: 1000;
@@ -157,6 +161,13 @@ upload-attachment .borderBox .name{
     overflow: hidden;
 }
 
+upload-attachment .borderBox .name{
+    text-align: left;
+    padding: 0px 20px;
+    top: 0;
+    position: relative;
+}
+
 upload .borderBox .size,
 upload-attachment .borderBox .size{
     position: absolute;
@@ -165,6 +176,17 @@ upload-attachment .borderBox .size{
     font-size: 0.7em;
     width: 100%;
     text-align: center;
+}
+
+upload-attachment .borderBox .size{
+    position: relative;
+    text-align: left;
+    padding: 0px 20px;
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+    bottom: 0;
+    margin: 0;
 }
 
 upload .borderBox .material-icons.delete,

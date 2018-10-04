@@ -8,20 +8,42 @@
         animation: spin 2s linear infinite;
         margin: 14px;
     }
+    .table.attach .material-icons{
+        position: absolute;
+        top: 1px;
+        right: 10px;
+    }
+    .table.attach{
+        margin-bottom: 25px;
+    }
+    .table.attach .material-icons.download{
+        right: 40px;
+    }
 </style>
-<div class="borderBox" ng-repeat="file in files" ng-if="!file.deleted">
-    {{setSelectOptions('/catalog/product/', 'name', 'files')}}
-    <img ng-src="{{file.url}}"/>
-    <p class="name">{{file.name}}</p>
-    <p class="size">{{$root.formatSizeUnits(file.size)}}</p>
-    <i class="material-icons delete" ng-click="deleteAttachment(files, file)">close</i>
+<div class="table attach">
+    <div class="row header">
+        <div class="col col-xs-5">Nazwa załącznika</div>
+        <div class="col col-xs-5">Rozmiar pliku</div>
+        <div class="col col-xs-2"></div>
+    </div>
+    <div class="row" ng-repeat="file in files" ng-if="!file.deleted">
+        {{setSelectOptions('/catalog/product/', 'name', 'files')}}
+        <div class="col col-xs-5">{{file.name}}</div>
+        <div class="col col-xs-5">{{$root.formatSizeUnits(file.size)}}</div>
+        <div class="col col-xs-2">
+            <a target="_self" ng-href="{{file.url}}" download="{{file.name}}">
+                <i data-nodrag="" class="material-icons download" ng-click="download(file)">cloud_download</i>
+            </a>
+            <i class="material-icons delete" ng-click="deleteAttachment(files, file)">close</i>
+        </div>
+    </div>
 </div>
 <div style="float: left; position: relative;">
     <div ngf-select="select($event)" ngf-drop="drop()" ngf-multiple="true" ng-model="file"
          id="uploadBorderBox" ngf-pattern="'image/*'" ngf-max-size="2MB" ngf-accept="'image/*'">
         <p ng-show="!uploading">Upuść tutaj pliki do uploadu lub kliknij tu.</p>
         <p ng-show="uploading" class="progress">{{progress}}</p>
-        <i ng-show="!uploading" class="material-icons add">add_a_photo</i>
+        <i ng-show="!uploading" class="material-icons add">add</i>
         <div ng-show="uploading" class="loader"></div>
     </div>
     <p ng-show="uploading" class="cancel" ng-click="abort($event)">Anuluj</p>
