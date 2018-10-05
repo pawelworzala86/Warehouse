@@ -13,6 +13,71 @@ class OrderModel extends Model
     private $courier;
     private $courierNumber;
     private $courierPrice;
+    private $contractorId;
+    private $addressId;
+    private $documentId;
+    private $courierNumberSecond;
+    private $pickup;
+
+    public function getPickup(): ?string
+    {
+        return $this->pickup;
+    }
+
+    public function setPickup(string $pickup = null): OrderModel
+    {
+        $this->set('pickup', $pickup);
+        $this->pickup = $pickup;
+        return $this;
+    }
+
+    public function getCourierNumberSecond(): ?string
+    {
+        return $this->courierNumberSecond;
+    }
+
+    public function setCourierNumberSecond(string $courierNumberSecond = null): OrderModel
+    {
+        $this->set('courier_number_second', $courierNumberSecond);
+        $this->courierNumberSecond = $courierNumberSecond;
+        return $this;
+    }
+
+    public function getDocumentId(): ?int
+    {
+        return $this->documentId;
+    }
+
+    public function setDocumentId(int $documentId = null): OrderModel
+    {
+        $this->set('document_id', $documentId);
+        $this->documentId = $documentId;
+        return $this;
+    }
+
+    public function getAddressId(): ?int
+    {
+        return $this->addressId;
+    }
+
+    public function setAddressId(int $addressId = null): OrderModel
+    {
+        $this->set('address_id', $addressId);
+        $this->addressId = $addressId;
+        return $this;
+    }
+
+    public function getContractorId(): ?int
+    {
+        return $this->courierPrice;
+    }
+
+    public function setContractorId(int $contractorId = null): OrderModel
+    {
+        $this->set('contractor_id', $contractorId);
+        $this->contractorId = $contractorId;
+        return $this;
+    }
 
     public function getCourierPrice(): ?float
     {

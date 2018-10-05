@@ -3,6 +3,7 @@
 namespace App\Module\Order\Handler;
 
 use App\Handler;
+use App\Module\Document\Model\DocumentModel;
 use App\Module\Order\Collection\OrderCollection;
 use App\Module\Order\Response\GetOrdersResponse;
 use App\Request\PaginationRequest;
@@ -40,6 +41,11 @@ class GetOrdersHandler extends Handler
 
         $ordersCollection->rewind();
         while($order = $ordersCollection->current()){
+            //print_r([$order->getDocumentId()]);
+            $document = (new DocumentModel);
+            if($order->getDocumentId()) {
+                $document->load($order->getDocumentId());
+            }
             $orders->add(
                 (new OrderResponse)
                 ->setId($order->getUuid())
@@ -47,6 +53,9 @@ class GetOrdersHandler extends Handler
                 ->setCourier($order->getCourier())
                 ->setCourierNumber($order->getCourierNumber())
                 ->setCourierPrice($order->getCourierPrice())
+                ->setInvoiceNumber($document->getName())
+                ->setDocumentId($document->getUuid())
+                ->setPickup($order->getPickup())
             );
             $ordersCollection->next();
         }

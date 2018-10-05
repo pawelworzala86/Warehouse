@@ -13,13 +13,16 @@ use App\Module\Document\Collection\StockCollection;
 use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Document\Model\DocumentProductModel;
 use App\Module\Document\Model\StockModel;
+use App\Module\Document\Request\AddInvoiceRequest;
 use App\Module\Document\Request\CreateDocumentRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Document\Model\DocumentModel;
+use App\Module\Document\Response\AddInvoiceResponse;
 use App\Module\Document\Response\CreateDocumentResponse;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
-use App\Module\User\Model\UserModel;
+use App\Module\Order\Collection\OrderProductCollection;
+use App\Module\Order\Model\OrderModel;
 use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
 use App\Response\SuccessResponse;
@@ -30,22 +33,43 @@ use App\Type\Filter;
 use App\Type\FilterKind;
 use App\User;
 
-class CreateDocumentHandler extends Handler
+class AddInvoiceHandler extends Handler
 {
-    public function __invoke(CreateDocumentRequest $request): CreateDocumentResponse
+    public function __invoke(AddInvoiceRequest $request): AddInvoiceResponse
     {
         (new ContractorModel)->start();
 
+        $order = (new OrderModel)
+            ->load($request->getOrderId(), true);
+
         $contractor = (new ContractorModel)
-            ->load($request->getContractorId(), true);
+            ->load($order->getContractorId(), true);
 
         ////
-        /*
-        $documentNumberId = $request->getDocumentNumberId();
-        $type = $request->getType();
-        $numberModel = (new DocumentNumberModel)
-            ->load($documentNumberId, true);
-        if(!$numberModel->getId()){
+        //$documentNumberId = $request->getDocumentNumberId();
+        $type = 'fvs';
+        $documentNumber = (new DocumentNumberModel)
+            ->where(
+                (new Filter)
+                ->setName('type')
+                ->setKind(new FilterKind('='))
+                ->setValue($type)
+            )
+            ->where(
+                (new Filter)
+                    ->setName('added_by')
+                    ->setKind(new FilterKind('='))
+                    ->setValue(User::getId())
+            )
+            ->where(
+                (new Filter)
+                    ->setName('deleted')
+                    ->setKind(new FilterKind('='))
+                    ->setValue(0)
+            )
+            ->load();
+        $id = $documentNumber->getId();
+        if(!$documentNumber->getNumber()) {
             $id = (new DocumentNumberModel)
                 ->setUuid(Common::getUuid())
                 ->setNumber(0)
@@ -53,9 +77,9 @@ class CreateDocumentHandler extends Handler
                 ->setYear(2018)
                 ->setType($type)
                 ->insert();
-            $numberModel = (new DocumentNumberModel)
-                ->load($id);
         }
+        $numberModel = (new DocumentNumberModel)
+                ->load($id);
         //$numberModel->setUuid($numberModel->getUuid());
         $number = $numberModel->getNumber()+1;
         //$numberModel->setNumber($number);
@@ -72,47 +96,49 @@ class CreateDocumentHandler extends Handler
             ->setUuid($numberModel->getUuid())
             ->setNumber($number)
             ->update();
-        *////
-
-        $user = (new UserModel)
-            ->load(User::getId());
+        ////
 
         $uuid = Common::getUuid();
         $documentId = (new DocumentModel)
             ->setUuid($uuid)
-            ->setName($request->getName())
+            ->setName($name)
             ->setContractorId($contractor->getId())
-            ->setContractorAddressId($contractor->getAddressId())
-            ->setOwnerAddressId($user->getAddressId())
-            ->setDate($request->getDate())
-            ->setDescription($request->getDescription())
-            ->setNet($request->getSumNet())
-            ->setTax($request->getTax())
-            ->setGross($request->getSumGross())
-            ->setPayDate($request->getPayDate())
-            ->setPayment($request->getPayment())
-            ->setBankName($request->getBankName())
-            ->setSwift($request->getSwift())
-            ->setBankNumber($request->getBankNumber())
-            ->setIssuePlace($request->getIssuePlace())
-            ->setDeliveryDate($request->getDeliveryDate())
-            ->setPayed($request->getPayed())
-            ->setToPay($request->getToPay())
-            ->setKind($request->getKind())
-            ->setType($request->getType())
-            ->setNameFrom($request->getNameFrom())
+            ->setDate(date("Y-m-d", time()))
+            ->setDescription('opis')
+            ->setNet(10)
+            ->setTax('23')
+            ->setGross(12.3)
+            ->setPayDate(date("Y-m-d", time()))
+            ->setPayment('wire')
+            ->setBankName('mBank')
+            ->setSwift('')
+            ->setBankNumber('')
+            ->setIssuePlace('Elbląg')
+            ->setDeliveryDate(date("Y-m-d", time()))
+            ->setPayed(12.3)
+            ->setToPay(0)
+            ->setKind('dec')
+            ->setType('fvs')
+            ->setNameFrom('')
             ->insert();
 
-        $products = $request->getProducts();
+        $products = (new OrderProductCollection)
+            ->where(
+                (new Filter)
+                ->setName('order_id')
+                ->setKind(new FilterKind('='))
+                ->setValue($order->getId())
+            )
+            ->load();
 
         $products->rewind();
         while ($product = $products->current()) {
             $productModel = (new ProductModel)
-                ->load($product->getProductId(), true);
+                ->load($product->getProductId());
             //print_r([$productModel]);
             $productId = $productModel->getId();
 
-            if($request->getKind()==='add') {
+            /*if($request->getKind()==='add') {
                 $documentProductId = ($docProd = new DocumentProductModel)
                     ->setUuid(Common::getUuid())
                     ->setDocumentId($documentId)
@@ -131,7 +157,7 @@ class CreateDocumentHandler extends Handler
                     ->setDocumentProductId($documentProductId)
                     //->setAdd(1)
                     ->insert();
-            }else if($request->getKind()==='dec'){
+            }else if($request->getKind()==='dec'){*/
                 //$oldCount = $docProd->getCount();
                 //$count = $product->getCount();
                 //$countDiff = $count;
@@ -161,7 +187,7 @@ class CreateDocumentHandler extends Handler
                     ->order(' id asc ')
                     ->load();
                 $stockModel->rewind();
-                //print_r([$productId]);
+                //print_r([$stockModel]);
                 while ($stock = $stockModel->current()) {
                     //$documentProductModel = (new DocumentProductModel)
                     //    ->load($stock->getDocumentProductId());
@@ -260,15 +286,21 @@ class CreateDocumentHandler extends Handler
                 if($count>0){
                     throw new \Exception('Stock is out!');
                 }
-            }else{
+            /*}else{
                 throw new \Exception('Kind error!');
-            }
+            }*/
             $products->next();
         }
 
+        (new OrderModel)
+            ->setUuid($order->getUuid())
+            ->setDocumentId($documentId)
+            ->update();
+
         (new ContractorModel)->commit();
 
-        return (new CreateDocumentResponse)
-            ->setId($uuid);
+        return (new AddInvoiceResponse)
+            ->setId($uuid)
+            ->setNumber($name);
     }
 }

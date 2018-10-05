@@ -56,6 +56,8 @@ trait CollectionTrait
             call_user_func_array([$function[0], $function[1]], []);
         }
 
+        $this->rewind();
+
         return $this;
     }
 }

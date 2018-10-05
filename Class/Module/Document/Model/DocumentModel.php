@@ -28,6 +28,32 @@ class DocumentModel extends Model
     private $kind;
     private $type;
     private $nameFrom;
+    private $ownerAddressId;
+    private $contractorAddressId;
+
+    public function getContractorAddressId(): ?int
+    {
+        return $this->contractorAddressId;
+    }
+
+    public function setContractorAddressId(int $contractorAddressId = null): DocumentModel
+    {
+        $this->set('contractor_address_id', $contractorAddressId);
+        $this->contractorAddressId = $contractorAddressId;
+        return $this;
+    }
+
+    public function getOwnerAddressId(): ?int
+    {
+        return $this->ownerAddressId;
+    }
+
+    public function setOwnerAddressId(int $ownerAddressId = null): DocumentModel
+    {
+        $this->set('owner_address_id', $ownerAddressId);
+        $this->ownerAddressId = $ownerAddressId;
+        return $this;
+    }
 
     public function getNameFrom(): ?string
     {
@@ -233,19 +259,19 @@ class DocumentModel extends Model
         return $this;
     }
 
-    public function getContractorId(): int
+    public function getContractorId(): ?int
     {
         return $this->contractorId;
     }
 
-    public function setContractorId(int $contractorId): DocumentModel
+    public function setContractorId(int $contractorId = null): DocumentModel
     {
         $this->set('contractor_id', $contractorId);
         $this->contractorId = $contractorId;
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
@@ -269,7 +295,7 @@ class DocumentModel extends Model
         return $this;
     }
 
-    public function getUuid(): UUID
+    public function getUuid(): ?UUID
     {
         return $this->uuid;
     }

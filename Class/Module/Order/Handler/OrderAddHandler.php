@@ -143,6 +143,55 @@ class OrderAddHandler extends Handler
 
 
 
+
+
+
+
+
+        /*$method = 'packageDetails';
+        $format = 'xml';
+
+        $hash = $hash;
+        $package_no = $orderModel->getCourierNumber();
+
+        $url = "http://test.furgonetka.pl/api/$method.$format?hash=$hash&package_no=$package_no";
+
+        $xml = simplexml_load_file($url);
+
+        $status = $xml->getName();
+        if ($status == 'success') {
+            foreach ((array)$xml->package as $name => $value) {
+                echo "$name - $value<br />";
+            }
+            if(!empty($xml->label)) {
+                $fileName = 'etykieta_' . $package_no . '.' . $xml->label->format;
+                file_put_contents($fileName, base64_decode($xml->label->base64));
+            }
+            if(!empty($xml->protocol)) {
+                $fileName = 'protokol_' . $package_no . '.' . $xml->protocol->format;
+                file_put_contents($fileName, base64_decode($xml->protocol->base64));
+            }
+            if(!empty($xml->cod)) {
+                $fileName = 'cod_' . $package_no . '.' . $xml->cod->format;
+                file_put_contents($fileName, base64_decode($xml->cod->base64));
+            }
+        } elseif ($status == 'error') {
+            foreach($xml->error as $error) {
+                if(isset($error->field)) {
+                    echo $error->field .': ';
+                }
+                echo $error->message;
+            }
+        } else {
+            echo 'Błąd komunikacji';
+        }*/
+
+
+
+
+
+
+
         return (new OrderAddResponse)
             ->setId($xml->package_id)
             ->setCourier($orderModel->getCourier())

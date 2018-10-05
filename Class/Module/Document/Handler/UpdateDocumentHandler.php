@@ -18,6 +18,7 @@ use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Module\Document\Model\DocumentModel;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
+use App\Module\User\Model\UserModel;
 use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
 use App\Response\SuccessResponse;
@@ -31,6 +32,8 @@ class UpdateDocumentHandler extends Handler
 {
     public function __invoke(UpdateDocumentRequest $request): SuccessResponse
     {
+        (new ContractorModel)->start();
+
         $document = (new DocumentModel)
             ->load($request->getId(), true);
 
@@ -41,11 +44,16 @@ class UpdateDocumentHandler extends Handler
 
         $documentId = $document->getId();
 
+        $user = (new UserModel)
+            ->load(User::getId());
+
         (new DocumentModel)
             ->setId($document->getId())
             ->setUuid($document->getUuid())
             ->setName($request->getDocumentNumberId()?$name:$request->getName())
             ->setContractorId($contractor->getId())
+            ->setContractorAddressId($contractor->getAddressId())
+            ->setOwnerAddressId($user->getAddressId())
             ->setDate($request->getDate())
             ->setDescription($request->getDescription())
             ->setNet($request->getSumNet())
@@ -320,6 +328,8 @@ class UpdateDocumentHandler extends Handler
             }
             $products->next();
         }
+
+        (new ContractorModel)->commit();
 
         return (new SuccessResponse);
     }

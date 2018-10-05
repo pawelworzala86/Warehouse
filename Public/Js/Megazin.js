@@ -1734,6 +1734,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         }
         var loadPage = function () {
             orders.get(function (response) {
+                $scope.orders = []
                 angular.forEach(response.data.orders, function (value, key) {
                     $scope.orders.push(value);
                 });
@@ -1776,6 +1777,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 let prices = response.data.prices
                 angular.forEach(prices, (value, key)=>{
                     value.priceText = parseFloat(value.price).toFixed(2)
+                    value.name = value.number
                 })
                 order.prices = prices
             })
@@ -1795,6 +1797,29 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             })
             price.selected = true
             $scope.lastSelected = price
+        }
+        $scope.addInvoice = (order)=>{
+            $http.put(apiBase+'/document/add/invoice/'+order.id).then((response)=>{
+                if(response.data.number){
+                    order.documentId = response.data.id
+                    order.invoiceNumber = response.data.number
+                }
+            })
+        }
+        $scope.callOrders = ()=>{
+            $http.get(apiBase+'/orders/call').then((response)=>{
+                angular.forEach(response.data.orders, (order)=>{
+                    angular.forEach($scope.orders, (o)=>{
+                        if(o.id==order.id){
+                            o.pickup = order.pickup
+                        }
+                    })
+                })
+            })
+        }
+        $scope.prestaDownload = ()=>{
+            $http.get(apiBase+'/integration/presta/refresh').then((response)=>{
+            })
         }
     })
 

@@ -15,6 +15,42 @@ class OrderResponse extends Type
     private $courier;
     private $courierNumber;
     private $courierPrice;
+    private $invoiceNumber;
+    private $documentId;
+    private $pickup;
+
+    public function getPickup(): ?string
+    {
+        return $this->pickup;
+    }
+
+    public function setPickup(string $pickup = null): OrderResponse
+    {
+        $this->pickup = $pickup;
+        return $this;
+    }
+
+    public function getDocumentId(): ?UUID
+    {
+        return $this->documentId;
+    }
+
+    public function setDocumentId(UUID $documentId = null): OrderResponse
+    {
+        $this->documentId = $documentId;
+        return $this;
+    }
+
+    public function getInvoiceNumber(): ?string
+    {
+        return $this->invoiceNumber;
+    }
+
+    public function setInvoiceNumber(string $invoiceNumber = null): OrderResponse
+    {
+        $this->invoiceNumber = $invoiceNumber;
+        return $this;
+    }
 
     public function getCourierPrice(): ?float
     {
@@ -22,7 +58,7 @@ class OrderResponse extends Type
     }
 
     public function setCourierPrice(float $courierPrice = null): OrderResponse
-    {;
+    {
         $this->courierPrice = $courierPrice;
         return $this;
     }

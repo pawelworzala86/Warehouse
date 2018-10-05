@@ -358,4 +358,12 @@ class Model
     {
         return ($this->updatedFields)>0;
     }
+
+    function start(){
+        $this->db()->execute('start transaction');
+    }
+
+    function commit(){
+        $this->db()->execute('commit');
+    }
 }

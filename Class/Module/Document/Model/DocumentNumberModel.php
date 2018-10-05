@@ -50,12 +50,12 @@ class DocumentNumberModel extends Model
         return $this;
     }
 
-    public function getNumber(): int
+    public function getNumber(): ?int
     {
         return $this->number;
     }
 
-    public function setNumber(int $number): DocumentNumberModel
+    public function setNumber(int $number = null): DocumentNumberModel
     {
         $this->set('number', $number);
         $this->number = $number;
