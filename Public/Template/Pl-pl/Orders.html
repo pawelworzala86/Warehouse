@@ -53,11 +53,11 @@
         margin-top: 2px;
     }
     .price.courier{
-        margin-top: 10px;
         color: #666;
+        margin-top: 10px;
     }
     span.id.margin-top{
-        margin-top: 12px;
+        margin-top: 13px;
     }
     span.id.margin-top b{
         font-size: 0.85em;
@@ -68,6 +68,25 @@
     .price.id.selected{
         margin-top: 10px;
         color: #555;
+    }
+    .links a{
+        cursor: pointer;
+        margin: 5px 0px;
+        margin-right: 10px;
+    }
+    .links{
+        height: 20px;
+    }
+    .links.empty{
+        display: none;
+    }
+    .select-courier{
+        margin: 0;
+        margin-top: 5px;
+        float: left;
+        width: 100%;
+        font-weight: 400;
+        color: #666;
     }
 </style>
 <div class="container orders">
@@ -116,7 +135,10 @@
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in" ng-click="loadDetail('/order', orders, order)">zoom_in</i>
                 <div class="col col-xs-12">{{order.number}}</div>
-                <a ng-if="!order.courier" class="col col-xs-12" style="cursor: pointer;margin: 5px 0px;" ng-click="orderPrices(order)">Sprawdź ceny</a>
+                <div class="col col-xs-12 links" ng-class="{'empty': order.courier}">
+                    <a ng-if="(!order.courier)&&(!order.prices)" class="col" ng-click="orderPrices(order)">Zrób paczkę</a>
+                    <p ng-if="order.prices" class="select-courier">Wybierz kuriera</p>
+                </div>
                 <p class="col col-xs-12 price selected courier" ng-if="(order.id.length!=32||order.courier)&&(order.id.length==32)">
                     <span>{{order.courierPrice}}</span>
                     <span class="service">{{order.courier}}</span>
@@ -128,6 +150,9 @@
                 <a ng-if="(order.id.length==32)&&(order.prices.length>0)&&lastSelected" class="col col-xs-12" style="cursor: pointer;margin: 5px 0px;" ng-click="orderAdd(order)">Zamów</a>
                 <span ng-class="{'id': (order.id.length!=32)||order.courier, 'margin-top': order.courier}" ng-if="!order.courier&&((order.id.length!=32)&&(order.prices.length>0))" class="col col-xs-12"><b>ID:</b> {{order.id}}</span>
                 <span ng-class="{'id': (order.id.length!=32)||order.courier, 'margin-top': order.courier}" ng-if="order.courier||((order.id.length!=32)&&(order.prices.length>0))&&(order.id.length==32)" class="col col-xs-12"><b>ID:</b> {{order.courierNumber}}</span>
+                <div class="col col-xs-12 links">
+                    <a class="col">Wystaw fakturę</a>
+                </div>
             </div>
         </div>
         <fluentLoader ng-click="fluentLoad()" ng-show="stocks.length>0">
