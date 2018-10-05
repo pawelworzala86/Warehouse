@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Czas generowania: 04 Paź 2018, 05:20
+-- Czas generowania: 05 Paź 2018, 23:19
 -- Wersja serwera: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- Wersja PHP: 7.2.10-0ubuntu0.18.04.1
 
@@ -48,17 +48,6 @@ CREATE TABLE `address` (
   `postcode` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Zrzut danych tabeli `address`
---
-
-INSERT INTO `address` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `name`, `first_name`, `last_name`, `street`, `city`, `postcode`) VALUES
-(1, 0xfdb18abb6baa5db8dfa4abcd2a822ffd, 1538281612, 1, 2, NULL, NULL, NULL, 1538298519, 1, 2, 'ACME Corp.', 'Jan', 'Kowalski', 'ul .Długa 22/6', 'Tczew', '45-743'),
-(2, 0xdaa6aa4803d3802084311d5add6f80cc, 1538281650, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'ACME Corp.', 'Jan', 'Kowalski', 'ul .Długa 22/6', 'Tczew', '45-743'),
-(3, 0x6f019cbbf3781fb08271590fbda34161, 1538283078, 1, 2, NULL, NULL, NULL, 1538283126, 1, 2, 'ACME', NULL, NULL, NULL, NULL, NULL),
-(4, 0x2a76cc1dc2b3bb95072319ffb1d805d0, 1538283126, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'ACME Corporation', 'Paweł', 'Worzała', 'ul. Wojska polskiego 12/1', 'Elbląg', '82-300'),
-(5, 0x48d8f713998664c603889aaccc9c7cf4, 1538298519, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'sdf', NULL, NULL, NULL, NULL, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -82,27 +71,6 @@ CREATE TABLE `category` (
   `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `category`
---
-
-INSERT INTO `category` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `name`, `lp`, `category_id`) VALUES
-(1, 0x6f04694b52560784ca9a16064a620276, 1538582393, 1, 2, 1538582438, 1, 2, 0, NULL, NULL, 'kuku55', 1, NULL),
-(2, 0x9066d0b797985d2c48738588738b2bd9, 1538582397, 1, 2, 1538582441, 1, 2, 0, NULL, NULL, 'test', 2, NULL),
-(3, 0x964a66bb821c18d2aa4cc632b741c574, 1538603388, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'fsdf', 1, NULL),
-(4, 0x4747f995a03bfc84287494c788b6b857, 1538604944, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'gf', 1, NULL),
-(5, 0xdcada3ff503a016c852f93b29f02da12, 1538605281, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'jghjghj676767', 1, NULL),
-(6, 0x6321b79d6a9127494dcb601bb872cfc9, 1538605338, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, '999', 1, NULL),
-(7, 0x41921a37f89c589629f3b0b66b1b6b54, 1538605342, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, '999', 1, NULL),
-(8, 0x6f5f06fd76d66f1c8d334f07c8b2a238, 1538605367, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, '666', 1, NULL),
-(9, 0x15d5a9cda3bdb4924c4db5f5f0444057, 1538605375, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'hh', 1, NULL),
-(10, 0xcff2b9da6c2bb5001710195d7bc7b623, 1538605381, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'hh', 1, NULL),
-(11, 0x73b4b39f940438f858f031a253a60d01, 1538606700, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'gdfg777', 1, NULL),
-(12, 0x5d3630b36db26258115a12cc4a90b6fa, 1538606761, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'op', 1, NULL),
-(13, 0x76757c6a0f17d9a0d4b14dca9709b3a7, 1538606835, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'ghj', 1, NULL),
-(14, 0x470dcb7279b04f7a27d4a4395d15d1dd, 1538606858, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'gdfg', 1, NULL),
-(15, 0xb6719c3b18b17c9add47a9d21c9a80c6, 1538606953, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, '999', 1, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -125,7 +93,8 @@ CREATE TABLE `contractor` (
   `address_id` int(11) DEFAULT NULL,
   `code` varchar(90) DEFAULT NULL,
   `contact_id` int(11) DEFAULT NULL,
-  `nip` varchar(250) DEFAULT NULL
+  `nip` varchar(250) DEFAULT NULL,
+  `supplier` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -189,7 +158,33 @@ CREATE TABLE `document` (
   `to_pay` float DEFAULT NULL,
   `kind` varchar(3) DEFAULT NULL,
   `type` varchar(3) DEFAULT NULL,
-  `name_from` varchar(250) DEFAULT NULL
+  `name_from` varchar(250) DEFAULT NULL,
+  `owner_address_id` int(11) DEFAULT NULL,
+  `contractor_address_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `document_number`
+--
+
+CREATE TABLE `document_number` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `number` int(11) DEFAULT NULL,
+  `year` int(11) DEFAULT NULL,
+  `month` int(11) DEFAULT NULL,
+  `type` varchar(3) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -259,60 +254,6 @@ CREATE TABLE `file` (
   `type` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `file`
---
-
-INSERT INTO `file` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `size`, `url`, `name`, `type`) VALUES
-(1, 0x489fad5184727223a273443016a0892b, 1538281550, 1, 2, 1538611399, 1, 2, 407306, '/Files/489fad5184727223a273443016a0892b', 'sennheiser-hd25_1.png', 'image/png'),
-(2, 0x0b3223b52b4d0dbf12580782dbc7d39f, 1538295347, 1, 2, 1538611399, 1, 2, 618875, '/Files/0b3223b52b4d0dbf12580782dbc7d39f', 'klipsch-kg300_1.png', 'image/png'),
-(3, 0xdb5f441c8b4c68b3f651d41583a3a5dc, 1538295350, 1, 2, 1538611399, 1, 2, 219020, '/Files/db5f441c8b4c68b3f651d41583a3a5dc', 'encore-rockmaster-live.png', 'image/png'),
-(4, 0xf1879b3b03662c42f29c8af1f9f04b30, 1538296512, 1, 2, 1538611399, 1, 2, 6311, '/Files/f1879b3b03662c42f29c8af1f9f04b30.xlsx', 'files.xlsx', 'application/vnd.ms-excel'),
-(5, 0x33f8f2dfcd03311969123a935a347f0f, 1538582514, 1, 2, 1538611399, 1, 2, 355723, '/Files/33f8f2dfcd03311969123a935a347f0f', 'SLUCHAWKIBEZPRZEWODOWEAHEADKREAFUNK11.png', 'image/png'),
-(6, 0x600551cda41220abd656a4901042889f, 1538582522, 1, 2, 1538611399, 1, 2, 407306, '/Files/600551cda41220abd656a4901042889f', 'sennheiser-hd25_1.png', 'image/png'),
-(7, 0x4d6f13c2bc71f248d5d8a574c72c34fb, 1538611539, 1, 2, 0, NULL, NULL, 6346, '/Files/72603f6f9379bf95bcb5db20850d4539.xlsx', 'products.xlsx', 'application/vnd.ms-excel'),
-(8, 0xd317fd5fb31980c4878694350db18d6b, 1538612028, 1, 2, 0, NULL, NULL, 6376, '/Files/4893708bd631b00981f5ff2588104422.xlsx', 'documents.xlsx', 'application/vnd.ms-excel'),
-(9, 0xd1cf0d1af3770dd265f2ba8a4ccc4017, 1538612098, 1, 2, 0, NULL, NULL, 6377, '/Files/6324ba6b91b729d33277d16b10f7df2a.xlsx', 'documents.xlsx', 'application/vnd.ms-excel'),
-(10, 0x9b9152bf7d0bd1fb1d134d31514f0a24, 1538612254, 1, 2, 0, NULL, NULL, 6314, '/Files/6766f0aa31b47849c34f17925c8c96af.xlsx', 'contractors.xlsx', 'application/vnd.ms-excel'),
-(11, 0x374f1c411f4a20f6a69c901b61b0109d, 1538612499, 1, 2, 0, NULL, NULL, 6313, '/Files/44712a693f3ad42586afd2f690118919.xlsx', 'stocks.xlsx', 'application/vnd.ms-excel'),
-(12, 0xad2a6833286b4125533916548b7175aa, 1538612531, 1, 2, 0, NULL, NULL, 6396, '/Files/9ccfc6d08804c7b62d607da07838b2d0.xlsx', 'stocks.xlsx', 'application/vnd.ms-excel'),
-(13, 0xdff54d294335516873518662dc6bcb2f, 1538612667, 1, 2, 0, NULL, NULL, 6480, '/Files/dff54d294335516873518662dc6bcb2f.xlsx', 'files.xlsx', 'application/vnd.ms-excel'),
-(14, 0xc9a6f9f1c566f055bd3cbd2460b41c43, 1538613052, 1, 2, 0, NULL, NULL, 0, '/Files/03cf50d623230aa15b95c583b7a8c1b6.pdf', 'products.pdf', 'application/pdf'),
-(15, 0xd43dd8c455f58f2c1b5cf522557c0c9a, 1538613737, 1, 2, 0, NULL, NULL, 0, '/Files/91b28275c08632aa0cc126421d73b138.pdf', 'products.pdf', 'application/pdf'),
-(16, 0x98b1759017ff0cca0bb371d91da713fc, 1538613748, 1, 2, 0, NULL, NULL, 0, '/Files/37532d6ca7f285585995f8202a27392a.pdf', 'products.pdf', 'application/pdf'),
-(17, 0x06807db2c97319033bb79f1cca62ab11, 1538613789, 1, 2, 0, NULL, NULL, 0, '/Files/2682942700110c682192235fc5b86614.pdf', 'products.pdf', 'application/pdf'),
-(18, 0x5a29179a19f897c9fa1780b47ac144db, 1538613807, 1, 2, 0, NULL, NULL, 20569, '/Files/ad9843b6b83033f74a72cb053bc94d16.pdf', 'products.pdf', 'application/pdf'),
-(19, 0x74df295b773b7f3226f9aacb9ac04682, 1538613892, 1, 2, 0, NULL, NULL, 20473, '/Files/4d6c7c7572a0c4a73d848d1bddf15221.pdf', 'products.pdf', 'application/pdf'),
-(20, 0xa7487475248b108513f815335fa35a13, 1538614285, 1, 2, 0, NULL, NULL, 20518, '/Files/91d996da0146bb403f52fa75660f6556.pdf', 'documents.pdf', 'application/pdf'),
-(21, 0x7f90affd5d30625dd27c76d2db1abdd4, 1538614426, 1, 2, 0, NULL, NULL, 20395, '/Files/3fb80a0292ab5fa7a317bb1b7713008c.pdf', 'contractors.pdf', 'application/pdf'),
-(22, 0x8c4f2a501f7619db6cb95246215acbf0, 1538614472, 1, 2, 0, NULL, NULL, 20395, '/Files/fb55cb483217263790b96dc668a98230.pdf', 'contractors.pdf', 'application/pdf'),
-(23, 0xb2a8025a78b39f747dccc9b2f37759b4, 1538614488, 1, 2, 0, NULL, NULL, 20395, '/Files/d7459a4c4f1fb623a2a7b07c8f57f338.pdf', 'contractors.pdf', 'application/pdf'),
-(24, 0x7437c2d67a6df03db6bff148b4882769, 1538614541, 1, 2, 0, NULL, NULL, 20429, '/Files/c3885a318f77fab5b894f7bc08c0f165.pdf', 'contractors.pdf', 'application/pdf'),
-(25, 0xf1cf33dbabd501bd0901add5335983f8, 1538614683, 1, 2, 0, NULL, NULL, 20527, '/Files/c6f240b07857c4339a844d894d57cdc3.pdf', 'contractors.pdf', 'application/pdf'),
-(26, 0x6138c007dd431711f22779ba8ab37d8c, 1538614714, 1, 2, 0, NULL, NULL, 20429, '/Files/07dc1573db269c2b4529d5b7815295b3.pdf', 'contractors.pdf', 'application/pdf'),
-(27, 0x07ab90b38fa38c303b58c029b314216c, 1538614718, 1, 2, 0, NULL, NULL, 20518, '/Files/d952445399652960033d98f03854f04c.pdf', 'documents.pdf', 'application/pdf'),
-(28, 0xbc365ab4906490c41a68bcf3a7805485, 1538614722, 1, 2, 0, NULL, NULL, 20527, '/Files/2db5c8bf9259ba189aa32278cac13265.pdf', 'stocks.pdf', 'application/pdf'),
-(29, 0xd3db94fc3981393d3da4c9238814d841, 1538614905, 1, 2, 0, NULL, NULL, 21077, '/Files/04df0a0b3c1a7744a517d13c39cf707c.pdf', 'files.pdf', 'application/pdf'),
-(30, 0x257823414ff2cb12dcb59316c4a46893, 1538614966, 1, 2, 0, NULL, NULL, 20527, '/Files/b8cd355d973c2da793c85b947a963dc1.pdf', 'files.pdf', 'application/pdf'),
-(31, 0xdf3b2d86c23aba5b78f8f8f759c0c037, 1538617341, 1, 2, 0, NULL, NULL, 573404, '/Files/df3b2d86c23aba5b78f8f8f759c0c037', 'speedlink-scylla-2.png', 'image/png'),
-(32, 0xa35d81cf39cd148dc6a725a58aa9b237, 1538617475, 1, 2, 0, NULL, NULL, 573404, '/Files/a35d81cf39cd148dc6a725a58aa9b237', 'speedlink-scylla-2.png', 'image/png'),
-(33, 0x4f311d953afb44f87a1f59879f7d7c53, 1538618277, 1, 2, 0, NULL, NULL, 425143, '/Files/4f311d953afb44f87a1f59879f7d7c53', 'Philips_Sluchawki_nauszne_Bluetooth_Philips_SHB4405BK00_59604173_0_1000_1000.png', 'image/png'),
-(34, 0x6b06d84203d2c808d1142cd1d629a87d, 1538618451, 1, 2, 0, NULL, NULL, 618875, '/Files/6b06d84203d2c808d1142cd1d629a87d', 'klipsch-kg300_1.png', 'image/png'),
-(35, 0x8c1795822a26819bbbbbbcd6331dc2f8, 1538618460, 1, 2, 0, NULL, NULL, 618875, '/Files/8c1795822a26819bbbbbbcd6331dc2f8', 'klipsch-kg300_1.png', 'image/png'),
-(36, 0x244fc6db5f788a1785879876c0046f36, 1538618539, 1, 2, 0, NULL, NULL, 219020, '/Files/244fc6db5f788a1785879876c0046f36', 'encore-rockmaster-live.png', 'image/png'),
-(37, 0x2d9f7f1315d20d552d0fafbba24b4b37, 1538618620, 1, 2, 0, NULL, NULL, 341913, '/Files/2d9f7f1315d20d552d0fafbba24b4b37', 'aeec585c44853ed74cd056f4483e8654.png', 'image/png'),
-(38, 0xc14c59919802f388a7338124416bd088, 1538618678, 1, 2, 0, NULL, NULL, 618875, '/Files/c14c59919802f388a7338124416bd088', 'klipsch-kg300_1.png', 'image/png'),
-(39, 0x9f0d75d7db978f9c283c35764dc5d055, 1538619923, 1, 2, 0, NULL, NULL, 407306, '/Files/9f0d75d7db978f9c283c35764dc5d055', 'sennheiser-hd25_1.png', 'image/png'),
-(40, 0x011c897fff60bb8bc02462d90563369a, 1538619926, 1, 2, 0, NULL, NULL, 256878, '/Files/011c897fff60bb8bc02462d90563369a', 'i_bose_quietcomfort__leTtu.png', 'image/png'),
-(41, 0x37b541ff4f2340fb00aa657db0c8f307, 1538620026, 1, 2, 0, NULL, NULL, 407306, '/Files/37b541ff4f2340fb00aa657db0c8f307', 'sennheiser-hd25_1.png', 'image/png'),
-(42, 0x258f4540337499fdbcaa878f5b4d5db3, 1538620028, 1, 2, 0, NULL, NULL, 219020, '/Files/258f4540337499fdbcaa878f5b4d5db3', 'encore-rockmaster-live.png', 'image/png'),
-(43, 0x8a823652b707a6c16a14c67d9100a7a4, 1538620102, 1, 2, 0, NULL, NULL, 618875, '/Files/8a823652b707a6c16a14c67d9100a7a4', 'klipsch-kg300_1.png', 'image/png'),
-(44, 0xb75ba01d9884613b68c1c34559058520, 1538620241, 1, 2, 0, NULL, NULL, 407306, '/Files/b75ba01d9884613b68c1c34559058520', 'sennheiser-hd25_1.png', 'image/png'),
-(45, 0x206af4b1c7b4b71ffda2992b175713dc, 1538621044, 1, 2, 0, NULL, NULL, 476956, '/Files/206af4b1c7b4b71ffda2992b175713dc', 'Focus100_black_1_e4d2e6d6.png', 'image/png'),
-(46, 0xd1ccc5507d1027b9bd9476dc162850f1, 1538622370, 1, 2, 0, NULL, NULL, 425143, '/Files/d1ccc5507d1027b9bd9476dc162850f1', 'Philips_Sluchawki_nauszne_Bluetooth_Philips_SHB4405BK00_59604173_0_1000_1000.png', 'image/png'),
-(47, 0x79b9194600858087f976542c16b71895, 1538622373, 1, 2, 0, NULL, NULL, 256878, '/Files/79b9194600858087f976542c16b71895', 'i_bose_quietcomfort__leTtu.png', 'image/png'),
-(48, 0x2995b1af8df665347004d1833a2942a0, 1538622376, 1, 2, 0, NULL, NULL, 596123, '/Files/2995b1af8df665347004d1833a2942a0', 'eleoskep_pl_sluchawki_bezprzewodowe_bluetooth_LED_14.png', 'image/png');
-
 -- --------------------------------------------------------
 
 --
@@ -332,7 +273,64 @@ CREATE TABLE `ip` (
 
 INSERT INTO `ip` (`id`, `ip`, `user_id`, `date`) VALUES
 (1, 1, NULL, 1538281370),
-(2, 1, 1, 1538623186);
+(2, 1, 1, 1538774244);
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `order`
+--
+
+CREATE TABLE `order` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `number` varchar(90) DEFAULT NULL,
+  `courier` varchar(250) DEFAULT NULL,
+  `courier_number` varchar(250) DEFAULT NULL,
+  `courier_price` float DEFAULT NULL,
+  `contractor_id` int(11) DEFAULT NULL,
+  `address_id` int(11) DEFAULT NULL,
+  `document_id` int(11) DEFAULT NULL,
+  `courier_number_second` varchar(250) DEFAULT NULL,
+  `pickup` varchar(250) DEFAULT NULL,
+  `presta_id` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `order_product`
+--
+
+CREATE TABLE `order_product` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `count` float DEFAULT NULL,
+  `net` float DEFAULT NULL,
+  `sum_net` float DEFAULT NULL,
+  `sum_gross` float DEFAULT NULL,
+  `vat` varchar(10) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -360,7 +358,8 @@ CREATE TABLE `product` (
   `partial` tinyint(1) DEFAULT '0',
   `sell_net` float DEFAULT NULL,
   `sell_gross` float DEFAULT NULL,
-  `vat` varchar(10) DEFAULT NULL
+  `vat` varchar(10) DEFAULT NULL,
+  `presta_id` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
@@ -558,7 +557,7 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`sessid`, `access`, `data`, `ip_id`, `user_id`, `deleted`) VALUES
-(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538623186, 'userId|i:1;', 2, 1, NULL);
+(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538774244, 'userId|i:1;', 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -767,7 +766,22 @@ ALTER TABLE `document`
   ADD KEY `updated_ip_id` (`updated_ip_id`),
   ADD KEY `deleted_by` (`deleted_by`),
   ADD KEY `deleted_ip_id` (`deleted_ip_id`),
-  ADD KEY `contractor_id` (`contractor_id`);
+  ADD KEY `contractor_id` (`contractor_id`),
+  ADD KEY `owner_address_id` (`owner_address_id`),
+  ADD KEY `contractor_address_id` (`contractor_address_id`);
+
+--
+-- Indeksy dla tabeli `document_number`
+--
+ALTER TABLE `document_number`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
 
 --
 -- Indeksy dla tabeli `document_product`
@@ -801,6 +815,38 @@ ALTER TABLE `file`
 --
 ALTER TABLE `ip`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indeksy dla tabeli `order`
+--
+ALTER TABLE `order`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `contractor_id` (`contractor_id`),
+  ADD KEY `address_id` (`address_id`),
+  ADD KEY `document_id` (`document_id`),
+  ADD KEY `number` (`number`);
+
+--
+-- Indeksy dla tabeli `order_product`
+--
+ALTER TABLE `order_product`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `order_id` (`order_id`);
 
 --
 -- Indeksy dla tabeli `product`
@@ -916,13 +962,13 @@ ALTER TABLE `user_register`
 -- AUTO_INCREMENT dla tabeli `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `category`
 --
 ALTER TABLE `category`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `contractor`
@@ -943,6 +989,12 @@ ALTER TABLE `document`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `document_number`
+--
+ALTER TABLE `document_number`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `document_product`
 --
 ALTER TABLE `document_product`
@@ -952,13 +1004,25 @@ ALTER TABLE `document_product`
 -- AUTO_INCREMENT dla tabeli `file`
 --
 ALTER TABLE `file`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=49;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `ip`
 --
 ALTER TABLE `ip`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT dla tabeli `order`
+--
+ALTER TABLE `order`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `order_product`
+--
+ALTER TABLE `order_product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `product`

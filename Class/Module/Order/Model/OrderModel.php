@@ -18,6 +18,19 @@ class OrderModel extends Model
     private $documentId;
     private $courierNumberSecond;
     private $pickup;
+    private $prestaId;
+
+    public function getPrestaId(): ?string
+    {
+        return $this->prestaId;
+    }
+
+    public function setPrestaId(string $prestaId = null): OrderModel
+    {
+        $this->set('presta_id', $prestaId);
+        $this->prestaId = $prestaId;
+        return $this;
+    }
 
     public function getPickup(): ?string
     {

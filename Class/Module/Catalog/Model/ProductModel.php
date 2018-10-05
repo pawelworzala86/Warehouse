@@ -19,6 +19,19 @@ class ProductModel extends Model
     private $sellNet;
     private $sellGross;
     private $vat;
+    private $prestaId;
+
+    public function getPrestaId(): ?float
+    {
+        return $this->prestaId;
+    }
+
+    public function setPrestaId(float $prestaId = null): ProductModel
+    {
+        $this->set('presta_id', $prestaId);
+        $this->prestaId = $prestaId;
+        return $this;
+    }
 
     public function getVat(): ?float
     {
