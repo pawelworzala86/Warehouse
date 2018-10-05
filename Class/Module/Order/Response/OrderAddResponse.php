@@ -1,17 +1,20 @@
 <?php
 
-namespace App\Type;
+namespace App\Module\Order\Response;
 
-use App\Common;
-use App\DB;
-use App\IP;
-use App\Type;
-use App\User;
+use App\Response\Response;
+use App\Traits\FiltersTrait;
+use App\Traits\PaginationResponseTrait;
+use App\Type\FileResponse;
+use App\Type\FilesResponse;
+use App\Type\OrderPrice;
+use App\Type\OrderPrices;
+use App\Type\OrderResponse;
+use App\Type\OrdersResponse;
 
-class OrderResponse extends Type
+class OrderAddResponse extends Response
 {
     private $id;
-    private $number;
     private $courier;
     private $courierNumber;
     private $courierPrice;
@@ -21,7 +24,7 @@ class OrderResponse extends Type
         return $this->courierPrice;
     }
 
-    public function setCourierPrice(float $courierPrice = null): OrderResponse
+    public function setCourierPrice(float $courierPrice = null)
     {;
         $this->courierPrice = $courierPrice;
         return $this;
@@ -32,7 +35,7 @@ class OrderResponse extends Type
         return $this->courierNumber;
     }
 
-    public function setCourierNumber(string $courierNumber = null): OrderResponse
+    public function setCourierNumber(string $courierNumber = null)
     {
         $this->courierNumber = $courierNumber;
         return $this;
@@ -43,31 +46,20 @@ class OrderResponse extends Type
         return $this->courier;
     }
 
-    public function setCourier(string $courier = null): OrderResponse
+    public function setCourier(string $courier = null)
     {
         $this->courier = $courier;
         return $this;
     }
 
-    public function getNumber(): string
+    public function getId(): string
     {
-        return $this->number;
+        return $this->id;
     }
 
-    public function setNumber(string $number): OrderResponse
-    {
-        $this->number = $number;
-        return $this;
-    }
-
-    function setId(UUID $id): OrderResponse
+    public function setId(string $id)
     {
         $this->id = $id;
         return $this;
-    }
-
-    function getId(): UUID
-    {
-        return $this->id;
     }
 }

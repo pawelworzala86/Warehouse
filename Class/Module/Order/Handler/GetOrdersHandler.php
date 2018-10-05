@@ -44,6 +44,9 @@ class GetOrdersHandler extends Handler
                 (new OrderResponse)
                 ->setId($order->getUuid())
                 ->setNumber($order->getNumber())
+                ->setCourier($order->getCourier())
+                ->setCourierNumber($order->getCourierNumber())
+                ->setCourierPrice($order->getCourierPrice())
             );
             $ordersCollection->next();
         }

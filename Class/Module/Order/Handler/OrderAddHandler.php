@@ -1,0 +1,152 @@
+<?php
+
+namespace App\Module\Order\Handler;
+
+use App\Handler;
+use App\Module\Order\Collection\OrderCollection;
+use App\Module\Order\Model\OrderModel;
+use App\Module\Order\Request\OrderAddRequest;
+use App\Module\Order\Response\GetOrdersResponse;
+use App\Module\Order\Response\OrderAddResponse;
+use App\Module\Order\Response\OrderCheckPriceResponse;
+use App\Request\EmptyRequest;
+use App\Request\PaginationRequest;
+use App\Request\UuidCollectionRequest;
+use App\Response\SuccessResponse;
+use App\Type\Filter;
+use App\Type\FilterKind;
+use App\Type\Order;
+use App\Type\OrderPrice;
+use App\Type\OrderPrices;
+use App\Type\OrderResponse;
+use App\Type\Orders;
+use App\Type\OrdersResponse;
+use App\User;
+
+class OrderAddHandler extends Handler
+{
+    public function __invoke(OrderAddRequest $request): OrderAddResponse
+    {
+        $uuid = $request->getId();
+        $courier = $request->getCourier();
+        $orderModel = (new OrderModel)
+            ->load($uuid, true);
+
+
+        $method = 'login';
+        $format = 'xml';
+
+        $email = 'worzala86@gmail.com';
+        $password = md5('347142856');
+
+        $url = "http://test.furgonetka.pl/api/$method.$format?email=$email&password=$password";
+
+        $xml = simplexml_load_file($url);
+
+        //print_r($xml);
+
+        $status = $xml->getName();
+
+        //print_r([$status]);
+
+        $hash = null;
+        if ($status == 'success') {
+            $hash = $xml->hash;
+        } elseif ($status == 'error') {
+            foreach($xml->error as $error) {
+                if(isset($error->field)) {
+                    echo $error->field .': ';
+                }
+                echo $error->message;
+                exit;
+            }
+        } else {
+            echo 'Błąd komunikacji';
+            exit;
+        }
+
+
+
+
+
+
+
+
+
+
+        $method = 'packageAdd';
+        $format = 'xml';
+
+        $params['hash'] = $hash;
+        $params['wrapping'] = 0;
+        $params['shape'] = 0;
+
+        $params['type'] = 'package';
+
+        $params['sender_name'] = 'imię';
+        $params['sender_surname'] = 'nazwisko';
+        $params['sender_street'] = 'ulica 12/3';
+        $params['sender_city'] = 'miasto';
+        $params['sender_postcode'] = '00-001';
+        $params['sender_phone'] = '789456123';
+        $params['sender_email'] = 'test@pl.pl';
+
+        $params['receiver_name'] = 'imię';
+        $params['receiver_surname'] = 'nazwisko';
+        $params['receiver_company']= 'nazwa firmy';
+        $params['receiver_street'] = 'ulica 45/6';
+        $params['receiver_city'] = 'miasto';
+        $params['receiver_postcode'] = '00-002';
+        $params['receiver_phone'] = '654987321';
+
+        $params['weight'] = '10';
+        $params['width'] = '11';
+        $params['height'] = '12';
+        $params['depth'] = '13';
+        $params['description'] = 'Opis zawartości paczki';
+
+        $params['service'] = $courier;
+
+        $query = array();
+        foreach ($params as $name => $value) {
+            $query[] = "$name=" . urlencode($value);
+        }
+        $query = implode('&', $query);
+
+        $url = "http://test.furgonetka.pl/api/$method.$format?$query";
+
+        $xml = simplexml_load_file($url);
+
+        $status = $xml->getName();
+
+        if ($status == 'success') {
+            //echo "Cena zamówionej paczki: $xml->price PLN<br />";
+            //echo "Id paczki: $xml->package_id<br />";
+
+            $orderModel
+                ->setUuid($orderModel->getUuid())
+                ->setCourier($params['service'])
+                ->setCourierNumber($xml->package_id)
+                ->setCourierPrice((float)$xml->price)
+                ->update();
+
+        } elseif ($status == 'error') {
+            foreach($xml->error as $error) {
+                if(isset($error->field)) {
+                    echo $error->field .': ';
+                }
+                echo $error->message;
+            }
+        } else {
+            echo 'Błąd';
+        }
+
+
+
+        return (new OrderAddResponse)
+            ->setId($xml->package_id)
+            ->setCourier($orderModel->getCourier())
+            ->setCourierNumber($orderModel->getCourierPrice())
+            ->setCourierNumber($orderModel->getCourierNumber());
+    }
+}

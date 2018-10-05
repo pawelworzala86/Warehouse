@@ -1773,14 +1773,28 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         }
         $scope.orderPrices = (order)=>{
             $http.get(apiBase+'/orders/check/price').then((response)=>{
-                order.prices = response.data.prices
+                let prices = response.data.prices
+                angular.forEach(prices, (value, key)=>{
+                    value.priceText = parseFloat(value.price).toFixed(2)
+                })
+                order.prices = prices
             })
         }
+        $scope.orderAdd = (order)=>{
+            $http.post(apiBase+'/orders/add/'+order.id, {courier: $scope.lastSelected.service}).then((response)=>{
+                order.id = response.data.id
+                order.courier = response.data.courier
+                order.courierNumber = response.data.courierNumber
+                order.courierPrice = response.data.courierPrice
+            })
+        }
+        $scope.lastSelected = null
         $scope.selectPrice = (prices, price)=>{
             angular.forEach(prices, (p)=>{
                 p.selected = false
             })
             price.selected = true
+            $scope.lastSelected = price
         }
     })
 

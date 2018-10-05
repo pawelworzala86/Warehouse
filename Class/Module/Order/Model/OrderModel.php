@@ -10,6 +10,45 @@ class OrderModel extends Model
     private $id;
     private $uuid;
     private $number;
+    private $courier;
+    private $courierNumber;
+    private $courierPrice;
+
+    public function getCourierPrice(): ?float
+    {
+        return $this->courierPrice;
+    }
+
+    public function setCourierPrice(float $courierPrice = null): OrderModel
+    {
+        $this->set('courier_price', $courierPrice);
+        $this->courierPrice = $courierPrice;
+        return $this;
+    }
+
+    public function getCourierNumber(): ?string
+    {
+        return $this->courierNumber;
+    }
+
+    public function setCourierNumber(string $courierNumber = null): OrderModel
+    {
+        $this->set('courier_number', $courierNumber);
+        $this->courierNumber = $courierNumber;
+        return $this;
+    }
+
+    public function getCourier(): ?string
+    {
+        return $this->courier;
+    }
+
+    public function setCourier(string $courier = null): OrderModel
+    {
+        $this->set('courier', $courier);
+        $this->courier = $courier;
+        return $this;
+    }
 
     public function getNumber(): string
     {
