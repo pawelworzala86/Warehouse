@@ -121,6 +121,7 @@ class GetOrdersHandler extends Handler
                     ->setSumNet($order->getSumNet())
                     ->setSumVat($order->getSumVat())
                     ->setSumGross($order->getSumGross())
+                    ->setTotalPaid($order->getTotalPaid())
             );
             $ordersCollection->next();
         }

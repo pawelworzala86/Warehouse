@@ -23,6 +23,18 @@ class OrderResponse extends Type
     private $sumNet;
     private $sumGross;
     private $sumVat;
+    private $totalPaid;
+
+    public function getTotalPaid(): ?float
+    {
+        return $this->totalPaid;
+    }
+
+    public function setTotalPaid(float $totalPaid = null): OrderResponse
+    {
+        $this->totalPaid = $totalPaid;
+        return $this;
+    }
 
     public function getSumVat(): ?float
     {

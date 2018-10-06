@@ -68,7 +68,12 @@ class PrestaRefreshHandler extends Handler
                         ->setValue($prestaOrder->id)
                 )
                 ->load();
-            if (!$orderModel->getId()) {
+            if ($orderModel->getId()){
+                $orderModel
+                    ->setUuid($orderModel->getUuid())
+                    ->setTotalPaid((float)$prestaOrder->total_paid_real)
+                    ->update();
+            }else {
                 $type = 'ord';
                 $numberModel = (new DocumentNumberModel)
                     ->where(
@@ -180,9 +185,11 @@ class PrestaRefreshHandler extends Handler
 
                     (new ContractorModel)
                         ->setUuid(Common::getUuid())
+                        ->setCode('P-'.$prestaOrder->customer_id)
                         ->setName(((string)$addressCustomer->company !== '') ? $addressCustomer->company : $prestaCustomer->firstname . ' ' . $prestaCustomer->lastname)
                         ->setAddressId($addressId)
                         ->setContactId($contactId)
+                        ->setPrestaId($prestaOrder->customer_id)
                         ->insert();
                     //print_r($prestaCustomer);
                 }

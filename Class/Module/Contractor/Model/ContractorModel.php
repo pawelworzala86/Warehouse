@@ -15,6 +15,19 @@ class ContractorModel extends Model
     private $code;
     private $nip;
     private $supplier;
+    private $prestaId;
+
+    public function getPrestaId(): ?string
+    {
+        return $this->prestaId;
+    }
+
+    public function setPrestaId(string $prestaId = null): ContractorModel
+    {
+        $this->set('presta_id', $prestaId);
+        $this->prestaId = $prestaId;
+        return $this;
+    }
 
     public function getSupplier(): ?bool
     {

@@ -2,9 +2,21 @@
     .table .header input {
         left: 0;
     }
+    .table.files .row{
+        width: 33%;
+        padding: 5px;
+        border: none;
+    }
+    .table.files .name{
+        padding-left: 6px;
+        font-weight: 400;
+        font-size: 0.85em;
+        text-align: center;
+        margin-bottom: 2px;
+    }
 </style>
 <div class="container files">
-    <div class="table" ng-controller="selectTableController">
+    <div class="table files" ng-controller="selectTableController">
         {{setSelectOptions('/system/files', 'name', 'files')}}
         <div ng-show="selects.length>0" class="box">
             <div class="header">Zaznaczone elementy</div>
@@ -41,14 +53,14 @@
         <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files" ng-if="!deleted">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
                                                                                             class="checkbox"></label>
-            <div class="col col-xs-6" style="padding-left: 6px;">{{file.name}}</div>
-            <div class="col col-xs-3">{{file.type}}</div>
-            <div class="col col-xs-3 right">{{formatSizeUnits(file.size)}}</div>
-            <div class="buttons">
+            <div class="col col-xs-12 name">{{file.name}}</div>
+            <div class="col col-xs-12 center">{{file.type}}</div>
+            <div class="col col-xs-12 center" style="margin-top: 2px;">{{formatSizeUnits(file.size)}}</div>
+            <div class="col col-xs-12" style="text-align: center;">
                 <a target="_self" ng-href="{{file.url}}" download="{{file.name}}">
                     <i data-nodrag="" class="material-icons" ng-click="download(file)">cloud_download</i>
                 </a>
-                <i data-nodrag="" class="material-icons" ng-click="deleteRow(files, file)">delete_forever</i>
+                <i style="cursor: pointer;" data-nodrag="" class="material-icons" ng-click="deleteRow(files, file)">delete_forever</i>
             </div>
         </div>
         <div ng-show="files.length==0" class="table-empty">

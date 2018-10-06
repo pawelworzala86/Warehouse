@@ -13,6 +13,18 @@ class CatalogProduct extends Type
     private $vat;
     private $count;
     private $imageUrl;
+    private $descriptionShort;
+
+    function setDescriptionShort(string $descriptionShort = null): CatalogProduct
+    {
+        $this->descriptionShort = $descriptionShort;
+        return $this;
+    }
+
+    function getDescriptionShort(): ?string
+    {
+        return $this->descriptionShort;
+    }
 
     function setImageUrl(string $imageUrl = null): CatalogProduct
     {

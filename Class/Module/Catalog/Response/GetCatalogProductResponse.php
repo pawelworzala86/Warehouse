@@ -17,6 +17,18 @@ class GetCatalogProductResponse extends Response
     private $sellNet;
     private $sellGross;
     private $vat;
+    private $imageSrc;
+
+    public function getImageSrc(): ?string
+    {
+        return $this->imageSrc;
+    }
+
+    public function setImageSrc(string $imageSrc = null): GetCatalogProductResponse
+    {
+        $this->imageSrc = $imageSrc;
+        return $this;
+    }
 
     public function getVat(): ?float
     {

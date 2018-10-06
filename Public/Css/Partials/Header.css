@@ -44,13 +44,10 @@ header i.right,
 
 #menu .menu-body {
     position: absolute;
-    border: 1px solid #aaa;
-    background: rgba(255, 255, 255, 0.75);
     left: 50px;
     right: 50px;
     box-sizing: border-box;
     top: 50px;
-    box-shadow: 5px 5px 5px #ddd;
 }
 
 #menu .menu-body .material-icons {
@@ -154,7 +151,7 @@ header {
         display: block !important;
         position: fixed;
         width: 200px;
-        top: 62px;
+        top: 60px;
         bottom: 0;
         height: auto;
         z-index: 10;
@@ -195,8 +192,5 @@ header {
     #menu .links-group .primary{
         font-size: 1em;
         color: #888;
-    }
-    .fixed-bottom{
-        padding-left: 200px;
     }
 }

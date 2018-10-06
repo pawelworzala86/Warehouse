@@ -408,22 +408,6 @@ button{
     color: #aaa;
 }
 
-.fixed-bottom {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.35);
-    border-top: 1px solid #aaa;
-    background: #fff;
-    z-index: 100;
-}
-
-.fixed-bottom button{
-    color: #185ba5 !important;
-    font-size: 18px;
-}
-
 .material-icons {
     color: #aaa !important;
 }

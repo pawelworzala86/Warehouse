@@ -154,7 +154,7 @@ input.error{
 }
 
 .form-group:not(.textarea){
-    height: 56px;
+    height: 38px;
 }
 
 .form-group.checkbox{

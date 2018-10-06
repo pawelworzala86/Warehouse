@@ -11,12 +11,13 @@
         padding: 5px 20px 20px 50px;
     }
 
-    p.price span.service{
+    p.price span.service {
         font-size: 0.75em;
         top: -1px;
         position: relative;
         color: #666 !important;
     }
+
     p.price {
         margin: 0;
         float: left;
@@ -27,6 +28,7 @@
         border: 1px solid transparent;
         cursor: pointer;
     }
+
     .price.selected {
         font-size: 1.2em;
         top: -4px;
@@ -34,51 +36,63 @@
         font-weight: 500;
         color: #68b;
     }
-    p.price.selected span.service{
+
+    p.price.selected span.service {
         color: #68b;
     }
-    .price.id{
+
+    .price.id {
         display: none;
     }
-    .price.selected{
+
+    .price.selected {
         display: block !important;
     }
-    span.id{
+
+    span.id {
         float: left;
         width: auto !important;
         margin-top: 2px;
     }
-    .price.courier{
+
+    .price.courier {
         color: #666;
         margin-top: 10px;
     }
-    span.id.margin-top{
+
+    span.id.margin-top {
         margin-top: 13px;
         margin-left: 10px;
         margin-right: 10px;
     }
-    span.id.margin-top b{
+
+    span.id.margin-top b {
         font-size: 0.85em;
         bottom: 1px;
         position: relative;
         color: #555;
     }
-    .price.id.selected{
+
+    .price.id.selected {
         margin-top: 10px;
         color: #555;
     }
-    .links a{
+
+    .links a {
         cursor: pointer;
         margin: 5px 0px;
         margin-right: 10px;
     }
-    .links{
+
+    .links {
         height: 20px;
     }
-    .links.empty{
+
+    .links.empty {
         display: none;
     }
-    .select-courier{
+
+    .select-courier {
         margin: 0;
         margin-top: 5px;
         float: left;
@@ -86,51 +100,84 @@
         font-weight: 400;
         color: #666;
     }
+
     .filters {
         padding-left: 30px;
     }
-    .invoice-number a{
+
+    .invoice-number a {
         font-weight: 400;
         font-size: 1.25em;
         position: relative;
         top: 1px;
     }
-    .invoice-number{
+
+    .invoice-number {
         float: left;
         font-size: 0.9em;
         width: 100%;
     }
-    .col.label{
+
+    .col.label {
         margin-top: 13px;
         margin-left: 10px;
     }
-    .buttons p{
+
+    .buttons p {
         margin: 0;
         font-size: 0.75em;
         font-weight: 400;
         color: #888;
     }
-    .buttons.second{
+
+    .buttons.second {
         margin-left: 10px;
     }
-    .table.products .row{
+
+    .table.products .row {
         padding: 5px;
     }
-    .table.products{
+
+    .table.products {
         font-size: 0.85em;
         margin-top: 10px;
         margin-bottom: 10px;
     }
-    .table.products img{
+
+    .table.products img {
         width: 40px;
     }
-    .table.products .col.margin{
+
+    .table.products .col.margin {
         margin: 12px 0px;
+    }
+
+    .buttons.icons {
+        position: relative !important;
+        top: 0;
+        font-size: 1.75em;
+        text-align: right;
+    }
+    .col.number{
+        font-size: 1.35em;
+        font-weight: 400;
+        color: #666;
+    }
+    .col.date{
+        width: auto;
+        margin-right: 5px;
+        font-size: 0.9em;
+        padding-top: 1px;
+        position: relative;
+        left: -10px;
+        color: #444;
     }
 </style>
 <div class="container orders">
     <div class="buttons">
-        <a href="/zamowienie/dodaj"><button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj zamówienie</button></a>
+        <a href="/zamowienie/dodaj">
+            <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj zamówienie</button>
+        </a>
         <button ng-click="prestaDownload()">Pobierz zamówienia</button>
     </div>
     <div class="buttons second">
@@ -159,12 +206,16 @@
             </div>
         </div>
         <div class="header">
-            <input ng-show="orders.length>0" type="checkbox" id="chbx" ng-click="checkAll(orders)"><label ng-show="orders.length>0" for="chbx" class="checkbox"></label>
+            <input ng-show="orders.length>0" type="checkbox" id="chbx" ng-click="checkAll(orders)"><label
+                ng-show="orders.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
+                <div class="col col-xs-4"><input style="margin-left: 9px;" class="date"
+                                                 ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                 placeholder="Data zamówienia" type="text" ng-model="filters.date"
+                                                 ng-change="filter()"></div>
                 <div class="col col-xs-4"><input class="number" ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                  placeholder="Numer zamówienia" type="text" ng-model="filters.number" ng-change="filter()"></div>
-                <div class="col col-xs-4"><input style="margin-left: 9px;" class="date" ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                 placeholder="Data zamówienia" type="text" ng-model="filters.date" ng-change="filter()"></div>
+                                                 placeholder="Numer zamówienia" type="text" ng-model="filters.number"
+                                                 ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="stocks.length>0">
                 <div class="col col-xs-2">SKU</div>
@@ -178,14 +229,14 @@
              ng-repeat="order in orders">
             <div class="head">
                 <input type="checkbox" id="chbx{{order.id}}" ng-click="check(order)"><label for="chbx{{order.id}}"
-                                                                                                class="checkbox"></label>
-                <i class="material-icons zoom-in" ng-click="loadDetail('/order', orders, order)">zoom_in</i>
-                <div class="col col-xs-4">{{order.number}}</div>
-                <div class="col col-xs-8">{{order.date}}</div>
+                                                                                            class="checkbox"></label>
+                <!--<i class="material-icons zoom-in" ng-click="loadDetail('/order', orders, order)">zoom_in</i>-->
+                <div class="col col-xs-4 date">{{order.date}}</div>
+                <div class="col col-xs-8 number">{{order.number}}</div>
 
                 <div class="col col-xs-12 products table">
                     <div class="product row header">
-                        <div class="col col-xs-1"> </div>
+                        <div class="col col-xs-1"></div>
                         <div class="col col-xs-1">SKU</div>
                         <div class="col col-xs-5">Produkt</div>
                         <div class="col col-xs-1 right">Netto</div>
@@ -206,30 +257,58 @@
                     </div>
                 </div>
 
-                <div ng-if="!order.invoiceNumber" class="col col-xs-12 links">
-                    <a class="col" ng-click="addInvoice(order)">Wystaw fakturę</a>
+                <div class="col col-xs-9" ng-if="order.totalPaid==order.sumGross">
+                    <div ng-if="!order.invoiceNumber" class="col col-xs-12 links">
+                        <a class="col" ng-click="addInvoice(order)">Wystaw fakturę</a>
+                    </div>
+                    <!--
+                    <span ng-if="order.invoiceNumber" class="invoice-number">Numer: <a ng-href="/api/document/{{order.documentId}}/print" target="_blank">{{order.invoiceNumber}}</a></span>
+                    -->
+                    <div class="col col-xs-12 links" ng-class="{'empty': order.courier}">
+                        <a ng-if="(!order.courier)&&(!order.prices)" class="col" ng-click="orderPrices(order)">Zrób
+                            paczkę</a>
+                        <p ng-if="order.prices" class="select-courier">Wybierz kuriera</p>
+                    </div>
+
+                    <p class="col col-xs-12 price" ng-class="{'selected': price.selected, 'id': (order.id.length!=32)}"
+                       ng-click="selectPrice(order.prices, price)" ng-repeat="price in order.prices | orderBy:'price'"
+                       ng-if="price.price>0">
+                        <span>{{price.priceText}}</span>
+                        <span class="service">{{price.service}}</span>
+                    </p>
+                    <a ng-if="(order.id.length==32)&&(order.prices.length>0)&&lastSelected" class="col col-xs-12"
+                       style="cursor: pointer;margin: 5px 0px;margin-top: -7px;" ng-click="orderAdd(order)">Zamów
+                        kuriera</a>
                 </div>
-                <span ng-if="order.invoiceNumber" class="invoice-number">Numer: <a ng-href="/api/document/{{order.documentId}}/print" target="_blank">{{order.invoiceNumber}}</a></span>
-                <div class="col col-xs-12 links" ng-class="{'empty': order.courier}">
-                    <a ng-if="(!order.courier)&&(!order.prices)" class="col" ng-click="orderPrices(order)">Zrób paczkę</a>
-                    <p ng-if="order.prices" class="select-courier">Wybierz kuriera</p>
-                </div>
+                <div class="col col-xs-9" ng-if="order.totalPaid!=order.sumGross">&nbsp;</div>
+                <!--
                 <p class="col col-xs-12 price selected courier" ng-if="(order.id.length!=32||order.courier)&&(order.id.length==32)">
                     <span>{{order.courierPrice}}</span>
                     <span class="service">{{order.courier}}</span>
                 </p>
-                <p class="col col-xs-12 price" ng-class="{'selected': price.selected, 'id': (order.id.length!=32)}" ng-click="selectPrice(order.prices, price)" ng-repeat="price in order.prices | orderBy:'price'" ng-if="price.price>0">
-                    <span>{{price.priceText}}</span>
-                    <span class="service">{{price.service}}</span>
-                </p>
-                <a ng-if="(order.id.length==32)&&(order.prices.length>0)&&lastSelected" class="col col-xs-12" style="cursor: pointer;margin: 5px 0px;margin-top: -7px;" ng-click="orderAdd(order)">Zamów kuriera</a>
+                -->
+                <!--
                 <span ng-class="{'id': (order.id.length!=32)||order.courier, 'margin-top': order.courier}" ng-if="!order.courier&&((order.id.length!=32)&&(order.prices.length>0))" class="col col-xs-12"><b>ID:</b> {{order.id}}</span>
                 <span ng-class="{'id': (order.id.length!=32)||order.courier, 'margin-top': order.courier}" ng-if="order.courier||((order.id.length!=32)&&(order.prices.length>0))&&(order.id.length==32)" class="col col-xs-12"><b>ID:</b> {{order.courierNumber}}</span>
+                -->
+                <!--
                 <span ng-class="{'id': (order.id.length!=32)||order.courier, 'margin-top': order.courier}" ng-if="order.pickup&&(order.courier||((order.id.length!=32)&&(order.prices.length>0))&&(order.id.length==32))" class="col col-xs-12"><b>Data odbioru: </b> {{order.pickup}}</span>
                 <span ng-if="order.pickup"><a class="col label" target="_blank" ng-href="https://test.furgonetka.pl/zamowione/etykieta/{{order.courierNumber}}">Pobierz etykietę</a></span>
+                -->
+                <div class="col col-xs-3">
+                    <div class="col col-xs-12 buttons icons">
+                        <a ng-if="order.invoiceNumber" ng-href="/api/document/{{order.documentId}}/print"
+                           target="_blank"><i class="material-icons">description</i></a>
+                        <!--<i class="material-icons">monetization_on</i>-->
+                        <a ng-if="order.pickup&&(order.courier||((order.id.length!=32)&&(order.prices.length>0))&&(order.id.length==32))"
+                           target="_blank"
+                           ng-href="https://test.furgonetka.pl/zamowione/etykieta/{{order.courierNumber}}"><i
+                                class="material-icons">commute</i></a>
+                    </div>
+                </div>
                 <div class="buttons">
                     <a ng-href="/zamowienie/{{order.id}}"><i data-nodrag=""
-                                                                  class="material-icons">mode_edit</i></a>
+                                                             class="material-icons">mode_edit</i></a>
                     <i data-nodrag="" class="material-icons" ng-click="deleteRow(orders, order)">delete_forever</i>
                 </div>
             </div>

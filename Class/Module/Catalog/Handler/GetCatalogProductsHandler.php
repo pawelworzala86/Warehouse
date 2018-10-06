@@ -62,6 +62,8 @@ class GetCatalogProductsHandler extends Handler
                     ->setId($product->getUuid())
                     ->setSku($product->getSku())
                     ->setImageUrl($imageUrl)
+                    ->setDescriptionShort($product->getDescriptionShort())
+                    ->setNet($product->getSellNet())
             );
             $productsCollection->next();
         }

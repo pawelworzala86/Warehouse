@@ -1710,6 +1710,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         var loadPage = function () {
             catalogProducts.get(function (response) {
                 angular.forEach(response.data.products, function (value, key) {
+                    value.net = value.net.toFixed(2)
                     $scope.products.push(value);
                 });
                 pagination = getData(pagination, response.data.pagination);
