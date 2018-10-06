@@ -41,7 +41,7 @@
         <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files" ng-if="!deleted">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
                                                                                             class="checkbox"></label>
-            <div class="col col-xs-6">{{file.name}}</div>
+            <div class="col col-xs-6" style="padding-left: 6px;">{{file.name}}</div>
             <div class="col col-xs-3">{{file.type}}</div>
             <div class="col col-xs-3 right">{{formatSizeUnits(file.size)}}</div>
             <div class="buttons">

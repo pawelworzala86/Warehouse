@@ -113,6 +113,14 @@
     .buttons.second{
         margin-left: 10px;
     }
+    .table.products .row{
+        padding: 5px;
+    }
+    .table.products{
+        font-size: 0.85em;
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
 </style>
 <div class="container orders">
     <div class="buttons">
@@ -155,7 +163,7 @@
                 <div class="col col-xs-10">Nazwa produktu</div>
             </div>-->
         </div>
-        <div ng-show="orders.lenght==0" class="table-empty">
+        <div ng-show="orders.length==0" class="table-empty">
             <p>Brak danych w tabeli do wyświetlenia</p>
         </div>
         <div ng-class="{'selected': order.selected, 'deleted': order.deleted}" class="row"
@@ -165,6 +173,20 @@
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in" ng-click="loadDetail('/order', orders, order)">zoom_in</i>
                 <div class="col col-xs-12">{{order.number}}</div>
+
+                <div class="col col-xs-12 products table">
+                    <div class="product row header">
+                        <div class="col col-xs-9">Produkt</div>
+                        <div class="col col-xs-1 right">Ilość</div>
+                        <div class="col col-xs-2 right">W.brutto</div>
+                    </div>
+                    <div class="product row" ng-repeat="product in order.products">
+                        <div class="col col-xs-9">{{product.name}}</div>
+                        <div class="col col-xs-1 right">{{product.count}}</div>
+                        <div class="col col-xs-2 right">{{product.sumGross}}</div>
+                    </div>
+                </div>
+
                 <div ng-if="!order.invoiceNumber" class="col col-xs-12 links">
                     <a class="col" ng-click="addInvoice(order)">Wystaw fakturę</a>
                 </div>

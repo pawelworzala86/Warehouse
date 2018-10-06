@@ -40,45 +40,45 @@ class DocumentProduct extends Type
         return $this;
     }
 
-    public function getSumGross(): float
+    public function getSumGross(): ?float
     {
         return $this->sumGross;
     }
 
-    public function setSumGross(float $sumGross): DocumentProduct
+    public function setSumGross(float $sumGross = null): DocumentProduct
     {
         $this->sumGross = $sumGross;
         return $this;
     }
 
-    public function getSumNet(): float
+    public function getSumNet(): ?float
     {
         return $this->sumNet;
     }
 
-    public function setSumNet(float $sumNet): DocumentProduct
+    public function setSumNet(float $sumNet = null): DocumentProduct
     {
         $this->sumNet = $sumNet;
         return $this;
     }
 
-    public function getVat(): float
+    public function getVat(): ?float
     {
         return $this->vat;
     }
 
-    public function setVat(float $vat): DocumentProduct
+    public function setVat(float $vat = null): DocumentProduct
     {
         $this->vat = $vat;
         return $this;
     }
 
-    public function getNet(): float
+    public function getNet(): ?float
     {
         return $this->net;
     }
 
-    public function setNet(float $net): DocumentProduct
+    public function setNet(float $net = null): DocumentProduct
     {
         $this->net = $net;
         return $this;
@@ -95,13 +95,13 @@ class DocumentProduct extends Type
         return $this->deleted;
     }
 
-    function setCount(float $count): DocumentProduct
+    function setCount(float $count = null): DocumentProduct
     {
         $this->count = $count;
         return $this;
     }
 
-    function getCount(): float
+    function getCount(): ?float
     {
         return $this->count;
     }

@@ -99,7 +99,7 @@ class File extends Type
     {
         if(!isset($this->uuid)&&$saveToFileSystem) {
             $this->uuid = Common::getUuid();
-            $this->setUrl('/Files/' . $this->uuid);
+            $this->setUrl(DIR.'/Files/' . $this->uuid);
             file_put_contents(DIR . $this->getUrl(), base64_decode($this->getData()));
             if (file_exists(DIR . $this->getUrl())) {
                 $this->setSize(filesize(DIR . $this->getUrl()));

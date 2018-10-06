@@ -18,6 +18,18 @@ class OrderResponse extends Type
     private $invoiceNumber;
     private $documentId;
     private $pickup;
+    private $products;
+
+    public function getProducts(): DocumentProducts
+    {
+        return $this->products;
+    }
+
+    public function setProducts(DocumentProducts $products): OrderResponse
+    {
+        $this->products = $products;
+        return $this;
+    }
 
     public function getPickup(): ?string
     {
