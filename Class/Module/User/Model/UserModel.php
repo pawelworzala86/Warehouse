@@ -15,6 +15,58 @@ class UserModel extends Model
     private $id;
     private $addressId;
     private $contactId;
+    private $bankName;
+    private $bankSwift;
+    private $bankNumber;
+    private $issuePlace;
+
+    function setIssuePlace(string $issuePlace = null): UserModel
+    {
+        $this->set('issue_place', $issuePlace);
+        $this->issuePlace = $issuePlace;
+        return $this;
+    }
+
+    function getIssuePlace(): ?string
+    {
+        return $this->issuePlace;
+    }
+
+    function setBankNumber(string $bankNumber = null): UserModel
+    {
+        $this->set('bank_number', $bankNumber);
+        $this->bankNumber = $bankNumber;
+        return $this;
+    }
+
+    function getBankNumber(): ?string
+    {
+        return $this->bankNumber;
+    }
+
+    function setBankSwift(string $bankSwift = null): UserModel
+    {
+        $this->set('bank_swift', $bankSwift);
+        $this->bankSwift = $bankSwift;
+        return $this;
+    }
+
+    function getBankSwift(): ?string
+    {
+        return $this->bankSwift;
+    }
+
+    function setBankName(string $bankName = null): UserModel
+    {
+        $this->set('bank_name', $bankName);
+        $this->bankName = $bankName;
+        return $this;
+    }
+
+    function getBankName(): ?string
+    {
+        return $this->bankName;
+    }
 
     public function getContactId(): ?int
     {
@@ -59,7 +111,7 @@ class UserModel extends Model
 
     public function setUuid(UUID $uuid): UserModel
     {
-        $this->set('uuid', $uuid);
+        $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;
         return $this;
     }

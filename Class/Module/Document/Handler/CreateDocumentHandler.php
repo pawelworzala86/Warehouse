@@ -40,7 +40,7 @@ class CreateDocumentHandler extends Handler
             ->load($request->getContractorId(), true);
 
         ////
-        $documentNumberId = $request->getDocumentNumberId();
+        /*$documentNumberId = $request->getDocumentNumberId();
         $type = $request->getType();
         $numberModel = (new DocumentNumberModel)
             ->load($documentNumberId, true);
@@ -68,7 +68,7 @@ class CreateDocumentHandler extends Handler
         (new DocumentNumberModel)
             ->setUuid($numberModel->getUuid())
             ->setNumber($number)
-            ->update();
+            ->update();*/
         ////////////
 
         $user = (new UserModel)
@@ -77,7 +77,7 @@ class CreateDocumentHandler extends Handler
         $uuid = Common::getUuid();
         $documentId = (new DocumentModel)
             ->setUuid($uuid)
-            ->setName($name)
+            ->setName($request->getName())
             ->setContractorId($contractor->getId())
             ->setContractorAddressId($contractor->getAddressId())
             ->setOwnerAddressId($user->getAddressId())

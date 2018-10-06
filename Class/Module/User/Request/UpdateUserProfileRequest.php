@@ -5,13 +5,24 @@ namespace App\Module\User\Request;
 use App\Request\Request;
 use App\Type\Address;
 use App\Type\Contact;
-use App\Type\Mail;
-use App\Type\Password;
+use App\Type\ProfileInvoice;
 
 class UpdateUserProfileRequest extends Request
 {
     private $address;
     private $contact;
+    private $invoice;
+
+    public function getInvoice(): ?ProfileInvoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(ProfileInvoice $invoice = null)
+    {
+        $this->invoice = $invoice;
+        return $this;
+    }
 
     public function getContact(): ?Contact
     {

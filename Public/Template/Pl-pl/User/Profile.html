@@ -51,6 +51,27 @@
                     </div>
                 </div>
             </div>
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Dane do faktury</div>
+                    <div class="form-group col col-xs-12">
+                        <label>Nazwa banku</label>
+                        <input type="text" ng-model="data.profile.invoice.bankName"/>
+                    </div>
+                    <div class="form-group col col-xs-12">
+                        <label>SWIFT</label>
+                        <input type="text" ng-model="data.profile.invoice.bankSwift"/>
+                    </div>
+                    <div class="form-group col col-xs-12">
+                        <label>Numer konta</label>
+                        <input type="text" ng-model="data.profile.invoice.bankNumber"/>
+                    </div>
+                    <div class="form-group col col-xs-12">
+                        <label>Domyślne miejsce wystawienia dokumentu</label>
+                        <input type="text" ng-model="data.profile.invoice.issuePlace"/>
+                    </div>
+                </div>
+            </div>
         </div>
         <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i>Zapisz</button>
     </article>

@@ -21,6 +21,7 @@ class UpdateUserProfileHandler extends Handler
     {
         $contact = $request->getContact();
         $address = $request->getAddress();
+        $invoice = $request->getInvoice();
 
         $userModel = (new UserModel)
             ->load(User::getId());
@@ -93,6 +94,16 @@ class UpdateUserProfileHandler extends Handler
                     ->update();
             }
         }
+
+        $userModel = (new UserModel)
+            ->load(User::getId());
+        (new UserModel)
+            ->setUuid($userModel->getUuid())
+            ->setBankName($invoice->getBankName())
+            ->setBankSwift($invoice->getBankSwift())
+            ->setBankNumber($invoice->getBankNumber())
+            ->setIssuePlace($invoice->getIssuePlace())
+            ->update();
 
         return (new SuccessResponse);
     }

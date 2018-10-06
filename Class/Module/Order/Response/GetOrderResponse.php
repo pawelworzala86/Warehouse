@@ -103,23 +103,23 @@ class GetOrderResponse extends Response
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function setName(string $name): GetOrderResponse
+    public function setName(string $name = null): GetOrderResponse
     {
         $this->name = $name;
         return $this;
     }
 
-    public function getId(): UUID
+    public function getId(): ?UUID
     {
         return $this->id;
     }
 
-    public function setId(UUID $id): GetOrderResponse
+    public function setId(UUID $id = null): GetOrderResponse
     {
         $this->id = $id;
         return $this;

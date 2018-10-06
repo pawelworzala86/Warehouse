@@ -23,6 +23,19 @@ class OrderModel extends Model
     private $sumNet;
     private $sumGross;
     private $sumVat;
+    private $totalPaid;
+
+    public function getTotalPaid(): ?float
+    {
+        return $this->totalPaid;
+    }
+
+    public function setTotalPaid(float $totalPaid = null): OrderModel
+    {
+        $this->set('total_paid', $totalPaid);
+        $this->totalPaid = $totalPaid;
+        return $this;
+    }
 
     public function getSumVat(): ?float
     {
@@ -180,12 +193,12 @@ class OrderModel extends Model
         return $this;
     }
 
-    public function getNumber(): string
+    public function getNumber(): ?string
     {
         return $this->number;
     }
 
-    public function setNumber(string $number): OrderModel
+    public function setNumber(string $number = null): OrderModel
     {
         $this->set('number', $number);
         $this->number = $number;

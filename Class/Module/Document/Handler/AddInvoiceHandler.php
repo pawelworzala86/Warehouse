@@ -23,6 +23,7 @@ use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
 use App\Module\Order\Collection\OrderProductCollection;
 use App\Module\Order\Model\OrderModel;
+use App\Module\User\Model\UserModel;
 use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
 use App\Response\SuccessResponse;
@@ -43,7 +44,7 @@ class AddInvoiceHandler extends Handler
             ->load($request->getOrderId(), true);
 
         $contractor = (new ContractorModel)
-            ->load($order->getContractorId(), true);
+            ->load($order->getContractorId());
 
         ////
         //$documentNumberId = $request->getDocumentNumberId();
@@ -98,25 +99,28 @@ class AddInvoiceHandler extends Handler
             ->update();
         ////
 
+        $user = (new UserModel)
+            ->load(User::getId());
+
         $uuid = Common::getUuid();
         $documentId = (new DocumentModel)
             ->setUuid($uuid)
             ->setName($name)
             ->setContractorId($contractor->getId())
             ->setDate(date("Y-m-d", time()))
-            ->setDescription('opis')
-            ->setNet(10)
-            ->setTax('23')
-            ->setGross(12.3)
+            ->setDescription('')
+            ->setNet($order->getSumNet())
+            ->setTax($order->getSumGross()-$order->getSumNet())
+            ->setGross($order->getSumGross())
             ->setPayDate(date("Y-m-d", time()))
             ->setPayment('wire')
-            ->setBankName('mBank')
-            ->setSwift('')
-            ->setBankNumber('')
-            ->setIssuePlace('Elbląg')
+            ->setBankName($user->getBankName())
+            ->setSwift($user->getBankSwift())
+            ->setBankNumber($user->getBankNumber())
+            ->setIssuePlace($user->getIssuePlace())
             ->setDeliveryDate(date("Y-m-d", time()))
-            ->setPayed(12.3)
-            ->setToPay(0)
+            ->setPayed($order->getTotalPaid())
+            ->setToPay($order->getSumGross()-$order->getTotalPaid())
             ->setKind('dec')
             ->setType('fvs')
             ->setNameFrom('')
@@ -137,7 +141,23 @@ class AddInvoiceHandler extends Handler
                 ->load($product->getProductId());
             //print_r([$productModel]);
             $productId = $productModel->getId();
-
+            $count = $product->getCount();
+            if($product->getName()=='Przesyłka'){
+                (new DocumentProductModel)
+                    ->setUuid(Common::getUuid())
+                    ->setDocumentId($documentId)
+                    ->setProductId($productId)
+                    ->setCount(1)
+                    ->setNet($product->getNet())
+                    ->setSumNet($product->getSumNet())
+                    ->setSumGross($product->getSumGross())
+                    ->setVat($product->getVat())
+                    //->setDocumentProductId($stock->getDocumentProductId())
+                    ->insert();
+                $products->next();
+                $count = 0;
+                continue;
+            }
             /*if($request->getKind()==='add') {
                 $documentProductId = ($docProd = new DocumentProductModel)
                     ->setUuid(Common::getUuid())
@@ -162,7 +182,7 @@ class AddInvoiceHandler extends Handler
                 //$count = $product->getCount();
                 //$countDiff = $count;
                 //$countDiff = $count-$oldCount;
-                $count = $product->getCount();
+
                 $stockModel = (new StockCollection)
                     ->where(new Filter([
                         'name' => 'added_by',

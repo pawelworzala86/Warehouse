@@ -11,6 +11,7 @@ use App\Module\User\Response\UserStatusResponse;
 use App\Request\EmptyRequest;
 use App\Type\Address;
 use App\Type\Contact;
+use App\Type\ProfileInvoice;
 use App\User;
 
 class GetUserProfileHandler extends Handler
@@ -22,10 +23,10 @@ class GetUserProfileHandler extends Handler
             ->load(User::getId());
 
         $address = null;
-        if($userModel->getAddressId()) {
+        if ($userModel->getAddressId()) {
             $addressModel = (new AddressModel)
                 ->load($userModel->getAddressId());
-            if($addressModel->isLoaded()) {
+            if ($addressModel->isLoaded()) {
                 $address = (new Address)
                     ->setId($addressModel->getUuid())
                     ->setName($addressModel->getName())
@@ -38,10 +39,10 @@ class GetUserProfileHandler extends Handler
         }
 
         $contact = null;
-        if($userModel->getContactId()) {
+        if ($userModel->getContactId()) {
             $contactModel = (new ContractorContactModel)
                 ->load($userModel->getContactId());
-            if($contactModel->isLoaded()) {
+            if ($contactModel->isLoaded()) {
                 $contact = (new Contact)
                     ->setId($contactModel->getUuid())
                     ->setPhone($contactModel->getPhone())
@@ -51,9 +52,21 @@ class GetUserProfileHandler extends Handler
             }
         }
 
+        $invoice = null;
+        $userModel = (new UserModel)
+            ->load(User::getId());
+        if ($userModel->getId()) {
+            $invoice = (new ProfileInvoice)
+                ->setBankName($userModel->getBankName())
+                ->setBankSwift($userModel->getBankSwift())
+                ->setBankNumber($userModel->getBankNumber())
+                ->setIssuePlace($userModel->getIssuePlace());
+        }
+
         return (new GetUserProfileResponse)
             ->setAddress($address)
-            ->setContact($contact);
+            ->setContact($contact)
+            ->setInvoice($invoice);
     }
 
 }

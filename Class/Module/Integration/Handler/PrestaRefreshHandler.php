@@ -120,7 +120,7 @@ class PrestaRefreshHandler extends Handler
                 $net = $gross - $vat;
 
                 $shippingPrice = (float)$prestaOrder->total_shipping;
-
+                //print_r([$prestaOrder]);
                 (new OrderModel)
                     ->setUuid(Common::getUuid())
                     ->setNumber($name)
@@ -131,6 +131,7 @@ class PrestaRefreshHandler extends Handler
                     ->setSumNet($net)
                     ->setSumVat($vat)
                     ->setSumGross($gross)
+                    ->setTotalPaid((float)$prestaOrder->total_paid_real)
                     ->insert();
 
                 $contractorModel = (new ContractorModel)
@@ -256,7 +257,7 @@ class PrestaRefreshHandler extends Handler
                     } else {
                         $productId = $product->getId();
                     }
-                    print_r([$row]);
+                    //print_r([$row]);
                     (new OrderProductModel)
                         ->setUuid(Common::getUuid())
                         ->setProductId($productId)

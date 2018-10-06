@@ -87,7 +87,6 @@ class GetDocumentPrintHandler extends Handler
         $data_sprzedazy = $documentModel->getDeliveryDate();
         $termin_zaplaty = $documentModel->getPayDate();
 
-        $zaplacono = '24.60';
         $slownie = 'dwadzieścia cztery zł sześciedziat gr';
         $payments = [
             null => '',
@@ -95,9 +94,6 @@ class GetDocumentPrintHandler extends Handler
             'wire' => 'Przelew',
         ];
         $platnosc = $payments[$documentModel->getPayment()];
-
-        $uwagi = '';
-        $pozycje = 1;
 
         $numer_dokumentu = $documentModel->getName();
 
@@ -190,7 +186,12 @@ class GetDocumentPrintHandler extends Handler
                 number_format($value['sumGross'], 2),
             ];
         }
-        $vatTable[] = ['Razem', $documentModel->getNet(), $documentModel->getGross() - $documentModel->getNet(), $documentModel->getGross()];
+        $vatTable[] = [
+            'Razem',
+            number_format($documentModel->getGross() - $documentModel->getNet(),2),
+            number_format($documentModel->getNet(), 2),
+            number_format($documentModel->getGross(),2)
+        ];
 
         $platnosc1 = array(
             array(26, 23, 'Termin zapłaty', $termin_zaplaty),

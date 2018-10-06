@@ -30,12 +30,6 @@ class OrderCallHandler extends Handler
 {
     public function __invoke(OrderAddRequest $request): OrderCallResponse
     {
-        $uuid = $request->getId();
-        $courier = $request->getCourier();
-        $orderModel = (new OrderModel)
-            ->load($uuid, true);
-
-
         $method = 'login';
         $format = 'xml';
 
@@ -56,9 +50,9 @@ class OrderCallHandler extends Handler
         if ($status == 'success') {
             $hash = $xml->hash;
         } elseif ($status == 'error') {
-            foreach($xml->error as $error) {
-                if(isset($error->field)) {
-                    echo $error->field .': ';
+            foreach ($xml->error as $error) {
+                if (isset($error->field)) {
+                    echo $error->field . ': ';
                 }
                 echo $error->message;
                 exit;
@@ -69,37 +63,32 @@ class OrderCallHandler extends Handler
         }
 
 
-
-
         $orders = (new OrderCollection)
             ->where(
                 (new Filter)
-                ->setName('added_by')
-                ->setKind(new FilterKind('='))
-                ->setValue(User::getId())
+                    ->setName('added_by')
+                    ->setKind(new FilterKind('='))
+                    ->setValue(User::getId())
             )->where(
                 (new Filter)
-                ->setName('deleted')
-                ->setKind(new FilterKind('='))
-                ->setValue(0)
+                    ->setName('deleted')
+                    ->setKind(new FilterKind('='))
+                    ->setValue(0)
             )->where(
                 (new Filter)
-                ->setName('pickup')
-                ->setKind(new FilterKind('null'))
-                ->setValue(null)
+                    ->setName('pickup')
+                    ->setKind(new FilterKind('null'))
+                    ->setValue(null)
             )
             ->load();
         $ids = [];
-        while($order = $orders->current()){
+        while ($order = $orders->current()) {
             $number = $order->getCourierNumber();
-            if($number) {
+            if ($number) {
                 $ids[] = $number;
             }
             $orders->next();
         }
-
-
-
 
 
         $method = 'packagesOrder';
@@ -128,18 +117,18 @@ class OrderCallHandler extends Handler
 
         $status = $xml->getName();
 
-        $ordersResponse = (new CallResponses);
+        $ordersResponse = new CallResponses;
 
         if ($status == 'success') {
             //echo 'OK<br />';
 
-            foreach($xml->packages->node as $package) {
+            foreach ($xml->packages->node as $package) {
                 $order = (new OrderModel)
                     ->where(
                         (new Filter)
-                        ->setName('courier_number')
-                        ->setKind(new FilterKind('='))
-                        ->setValue($package->package_id)
+                            ->setName('courier_number')
+                            ->setKind(new FilterKind('='))
+                            ->setValue($package->package_id)
                     )
                     ->load();
                 $order
@@ -150,8 +139,8 @@ class OrderCallHandler extends Handler
 
                 $ordersResponse->add(
                     (new CallResponse)
-                    ->setId($order->getUuid())
-                    ->setPickup($package->pickup)
+                        ->setId($order->getUuid())
+                        ->setPickup($package->pickup)
                 );
                 /*echo 'ID: '.$package->package_id.'<br />';
                 echo 'NO: '.$package->package_no.'<br />';
@@ -162,9 +151,9 @@ class OrderCallHandler extends Handler
             }
 
         } elseif ($status == 'error') {
-            foreach($xml->error as $error) {
-                if(isset($error->field)) {
-                    echo $error->field .': ';
+            foreach ($xml->error as $error) {
+                if (isset($error->field)) {
+                    echo $error->field . ': ';
                 }
                 echo $error->message;
                 exit;
@@ -173,13 +162,6 @@ class OrderCallHandler extends Handler
             echo 'Błąd komunikacji';
             exit;
         }
-
-
-
-
-
-
-
 
 
         return (new OrderCallResponse)
