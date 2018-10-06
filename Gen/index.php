@@ -40,4 +40,4 @@ class AddTableToDatabase
 }
 
 $addTableToDatabase = new AddTableToDatabase;
-$addTableToDatabase->add('order_product');
+$addTableToDatabase->add('production');

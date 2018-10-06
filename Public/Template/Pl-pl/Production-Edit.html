@@ -1,0 +1,20 @@
+<div class="container">
+    <article>
+        <div class="row">
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Dane podstawowe</div>
+                    <div class="form-group col col-xs-12">
+                        <label ng-class="{'error': data.validation.name&&!data.production.name}">Nazwa
+                            produkcji</label>
+                        <input type="text" ng-model="data.production.name"
+                               ng-class="{'error': data.validation.name&&!data.production.name}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fixed-bottom">
+            <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i> Zapisz</button>
+        </div>
+    </article>
+</div>
