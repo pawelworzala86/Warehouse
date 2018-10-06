@@ -122,7 +122,10 @@
         margin-bottom: 10px;
     }
     .table.products img{
-        width: 50px;
+        width: 40px;
+    }
+    .table.products .col.margin{
+        margin: 12px 0px;
     }
 </style>
 <div class="container orders">
@@ -190,10 +193,10 @@
                     </div>
                     <div class="product row" ng-repeat="product in order.products">
                         <div class="col col-xs-1"><img ng-if="product.imageUrl" src="{{product.imageUrl}}"></div>
-                        <div class="col col-xs-2"><img src="{{product.sku}}"></div>
-                        <div class="col col-xs-6">{{product.name}}</div>
-                        <div class="col col-xs-1 right">{{product.count}}</div>
-                        <div class="col col-xs-2 right">{{product.sumGross}}</div>
+                        <div class="col col-xs-2 margin"><img src="{{product.sku}}"></div>
+                        <div class="col col-xs-6 margin">{{product.name}}</div>
+                        <div class="col col-xs-1 right margin">{{product.count}}</div>
+                        <div class="col col-xs-2 right margin">{{product.sumGross}}</div>
                     </div>
                 </div>
 

@@ -12,6 +12,18 @@ class CatalogProduct extends Type
     private $net;
     private $vat;
     private $count;
+    private $imageUrl;
+
+    function setImageUrl(string $imageUrl = null): CatalogProduct
+    {
+        $this->imageUrl = $imageUrl;
+        return $this;
+    }
+
+    function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
 
     function setCount(float $count = null): CatalogProduct
     {

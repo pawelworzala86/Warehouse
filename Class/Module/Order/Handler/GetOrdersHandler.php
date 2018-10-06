@@ -102,7 +102,7 @@ class GetOrdersHandler extends Handler
                         ->setSumGross($product->getSumGross())
                         ->setVat($product->getVat())
                         ->setName($prod->getName())
-                        ->setImageUrl($file->getId()?$file->getUrl():null)
+                        ->setImageUrl(($file->getId()&&$file->getSize())?$file->getUrl():null)
                 );
                 $productsCollection->next();
             }
