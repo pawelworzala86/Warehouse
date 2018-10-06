@@ -224,13 +224,15 @@ class PrestaRefreshHandler extends Handler
                         $productId = (new ProductModel)
                             ->setUuid(Common::getUuid())
                             ->setName($row->product_name)
-                            ->setSku(new SKU(substr_replace(Common::getUuid(), 0, 8)))
+                            ->setSku(!empty((string)$row->reference)?new SKU((string)$row->reference):new SKU(substr_replace(Common::getUuid(), 0, 8)))
                             ->setPrestaId($prestaProductId)
                             ->setSellNet(round((float)$row->unit_price_tax_excl, 2))
                             ->setVat('23')
                             ->setSellGross(round((float)$row->unit_price_tax_incl, 2))
+                            ->setDescriptionShort((string)$row->description_short->language)
+                            ->setDescriptionFull((string)$row->description->language)
                             ->insert();
-                        $opt = array('resource' => 'images/products', 'id' => $productId);
+                        $opt = array('resource' => 'images/products', 'id' => $prestaProductId);
                         $xml = $webService->get($opt);
                         $prestaImage = $xml->children()->children();
                         $index = 1;

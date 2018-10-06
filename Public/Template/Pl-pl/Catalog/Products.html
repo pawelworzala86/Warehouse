@@ -24,6 +24,7 @@
         <a ng-href="/katalog/produkt/dodaj">
             <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj product</button>
         </a>
+        <a><button class="icon" ng-click="downloadProducts()">Pobierz produkty</button></a>
     </div>
     <div class="table products" ng-controller="selectTableController">
         {{setSelectOptions('/catalog/product', 'name', 'products')}}

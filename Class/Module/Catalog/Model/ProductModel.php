@@ -21,12 +21,12 @@ class ProductModel extends Model
     private $vat;
     private $prestaId;
 
-    public function getPrestaId(): ?float
+    public function getPrestaId(): ?string
     {
         return $this->prestaId;
     }
 
-    public function setPrestaId(float $prestaId = null): ProductModel
+    public function setPrestaId(string $prestaId = null): ProductModel
     {
         $this->set('presta_id', $prestaId);
         $this->prestaId = $prestaId;

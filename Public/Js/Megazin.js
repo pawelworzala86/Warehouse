@@ -1768,6 +1768,9 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             pagination.page = 1;
             loadPage()
         }
+        $scope.downloadProducts = ()=>{
+            $http.get(apiBase+'/integration/presta/products').then(()=>{})
+        }
     })
 
     .controller('documentsController', function ($rootScope, $scope, $http, documents, deleteDialog) {
