@@ -1987,8 +1987,14 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         var loadPage = function () {
             orders.get(function (response) {
                 //$scope.orders = []
-                angular.forEach(response.data.orders, function (value, key) {
-                    $scope.orders.push(value);
+                angular.forEach(response.data.orders, function (order, orderKey) {
+                    angular.forEach(order.products, function (product, productKey) {
+                        product.net = product.net.toFixed(2)
+                        product.sumNet = product.sumNet.toFixed(2)
+                        product.sumGross = product.sumGross.toFixed(2)
+                        order.products[productKey] = product
+                    });
+                    $scope.orders.push(order);
                 });
                 pagination = getData(pagination, response.data.pagination);
                 filters = getData(filters, response.data.filters);

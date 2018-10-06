@@ -186,17 +186,23 @@
                 <div class="col col-xs-12 products table">
                     <div class="product row header">
                         <div class="col col-xs-1"> </div>
-                        <div class="col col-xs-2">SKU</div>
-                        <div class="col col-xs-6">Produkt</div>
+                        <div class="col col-xs-1">SKU</div>
+                        <div class="col col-xs-5">Produkt</div>
+                        <div class="col col-xs-1 right">Netto</div>
                         <div class="col col-xs-1 right">Ilość</div>
-                        <div class="col col-xs-2 right">W.brutto</div>
+                        <div class="col col-xs-1 right">W.netto</div>
+                        <div class="col col-xs-1 right">VAT</div>
+                        <div class="col col-xs-1 right">W.brutto</div>
                     </div>
                     <div class="product row" ng-repeat="product in order.products">
                         <div class="col col-xs-1"><img ng-if="product.imageUrl" src="{{product.imageUrl}}"></div>
-                        <div class="col col-xs-2 margin"><img src="{{product.sku}}"></div>
-                        <div class="col col-xs-6 margin">{{product.name}}</div>
+                        <div class="col col-xs-1 margin"><img src="{{product.sku}}"></div>
+                        <div class="col col-xs-5 margin">{{product.name}}</div>
+                        <div class="col col-xs-1 right margin">{{product.net}}</div>
                         <div class="col col-xs-1 right margin">{{product.count}}</div>
-                        <div class="col col-xs-2 right margin">{{product.sumGross}}</div>
+                        <div class="col col-xs-1 right margin">{{product.sumNet}}</div>
+                        <div class="col col-xs-1 right margin">{{product.vat}}</div>
+                        <div class="col col-xs-1 right margin">{{product.sumGross}}</div>
                     </div>
                 </div>
 
