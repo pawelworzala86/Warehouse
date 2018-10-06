@@ -116,7 +116,7 @@
 </style>
 <div class="container orders">
     <div class="buttons">
-        <button class="icon" ng-click="ordersRefresh()"><i class="material-icons">add_circle_outline</i>Dodaj testowe zamówienie</button>
+        <a href="/zamowienie/dodaj"><button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj zamówienie</button></a>
         <button ng-click="prestaDownload()">Pobierz zamówienia</button>
     </div>
     <div class="buttons second">
@@ -186,9 +186,14 @@
                 <span ng-class="{'id': (order.id.length!=32)||order.courier, 'margin-top': order.courier}" ng-if="order.courier||((order.id.length!=32)&&(order.prices.length>0))&&(order.id.length==32)" class="col col-xs-12"><b>ID:</b> {{order.courierNumber}}</span>
                 <span ng-class="{'id': (order.id.length!=32)||order.courier, 'margin-top': order.courier}" ng-if="order.pickup&&(order.courier||((order.id.length!=32)&&(order.prices.length>0))&&(order.id.length==32))" class="col col-xs-12"><b>Data odbioru: </b> {{order.pickup}}</span>
                 <span ng-if="order.pickup"><a class="col label" target="_blank" ng-href="https://test.furgonetka.pl/zamowione/etykieta/{{order.courierNumber}}">Pobierz etykietę</a></span>
+                <div class="buttons">
+                    <a ng-href="/zamowienie/{{order.id}}"><i data-nodrag=""
+                                                                  class="material-icons">mode_edit</i></a>
+                    <i data-nodrag="" class="material-icons" ng-click="deleteRow(orders, order)">delete_forever</i>
+                </div>
             </div>
         </div>
-        <fluentLoader ng-click="fluentLoad()" ng-show="stocks.length>0">
+        <fluentLoader ng-click="fluentLoad()" ng-show="orders.length>0">
             <p>Pokaż więcej wyników</p>
         </fluentLoader>
     </div>

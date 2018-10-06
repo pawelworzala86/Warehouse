@@ -40,7 +40,6 @@ class CreateDocumentHandler extends Handler
             ->load($request->getContractorId(), true);
 
         ////
-        /*
         $documentNumberId = $request->getDocumentNumberId();
         $type = $request->getType();
         $numberModel = (new DocumentNumberModel)
@@ -56,9 +55,7 @@ class CreateDocumentHandler extends Handler
             $numberModel = (new DocumentNumberModel)
                 ->load($id);
         }
-        //$numberModel->setUuid($numberModel->getUuid());
         $number = $numberModel->getNumber()+1;
-        //$numberModel->setNumber($number);
         $year = $numberModel->getYear();
         $month = $numberModel->getMonth();
         $typesNames = [
@@ -72,7 +69,7 @@ class CreateDocumentHandler extends Handler
             ->setUuid($numberModel->getUuid())
             ->setNumber($number)
             ->update();
-        *////
+        ////////////
 
         $user = (new UserModel)
             ->load(User::getId());
@@ -80,7 +77,7 @@ class CreateDocumentHandler extends Handler
         $uuid = Common::getUuid();
         $documentId = (new DocumentModel)
             ->setUuid($uuid)
-            ->setName($request->getName())
+            ->setName($name)
             ->setContractorId($contractor->getId())
             ->setContractorAddressId($contractor->getAddressId())
             ->setOwnerAddressId($user->getAddressId())

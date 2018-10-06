@@ -1,0 +1,296 @@
+<style>
+    .contractor-data {
+        display: inline-block;
+        margin-left: 15px;
+        font-size: 1.25em;
+        font-weight: 400;
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .modal.contractor .row {
+        cursor: pointer;
+    }
+
+    .modal.product .row,
+    .modal.contractor .row {
+        cursor: pointer;
+        padding: 5px 10px 5px 10px;
+    }
+
+    .table.products {
+        padding: 0px 15px;
+        margin-bottom: 15px;
+    }
+
+    .table.products input,
+    .table.products select {
+        background: #fff !important;
+        border: 1px solid rgba(0, 0, 0, 0.15);
+        top: -4px;
+        position: relative;
+        width: 96%;
+        box-sizing: border-box;
+        margin: 0px 2%;
+    }
+
+    .table.products .row:hover input:hover,
+    .table.products .row select:hover {
+        border: 1px solid rgba(0, 0, 0, 0.4);
+    }
+
+    .table.products select {
+        height: 24px;
+    }
+
+    .material-icons.delete {
+        position: absolute;
+        left: 0px;
+        top: 3px;
+        font-size: 20px;
+        cursor: pointer;
+        opacity: 0.7;
+    }
+
+    .material-icons.delete:hover {
+        opacity: 0.6;
+    }
+
+    .table.products .col.count {
+        height: 16px;
+    }
+
+    .table.products .row,
+    .table.products .header,
+    .table.products .row:hover {
+        border-bottom: transparent;
+        padding: 5px 5px 5px 20px;
+        background: transparent;
+    }
+
+    .resume {
+        padding-right: 22px;
+        padding-bottom: 15px;
+    }
+
+    .resume strong {
+        width: 60px;
+        float: right;
+        position: relative;
+        margin-top: 2px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .resume p {
+        margin: 4px 0px;
+        font-size: 0.85em;
+        color: #aaa;
+    }
+
+    .table.products .header .col {
+        font-size: 0.9em;
+        padding: 0px 2px;
+    }
+
+    .contractor-data .mini {
+        font-size: 0.65em;
+        color: #666;
+    }
+
+    .contractor-data .text {
+        font-size: 14px;
+        color: #666;
+    }
+
+    textarea {
+        min-height: 75px;
+        display: block;
+        position: relative;
+    }
+
+    .col.name {
+        font-size: 11px;
+        font-weight: 400;
+        padding-top: 2px;
+    }
+
+    .kind,
+    .row.options {
+        float: left;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .modal .form-group.search {
+        padding-left: 45px;
+        position: relative;
+    }
+
+    .modal .material-icons.search {
+        position: absolute;
+        left: 0px;
+        font-size: 2.75em;
+    }
+
+</style>
+<div class="container">
+    <article>
+        <div class="row options" ng-class="{'show': data.document.type}">
+            <div class="col col-xs-7">
+                <div class="card">
+                    <div class="title">Dane podstawowe</div>
+                    <div class="form-group col col-xs-7">
+                        <label ng-class="{'error': data.validation.name&&!data.document.name}">Numer dokumentu</label>
+                        <input type="text" ng-model="data.document.name"
+                               ng-class="{'error': data.validation.name&&!data.document.name}"/>
+                    </div>
+                    <div class="form-group col col-xs-5">
+                        <label ng-class="{'error': data.validation.date&&!data.document.date}">Data wystawienia</label>
+                        <input placeholder="yyyy-mm-dd" type="text" ng-model="data.document.date"
+                               ng-class="{'error': data.validation.date&&!data.document.date}" class="date"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col col-xs-5">
+                <div class="card">
+                    <div class="title">Kontrahent</div>
+                    <div class="contractor-data">
+                        <div class="mini">{{data.contractor.name}}</div>
+                        <div class="name">{{data.contractor.address.name}}</div>
+                        <div class="text">{{data.contractor.address.firstName}} {{data.contractor.address.lastName}}
+                        </div>
+                        <div class="text">{{data.contractor.address.street}}</div>
+                        <div class="text">{{data.contractor.address.postcode}} {{data.contractor.address.city}}</div>
+                    </div>
+                    <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectContractor()">Wybierz
+                        kontrahenta
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="row options" ng-class="{'show': data.document.type}">
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Produkty/usługi</div>
+                    <button style="margin-bottom: 15px;margin-left: 15px;"
+                            ng-click="data.showSelectStock()">Dodaj
+                        pozycję
+                    </button>
+                    <div class="table products">
+                        <div class="header" ng-if="data.document.products.length>0">
+                            <div class="col col-xs-4">Nazwa produktu</div>
+                            <div class="col col-xs-1">VAT</div>
+                            <div class="col col-xs-2 right">Cena netto</div>
+                            <div class="col col-xs-1 center">Ilość</div>
+                            <div class="col col-xs-4">
+                                <div class="col col-xs-4 count right">W.netto</div>
+                                <div class="col col-xs-4 count right">W.VAT</div>
+                                <div class="col col-xs-4 count right">W.brutto</div>
+                            </div>
+                        </div>
+                        <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
+                            <i class="material-icons delete"
+                               ng-click="remove(data.document.products, product)">delete</i>
+                            <div class="col col-xs-4 name">{{product.name}}</div>
+                            <div class="col col-xs-1 count">
+                                <select ng-model="product.vat" ng-change="data.callcNet(product)">
+                                    <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
+                                </select>
+                            </div>
+                            <div class="col col-xs-2 count"><input class="right" type="text" ng-model="product.net"
+                                                                   ng-change="data.callcNet(product)"></div>
+                            <div class="col col-xs-1 count"><input class="center" type="text" ng-model="product.count"
+                                                                   ng-change="data.callcNet(product)"></div>
+                            <div class="col col-xs-4">
+                                <div class="col col-xs-4 count"><input class="right" type="text"
+                                                                       ng-model="product.sumNet"
+                                                                       ng-change="data.callcSumNet(product)"></div>
+                                <div class="col col-xs-4 count right" style="padding: 0px 3px;">{{product.sumVat}}</div>
+                                <div class="col col-xs-4 count"><input class="right" type="text"
+                                                                       ng-model="product.sumGross"
+                                                                       ng-change="data.callcSumGross(product)"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col col-xs-6" ng-if="data.document.products.length>0"></div>
+                    <div class="col col-xs-6 right resume" ng-if="data.document.products.length>0">
+                        <p>Łączna suma netto: <strong>{{data.document.sumNet}}</strong></p>
+                        <p>Podatek VAT: <strong>{{data.document.tax}}</strong></p>
+                        <p>Łączna suma brutto: <strong>{{data.document.sumGross}}</strong></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row options" ng-class="{'show': data.document.type}">
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Dodatkowe informacje</div>
+                    <div class="form-group col col-xs-12 textarea">
+                        <label>Opis</label>
+                        <textarea ng-model="data.document.description"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fixed-bottom options" ng-class="{'show': data.document.type}">
+            <button class="sender icon" ng-click="data.send()">Zapisz</button>
+        </div>
+    </article>
+</div>
+<div class="modal contractor" ng-class="{'show': data.contractorShow}">
+    <div class="content">
+        <div class="header">
+            <h3>Wybierz kontrahenta</h3><i ng-click="data.contractorHide()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="form-group col col-xs-12 search">
+                <i class="material-icons search">search</i>
+                <label>Nazwa kontrahenta</label>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
+            </div>
+            <div class="table" ng-if="data.contractors.length>0">
+                <div class="header row">
+                    <div class="col col-xs-4">Kod</div>
+                    <div class="col col-xs-8">Nazwa</div>
+                </div>
+                <div>
+                    <div ng-click="data.selectContractor(contractor)" class="row"
+                         ng-repeat="contractor in data.contractors">
+                        <div class="col col-xs-4">{{contractor.code}}</div>
+                        <div class="col col-xs-8">{{contractor.name}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal stock product" ng-class="{'show': data.stockShow}">
+    <div class="content">
+        <div class="header">
+            <h3>Wybierz produkt</h3><i ng-click="data.stockHide()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="form-group col col-xs-12 search">
+                <i class="material-icons search">search</i>
+                <label>Nazwa produktu</label>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadStock()" type="text" ng-model="data.find.name"/>
+            </div>
+            <div class="table" ng-if="data.stocks.length>0">
+                <div class="header row">
+                    <div class="col col-xs-3">SKU</div>
+                    <div class="col col-xs-7">Nazwa produktu</div>
+                    <div class="col col-xs-2 right">Ilość</div>
+                </div>
+                <div>
+                    <div ng-click="data.selectStock(stock)" class="row"
+                         ng-repeat="stock in data.stocks">
+                        <div class="col col-xs-3">{{stock.sku}}</div>
+                        <div class="col col-xs-7">{{stock.name}}</div>
+                        <div class="col col-xs-2 right">{{stock.count}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

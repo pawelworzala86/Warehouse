@@ -106,13 +106,13 @@ class DocumentProduct extends Type
         return $this->count;
     }
 
-    function setSku(SKU $sku): DocumentProduct
+    function setSku(SKU $sku = null): DocumentProduct
     {
         $this->sku = $sku;
         return $this;
     }
 
-    function getSku(): SKU
+    function getSku(): ?SKU
     {
         return $this->sku;
     }
@@ -128,13 +128,13 @@ class DocumentProduct extends Type
         return $this->id;
     }
 
-    function setName(string $name): DocumentProduct
+    function setName(string $name = null): DocumentProduct
     {
         $this->name = $name;
         return $this;
     }
 
-    function getName(): string
+    function getName(): ?string
     {
         return $this->name;
     }

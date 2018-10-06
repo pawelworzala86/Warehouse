@@ -93,12 +93,12 @@ class ProductModel extends Model
         return $this;
     }
 
-    public function getSku(): SKU
+    public function getSku(): ?SKU
     {
         return $this->sku;
     }
 
-    public function setSku(SKU $sku): ProductModel
+    public function setSku(SKU $sku = null): ProductModel
     {
         $this->set('sku', $sku);
         $this->sku = $sku;
@@ -153,7 +153,7 @@ class ProductModel extends Model
         return $this;
     }
 
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }

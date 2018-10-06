@@ -19,6 +19,19 @@ class OrderModel extends Model
     private $courierNumberSecond;
     private $pickup;
     private $prestaId;
+    private $date;
+
+    public function getDate(): ?string
+    {
+        return $this->date;
+    }
+
+    public function setDate(string $date = null): OrderModel
+    {
+        $this->set('date', $date);
+        $this->date = $date;
+        return $this;
+    }
 
     public function getPrestaId(): ?string
     {
@@ -82,7 +95,7 @@ class OrderModel extends Model
 
     public function getContractorId(): ?int
     {
-        return $this->courierPrice;
+        return $this->contractorId;
     }
 
     public function setContractorId(int $contractorId = null): OrderModel

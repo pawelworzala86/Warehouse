@@ -5,6 +5,9 @@ namespace App\Module\Integration\Handler;
 use App\Common;
 use App\Handler;
 use App\Module\Catalog\Model\ProductModel;
+use App\Module\Contractor\Model\AddressModel;
+use App\Module\Contractor\Model\ContractorContactModel;
+use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Files\Collection\FileCollection;
 use App\Module\Files\Request\GetFilesRequest;
 use App\Module\Files\Response\GetFilesResponse;
@@ -34,12 +37,13 @@ class PrestaRefreshHandler extends Handler
         $xml = $webService->get($opt);
         $prestaOrders = $xml->children()->children();
 
-        foreach($prestaOrders->order as $order) {
+        foreach ($prestaOrders->order as $order) {
             $orderId = (string)$order['id'];
 
-            $opt = array('resource' => 'orders', 'id' =>$orderId);
+            $opt = array('resource' => 'orders', 'id' => $orderId);
             $xml = $webService->get($opt);
             $prestaOrder = $xml->children()->children();
+            //print_r($prestaOrder);
 
             $orderModel = (new OrderModel)
                 ->where(
@@ -59,7 +63,7 @@ class PrestaRefreshHandler extends Handler
                         ->setValue($prestaOrder->id)
                 )
                 ->load();
-            if(!$orderModel->getId()) {
+            if (!$orderModel->getId()) {
                 (new OrderModel)
                     ->setUuid(Common::getUuid())
                     ->setNumber(substr_replace(Common::getUuid(), 0, 8))
@@ -67,6 +71,59 @@ class PrestaRefreshHandler extends Handler
                     ->setAddressId(1)
                     ->setPrestaId($prestaOrder->id)
                     ->insert();
+
+                $contractorModel = (new ContractorModel)
+                    ->where(
+                        (new Filter)
+                            ->setName('added_by')
+                            ->setKind(new FilterKind('='))
+                            ->setValue(User::getId())
+                    )->where(
+                        (new Filter)
+                            ->setName('deleted')
+                            ->setKind(new FilterKind('='))
+                            ->setValue(0)
+                    )->where(
+                        (new Filter)
+                            ->setName('presta_id')
+                            ->setKind(new FilterKind('='))
+                            ->setValue($prestaOrder->customer_id)
+                    )
+                    ->load();
+                //print_r($prestaOrder);
+                if (!$contractorModel->getId()) {
+                    $opt = array('resource' => 'customers', 'id' => $prestaOrder->id_customer);
+                    $xml = $webService->get($opt);
+                    $prestaCustomer = $xml->children()->children();
+
+                    $opt = array('resource' => 'addresses', 'id' => $prestaOrder->id_address_delivery);
+                    $xml = $webService->get($opt);
+                    $addressCustomer = $xml->children()->children();
+
+                    //print_r($addressCustomer);
+
+                    $addressId = (new AddressModel)
+                        ->setName(((string)$addressCustomer->company!=='')?$addressCustomer->company:$prestaCustomer->firstname.' '.$prestaCustomer->lastname)
+                        ->setFirstName($addressCustomer->firstname)
+                        ->setLastName($addressCustomer->lastname)
+                        ->setStreet($addressCustomer->address1.' '.$addressCustomer->address2)
+                        ->setPostcode($addressCustomer->postcode)
+                        ->setCity($addressCustomer->city)
+                        ->insert();
+
+                    $contactId = (new ContractorContactModel)
+                        ->setMail($prestaCustomer->email)
+                        ->setPhone($addressCustomer->phone)
+                        ->insert();
+
+                    (new ContractorModel)
+                        ->setUuid(Common::getUuid())
+                        ->setName(((string)$addressCustomer->company!=='')?$addressCustomer->company:$prestaCustomer->firstname.' '.$prestaCustomer->lastname)
+                        ->setAddressId($addressId)
+                        ->setContactId($contactId)
+                        ->insert();
+                    //print_r($prestaCustomer);
+                }
 
                 foreach ($prestaOrder->associations->order_rows->order_row as $row) {
                     $prestaProductId = (string)$row->product_id;
@@ -102,7 +159,7 @@ class PrestaRefreshHandler extends Handler
                             ->setPrestaId($prestaProductId)
                             ->setSellNet(round(($row->product_price / (123) * 100 / $row->product_quantity), 2))
                             ->setVat('23')
-                            ->setSellGross(round((string)$row->product_price/ $row->product_quantity, 2))
+                            ->setSellGross(round((string)$row->product_price / $row->product_quantity, 2))
                             ->insert();
                     } else {
                         $productId = $product->getId();
