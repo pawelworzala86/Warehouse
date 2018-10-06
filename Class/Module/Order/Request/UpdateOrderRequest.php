@@ -17,6 +17,42 @@ class UpdateOrderRequest extends UserRequest
     private $date;
     private $id;
     private $orderId;
+    private $sumNet;
+    private $sumGross;
+    private $sumVat;
+
+    public function getSumVat(): ?float
+    {
+        return $this->sumVat;
+    }
+
+    public function setSumVat(float $sumVat = null): UpdateOrderRequest
+    {
+        $this->sumVat = $sumVat;
+        return $this;
+    }
+
+    public function getSumGross(): ?float
+    {
+        return $this->sumGross;
+    }
+
+    public function setSumGross(float $sumGross = null): UpdateOrderRequest
+    {
+        $this->sumGross = $sumGross;
+        return $this;
+    }
+
+    public function getSumNet(): ?float
+    {
+        return $this->sumNet;
+    }
+
+    public function setSumNet(float $sumNet = null): UpdateOrderRequest
+    {
+        $this->sumNet = $sumNet;
+        return $this;
+    }
 
     public function getOrderId(): UUID
     {

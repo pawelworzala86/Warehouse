@@ -24,12 +24,12 @@ class ProductFilesModel extends Model
         return $this;
     }
 
-    public function getFileId(): int
+    public function getFileId(): ?int
     {
         return $this->fileId;
     }
 
-    public function setFileId(int $fileId): ProductFilesModel
+    public function setFileId(int $fileId = null): ProductFilesModel
     {
         $this->set('file_id', $fileId);
         $this->fileId = $fileId;

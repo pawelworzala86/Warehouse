@@ -62,8 +62,8 @@ class GetOrderHandler extends Handler
                     ->setVat($product->getVat())
                     ->setSumGross($product->getSumGross())
                     ->setSumNet($product->getSumNet())
-                    ->setSku($productModel->getSku())
-                    ->setName($productModel->getName())
+                    ->setSku($product->getSku())
+                    ->setName($product->getName())
                     ->setCount($product->getCount())
                     ->setProductId($productModel->getUuid())
             );
@@ -75,6 +75,9 @@ class GetOrderHandler extends Handler
             ->setName($order->getNumber())
             ->setContractorId($contractor->getUuid())
             ->setProducts($products)
-            ->setDate($order->getDate());
+            ->setDate($order->getDate())
+            ->setSumNet($order->getSumNet())
+            ->setSumVat($order->getSumVat())
+            ->setSumGross($order->getSumGross());
     }
 }

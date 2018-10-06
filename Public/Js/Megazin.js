@@ -1109,7 +1109,6 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             id: $routeParams.id,
             document: {
                 products: [],
-                stocks: [],
                 date: (date = new Date()).getFullYear() + '-' + ((month = (date.getMonth() + 1)) < 10 ? ('0' + month) : month) + '-' + date.getDate(),
             },
             validation: {
@@ -1163,7 +1162,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                     product.vat = product.vat + ''
                     $scope.data.callcNet(product)
                 })
-                $scope.data.refreshResume()
+                //$scope.data.refreshResume()
                 $scope.data.document.type = loadedType
             }, $routeParams.id);
         }
@@ -1206,7 +1205,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 $http.post(apiBase + '/orders', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
-                        $location.path('/orders/' + response.data.id, false);
+                        $location.path('/zamowienie/' + response.data.id, false);
                     }
                     //$scope.messages = response.data.errors
                 });
@@ -1215,7 +1214,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $scope.data.reloadContractor = () => {
             contractorSearch.get((response) => {
                 $scope.data.contractors = response.data.contractors
-            }, $scope.data.find.name, $scope.data.document.kind == 'add')
+            }, $scope.data.find.name, false)
         }
         $scope.data.reloadStock = () => {
             stockSearch.get((response) => {
@@ -1250,16 +1249,6 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         //$scope.data.reloadContractor()
         //$scope.data.reloadProduct()
         //$scope.data.reloadStock()
-        $scope.data.selectProduct = (product) => {
-            $scope.data.productShow = false
-            product.count = 1
-            product.vat = product.vat + ''
-            product.productId = product.id
-            delete product.id
-            $scope.data.document.products.push(product)
-            $scope.data.callcNet(product)
-            $scope.data.refreshResume()
-        }
         $scope.data.selectStock = (stock) => {
             $scope.data.stockShow = false
             stock.count = 1
@@ -1315,7 +1304,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             })
             $scope.data.document.sumNet = sumNet.toFixed(2)
             $scope.data.document.sumGross = sumGross.toFixed(2)
-            $scope.data.document.tax = (sumGross - sumNet).toFixed(2)
+            $scope.data.document.sumVat = (sumGross - sumNet).toFixed(2)
             $scope.data.refreshSummary()
         }
         $scope.data.refreshSummary = () => {
@@ -1323,15 +1312,25 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             angular.forEach($scope.data.document.products, (product) => {
                 sumGross += parseFloat(product.net) * parseFloat(product.count) * (100 + parseFloat(product.vat)) / 100
             })
-            if (!$routeParams.id) {
-                $scope.data.toPayRefresh()
-            }
         }
         if(!$routeParams.id) {
             $http.get(apiBase + '/document/number/ord').then((response) => {
                 $scope.data.document.name = response.data.name
                 $scope.data.document.documentNumberId = response.data.documentNumberId
             })
+        }
+        $scope.filter = () => {
+            $rootScope.filters = []
+            if ($scope.filters.sku) {
+                $rootScope.filters.push({
+                    name: 'number',
+                    kind: '%',
+                    value: $scope.filters.number,
+                })
+            }
+            $scope.orders = [];
+            pagination.page = 1;
+            loadPage()
         }
     })
 
@@ -1974,6 +1973,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $rootScope.filters = filters;
         $scope.filters = {
             number: '',
+            date: '',
         }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
@@ -2000,7 +2000,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         }
         loadPage();
         $rootScope.filterRefreshCallback = function () {
-            $scope.stocks = [];
+            $scope.orders = [];
             pagination.page = 1;
             loadPage();
         }
@@ -2013,7 +2013,14 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                     value: $scope.filters.number,
                 })
             }
-            $scope.stocks = [];
+            if ($scope.filters.date) {
+                $rootScope.filters.push({
+                    name: 'date',
+                    kind: '%',
+                    value: $scope.filters.date,
+                })
+            }
+            $scope.orders = [];
             pagination.page = 1;
             loadPage()
         }

@@ -60,6 +60,9 @@ class CreateOrderHandler extends Handler
             ->setContractorId($contractorModel->getId())
             ->setAddressId($contractorModel->getAddressId())
             ->setDate($request->getDate())
+            ->setSumNet($request->getSumNet())
+            ->setSumVat($request->getSumVat())
+            ->setSumGross($request->getSumGross())
             ->insert();
 
         $products = $request->getProducts();

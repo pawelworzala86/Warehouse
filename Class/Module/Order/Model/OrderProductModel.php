@@ -3,6 +3,7 @@
 namespace App\Module\Order\Model;
 
 use App\Model;
+use App\Type\SKU;
 use App\Type\UUID;
 
 class OrderProductModel extends Model
@@ -16,6 +17,32 @@ class OrderProductModel extends Model
     private $sumNet;
     private $sumGross;
     private $vat;
+    private $name;
+    private $sku;
+
+    public function getSku(): ?SKU
+    {
+        return $this->sku;
+    }
+
+    public function setSku(SKU $sku = null): OrderProductModel
+    {
+        $this->set('sku', $sku);
+        $this->sku = $sku;
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name = null): OrderProductModel
+    {
+        $this->set('name', $name);
+        $this->name = $name;
+        return $this;
+    }
 
     public function getVat(): ?string
     {

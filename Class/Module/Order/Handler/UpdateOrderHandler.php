@@ -36,6 +36,9 @@ class UpdateOrderHandler extends Handler
             ->setContractorId($contractorModel->getId())
             ->setAddressId($contractorModel->getAddressId())
             ->setDate($request->getDate())
+            ->setSumNet($request->getSumNet())
+            ->setSumVat($request->getSumVat())
+            ->setSumGross($request->getSumGross())
             ->update();
 
         $products = $request->getProducts();

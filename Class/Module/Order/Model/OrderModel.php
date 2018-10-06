@@ -20,6 +20,45 @@ class OrderModel extends Model
     private $pickup;
     private $prestaId;
     private $date;
+    private $sumNet;
+    private $sumGross;
+    private $sumVat;
+
+    public function getSumVat(): ?float
+    {
+        return $this->sumVat;
+    }
+
+    public function setSumVat(float $sumVat = null): OrderModel
+    {
+        $this->set('sum_vat', $sumVat);
+        $this->sumVat = $sumVat;
+        return $this;
+    }
+
+    public function getSumGross(): ?float
+    {
+        return $this->sumGross;
+    }
+
+    public function setSumGross(float $sumGross = null): OrderModel
+    {
+        $this->set('sum_gross', $sumGross);
+        $this->sumGross = $sumGross;
+        return $this;
+    }
+
+    public function getSumNet(): ?float
+    {
+        return $this->sumNet;
+    }
+
+    public function setSumNet(float $sumNet = null): OrderModel
+    {
+        $this->set('sum_net', $sumNet);
+        $this->sumNet = $sumNet;
+        return $this;
+    }
 
     public function getDate(): ?string
     {

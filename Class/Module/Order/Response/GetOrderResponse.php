@@ -22,6 +22,42 @@ class GetOrderResponse extends Response
     private $products;
     private $documentNumberId;
     private $date;
+    private $sumNet;
+    private $sumGross;
+    private $sumVat;
+
+    public function getSumVat(): ?float
+    {
+        return $this->sumVat;
+    }
+
+    public function setSumVat(float $sumVat = null): GetOrderResponse
+    {
+        $this->sumVat = $sumVat;
+        return $this;
+    }
+
+    public function getSumGross(): ?float
+    {
+        return $this->sumGross;
+    }
+
+    public function setSumGross(float $sumGross = null): GetOrderResponse
+    {
+        $this->sumGross = $sumGross;
+        return $this;
+    }
+
+    public function getSumNet(): ?float
+    {
+        return $this->sumNet;
+    }
+
+    public function setSumNet(float $sumNet = null): GetOrderResponse
+    {
+        $this->sumNet = $sumNet;
+        return $this;
+    }
 
     public function getDate(): ?string
     {

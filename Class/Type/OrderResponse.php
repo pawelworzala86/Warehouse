@@ -19,6 +19,54 @@ class OrderResponse extends Type
     private $documentId;
     private $pickup;
     private $products;
+    private $date;
+    private $sumNet;
+    private $sumGross;
+    private $sumVat;
+
+    public function getSumVat(): ?float
+    {
+        return $this->sumVat;
+    }
+
+    public function setSumVat(float $sumVat = null): OrderResponse
+    {
+        $this->sumVat = $sumVat;
+        return $this;
+    }
+
+    public function getSumGross(): ?float
+    {
+        return $this->sumGross;
+    }
+
+    public function setSumGross(float $sumGross = null): OrderResponse
+    {
+        $this->sumGross = $sumGross;
+        return $this;
+    }
+
+    public function getSumNet(): ?float
+    {
+        return $this->sumNet;
+    }
+
+    public function setSumNet(float $sumNet = null): OrderResponse
+    {
+        $this->sumNet = $sumNet;
+        return $this;
+    }
+
+    public function getDate(): ?string
+    {
+        return $this->date;
+    }
+
+    public function setDate(string $date = null): OrderResponse
+    {
+        $this->date = $date;
+        return $this;
+    }
 
     public function getProducts(): DocumentProducts
     {

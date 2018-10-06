@@ -14,7 +14,7 @@ class SKU extends Type
         return $this;
     }
 
-    function getSku(): string
+    function getSku(): ?string
     {
         return $this->sku;
     }

@@ -34,7 +34,7 @@ class PrestaRefreshHandler extends Handler
     public function __invoke(EmptyRequest $request): SuccessResponse
     {
         define('PS_HOST_NAME', 'prestashop.localhost');
-        define('PS_SHOP_PATH', 'http://'.PS_HOST_NAME);
+        define('PS_SHOP_PATH', 'http://' . PS_HOST_NAME);
         define('PS_WS_AUTH_KEY', 'GV5QM1CQP218HD2SIRVX1LENDFAIVM8S');
 
         $webService = new \PrestaShopWebservice(PS_SHOP_PATH, PS_WS_AUTH_KEY, false);
@@ -88,7 +88,7 @@ class PrestaRefreshHandler extends Handler
                             ->setValue($type)
                     )
                     ->load();
-                if(!$numberModel->getId()){
+                if (!$numberModel->getId()) {
                     $id = (new DocumentNumberModel)
                         ->setUuid(Common::getUuid())
                         ->setNumber(0)
@@ -99,21 +99,27 @@ class PrestaRefreshHandler extends Handler
                     $numberModel = (new DocumentNumberModel)
                         ->load($id);
                 }
-                $number = $numberModel->getNumber()+1;
+                $number = $numberModel->getNumber() + 1;
                 $year = $numberModel->getYear();
                 $month = $numberModel->getMonth();
                 $typesNames = [
-                    'fvp'=>'FV-Z',
-                    'pz'=>'PZ',
-                    'fvs'=>'FV',
-                    'wz'=>'WZ',
-                    'ord'=>'Z',
+                    'fvp' => 'FV-Z',
+                    'pz' => 'PZ',
+                    'fvs' => 'FV',
+                    'wz' => 'WZ',
+                    'ord' => 'Z',
                 ];
-                $name = $typesNames[$type].'/'.$number.'/'.$year;
+                $name = $typesNames[$type] . '/' . $number . '/' . $year;
                 (new DocumentNumberModel)
                     ->setUuid($numberModel->getUuid())
                     ->setNumber($number)
                     ->update();
+
+                $gross = (float)$prestaOrder->total_paid;
+                $vat = ((float)$prestaOrder->total_paid / 123) * 100;
+                $net = $gross - $vat;
+
+                $shippingPrice = (float)$prestaOrder->total_shipping;
 
                 (new OrderModel)
                     ->setUuid(Common::getUuid())
@@ -122,6 +128,9 @@ class PrestaRefreshHandler extends Handler
                     ->setAddressId(1)
                     ->setPrestaId($prestaOrder->id)
                     ->setDate(date("Y-m-d", time()))
+                    ->setSumNet($net)
+                    ->setSumVat($vat)
+                    ->setSumGross($gross)
                     ->insert();
 
                 $contractorModel = (new ContractorModel)
@@ -155,10 +164,10 @@ class PrestaRefreshHandler extends Handler
                     //print_r($addressCustomer);
 
                     $addressId = (new AddressModel)
-                        ->setName(((string)$addressCustomer->company!=='')?$addressCustomer->company:$prestaCustomer->firstname.' '.$prestaCustomer->lastname)
+                        ->setName(((string)$addressCustomer->company !== '') ? $addressCustomer->company : $prestaCustomer->firstname . ' ' . $prestaCustomer->lastname)
                         ->setFirstName($addressCustomer->firstname)
                         ->setLastName($addressCustomer->lastname)
-                        ->setStreet($addressCustomer->address1.' '.$addressCustomer->address2)
+                        ->setStreet($addressCustomer->address1 . ' ' . $addressCustomer->address2)
                         ->setPostcode($addressCustomer->postcode)
                         ->setCity($addressCustomer->city)
                         ->insert();
@@ -170,7 +179,7 @@ class PrestaRefreshHandler extends Handler
 
                     (new ContractorModel)
                         ->setUuid(Common::getUuid())
-                        ->setName(((string)$addressCustomer->company!=='')?$addressCustomer->company:$prestaCustomer->firstname.' '.$prestaCustomer->lastname)
+                        ->setName(((string)$addressCustomer->company !== '') ? $addressCustomer->company : $prestaCustomer->firstname . ' ' . $prestaCustomer->lastname)
                         ->setAddressId($addressId)
                         ->setContactId($contactId)
                         ->insert();
@@ -184,11 +193,11 @@ class PrestaRefreshHandler extends Handler
                     //$xml = $webService->get($opt);
                     //$prestaProduct = $xml->children()->children();
                     //foreach($prestaProduct->associations->images->image as $image){
-                        //$imageId = $image['id'];
-                        /*$opt = array('resource' => 'images/products', 'id' =>$imageId);
-                        $xml = $webService->get($opt);
-                        $prestaImage = $xml->children()->children();
-                        print_r($prestaImage);*/
+                    //$imageId = $image['id'];
+                    /*$opt = array('resource' => 'images/products', 'id' =>$imageId);
+                    $xml = $webService->get($opt);
+                    $prestaImage = $xml->children()->children();
+                    print_r($prestaImage);*/
                     //}
 
                     $product = (new ProductModel)
@@ -216,25 +225,25 @@ class PrestaRefreshHandler extends Handler
                             ->setName($row->product_name)
                             ->setSku(new SKU(substr_replace(Common::getUuid(), 0, 8)))
                             ->setPrestaId($prestaProductId)
-                            ->setSellNet(round(($row->product_price / (123) * 100 / $row->product_quantity), 2))
+                            ->setSellNet(round((float)$row->unit_price_tax_excl, 2))
                             ->setVat('23')
-                            ->setSellGross(round((string)$row->product_price / $row->product_quantity, 2))
+                            ->setSellGross(round((float)$row->unit_price_tax_incl, 2))
                             ->insert();
-                        $opt = array('resource' => 'images/products', 'id' =>$productId);
+                        $opt = array('resource' => 'images/products', 'id' => $productId);
                         $xml = $webService->get($opt);
                         $prestaImage = $xml->children()->children();
                         $index = 1;
-                        foreach($prestaImage->declination as $img){
-                            $data = @file_get_contents($url = 'http://'.PS_WS_AUTH_KEY.'@'.PS_HOST_NAME.'/api/images/products/'.$prestaProductId.'/'.$img['id']);
-                            $name = trim(strtok($row->product_name.($index++), '?'));
+                        foreach ($prestaImage->declination as $img) {
+                            $data = @file_get_contents($url = 'http://' . PS_WS_AUTH_KEY . '@' . PS_HOST_NAME . '/api/images/products/' . $prestaProductId . '/' . $img['id']);
+                            $name = trim(strtok($row->product_name . ($index++), '?'));
                             $name = str_replace(' ', '-', $name);
-                            file_put_contents(DIR.'/Files/'.$name.'.jpg', $data);
+                            file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);
                             $fileUuid = (new File)
                                 ->setName($name)
                                 ->setType('image/jpg')
                                 ->setUuid(Common::getUuid())
-                                ->setUrl('/Files/'.$name.'.jpg')
-                                ->setSize(filesize(DIR.'/Files/'.$name.'.jpg'))
+                                ->setUrl('/Files/' . $name . '.jpg')
+                                ->setSize(filesize(DIR . '/Files/' . $name . '.jpg'))
                                 ->save();
                             $fileModel = (new FileModel)
                                 ->load($fileUuid, true);
@@ -247,22 +256,62 @@ class PrestaRefreshHandler extends Handler
                     } else {
                         $productId = $product->getId();
                     }
-                    //print_r($row);
+                    print_r([$row]);
                     (new OrderProductModel)
                         ->setUuid(Common::getUuid())
                         ->setProductId($productId)
                         ->setOrderId($orderId)
-                        ->setCount((string)$row->product_quantity)
-                        ->setNet(round(($row->product_price / (123) * 100 / $row->product_quantity), 2))
+                        ->setCount((float)$row->product_quantity)
+                        ->setNet(round((float)$row->unit_price_tax_excl, 2))
                         ->setVat('23')
-                        ->setSumNet(round($row->product_price / (123) * 100, 2))
-                        ->setSumGross(round((string)$row->product_price, 2))
+                        ->setSumNet(round((float)$row->unit_price_tax_excl * (float)$row->product_quantity, 2))
+                        ->setSumGross(round((float)$row->unit_price_tax_incl * (float)$row->product_quantity, 2))
+                        ->setSku(new SKU(substr(Common::getUuid(), 0, 6)))
+                        ->setName($row->product_name)
                         ->insert();
                 }
+
+                $productModel = (new ProductModel)
+                    ->where(
+                        (new Filter)
+                            ->setName('added_by')
+                            ->setKind(new FilterKind('='))
+                            ->setValue(User::getId())
+                    )->where(
+                        (new Filter)
+                            ->setName('deleted')
+                            ->setKind(new FilterKind('='))
+                            ->setValue(0)
+                    )->where(
+                        (new Filter)
+                            ->setName('name')
+                            ->setKind(new FilterKind('='))
+                            ->setValue('Przesyłka')
+                    )->load();
+                $productId = $productModel->getId();
+                if (!$productId) {
+                    $productId = (new ProductModel)
+                        ->setUuid(Common::getUuid())
+                        ->setSku(new SKU(''))
+                        ->setName('Przesyłka')
+                        ->insert();
+                }
+
+                (new OrderProductModel)
+                    ->setUuid(Common::getUuid())
+                    ->setProductId($productId)
+                    ->setSku(new SKU(''))
+                    ->setName('Przesyłka')
+                    ->setOrderId($orderId)
+                    ->setCount(1)
+                    ->setNet(round($shippingPrice / (123) * 100, 2))
+                    ->setVat('23')
+                    ->setSumNet(round($shippingPrice / (123) * 100, 2))
+                    ->setSumGross(round($shippingPrice, 2))
+                    ->insert();
             }
         }
 
-        exit;
         return new SuccessResponse;
     }
 }

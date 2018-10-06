@@ -158,8 +158,10 @@
         <div class="header">
             <input ng-show="orders.length>0" type="checkbox" id="chbx" ng-click="checkAll(orders)"><label ng-show="orders.length>0" for="chbx" class="checkbox"></label>
             <div class="filters">
-                <div class="col col-xs-12"><input class="number" ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                <div class="col col-xs-4"><input class="number" ng-model-options="{ allowInvalid: true, debounce: 750 }"
                                                   placeholder="Numer zamówienia" type="text" ng-model="filters.number" ng-change="filter()"></div>
+                <div class="col col-xs-4"><input style="margin-left: 9px;" class="date" ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                 placeholder="Data zamówienia" type="text" ng-model="filters.date" ng-change="filter()"></div>
             </div>
             <!--<div class="container" ng-show="stocks.length>0">
                 <div class="col col-xs-2">SKU</div>
@@ -175,7 +177,8 @@
                 <input type="checkbox" id="chbx{{order.id}}" ng-click="check(order)"><label for="chbx{{order.id}}"
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in" ng-click="loadDetail('/order', orders, order)">zoom_in</i>
-                <div class="col col-xs-12">{{order.number}}</div>
+                <div class="col col-xs-4">{{order.number}}</div>
+                <div class="col col-xs-8">{{order.date}}</div>
 
                 <div class="col col-xs-12 products table">
                     <div class="product row header">
@@ -186,7 +189,7 @@
                         <div class="col col-xs-2 right">W.brutto</div>
                     </div>
                     <div class="product row" ng-repeat="product in order.products">
-                        <div class="col col-xs-1"><img src="{{product.imageUrl}}"></div>
+                        <div class="col col-xs-1"><img ng-if="product.imageUrl" src="{{product.imageUrl}}"></div>
                         <div class="col col-xs-2"><img src="{{product.sku}}"></div>
                         <div class="col col-xs-6">{{product.name}}</div>
                         <div class="col col-xs-1 right">{{product.count}}</div>

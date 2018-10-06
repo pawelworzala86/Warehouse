@@ -102,7 +102,7 @@ class GetOrdersHandler extends Handler
                         ->setSumGross($product->getSumGross())
                         ->setVat($product->getVat())
                         ->setName($prod->getName())
-                        ->setImageUrl($file->getUrl())
+                        ->setImageUrl($file->getId()?$file->getUrl():null)
                 );
                 $productsCollection->next();
             }
@@ -117,6 +117,10 @@ class GetOrdersHandler extends Handler
                     ->setDocumentId($document->getUuid())
                     ->setPickup($order->getPickup())
                     ->setProducts($products)
+                    ->setDate($order->getDate())
+                    ->setSumNet($order->getSumNet())
+                    ->setSumVat($order->getSumVat())
+                    ->setSumGross($order->getSumGross())
             );
             $ordersCollection->next();
         }
