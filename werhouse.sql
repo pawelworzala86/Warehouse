@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Czas generowania: 05 Paź 2018, 23:19
+-- Czas generowania: 06 Paź 2018, 14:03
 -- Wersja serwera: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- Wersja PHP: 7.2.10-0ubuntu0.18.04.1
 
@@ -94,7 +94,8 @@ CREATE TABLE `contractor` (
   `code` varchar(90) DEFAULT NULL,
   `contact_id` int(11) DEFAULT NULL,
   `nip` varchar(250) DEFAULT NULL,
-  `supplier` tinyint(1) DEFAULT '0'
+  `supplier` tinyint(1) DEFAULT '0',
+  `presta_id` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -273,7 +274,7 @@ CREATE TABLE `ip` (
 
 INSERT INTO `ip` (`id`, `ip`, `user_id`, `date`) VALUES
 (1, 1, NULL, 1538281370),
-(2, 1, 1, 1538774244);
+(2, 1, 1, 1538827359);
 
 -- --------------------------------------------------------
 
@@ -302,7 +303,12 @@ CREATE TABLE `order` (
   `document_id` int(11) DEFAULT NULL,
   `courier_number_second` varchar(250) DEFAULT NULL,
   `pickup` varchar(250) DEFAULT NULL,
-  `presta_id` varchar(250) DEFAULT NULL
+  `presta_id` varchar(250) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `sum_net` float DEFAULT NULL,
+  `sum_gross` float DEFAULT NULL,
+  `sum_vat` float DEFAULT NULL,
+  `total_paid` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -329,7 +335,9 @@ CREATE TABLE `order_product` (
   `net` float DEFAULT NULL,
   `sum_net` float DEFAULT NULL,
   `sum_gross` float DEFAULT NULL,
-  `vat` varchar(10) DEFAULT NULL
+  `vat` varchar(10) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `sku` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -557,7 +565,7 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`sessid`, `access`, `data`, `ip_id`, `user_id`, `deleted`) VALUES
-(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538774244, 'userId|i:1;', 2, 1, NULL);
+(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538827359, 'userId|i:1;', 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -583,6 +591,29 @@ CREATE TABLE `stock` (
   `document_product_id` int(11) DEFAULT NULL,
   `stock_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `stock`
+--
+
+INSERT INTO `stock` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `product_id`, `count`, `document_id`, `document_product_id`, `stock_id`) VALUES
+(1, 0x5c514d5a937871b192c18646aa841f03, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 6, 100, 2, 1, NULL),
+(2, 0x023f391a3c99fb642b7365f626bfaab0, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 5, 100, 2, 2, NULL),
+(3, 0xb5726a66b7dd8b56b253d2f8f9cf9763, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 4, 100, 2, 3, NULL),
+(4, 0xf121cb0ab098f65dd251254fd2073438, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 3, 100, 2, 4, NULL),
+(5, 0x32709cddca1cac0bdf1ff5dab6cd17ad, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 2, 100, 2, 5, NULL),
+(6, 0x9cf1598795b94b790b87314031501a63, 1538798860, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, 100, 0, 57424, NULL),
+(7, 0x0b0a4826b8af672cd235b34dd58dfdd2, 1538798936, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, 100, 10, 57425, NULL),
+(8, 0xf165fa6d18399bdc4572a4c9a6004880, 1538798964, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, 1, 11, 57426, NULL),
+(9, 0x654a9345f6c78b61300014d94114b815, 1538799007, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, -1, 12, 57428, 6),
+(10, 0xba8f9986137606f14d7a16535a120a1a, 1538799064, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 2, 100, 14, 57430, NULL),
+(11, 0x252051fd9199ac6d6c6f2f73316b75d5, 1538799064, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, 100, 14, 57431, NULL),
+(12, 0x6967386763857c41ac113c41f475c335, 1538799070, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 15, 57433, 11),
+(13, 0x0a89a2bb5ca70b707cff733f8f3f161d, 1538799285, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 16, 57435, 11),
+(14, 0x87f604f996fa70c6f6184d77907159ab, 1538799316, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 17, 57437, 11),
+(15, 0xd8b6ca25b1046843d7997ff96dfb8183, 1538801760, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, -1, 18, 57439, 6),
+(16, 0x3baf214010d9f12c733414b3622f51f6, 1538801815, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 19, 57441, 11),
+(17, 0xca4c0f5d33f57a8762646099adf3ddcf, 1538816034, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 5, -7, 20, 57442, 2);
 
 -- --------------------------------------------------------
 
@@ -624,15 +655,19 @@ CREATE TABLE `user` (
   `mail` varchar(250) DEFAULT NULL,
   `password` varchar(250) DEFAULT NULL,
   `address_id` int(11) DEFAULT NULL,
-  `contact_id` int(11) DEFAULT NULL
+  `contact_id` int(11) DEFAULT NULL,
+  `bank_name` varchar(250) DEFAULT NULL,
+  `bank_swift` varchar(250) DEFAULT NULL,
+  `issue_place` varchar(250) DEFAULT NULL,
+  `bank_number` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
 -- Zrzut danych tabeli `user`
 --
 
-INSERT INTO `user` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `address_id`, `contact_id`) VALUES
-(1, 0x05867f4d98570fd6716b73dc00976b21, 1523047519, NULL, 1, 1538283127, 1, 2, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 4, 2);
+INSERT INTO `user` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `address_id`, `contact_id`, `bank_name`, `bank_swift`, `issue_place`, `bank_number`) VALUES
+(1, 0x05867f4d98570fd6716b73dc00976b21, 1523047519, NULL, 1, 1538801718, 1, 2, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 4, 2, 'mBank', 'SWIFT', 'Elbląg', '132456456465456465');
 
 -- --------------------------------------------------------
 
@@ -1052,7 +1087,7 @@ ALTER TABLE `root_todo`
 -- AUTO_INCREMENT dla tabeli `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
 
 --
 -- AUTO_INCREMENT dla tabeli `user`
