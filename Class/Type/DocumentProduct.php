@@ -17,6 +17,18 @@ class DocumentProduct extends Type
     private $sumGross;
     private $issuePlace;
     private $productId;
+    private $imageUrl;
+
+    public function getImageUrl(): ?string
+    {
+        return $this->imageUrl;
+    }
+
+    public function setImageUrl(string $imageUrl = null): DocumentProduct
+    {
+        $this->imageUrl = $imageUrl;
+        return $this;
+    }
 
     public function getProductId(): ?UUID
     {

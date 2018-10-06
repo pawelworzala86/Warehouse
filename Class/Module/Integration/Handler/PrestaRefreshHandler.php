@@ -227,6 +227,7 @@ class PrestaRefreshHandler extends Handler
                         foreach($prestaImage->declination as $img){
                             $data = @file_get_contents($url = 'http://'.PS_WS_AUTH_KEY.'@'.PS_HOST_NAME.'/api/images/products/'.$prestaProductId.'/'.$img['id']);
                             $name = trim(strtok($row->product_name.($index++), '?'));
+                            $name = str_replace(' ', '-', $name);
                             file_put_contents(DIR.'/Files/'.$name.'.jpg', $data);
                             $fileUuid = (new File)
                                 ->setName($name)

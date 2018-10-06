@@ -121,6 +121,9 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
+    .table.products img{
+        width: 50px;
+    }
 </style>
 <div class="container orders">
     <div class="buttons">
@@ -176,12 +179,16 @@
 
                 <div class="col col-xs-12 products table">
                     <div class="product row header">
-                        <div class="col col-xs-9">Produkt</div>
+                        <div class="col col-xs-1"> </div>
+                        <div class="col col-xs-2">SKU</div>
+                        <div class="col col-xs-6">Produkt</div>
                         <div class="col col-xs-1 right">Ilość</div>
                         <div class="col col-xs-2 right">W.brutto</div>
                     </div>
                     <div class="product row" ng-repeat="product in order.products">
-                        <div class="col col-xs-9">{{product.name}}</div>
+                        <div class="col col-xs-1"><img src="{{product.imageUrl}}"></div>
+                        <div class="col col-xs-2"><img src="{{product.sku}}"></div>
+                        <div class="col col-xs-6">{{product.name}}</div>
                         <div class="col col-xs-1 right">{{product.count}}</div>
                         <div class="col col-xs-2 right">{{product.sumGross}}</div>
                     </div>

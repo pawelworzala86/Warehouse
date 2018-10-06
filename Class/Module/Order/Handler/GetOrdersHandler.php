@@ -3,8 +3,10 @@
 namespace App\Module\Order\Handler;
 
 use App\Handler;
+use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Document\Model\DocumentModel;
+use App\Module\Files\Model\FileModel;
 use App\Module\Order\Collection\OrderCollection;
 use App\Module\Order\Collection\OrderProductCollection;
 use App\Module\Order\Model\OrderProductModel;
@@ -71,6 +73,25 @@ class GetOrdersHandler extends Handler
             while ($product = $productsCollection->current()) {
                 $prod = (new ProductModel)
                     ->load($product->getProductId());
+                $productFileModel = (new ProductFilesModel)
+                    ->where(
+                        (new Filter)
+                        ->setName('added_by')
+                        ->setKind(new FilterKind('='))
+                        ->setValue(User::getId())
+                    )->where(
+                        (new Filter)
+                        ->setName('deleted')
+                        ->setKind(new FilterKind('='))
+                        ->setValue(0)
+                    )->where(
+                        (new Filter)
+                        ->setName('product_id')
+                        ->setKind(new FilterKind('='))
+                        ->setValue($prod->getId())
+                    )->load();
+                $file = (new FileModel)
+                    ->load($productFileModel->getFileId());
                 $products->add(
                     (new DocumentProduct)
                         ->setId($product->getUuid())
@@ -81,6 +102,7 @@ class GetOrdersHandler extends Handler
                         ->setSumGross($product->getSumGross())
                         ->setVat($product->getVat())
                         ->setName($prod->getName())
+                        ->setImageUrl($file->getUrl())
                 );
                 $productsCollection->next();
             }
