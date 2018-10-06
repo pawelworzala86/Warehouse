@@ -1,0 +1,113 @@
+<style>
+    .zoom-in {
+        float: left;
+        position: absolute;
+        margin-top: -3px;
+        left: 24px;
+        cursor: pointer;
+    }
+
+    .zoom-in:hover {
+        opacity: 0.8;
+    }
+
+    .table .row, .table .header {
+        padding: 5px 50px 5px 50px;
+    }
+    .table.debtors .row,
+    .table.debtors .header{
+        padding: 5px;
+        padding-left: 30px;
+    }
+    .table.documents .row,
+    .table.documents .header {
+        padding-left: 5px;
+    }
+    .table.documents{
+        font-size: 0.85em;
+        margin-bottom: 25px;
+    }
+    .table.documents .buttons {
+        position: relative;
+        top: 0;
+        float: left;
+        margin-top: 5px;
+    }
+</style>
+<div class="container debtors">
+    <div class="table debtors" ng-controller="selectTableController">
+        {{setSelectOptions('/debtor', 'name', 'debtors')}}
+        <div ng-show="selects.length>0" class="box">
+            <div class="header">Zaznaczone elementy</div>
+            <div class="body">
+                <div class="selects">
+                    <div class="select" ng-repeat="select in $root.selects">
+                        {{select.name}}
+                        <i data-nodrag="" class="material-icons"
+                           ng-click="delSelect(select, contractors)">delete_forever</i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="buttons">
+                    <button class="small" ng-click="massPdf(selects)">Pobierz PDF</button>
+                    <button class="small" ng-click="massXls(selects)">Pobierz XLS</button>
+                    <button class="small danger" ng-click="massDelete(contractors, selects)">Usuń</button>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <input type="checkbox" id="chbx" ng-click="checkAll(debtors)"><label for="chbx"
+                                                                                     class="checkbox"></label>
+            <div class="filters">
+                <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                 placeholder="Kod" type="text" ng-model="filters.code"
+                                                 ng-change="filter()"></div>
+                <div class="col col-xs-8"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                 placeholder="Nazwa" type="text" ng-model="filters.name"
+                                                 ng-change="filter()"></div>
+                <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                 placeholder="Dług" type="text" ng-model="filters.debt"
+                                                 ng-change="filter()"
+                                                 class="right"></div>
+            </div>
+            <!--<div class="container" ng-show="contractors.length>0">
+                <div class="col col-xs-2">Numer</div>
+            </div>-->
+        </div>
+        <div ng-class="{'selected': debtor.selected, 'deleted': debtor.deleted}" class="row"
+             ng-repeat="debtor in debtors">
+            <div class="head">
+                <input type="checkbox" id="chbx{{debtor.id}}" ng-click="check(debtor)"><label
+                    for="chbx{{debtor.id}}"
+                    class="checkbox"></label>
+                <div class="col col-xs-2">{{debtor.code}}</div>
+                <div class="col col-xs-8">{{debtor.name}}</div>
+                <div class="col col-xs-2 right">{{debtor.debt}}</div>
+                <div class="col col-xs-12 table documents">
+                    <div class="header">
+                        <div class="col col-xs-3">Numer</div>
+                        <div class="col col-xs-3">Data wystawienia</div>
+                        <div class="col col-xs-3 right">W.brutto</div>
+                        <div class="col col-xs-3 right">Do zapłaty</div>
+                    </div>
+                    <div class="row" ng-repeat="document in debtor.documents">
+                        <div class="col col-xs-3">{{document.name}}</div>
+                        <div class="col col-xs-3">{{document.date}}</div>
+                        <div class="col col-xs-3 right">{{document.gross}}</div>
+                        <div class="col col-xs-3 right">{{document.toPay}}</div>
+                    </div>
+                    <div class="buttons">
+                        <a>Wyślij przypomnienie</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="debtors.length==0" class="table-empty">
+            <p>Brak danych w tabeli do wyświetlenia</p>
+        </div>
+        <fluentLoader ng-click="fluentLoad()">
+            <p>Pokaż więcej wyników</p>
+        </fluentLoader>
+    </div>
+</div>

@@ -30,3 +30,10 @@ document.uuid as uuid, document.id as id, document.name, document.`date`, docume
 contractor.uuid as contractor_id
 from document
 left join contractor on contractor.id=document.contractor_id
+
+create or replace view debtor_view as
+select
+uuid, id, added_by, deleted, coalesce(round((select sum(to_pay) from document where contractor_id=contractor.id), 2), 0) as debt,
+name, `code`
+from
+contractor

@@ -15,4 +15,6 @@ return [
     Router::get('/contractor/{id}', Handler\GetContractorHandler::class),
     Router::put('/contractor/{id}', Handler\UpdateContractorHandler::class),
     Router::delete('/contractor/{id}', Handler\DeleteContractorHandler::class),
+
+    Router::get('/debtor', Handler\GetDebtorsHandler::class),
 ];
