@@ -37,6 +37,18 @@ class GetDocumentResponse extends Response
     private $kind;
     private $type;
     private $nameFrom;
+    private $productionName;
+
+    public function getProductionName(): ?string
+    {
+        return $this->productionName;
+    }
+
+    public function setProductionName(string $productionName = null): GetDocumentResponse
+    {
+        $this->productionName = $productionName;
+        return $this;
+    }
 
     public function getNameFrom(): ?string
     {

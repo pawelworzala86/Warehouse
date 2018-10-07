@@ -54,9 +54,12 @@ group by
 
 create or replace view cash_document_view as SELECT
 cash_document.id, cash_document.uuid, cash_document.number, cash_document.added_by,
-cash_document.amount, cash_document.kind, cash_document.added, cash_document.`date`
+cash_document.amount, cash_document.kind, cash_document.added, cash_document.`date`,
+DATE_FORMAT(FROM_UNIXTIME(cash_document.added), "%k:%i") as hour,
+document.name as document_number, document.uuid as document_id
 FROM
 cash_document
+left join document on document.id=cash_document.document_id
 
 
 

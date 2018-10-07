@@ -31,6 +31,18 @@ class CreateDocumentRequest extends UserRequest
     private $nameFrom;
     private $documentNumberId;
     private $productionId;
+    private $cashDocument;
+
+    public function setCashDocument(bool $cashDocument = false): CreateDocumentRequest
+    {
+        $this->cashDocument = $cashDocument;
+        return $this;
+    }
+
+    public function getCashDocument(): ?bool
+    {
+        return $this->cashDocument;
+    }
 
     public function setProductionId(string $productionId = null): CreateDocumentRequest
     {

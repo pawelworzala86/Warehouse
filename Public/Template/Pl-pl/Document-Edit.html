@@ -227,7 +227,7 @@
                     <div ng-if="data.document.type=='rw'" class="title">Wydanie do produkcji</div>
                     <div ng-if="data.document.type=='pw'" class="title">Przychód z produkcji</div>
                     <div class="production">
-                        <div class="name">{{data.production.name}}</div>
+                        <div class="name">{{data.production.name}}{{data.document.productionName}}</div>
                     </div>
                 </div>
             </div>
@@ -341,7 +341,17 @@
                 </div>
             </div>
         </div>
-        <div class="fixed-bottom options" ng-class="{'show': data.document.type}">
+        <div class="row settings" ng-if="data.document.type">
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Ustawienia dodatkowe</div>
+                    <div class="form-group col col-xs-4 checkbox" ng-if="data.document.type=='fvs'">
+                        <input type="checkbox" ng-model="data.cashDocument"/><label>Wystaw KP</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div ng-if="data.document.type">
             <button class="sender icon" ng-click="data.send()">Zapisz</button>
         </div>
     </article>

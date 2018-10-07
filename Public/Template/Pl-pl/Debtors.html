@@ -33,6 +33,10 @@
         float: left;
         margin-top: 5px;
     }
+    .table.documents .after-term{
+        font-weight: 500;
+        color: #f66;
+    }
 </style>
 <div class="container debtors">
     <div class="table debtors" ng-controller="selectTableController">
@@ -88,14 +92,16 @@
                     <div class="header">
                         <div class="col col-xs-3">Numer</div>
                         <div class="col col-xs-3">Data wystawienia</div>
-                        <div class="col col-xs-3 right">W.brutto</div>
-                        <div class="col col-xs-3 right">Do zapłaty</div>
+                        <div class="col col-xs-2">Termin płatności</div>
+                        <div class="col col-xs-2 right">W.brutto</div>
+                        <div class="col col-xs-2 right">Do zapłaty</div>
                     </div>
                     <div class="row" ng-repeat="document in debtor.documents">
                         <div class="col col-xs-3">{{document.name}}</div>
                         <div class="col col-xs-3">{{document.date}}</div>
-                        <div class="col col-xs-3 right">{{document.gross}}</div>
-                        <div class="col col-xs-3 right">{{document.toPay}}</div>
+                        <div class="col col-xs-2" ng-class="{'after-term': document.payTerm}">{{document.payDate}}</div>
+                        <div class="col col-xs-2 right">{{document.gross}}</div>
+                        <div class="col col-xs-2 right" ng-class="{'after-term': document.payTerm}">{{document.toPay}}</div>
                     </div>
                     <div class="buttons">
                         <a>Wyślij przypomnienie</a>

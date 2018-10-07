@@ -76,6 +76,7 @@ class GetDebtorsHandler extends Handler
             $debtorDocuments = new DebtorDocuments;
             $documents->rewind();
             while($document = $documents->current()){
+                $payDate = new \DateTime($document->getPayDate());
                 $debtorDocuments->add(
                     (new DebtorDocument)
                     ->setId($document->getUuid())
@@ -83,6 +84,8 @@ class GetDebtorsHandler extends Handler
                     ->setGross($document->getGross())
                     ->setDate($document->getDate())
                     ->setToPay($document->getToPay())
+                    ->setPayDate($document->getPayDate())
+                    ->setPayTerm(($payDate<new \DateTime())?true:false)
                 );
                 $documents->next();
             }

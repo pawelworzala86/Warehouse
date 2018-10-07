@@ -483,3 +483,10 @@ ng-view{
     box-sizing: border-box;
     width: 100%;
 }
+
+.hide{
+    display: none !important;
+}
+.hide.show{
+    display: block !important;
+}

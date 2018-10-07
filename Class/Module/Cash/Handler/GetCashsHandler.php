@@ -39,6 +39,9 @@ class GetCashsHandler extends Handler
                     ->setAmount($cash->getAmount())
                     ->setKind($cash->getKind())
                     ->setDate($cash->getDate())
+                    ->setHour($cash->getHour())
+                    ->setDocumentNumber($cash->getDocumentNumber())
+                    ->setDocumentId($cash->getDocumentID())
             );
             $cashsCollection->next();
         }

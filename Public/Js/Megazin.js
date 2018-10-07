@@ -864,6 +864,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             products: [],
             stocks: [],
             productionId: $routeParams.productionId,
+            cashDocument: true,
         }
         $scope.data.vatRates = [
             {
@@ -976,6 +977,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             }
             let data = $scope.data.document
             data.contractorId = $scope.data.contractorId
+            data.cashDocument = $scope.data.cashDocument
             data.productionId = $routeParams.productionId
             if (data.id) {
                 $http.put(apiBase + '/document/' + data.id, data).then(function (response) {
@@ -2204,6 +2206,8 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $rootScope.filters = filters;
         $scope.filters = {
             number: '',
+            date: '',
+            amount: '',
         }
         var getData = function (pagination, data) {
             if (data && (data.length > 0)) {
@@ -2253,6 +2257,20 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                     name: 'number',
                     kind: '%',
                     value: $scope.filters.number,
+                })
+            }
+            if ($scope.filters.date) {
+                $rootScope.filters.push({
+                    name: 'date',
+                    kind: '%',
+                    value: $scope.filters.date,
+                })
+            }
+            if ($scope.filters.amount) {
+                $rootScope.filters.push({
+                    name: 'amount',
+                    kind: '=',
+                    value: $scope.filters.amount,
                 })
             }
             $scope.cashs = [];

@@ -68,12 +68,12 @@ class PrestaRefreshHandler extends Handler
                         ->setValue($prestaOrder->id)
                 )
                 ->load();
-            if ($orderModel->getId()){
+            if ($orderModel->getId()) {
                 $orderModel
                     ->setUuid($orderModel->getUuid())
                     ->setTotalPaid((float)$prestaOrder->total_paid_real)
                     ->update();
-            }else {
+            } else {
                 $type = 'ord';
                 $numberModel = (new DocumentNumberModel)
                     ->where(
@@ -185,7 +185,7 @@ class PrestaRefreshHandler extends Handler
 
                     (new ContractorModel)
                         ->setUuid(Common::getUuid())
-                        ->setCode('P-'.$prestaOrder->customer_id)
+                        ->setCode('P-' . (string)$prestaOrder->customer_id)
                         ->setName(((string)$addressCustomer->company !== '') ? $addressCustomer->company : $prestaCustomer->firstname . ' ' . $prestaCustomer->lastname)
                         ->setAddressId($addressId)
                         ->setContactId($contactId)
@@ -231,7 +231,7 @@ class PrestaRefreshHandler extends Handler
                         $productId = (new ProductModel)
                             ->setUuid(Common::getUuid())
                             ->setName($row->product_name)
-                            ->setSku(!empty((string)$row->reference)?new SKU((string)$row->reference):new SKU(substr_replace(Common::getUuid(), 0, 8)))
+                            ->setSku(!empty((string)$row->product_reference) ? new SKU((string)$row->product_reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
                             ->setPrestaId($prestaProductId)
                             ->setSellNet(round((float)$row->unit_price_tax_excl, 2))
                             ->setVat('23')
@@ -276,7 +276,7 @@ class PrestaRefreshHandler extends Handler
                         ->setVat('23')
                         ->setSumNet(round((float)$row->unit_price_tax_excl * (float)$row->product_quantity, 2))
                         ->setSumGross(round((float)$row->unit_price_tax_incl * (float)$row->product_quantity, 2))
-                        ->setSku(new SKU(substr(Common::getUuid(), 0, 6)))
+                        ->setSku(!empty((string)$row->product_reference) ? new SKU((string)$row->product_reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
                         ->setName($row->product_name)
                         ->insert();
                 }
@@ -298,9 +298,9 @@ class PrestaRefreshHandler extends Handler
                             ->setKind(new FilterKind('='))
                             ->setValue('Przesyłka')
                     )->load();
-                $productId = $productModel->getId();
-                if (!$productId) {
-                    $productId = (new ProductModel)
+                $shippmentId = $productModel->getId();
+                if (!$shippmentId) {
+                    $shippmentId = (new ProductModel)
                         ->setUuid(Common::getUuid())
                         ->setSku(new SKU(''))
                         ->setName('Przesyłka')
@@ -309,7 +309,7 @@ class PrestaRefreshHandler extends Handler
 
                 (new OrderProductModel)
                     ->setUuid(Common::getUuid())
-                    ->setProductId($productId)
+                    ->setProductId($shippmentId)
                     ->setSku(new SKU(''))
                     ->setName('Przesyłka')
                     ->setOrderId($orderId)

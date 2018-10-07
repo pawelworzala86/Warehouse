@@ -100,12 +100,12 @@ class FileModel extends Model
         return $this;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function setId(int $id): FileModel
+    public function setId(int $id = null): FileModel
     {
         $this->set('id', $id);
         $this->id = $id;

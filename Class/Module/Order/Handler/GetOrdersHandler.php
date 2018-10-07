@@ -90,8 +90,10 @@ class GetOrdersHandler extends Handler
                         ->setKind(new FilterKind('='))
                         ->setValue($prod->getId())
                     )->load();
-                $file = (new FileModel)
-                    ->load($productFileModel->getFileId());
+                $file = (new FileModel);
+                if($productFileModel->getFileId()) {
+                    $file->load($productFileModel->getFileId());
+                }
                 $products->add(
                     (new DocumentProduct)
                         ->setId($product->getUuid())
@@ -103,6 +105,7 @@ class GetOrdersHandler extends Handler
                         ->setVat($product->getVat())
                         ->setName($prod->getName())
                         ->setImageUrl(($file->getId()&&$file->getSize())?$file->getUrl():null)
+                        ->setSku($product->getSku())
                 );
                 $productsCollection->next();
             }

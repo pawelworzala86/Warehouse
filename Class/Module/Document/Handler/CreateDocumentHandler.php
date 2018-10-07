@@ -106,7 +106,7 @@ class CreateDocumentHandler extends Handler
             ->setNameFrom($request->getNameFrom())
             ->insert();
 
-        if($type=='fvs'){
+        if(($type=='fvs')&&$request->getCashDocument()&&($request->getPayment()=='money')){
             $numberType = 'kp';
             $numberModel = (new DocumentNumberModel)
                 ->where(

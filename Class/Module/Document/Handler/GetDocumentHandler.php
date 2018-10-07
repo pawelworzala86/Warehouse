@@ -20,6 +20,8 @@ use App\Module\Document\Model\DocumentModel;
 use App\Module\Document\Response\GetDocumentResponse;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
+use App\Module\Production\Model\ProductionDocumentModel;
+use App\Module\Production\Model\ProductionModel;
 use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
 use App\Response\SuccessResponse;
@@ -100,6 +102,12 @@ class GetDocumentHandler extends Handler
             ->setCode($contractor->getCode())
             ->setAddress($address);
 
+        $productionDocument = (new ProductionDocumentModel)
+            ->where('document_id', '=', $document->getId())
+            ->load();
+        $production = (new ProductionModel)
+            ->load($productionDocument->getProductionId());
+
         return (new GetDocumentResponse)
             ->setId($document->getUuid())
             ->setName($document->getName())
@@ -122,6 +130,7 @@ class GetDocumentHandler extends Handler
             ->setToPay($document->getToPay())
             ->setKind($document->getKind())
             ->setType($document->getType())
-            ->setNameFrom($document->getNameFrom());
+            ->setNameFrom($document->getNameFrom())
+            ->setProductionName($production->getName());
     }
 }

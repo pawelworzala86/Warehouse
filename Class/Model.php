@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Type\Filter;
+use App\Type\FilterKind;
 use ReflectionMethod;
 
 class Model
@@ -129,9 +130,17 @@ class Model
         return $this;
     }
 
-    function where(Filter $value)
+    function where($value1, string $value2 = null, string $value3 = null)
     {
-        $this->where[] = $value;
+        if(is_object($value1)) {
+            $this->where[] = $value1;
+        }else{
+            $this->where[] = new Filter([
+                'name' => $value1,
+                'kind' => new FilterKind($value2),
+                'value' => $value3,
+            ]);
+        }
         return $this;
     }
 

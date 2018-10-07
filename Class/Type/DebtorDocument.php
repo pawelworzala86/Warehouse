@@ -13,6 +13,30 @@ class DebtorDocument extends Type
     private $gross;
     private $contractorId;
     private $toPay;
+    private $payDate;
+    private $payTerm;
+
+    public function getPayTerm(): ?bool
+    {
+        return $this->payTerm;
+    }
+
+    public function setPayTerm(bool $payTerm = null): DebtorDocument
+    {
+        $this->payTerm = $payTerm;
+        return $this;
+    }
+
+    public function getPayDate(): ?string
+    {
+        return $this->payDate;
+    }
+
+    public function setPayDate(string $payDate = null): DebtorDocument
+    {
+        $this->payDate = $payDate;
+        return $this;
+    }
 
     public function getToPay(): ?float
     {

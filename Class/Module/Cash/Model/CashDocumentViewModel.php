@@ -16,6 +16,45 @@ class CashDocumentViewModel extends Model
     private $amount;
     private $kind;
     private $date;
+    private $hour;
+    private $documentNumber;
+    private $documentId;
+
+    function setDocumentId(UUID $documentId = null): CashDocumentViewModel
+    {
+        $this->set('document_id', $documentId);
+        $this->documentId = $documentId;
+        return $this;
+    }
+
+    function getDocumentId(): ?UUID
+    {
+        return $this->documentId;
+    }
+
+    function setDocumentNumber(string $documentNumber = null): CashDocumentViewModel
+    {
+        $this->set('document_number', $documentNumber);
+        $this->documentNumber = $documentNumber;
+        return $this;
+    }
+
+    function getDocumentNumber(): ?string
+    {
+        return $this->documentNumber;
+    }
+
+    function setHour(string $hour = null): CashDocumentViewModel
+    {
+        $this->set('hour', $hour);
+        $this->hour = $hour;
+        return $this;
+    }
+
+    function getHour(): ?string
+    {
+        return $this->hour;
+    }
 
     public function getDate(): string
     {

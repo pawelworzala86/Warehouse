@@ -15,6 +15,42 @@ class Cash extends Type
     private $amount;
     private $kind;
     private $date;
+    private $hour;
+    private $documentNumber;
+    private $documentId;
+
+    function setDocumentId(UUID $documentId = null): Cash
+    {
+        $this->documentId = $documentId;
+        return $this;
+    }
+
+    function getDocumentId(): ?UUID
+    {
+        return $this->documentId;
+    }
+
+    function setDocumentNumber(string $documentNumber = null): Cash
+    {
+        $this->documentNumber = $documentNumber;
+        return $this;
+    }
+
+    function getDocumentNumber(): ?string
+    {
+        return $this->documentNumber;
+    }
+
+    function setHour(string $hour = null): Cash
+    {
+        $this->hour = $hour;
+        return $this;
+    }
+
+    function getHour(): ?string
+    {
+        return $this->hour;
+    }
 
     public function getDate(): string
     {

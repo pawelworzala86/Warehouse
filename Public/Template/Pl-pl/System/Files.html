@@ -14,6 +14,23 @@
         text-align: center;
         margin-bottom: 2px;
     }
+    .table.files .image img{
+        width: 100%;
+    }
+    .table.files .chbx{
+        top: 10px;
+        left: 5px;
+    }
+    .table.files .not-image{
+        text-align: center;
+        margin-top: 25px;
+        margin-bottom: 15px;
+    }
+    .table.files .not-image i,
+    .table.files .not-image i:hover{
+        color: #aaa !important;
+        font-size: 8em;
+    }
 </style>
 <div class="container files">
     <div class="table files" ng-controller="selectTableController">
@@ -50,9 +67,11 @@
                 <div class="col col-xs-3">Rozmiar pliku</div>
             </div>-->
         </div>
-        <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files" ng-if="!deleted">
+        <div ng-class="{'selected': file.selected, 'deleted': file.deleted" class="row" ng-repeat="file in files" ng-if="!deleted">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
-                                                                                            class="checkbox"></label>
+                                                                                            class="checkbox chbx"></label>
+            <div class="col col-xs-12 image" ng-if="file.type=='image/jpg'"><img src="{{file.url}}"></div>
+            <div class="col col-xs-12 not-image" ng-if="file.type!='image/jpg'"><i class="material-icons">description</i> </div>
             <div class="col col-xs-12 name">{{file.name}}</div>
             <div class="col col-xs-12 center">{{file.type}}</div>
             <div class="col col-xs-12 center" style="margin-top: 2px;">{{formatSizeUnits(file.size)}}</div>
