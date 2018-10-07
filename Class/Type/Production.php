@@ -12,6 +12,30 @@ class Production extends Type
 {
     private $id;
     private $name;
+    private $buyNet;
+    private $sellNet;
+
+    function setSellNet(float $sellNet = null): Production
+    {
+        $this->sellNet = $sellNet;
+        return $this;
+    }
+
+    function getSellNet(): ?float
+    {
+        return $this->sellNet;
+    }
+
+    function setBuyNet(float $buyNet = null): Production
+    {
+        $this->buyNet = $buyNet;
+        return $this;
+    }
+
+    function getBuyNet(): ?float
+    {
+        return $this->buyNet;
+    }
 
     public function getName(): string
     {

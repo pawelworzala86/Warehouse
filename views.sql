@@ -37,3 +37,16 @@ uuid, id, added_by, deleted, coalesce(round((select sum(to_pay) from document wh
 name, `code`
 from
 contractor
+
+create or replace view production_view as select
+`werhouse`.`production`.`id` AS `id`,`werhouse`.`production`.`uuid` AS `uuid`, production.added_by as added_by,
+`werhouse`.`production`.`name` AS `name`,
+round(coalesce(sum(if((`werhouse`.`document`.`type` = 'rw'),`werhouse`.`document`.`net`,0)),0),2) AS `buy_net`,
+round(coalesce(sum(if((`werhouse`.`document`.`type` = 'pw'),`werhouse`.`document`.`net`,0)),0),2) AS `sell_net`
+from ((`werhouse`.`production`
+left join `werhouse`.`production_document` on((`werhouse`.`production_document`.`production_id` = `werhouse`.`production`.`id`)))
+left join `werhouse`.`document` on((`werhouse`.`document`.`id` = `werhouse`.`production_document`.`document_id`)))
+where
+(`werhouse`.`production`.`deleted` = 0)
+group by
+`werhouse`.`production`.`id`

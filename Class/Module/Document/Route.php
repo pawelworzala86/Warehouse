@@ -9,6 +9,7 @@ return [
     Router::post('/document', Handler\CreateDocumentHandler::class),
     Router::put('/document/add/invoice/{orderId}', Handler\AddInvoiceHandler::class),
     Router::get('/document', Handler\GetDocumentsHandler::class),
+    Router::get('/document/default', Handler\GetDocumentDefaultHandler::class),
     Router::post('/document/mass/delete', Handler\DeleteMassDocumentHandler::class),
     Router::post('/document/mass/xls', Handler\GetDocumentsXlsHandler::class),
     Router::post('/document/mass/pdf', Handler\GetDocumentsPdfHandler::class),

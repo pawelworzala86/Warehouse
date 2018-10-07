@@ -26,6 +26,10 @@ class ProductionModel extends Model
         return $this->name;
     }
 
+    public function getDeleted(): int
+    {
+        return $this->deleted;
+    }
     public function setDeleted(int $deleted): ProductionModel
     {
         $this->set('deleted', $deleted);

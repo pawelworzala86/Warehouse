@@ -252,12 +252,12 @@ class CreateDocumentRequest extends UserRequest
         return $this;
     }
 
-    public function getContractorId(): UUID
+    public function getContractorId(): ?UUID
     {
         return $this->contractorId;
     }
 
-    public function setContractorId(UUID $contractorId): CreateDocumentRequest
+    public function setContractorId(UUID $contractorId = null): CreateDocumentRequest
     {
         $this->contractorId = $contractorId;
         return $this;

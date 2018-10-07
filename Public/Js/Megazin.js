@@ -901,6 +901,13 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 }
                 $scope.data.productionId = $routeParams.productionId
             }, $routeParams.id);
+        }else{
+            $http.get(apiBase+'/document/default').then((response)=>{
+                $scope.data.document.issuePlace = response.data.issuePlace
+                $scope.data.document.bankName = response.data.bankName
+                $scope.data.document.swift = response.data.bankSwift
+                $scope.data.document.bankNumber = response.data.bankNumber
+            })
         }
         $scope.data.productionId = $routeParams.productionId
         if($routeParams.type=='rw'){
@@ -927,7 +934,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             })
             if (!$scope.data.document.products.length > 0) {
                 validate = false
-            } else if (!$scope.data.contractorId) {
+            } else if (!$scope.data.contractorId&&!$scope.data.productionId) {
                 validate = false
             }
             if (!validate) {

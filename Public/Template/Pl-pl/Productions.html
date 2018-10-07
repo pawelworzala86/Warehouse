@@ -23,6 +23,9 @@
     .table.productions .links a {
         margin-right: 10px;
     }
+    .table.productions .info{
+        margin-top: 5px;
+    }
 </style>
 <div class="container production">
     <div class="buttons">
@@ -79,6 +82,10 @@
                     -->
                     <a ng-href="/produkcja/{{production.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
                     <i class="material-icons" ng-click="deleteRow(productions, production)">delete_forever</i>
+                </div>
+                <div class="col col-xs-12 info">
+                    <div>Zużyto towaru za {{production.buyNet}}</div>
+                    <div>Wyprodukowano towaru za {{production.sellNet}}</div>
                 </div>
                 <div class="col col-xs-12 links">
                     <a href="/dokument/dodaj/produkcja/{{production.id}}/rw">Dodaj materiały</a>

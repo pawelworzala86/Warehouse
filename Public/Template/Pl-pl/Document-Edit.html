@@ -224,7 +224,8 @@
             </div>
             <div class="col col-xs-5" ng-if="((data.document.type=='rw')||(data.document.type=='pw'))">
                 <div class="card">
-                    <div class="title">Wydanie do produkcji</div>
+                    <div ng-if="data.document.type=='rw'" class="title">Wydanie do produkcji</div>
+                    <div ng-if="data.document.type=='pw'" class="title">Przychód z produkcji</div>
                     <div class="production">
                         <div class="name">{{data.production.name}}</div>
                     </div>
