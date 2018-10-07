@@ -145,10 +145,15 @@
         font-size: 2.75em;
     }
 
+    .document-edit .production .name{
+        font-size: 1.25em;
+        font-weight: 400;
+        margin: 0px 10px;
+    }
 </style>
-<div class="container">
+<div class="container document-edit">
     <article>
-        <div class="kind">
+        <div ng-if="!data.productionId" class="kind">
             <div class="col col-xs-6">
                 <div class="card">
                     <div class="title">Rodzaj dokumentu</div>
@@ -195,13 +200,13 @@
                                ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}"
                                class="date"/>
                     </div>
-                    <div class="form-group col col-xs-5">
+                    <div ng-if="data.document.kind=='fvp'"  class="form-group col col-xs-5">
                         <label>Dokument powiązany</label>
                         <input type="text" ng-model="data.document.nameFrom"/>
                     </div>
                 </div>
             </div>
-            <div class="col col-xs-5">
+            <div class="col col-xs-5" ng-if="!((data.document.type=='rw')||(data.document.type=='pw'))">
                 <div class="card">
                     <div class="title">Kontrahent</div>
                     <div class="contractor-data">
@@ -215,6 +220,14 @@
                     <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectContractor()">Wybierz
                         kontrahenta
                     </button>
+                </div>
+            </div>
+            <div class="col col-xs-5" ng-if="((data.document.type=='rw')||(data.document.type=='pw'))">
+                <div class="card">
+                    <div class="title">Wydanie do produkcji</div>
+                    <div class="production">
+                        <div class="name">{{data.production.name}}</div>
+                    </div>
                 </div>
             </div>
         </div>

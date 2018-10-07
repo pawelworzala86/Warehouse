@@ -71,6 +71,11 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 controller: 'documentEditController',
                 pageName: 'Edycja dokumentu',
             })
+            .when(base + '/dokument/dodaj/produkcja/:productionId/:type', {
+                templateUrl: templateBase + 'Document-Edit.html',
+                controller: 'documentEditController',
+                pageName: 'Wydanie na produkcję',
+            })
             .when(base + '/kontrahenci', {
                 templateUrl: templateBase + 'Contractors.html',
                 controller: 'contractorsController',
@@ -843,6 +848,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             },
             products: [],
             stocks: [],
+            productionId: $routeParams.productionId,
         }
         $scope.data.vatRates = [
             {
@@ -886,7 +892,25 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 })
                 $scope.data.refreshResume()
                 $scope.data.document.type = loadedType
+                if($routeParams.type=='rw'){
+                    $scope.data.document.kind = 'dec'
+                    $scope.data.document.type = 'rw'
+                }else if($routeParams.type=='pw'){
+                    $scope.data.document.kind = 'add'
+                    $scope.data.document.type = 'pw'
+                }
+                $scope.data.productionId = $routeParams.productionId
             }, $routeParams.id);
+        }
+        $scope.data.productionId = $routeParams.productionId
+        if($routeParams.type=='rw'){
+            $scope.data.document.kind = 'dec'
+            $scope.data.document.type = 'rw'
+        }
+        if(($routeParams.type=='rw')||($routeParams.type=='pw')){
+            $http.get(apiBase+'/production/'+$routeParams.productionId).then((response)=>{
+                $scope.data.production = response.data;
+            })
         }
         $scope.data.send = function () {
             $scope.data.validation.name = $scope.data.document.name ? false : true
@@ -928,10 +952,11 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 }
                 return
             }
-            var data = $scope.data.document
+            let data = $scope.data.document
             data.contractorId = $scope.data.contractorId
-            if ($routeParams.id) {
-                $http.put(apiBase + '/document/' + $routeParams.id, data).then(function (response) {
+            data.productionId = $routeParams.productionId
+            if (data.id) {
+                $http.put(apiBase + '/document/' + data.id, data).then(function (response) {
                     if (response.data.success) {
                         //$location.path('/katalog/produkty');
                     }
@@ -1098,6 +1123,10 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                         name: 'PZ',
                         value: 'pz',
                     },
+                    {
+                        name: 'PW',
+                        value: 'pw',
+                    },
                 ]
             } else {
                 $scope.data.typeOption = [
@@ -1109,10 +1138,21 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                         name: 'WZ',
                         value: 'wz',
                     },
+                    {
+                        name: 'RW',
+                        value: 'rw',
+                    },
                 ]
             }
             //alert(loadedType)
             $scope.data.document.type = loadedType
+            if($routeParams.type=='rw'){
+                $scope.data.document.kind = 'dec'
+                $scope.data.document.type = 'rw'
+            }else if($routeParams.type=='pw'){
+                $scope.data.document.kind = 'add'
+                $scope.data.document.type = 'pw'
+            }
         })
         $scope.$watch('data.document.type', () => {
             if (!$routeParams.id && $scope.data.document.type) {

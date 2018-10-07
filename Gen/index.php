@@ -40,4 +40,4 @@ class AddTableToDatabase
 }
 
 $addTableToDatabase = new AddTableToDatabase;
-$addTableToDatabase->add('production');
+$addTableToDatabase->add('production_document');

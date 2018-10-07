@@ -19,6 +19,8 @@ use App\Module\Document\Model\DocumentModel;
 use App\Module\Document\Response\CreateDocumentResponse;
 use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
+use App\Module\Production\Model\ProductionDocumentModel;
+use App\Module\Production\Model\ProductionModel;
 use App\Module\User\Model\UserModel;
 use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
@@ -40,7 +42,7 @@ class CreateDocumentHandler extends Handler
             ->load($request->getContractorId(), true);
 
         ////
-        /*$documentNumberId = $request->getDocumentNumberId();
+        $documentNumberId = $request->getDocumentNumberId();
         $type = $request->getType();
         $numberModel = (new DocumentNumberModel)
             ->load($documentNumberId, true);
@@ -61,14 +63,17 @@ class CreateDocumentHandler extends Handler
         $typesNames = [
             'fvp'=>'FV-Z',
             'pz'=>'PZ',
+            'pw'=>'PW',
+
             'fvs'=>'FV',
             'wz'=>'WZ',
+            'rw'=>'RW',
         ];
         $name = $typesNames[$type].'/'.$number.'/'.$year;
         (new DocumentNumberModel)
             ->setUuid($numberModel->getUuid())
             ->setNumber($number)
-            ->update();*/
+            ->update();
         ////////////
 
         $user = (new UserModel)
@@ -77,7 +82,7 @@ class CreateDocumentHandler extends Handler
         $uuid = Common::getUuid();
         $documentId = (new DocumentModel)
             ->setUuid($uuid)
-            ->setName($request->getName())
+            ->setName($name)
             ->setContractorId($contractor->getId())
             ->setContractorAddressId($contractor->getAddressId())
             ->setOwnerAddressId($user->getAddressId())
@@ -98,6 +103,16 @@ class CreateDocumentHandler extends Handler
             ->setKind($request->getKind())
             ->setType($request->getType())
             ->setNameFrom($request->getNameFrom())
+            ->insert();
+
+        $productionModel = (new ProductionModel)
+            ->load($request->getProductionId(), true);
+        $productionId = $productionModel->getId();
+
+        (new ProductionDocumentModel)
+            ->setUuid(Common::getUuid())
+            ->setProductionId($productionId)
+            ->setDocumentId($documentId)
             ->insert();
 
         $products = $request->getProducts();

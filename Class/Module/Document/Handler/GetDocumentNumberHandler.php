@@ -77,8 +77,12 @@ class GetDocumentNumberHandler extends Handler
         $typesNames = [
             'fvp'=>'FV-Z',
             'pz'=>'PZ',
+            'pw'=>'PW',
+
             'fvs'=>'FV',
             'wz'=>'WZ',
+            'rw'=>'RW',
+
             'ord'=>'Z',
         ];
 

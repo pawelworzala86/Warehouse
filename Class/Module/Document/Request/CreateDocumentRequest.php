@@ -30,6 +30,18 @@ class CreateDocumentRequest extends UserRequest
     private $type;
     private $nameFrom;
     private $documentNumberId;
+    private $productionId;
+
+    public function setProductionId(string $productionId): CreateDocumentRequest
+    {
+        $this->productionId = $productionId;
+        return $this;
+    }
+
+    public function getProductionId(): string
+    {
+        return $this->productionId;
+    }
 
     function setDocumentNumberId(UUID $documentNumberId = null): CreateDocumentRequest
     {

@@ -14,6 +14,15 @@
     .table .row, .table .header {
         padding: 5px 75px 5px 50px;
     }
+
+    .table.productions .links {
+        margin-bottom: 15px;
+        margin-top: 5px;
+    }
+
+    .table.productions .links a {
+        margin-right: 10px;
+    }
 </style>
 <div class="container production">
     <div class="buttons">
@@ -21,7 +30,7 @@
             <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj produkcję</button>
         </a>
     </div>
-    <div class="table" ng-controller="selectTableController">
+    <div class="table productions" ng-controller="selectTableController">
         {{setSelectOptions('/production', 'name', 'productions')}}
         <div ng-show="selects.length>0" class="box">
             <div class="header">Zaznaczone elementy</div>
@@ -60,7 +69,8 @@
                 <input type="checkbox" id="chbx{{production.id}}" ng-click="check(production)"><label
                     for="chbx{{production.id}}"
                     class="checkbox"></label>
-                <i class="material-icons zoom-in" ng-click="loadDetail('/production', productions, production);document.detailShow=true">zoom_in</i>
+                <i class="material-icons zoom-in"
+                   ng-click="loadDetail('/production', productions, production);document.detailShow=true">zoom_in</i>
                 <div class="col col-xs-12">{{production.name}}</div>
                 <div class="buttons">
                     <!--
@@ -69,6 +79,10 @@
                     -->
                     <a ng-href="/produkcja/{{production.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
                     <i class="material-icons" ng-click="deleteRow(productions, production)">delete_forever</i>
+                </div>
+                <div class="col col-xs-12 links">
+                    <a href="/dokument/dodaj/produkcja/{{production.id}}/rw">Dodaj materiały</a>
+                    <a href="/dokument/dodaj/produkcja/{{production.id}}/pw">Dodaj wykonane</a>
                 </div>
             </div>
         </div>
