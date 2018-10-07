@@ -8,4 +8,6 @@ use App\Module\Integration\Handler;
 return [
     Router::get('/integration/presta/refresh', Handler\PrestaRefreshHandler::class),
     Router::get('/integration/presta/products', Handler\PrestaProductsHandler::class),
+
+    Router::get('/integration/allegro/send/{id}', Handler\AllegroSendHandler::class),
 ];
