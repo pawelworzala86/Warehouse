@@ -84,8 +84,8 @@
                     <i class="material-icons" ng-click="deleteRow(productions, production)">delete_forever</i>
                 </div>
                 <div class="col col-xs-12 info">
-                    <div>Zużyto towaru za {{production.buyNet}}</div>
-                    <div>Wyprodukowano towaru za {{production.sellNet}}</div>
+                    <div>Zużyto towaru za {{production.buyNet.toFixed(2)}}</div>
+                    <div>Wyprodukowano towaru za {{production.sellNet.toFixed(2)}}</div>
                 </div>
                 <div class="col col-xs-12 links">
                     <a href="/dokument/dodaj/produkcja/{{production.id}}/rw">Dodaj materiały</a>

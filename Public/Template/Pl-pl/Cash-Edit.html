@@ -1,0 +1,31 @@
+<div class="container">
+    <article>
+        <div class="row">
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Dane podstawowe</div>
+                    <div class="form-group col col-xs-2">
+                        <label>Wybierz rodzaj</label>
+                        <select ng-model="data.cash.kind">
+                            <option value="kp">KP</option>
+                            <option value="kw">KW</option>
+                        </select>
+                    </div>
+                    <div class="form-group col col-xs-8">
+                        <label ng-class="{'error': data.validation.number&&!data.cash.number}">Numer dokumentu</label>
+                        <input type="text" ng-model="data.cash.number"
+                               ng-class="{'error': data.validation.number&&!data.cash.number}"/>
+                    </div>
+                    <div class="form-group col col-xs-2">
+                        <label ng-class="{'error': data.validation.amount&&!data.cash.amount}">Kwota</label>
+                        <input type="text" ng-model="data.cash.amount"
+                               ng-class="{'error': data.validation.amount&&!data.cash.amount}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="fixed-bottom">
+            <button class="sender icon" ng-click="data.send()"><i class="material-icons">send</i> Zapisz</button>
+        </div>
+    </article>
+</div>

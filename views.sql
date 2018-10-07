@@ -50,3 +50,20 @@ where
 (`werhouse`.`production`.`deleted` = 0)
 group by
 `werhouse`.`production`.`id`
+
+
+create or replace view cash_document_view as SELECT
+cash_document.id, cash_document.uuid, cash_document.number, cash_document.added_by,
+cash_document.amount, cash_document.kind, cash_document.added, cash_document.`date`
+FROM
+cash_document
+
+
+
+create or replace view cash_view as SELECT
+sum(if(cash_document.kind='kp',amount,0)-if(cash_document.kind='kw',amount,0)) as ballance, added_by
+FROM
+cash_document
+WHERE
+added>COALESCE((select added from cash_document as c where c.added_by=cash_document.added_by and c.kind='kz' order by added desc limit 1),0)
+group by added_by

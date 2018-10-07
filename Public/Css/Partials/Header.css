@@ -32,13 +32,13 @@ header i.right,
 }
 
 #menu {
-    background-color: rgba(255, 255, 255, 0.75);
+    background-color: #fff;
     position: fixed;
     width: 100%;
     left: 0;
-    top: 0;
+    top: 0px;
     height: 100%;
-    z-index: 10000;
+    z-index: 90;
     box-sizing: border-box;
 }
 
@@ -84,7 +84,7 @@ header i.right,
 
 #menu .container {
     padding-bottom: 25px;
-    padding-top: 25px;
+    padding-top: 35px;
 }
 
 header .button {
@@ -141,20 +141,19 @@ header {
     }
 
     #menu .menu-body {
+        position: relative;
+        float: left;
         left: 0;
         right: 0;
-        top: 0;
-        bottom: 0;
     }
 
     #menu {
         display: block !important;
-        position: fixed;
+        position: relative;
         width: 200px;
-        top: 60px;
-        bottom: 0;
-        height: auto;
         z-index: 10;
+        padding-top: 10px;
+        float: left;
     }
 
     #menu .links-group {

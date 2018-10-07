@@ -1,0 +1,122 @@
+<style>
+    .zoom-in {
+        float: left;
+        position: absolute;
+        margin-top: -3px;
+        left: 24px;
+        cursor: pointer;
+    }
+
+    .zoom-in:hover {
+        opacity: 0.9;
+    }
+
+    .table .row, .table .header {
+        padding: 5px 75px 5px 50px;
+    }
+
+    .table.cash .links {
+        margin-bottom: 15px;
+        margin-top: 5px;
+    }
+
+    .table.cash .links a {
+        margin-right: 10px;
+    }
+
+    .table.cash .info {
+        margin-top: 5px;
+    }
+    .cash .panel.sum span{
+        top: 7px;
+        float: left;
+        position: relative;
+    }
+    .cash .panel.sum b{
+        font-size: 1.95em;
+        font-weight: 400;
+        color: #666;
+        float: right;
+    }
+    .width100{
+        width: 100%;
+        float: left;
+    }
+    .table .row.kz{
+        font-weight: 500;
+    }
+</style>
+<div class="container cash">
+    <div class="buttons">
+        <a ng-href="/kasa/dodaj">
+            <button class="icon"><i class="material-icons">add_circle_outline</i>Dodaj dokument kasowy</button>
+        </a>
+    </div>
+    <div class="col col-xs-6">
+        <div class="panel sum">
+            <span>Stan kasy </span><b>{{sum.toFixed(2)}}</b>
+            <div class="width100" ng-click="closeCash()"><a>Zamknij kasę</a></div>
+        </div>
+    </div>
+    <div class="table productions" ng-controller="selectTableController">
+        {{setSelectOptions('/cash', 'number', 'cashs')}}
+        <div ng-show="selects.length>0" class="box">
+            <div class="header">Zaznaczone elementy</div>
+            <div class="body">
+                <div class="selects">
+                    <div class="select" ng-repeat="select in selects">
+                        {{select.name}}
+                        <i data-nodrag="" class="material-icons"
+                           ng-click="delSelect(select, documents)">delete_forever</i>
+                    </div>
+                </div>
+            </div>
+            <div class="footer">
+                <div class="buttons">
+                    <button class="small" ng-click="massPdf(selects)">Pobierz PDF</button>
+                    <button class="small" ng-click="massXls(selects)">Pobierz XLS</button>
+                    <button class="small danger" ng-click="massDelete(productions, selects)">Usuń</button>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <input ng-show="cashs.length>0" type="checkbox" id="chbx" ng-click="checkAll(cashs)"><label
+                ng-show="cashs.length>0" for="chbx" class="checkbox"></label>
+            <div class="filters">
+                <div class="col col-xs-10"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                  placeholder="Nazwa" type="text" ng-model="filters.number"
+                                                  ng-change="filter()"></div>
+                <div class="col col-xs-2 right"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                       placeholder="Kwota" type="text" ng-model="filters.amount"
+                                                       ng-change="filter()" class="right"></div>
+            </div>
+            <!--<div class="container" ng-show="documents.length>0">
+                <div class="col col-xs-2">Numer</div>
+            </div>-->
+        </div>
+        <div ng-class="{'selected': cash.selected, 'deleted': cash.deleted, 'kz': cash.kind=='kz'}" class="row"
+             ng-repeat="cash in cashs">
+            <div class="head">
+                <input type="checkbox" id="chbx{{cash.id}}" ng-click="check(cash)"><label
+                    for="chbx{{cash.id}}"
+                    class="checkbox"></label>
+                <i class="material-icons zoom-in"
+                   ng-click="loadDetail('/cash', cashs, cash);document.detailShow=true">zoom_in</i>
+                <div class="col col-xs-10">{{cash.number}}</div>
+                <div class="col col-xs-2 right">{{cash.amount.toFixed(2)}}</div>
+                <div class="buttons">
+                    <a download="true" ng-href="/api/document/{{cash.id}}/print" target="_blank"><i
+                            class="material-icons">print</i></a>
+                    <a ng-href="/kasa/{{cash.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
+                    <i class="material-icons" ng-click="deleteRow(cashs, cash)">delete_forever</i>
+                </div>
+            </div>
+        </div>
+        <div ng-show="documents.length==0" class="table-empty">
+            <p>Brak danych w tabeli do wyświetlenia</p>
+        </div>
+        <fluentLoader ng-click="fluentLoad()">
+            <p>Pokaż więcej wyników</p>
+        </fluentLoader>
+    </div>
+</div>

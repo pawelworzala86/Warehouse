@@ -354,6 +354,7 @@ tab article{
 .row{
     box-sizing: border-box;
     display: inline-block;
+    width: 100%;
 }
 
 ::-webkit-input-placeholder {
@@ -459,4 +460,26 @@ select:focus {
     border-bottom: 1px solid #68c;
     background-color: rgba(102, 136, 204, 0.1) !important;
     color: #333;
+}
+
+.panel{
+    padding: 10px;
+    border: 1px dashed #ccc;
+    margin-bottom: 20px;
+    float: left;
+    width: 100%;
+}
+
+.wrapper{
+    max-width: 1000px;
+    margin: auto;
+    display: block;
+    position: relative;
+}
+
+ng-view{
+    position: absolute;
+    right: 0;
+    box-sizing: border-box;
+    width: 100%;
 }

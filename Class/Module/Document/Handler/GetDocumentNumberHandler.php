@@ -84,6 +84,9 @@ class GetDocumentNumberHandler extends Handler
             'rw'=>'RW',
 
             'ord'=>'Z',
+
+            'kp'=>'KP',
+            'kw'=>'KW',
         ];
 
         $name = $typesNames[$type].'/'.$number.'/'.$year;

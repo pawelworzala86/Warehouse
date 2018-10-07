@@ -4,6 +4,7 @@ namespace App\Module\Document\Handler;
 
 use App\Common;
 use App\Handler;
+use App\Module\Cash\Model\CashDocumentModel;
 use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
@@ -104,6 +105,59 @@ class CreateDocumentHandler extends Handler
             ->setType($request->getType())
             ->setNameFrom($request->getNameFrom())
             ->insert();
+
+        if($type=='fvs'){
+            $numberType = 'kp';
+            $numberModel = (new DocumentNumberModel)
+                ->where(
+                    (new Filter)
+                    ->setName('deleted')
+                    ->setKind(new FilterKind('='))
+                    ->setValue(0)
+                )->where(
+                    (new Filter)
+                    ->setName('added_by')
+                    ->setKind(new FilterKind('='))
+                    ->setValue(User::getId())
+                )->where(
+                    (new Filter)
+                    ->setName('type')
+                    ->setKind(new FilterKind('='))
+                    ->setValue($numberType)
+                )->load();
+            if(!$numberModel->getId()){
+                $id = (new DocumentNumberModel)
+                    ->setUuid(Common::getUuid())
+                    ->setNumber(0)
+                    ->setMonth(10)
+                    ->setYear(2018)
+                    ->setType($numberType)
+                    ->insert();
+                $numberModel = (new DocumentNumberModel)
+                    ->load($id);
+            }
+            $number = $numberModel->getNumber()+1;
+            $year = $numberModel->getYear();
+            $month = $numberModel->getMonth();
+            $typesNames = [
+                'kp'=>'KP',
+                'kw'=>'KW',
+            ];
+            $name = $typesNames[$numberType].'/'.$number.'/'.$year;
+            (new DocumentNumberModel)
+                ->setUuid($numberModel->getUuid())
+                ->setNumber($number)
+                ->update();
+
+            (new CashDocumentModel)
+                ->setUuid(Common::getUuid())
+                ->setNumber($name)
+                ->setKind($numberType)
+                ->setAmount($request->getPayed())
+                ->setDate(date("Y-m-d", time()))
+                ->setDocumentId($documentId)
+                ->insert();
+        }
 
         $productionModel = (new ProductionModel)
             ->load($request->getProductionId(), true);
