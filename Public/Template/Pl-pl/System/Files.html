@@ -31,8 +31,19 @@
         color: #aaa !important;
         font-size: 8em;
     }
+    .table .row:hover{
+        background: transparent;
+    }
 </style>
 <div class="container files">
+    <div class="filters big">
+        <i class="material-icons">search</i>
+        <div class="inputs">
+        <div class="col col-xs-6"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Nazwa pliku" type="text" ng-model="filters.name" ng-change="filter()"></div>
+        <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" style="margin-left: -8px;" placeholder="Typ pliku" type="text" ng-model="filters.type" ng-change="filter()"></div>
+        <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" style="margin-left: 7px;" class="right" placeholder="Rozmiar pliku" type="text" ng-model="filters.size" ng-change="filter()"></div>
+        </div>
+    </div>
     <div class="table files" ng-controller="selectTableController">
         {{setSelectOptions('/system/files', 'name', 'files')}}
         <div ng-show="selects.length>0" class="box">
@@ -53,19 +64,6 @@
                     <button class="small danger" ng-click="massDelete(files, selects)">Usuń</button>
                 </div>
             </div>
-        </div>
-        <div class="header">
-            <input ng-show="files.length>0" type="checkbox" id="chbx" ng-click="checkAll(files)"><label ng-show="files.length>0" for="chbx" class="checkbox"></label>
-            <div class="filters">
-                <div class="col col-xs-6"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Nazwa pliku" type="text" ng-model="filters.name" ng-change="filter()"></div>
-                <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" style="margin-left: -8px;" placeholder="Typ pliku" type="text" ng-model="filters.type" ng-change="filter()"></div>
-                <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" style="margin-left: 7px;" class="right" placeholder="Rozmiar pliku" type="text" ng-model="filters.size" ng-change="filter()"></div>
-            </div>
-            <!--<div class="container" ng-show="files.length>0">
-                <div class="col col-xs-6">Nazwa pliku</div>
-                <div class="col col-xs-3">Typ pliku</div>
-                <div class="col col-xs-3">Rozmiar pliku</div>
-            </div>-->
         </div>
         <div ng-class="{'selected': file.selected, 'deleted': file.deleted" class="row" ng-repeat="file in files" ng-if="!deleted">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"

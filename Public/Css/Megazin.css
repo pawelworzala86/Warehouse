@@ -125,6 +125,8 @@ fluentLoader p{
     padding: 3px 8px;
     cursor: pointer;
     color: #68c !important;
+    font-weight: 400;
+    margin-top: 40px;
 }
 
 upload .borderBox,
@@ -444,6 +446,8 @@ option,
 select {
     border: 1px solid transparent;
     border-left: 2px solid #68c;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 input[type=text]:hover,
@@ -489,4 +493,38 @@ ng-view{
 }
 .hide.show{
     display: block !important;
+}
+.filters.big{
+    float: left;
+    border: 1px dashed #ccc;
+    width: 92%;
+    padding: 15px;
+    box-sizing: border-box;
+    position: relative;
+    background: rgba(0, 0, 255, 0.05);
+    margin: 0% 4%;
+    margin-bottom: 15px;
+}
+.filters.big .inputs{
+    width: 100%;
+    float: left;
+    box-sizing: border-box;
+    padding-left: 50px;
+}
+.filters.big .material-icons{
+    float: left;
+    box-sizing: border-box;
+    font-size: 3em;
+    position: absolute;
+    top: 6px;
+}
+.filters.big .material-icons:hover {
+    color: #aaa !important;
+}
+.filters.big input,
+.filters.big input:active,
+.filters.big input:focus,
+.filters.big input:hover{
+    background: #fff !important;
+    border: 1px solid #ddd;
 }

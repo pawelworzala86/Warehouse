@@ -6,13 +6,16 @@
 
 .table .row,
 .table .header {
-    border-bottom: 1px dashed #ccc;
     margin: 0;
     float: left;
     width: 100%;
     box-sizing: border-box;
     padding: 5px 50px 5px 20px;
     position: relative;
+}
+
+.table .row:hover{
+    background: rgba(0, 0, 255, 0.1);
 }
 
 .table .header {
@@ -150,10 +153,6 @@
 
 .table .header .filters .col{
     padding-right: 2px;
-}
-
-.table .header label.checkbox{
-    margin-top: 4px;
 }
 
 .table .filters{

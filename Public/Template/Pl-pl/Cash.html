@@ -66,6 +66,23 @@
             <div class="width100" ng-click="closeCash()"><a>Zamknij kasę</a></div>
         </div>
     </div>
+    <div class="filters big">
+        <i class="material-icons">search</i>
+        <div class="inputs">
+        <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                         placeholder="Nazwa" type="text" ng-model="filters.number"
+                                         ng-change="filter()"></div>
+        <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                         placeholder="Data" type="text" ng-model="filters.date"
+                                         ng-change="filter()"></div>
+        <div class="col col-xs-5"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                         placeholder="Powiązany dok." type="text" ng-model="filters.documentNumber"
+                                         ng-change="filter()"></div>
+        <div class="col col-xs-2 right"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                               placeholder="Kwota" type="text" ng-model="filters.amount"
+                                               ng-change="filter()" class="right"></div>
+        </div>
+    </div>
     <div class="table productions" ng-controller="selectTableController">
         {{setSelectOptions('/cash', 'number', 'cashs')}}
         <div ng-show="selects.length>0" class="box">
@@ -90,23 +107,12 @@
         <div class="header">
             <input ng-show="cashs.length>0" type="checkbox" id="chbx" ng-click="checkAll(cashs)"><label
                 ng-show="cashs.length>0" for="chbx" class="checkbox"></label>
-            <div class="filters">
-                <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                 placeholder="Nazwa" type="text" ng-model="filters.number"
-                                                 ng-change="filter()"></div>
-                <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                  placeholder="Data" type="text" ng-model="filters.date"
-                                                  ng-change="filter()"></div>
-                <div class="col col-xs-5"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                 placeholder="Powiązany dok." type="text" ng-model="filters.documentNumber"
-                                                 ng-change="filter()"></div>
-                <div class="col col-xs-2 right"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                       placeholder="Kwota" type="text" ng-model="filters.amount"
-                                                       ng-change="filter()" class="right"></div>
-            </div>
-            <!--<div class="container" ng-show="documents.length>0">
+            <div class="container" ng-show="cashs.length>0">
                 <div class="col col-xs-2">Numer</div>
-            </div>-->
+                <div class="col col-xs-3">Data</div>
+                <div class="col col-xs-5">Numer dok. pow.</div>
+                <div class="col col-xs-2 right">Kwota</div>
+            </div>
         </div>
         <div ng-class="{'selected': cash.selected, 'deleted': cash.deleted, 'kz': cash.kind=='kz'}" class="row"
              ng-repeat="cash in cashs">

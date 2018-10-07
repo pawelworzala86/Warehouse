@@ -2035,6 +2035,9 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $scope.downloadProducts = ()=>{
             $http.get(apiBase+'/integration/presta/products').then(()=>{})
         }
+        $scope.sendProducts = ()=>{
+            $http.put(apiBase+'/integration/presta/products').then(()=>{})
+        }
         $scope.allegroSend = (product)=>{
             $http.get(apiBase+'/integration/allegro/send/'+product.id).then(()=>{})
         }

@@ -35,15 +35,34 @@
         padding-top: 5px;
         float: left;
     }
+    .table .row:hover{
+        background: transparent;
+    }
+    .table .header label.checkbox{
+        margin-top: 0;
+    }
+    .table .row{
+        margin-bottom: 25px;
+    }
 </style>
 <div class="container products">
     <div class="buttons">
         <a ng-href="/katalog/produkt/dodaj">
             <button class="icon">Dodaj product</button>
         </a>
-        <a>
-            <button class="icon" ng-click="downloadProducts()">Pobierz produkty</button>
-        </a>
+        <a><button class="icon" ng-click="downloadProducts()">Pobierz produkty</button></a>
+        <a><button class="icon" ng-click="sendProducts()">Wyślij produkty</button></a>
+    </div>
+    <div class="filters big">
+        <i class="material-icons">search</i>
+        <div class="inputs">
+            <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="SKU" type="text" ng-model="filters.sku"
+                                             ng-change="filter()"></div>
+            <div class="col col-xs-9"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="Nazwa produktu" type="text" ng-model="filters.name"
+                                             ng-change="filter()"></div>
+        </div>
     </div>
     <div class="table products" ng-controller="selectTableController">
         {{setSelectOptions('/catalog/product', 'name', 'products')}}
@@ -69,20 +88,10 @@
         <div class="header">
             <input ng-show="products.length>0" type="checkbox" id="chbx" ng-click="checkAll(products)"><label
                 ng-show="products.length>0" for="chbx" class="checkbox"></label>
-            <div class="filters">
-                <div class="col col-xs-2">&nbsp;</div>
-                <div class="col col-xs-10">
-                    <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                     placeholder="SKU" type="text" ng-model="filters.sku"
-                                                     ng-change="filter()"></div>
-                    <div class="col col-xs-9"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                                     placeholder="Nazwa produktu" type="text" ng-model="filters.name"
-                                                     ng-change="filter()"></div>
-                </div>
-            </div>
+            <div class="col col-xs-12">&nbsp;</div>
             <!--<div class="container" ng-show="products.length>0">
-                <div class="col col-xs-2">SKU</div>
-                <div class="col col-xs-10">Nazwa produktu</div>
+                <div class="col col-xs-3">SKU</div>
+                <div class="col col-xs-9">Nazwa produktu</div>
             </div>-->
         </div>
         <div ng-show="products.length==0" class="table-empty">
