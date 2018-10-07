@@ -32,22 +32,24 @@ header i.right,
 }
 
 #menu {
-    background-color: #fff;
+    background-color: rgba(255, 255, 255, 0.6);
     position: fixed;
-    width: 100%;
     left: 0;
     top: 0px;
     height: 100%;
     z-index: 90;
     box-sizing: border-box;
+    right: 0px;
 }
 
 #menu .menu-body {
-    position: absolute;
-    left: 50px;
-    right: 50px;
+    position: fixed;
     box-sizing: border-box;
     top: 50px;
+    border-right: 1px solid #ccc;
+    width: 200px;
+    bottom: 0px;
+    background: #fff;
 }
 
 #menu .menu-body .material-icons {
@@ -60,17 +62,19 @@ header i.right,
     margin: 0px;
     padding: 0px;
     font-weight: 400;
-    font-size: 1.15em;
+    font-size: 1em;
     float: left;
-    color: #555;
+    color: #888;
 }
 
 #menu .links-group .sub {
     float: left;
     width: 100%;
-    font-weight: 300;
     margin-top: 3px;
     box-sizing: border-box;
+    margin-left: 10px;
+    font-size: 1.15em;
+    font-weight: 400 !important;
 }
 
 #menu .links-group .sub:hover {
@@ -80,6 +84,11 @@ header i.right,
 #menu .links-group {
     float: left;
     padding: 0px 10px;
+    font-size: 0.9em;
+    font-weight: 500;
+    color: #888;
+    width: 100%;
+    margin-bottom: 10px;
 }
 
 #menu .container {
@@ -145,6 +154,7 @@ header {
         float: left;
         left: 0;
         right: 0;
+        border: none;
     }
 
     #menu {
@@ -152,30 +162,13 @@ header {
         position: relative;
         width: 200px;
         z-index: 10;
-        padding-top: 10px;
         float: left;
-    }
-
-    #menu .links-group {
-        width: 100%;
-        margin-bottom: 10px;
     }
 
     #menu .row {
         margin-bottom: 0 !important;
     }
 
-    #menu .links-group .sub {
-        margin-left: 10px;
-        font-size: 1.15em;
-        font-weight: 400 !important;
-    }
-
-    #menu .links-group {
-        font-size: 0.9em;
-        font-weight: 500;
-        color: #888;
-    }
     #menu .menu-body .material-icons{
         display: none;
     }
@@ -187,9 +180,5 @@ header {
     }
     #menu .header{
         display: none;
-    }
-    #menu .links-group .primary{
-        font-size: 1em;
-        color: #888;
     }
 }

@@ -496,14 +496,13 @@ ng-view{
 }
 .filters.big{
     float: left;
-    border: 1px dashed #ccc;
-    width: 92%;
+    width: 98%;
     padding: 15px;
     box-sizing: border-box;
     position: relative;
-    background: rgba(0, 0, 255, 0.05);
-    margin: 0% 4%;
+    margin: 0% 1%;
     margin-bottom: 15px;
+    box-shadow: 0px 0px 5px #888;
 }
 .filters.big .inputs{
     width: 100%;
