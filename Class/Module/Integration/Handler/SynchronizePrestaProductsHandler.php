@@ -8,6 +8,7 @@ use App\Handler;
 use App\Module\Catalog\Collection\ProductCollection;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
+use App\Module\Channel\Collection\ChannelCollection;
 use App\Module\Files\Model\FileModel;
 use App\Request\EmptyRequest;
 use App\Response\SuccessResponse;
@@ -100,9 +101,9 @@ class SynchronizePrestaProductsHandler extends Handler
                                     ->setValue(0)
                             )->where(
                                 (new Filter)
-                                    ->setName('presta_id')
+                                    ->setName('sku')
                                     ->setKind(new FilterKind('='))
-                                    ->setValue($prestaProduct->id)
+                                    ->setValue((string)$prestaProduct->reference)
                             )
                             ->load();
                         //$productId = null;
@@ -111,7 +112,7 @@ class SynchronizePrestaProductsHandler extends Handler
                             ->setUuid($productModel->getUuid())
                             ->setName((string)$prestaProduct->name->language)
                             ->setSku(!empty((string)$prestaProduct->reference) ? new SKU((string)$prestaProduct->reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
-                            ->setPrestaId($prestaProduct->id)
+                            //->setPrestaId($prestaProduct->id)
                             ->setSellNet(round((float)$prestaProduct->price, 2))
                             ->setVat('23')
                             ->setSellGross(round((float)$prestaProduct->price * 1.23, 2))
@@ -210,9 +211,9 @@ class SynchronizePrestaProductsHandler extends Handler
                             ->setValue(0)
                     )->where(
                         (new Filter)
-                            ->setName('presta_id')
+                            ->setName('sku')
                             ->setKind(new FilterKind('='))
-                            ->setValue($prestaProduct->id)
+                            ->setValue((string)$prestaProduct->reference)
                     )
                     ->load();
                 $productId = null;
@@ -221,7 +222,7 @@ class SynchronizePrestaProductsHandler extends Handler
                         ->setUuid(Common::getUuid())
                         ->setName((string)$prestaProduct->name->language)
                         ->setSku(!empty((string)$prestaProduct->reference) ? new SKU((string)$prestaProduct->reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
-                        ->setPrestaId($prestaProduct->id)
+                        //->setPrestaId($prestaProduct->id)
                         ->setSellNet(round((float)$prestaProduct->price, 2))
                         ->setVat('23')
                         ->setSellGross(round((float)$prestaProduct->price * 1.23, 2))

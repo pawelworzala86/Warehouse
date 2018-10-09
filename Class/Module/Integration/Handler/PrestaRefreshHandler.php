@@ -212,9 +212,9 @@ class PrestaRefreshHandler extends Handler
                                     ->setValue(0)
                             )->where(
                                 (new Filter)
-                                    ->setName('presta_id')
+                                    ->setName('sku')
                                     ->setKind(new FilterKind('='))
-                                    ->setValue($prestaProductId)
+                                    ->setValue((string)$row->product_reference)
                             )
                             ->load();
                         $productId = null;
@@ -223,7 +223,7 @@ class PrestaRefreshHandler extends Handler
                                 ->setUuid(Common::getUuid())
                                 ->setName($row->product_name)
                                 ->setSku(!empty((string)$row->product_reference) ? new SKU((string)$row->product_reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
-                                ->setPrestaId($prestaProductId)
+                                //->setPrestaId($prestaProductId)
                                 ->setSellNet(round((float)$row->unit_price_tax_excl, 2))
                                 ->setVat('23')
                                 ->setSellGross(round((float)$row->unit_price_tax_incl, 2))

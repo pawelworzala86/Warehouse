@@ -19,7 +19,6 @@ class ProductModel extends Model
     private $sellNet;
     private $sellGross;
     private $vat;
-    private $prestaId;
     private $added;
     private $updated;
 
@@ -44,18 +43,6 @@ class ProductModel extends Model
     {
         $this->set('added', $added);
         $this->added = $added;
-        return $this;
-    }
-
-    public function getPrestaId(): ?string
-    {
-        return $this->prestaId;
-    }
-
-    public function setPrestaId(string $prestaId = null): ProductModel
-    {
-        $this->set('presta_id', $prestaId);
-        $this->prestaId = $prestaId;
         return $this;
     }
 
