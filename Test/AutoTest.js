@@ -190,7 +190,7 @@ var autoTest = function (container) {
                 var sortedRoutesHave = function (name) {
                     var result = false;
                     $.each(sortedRoutes, function (key, value) {
-                        if (value.name == name) {
+                        if (value&&(value.name == name)) {
                             result = true;
                         }
                     });
@@ -203,15 +203,19 @@ var autoTest = function (container) {
                 });
                 var sortKeys = [];
                 $.each(sortedRoutes, function (key, value) {
-                    sortKeys.push(value.name);
+                    if (value) {
+                        sortKeys.push(value.name);
+                    }
                 });
                 Variables.setSort(sortKeys);
                 Variables.save();
                 $.each(sortedRoutes, function (key, value) {
-                    if (!value.method) {
+                    if (value&&(!value.method)) {
                         return;
                     }
-                    tests.print(value);
+                    if (value) {
+                        tests.print(value);
+                    }
                 });
                 $('#autoTest').sortable({
                     update: function (event, ui) {
