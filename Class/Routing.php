@@ -16,6 +16,7 @@ class Routing
             }
             self::{$route['method']}($url, $route['className']);
         }
+        throw new \Exception('Routing not found');
     }
 
     static function get($url, $className)
