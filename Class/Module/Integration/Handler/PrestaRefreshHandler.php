@@ -281,11 +281,12 @@ class PrestaRefreshHandler extends Handler
                             ->setKind(new FilterKind('='))
                             ->setValue('Przesyłka')
                     )->load();
+
                 $shippmentId = $productModel->getId();
                 if (!$shippmentId) {
                     $shippmentId = (new ProductModel)
                         ->setUuid(Common::getUuid())
-                        ->setSku(new SKU(''))
+                        ->setSku(new SKU(substr(Common::getUuid(), 0, 8)))
                         ->setName('Przesyłka')
                         ->insert();
                 }
