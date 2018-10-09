@@ -20,6 +20,32 @@ class ProductModel extends Model
     private $sellGross;
     private $vat;
     private $prestaId;
+    private $added;
+    private $updated;
+
+    public function getUpdated(): ?string
+    {
+        return $this->updated;
+    }
+
+    public function setUpdated(string $updated = null): ProductModel
+    {
+        $this->set('updated', $updated);
+        $this->updated = $updated;
+        return $this;
+    }
+
+    public function getAdded(): ?string
+    {
+        return $this->added;
+    }
+
+    public function setAdded(string $added = null): ProductModel
+    {
+        $this->set('added', $added);
+        $this->added = $added;
+        return $this;
+    }
 
     public function getPrestaId(): ?string
     {

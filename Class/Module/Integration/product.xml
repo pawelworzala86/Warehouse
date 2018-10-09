@@ -66,7 +66,7 @@
         <associations>
             <categories>
                 <category>
-                    <id>2</id>
+                    <id></id>
                 </category>
             </categories>
             <images>
@@ -86,7 +86,7 @@
             </product_option_values>
             <product_features>
                 <product_feature>
-                    <id>8</id>
+                    <id></id>
                     <id_feature_value>42</id_feature_value>
                 </product_feature>
             </product_features>
@@ -97,7 +97,7 @@
             </tags>
             <stock_availables>
                 <stock_available>
-                    <id>1</id>
+                    <id></id>
                     <id_product_attribute>0</id_product_attribute>
                 </stock_available>
             </stock_availables>
