@@ -135,7 +135,7 @@
     }
 
     .table.products .row {
-        padding: 5px;
+        padding: 3px 0px;
     }
 
     .table.products {
@@ -182,6 +182,18 @@
     .table .row .row{
         margin-bottom: 0;
         border: none;
+    }
+    .payment{
+        text-align: right;
+    }
+    .payment .to-pay,
+    .payment .payed{
+        width: 150px;
+        float: right;
+        text-align: left;
+    }
+    .payment b{
+        float: right;
     }
 </style>
 <div class="container orders">
@@ -266,6 +278,11 @@
                         <div class="col col-xs-1 right margin">{{product.vat}}</div>
                         <div class="col col-xs-1 right margin">{{product.sumGross}}</div>
                     </div>
+                </div>
+
+                <div class="col col-xs-12 payment">
+                    <div class="col col-xs-12"><div class="to-pay">Do zapłaty <b>{{order.sumGross.toFixed(2)}}</b></div></div>
+                    <div class="col col-xs-12"><div class="payed">Zapłacono <b>{{order.totalPaid.toFixed(2)}}</b></div></div>
                 </div>
 
                 <div class="col col-xs-9" ng-if="order.totalPaid==order.sumGross">
