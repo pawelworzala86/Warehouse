@@ -226,6 +226,37 @@ class CreateDocumentHandler extends Handler
                     ]))
                     ->order(' id asc ')
                     ->load();
+
+                $stockModel2 = (new StockCollection)
+                    ->where(new Filter([
+                        'name' => 'added_by',
+                        'kind' => new FilterKind('='),
+                        'value' => User::getId(),
+                    ]))
+                    ->where(new Filter([
+                        'name' => 'deleted',
+                        'kind' => new FilterKind('='),
+                        'value' => 0,
+                    ]))
+                    ->where(new Filter([
+                        'name' => 'product_id',
+                        'kind' => new FilterKind('='),
+                        'value' => $productId,
+                    ]))
+                    ->where(new Filter([
+                        'name' => 'count',
+                        'kind' => new FilterKind('<'),
+                        'value' => 0,
+                    ]))
+                    ->order(' id asc ')
+                    ->load();
+                $stockModel2->rewind();
+                //print_r([$productId]);
+                while ($stock = $stockModel2->current()) {
+                    $count -= $stock->getCount();
+                    $stockModel2->next();
+                }
+
                 $stockModel->rewind();
                 //print_r([$productId]);
                 while ($stock = $stockModel->current()) {
