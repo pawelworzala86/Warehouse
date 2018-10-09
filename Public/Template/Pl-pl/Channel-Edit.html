@@ -1,0 +1,19 @@
+<div class="container">
+    <article>
+        <div class="row">
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Dane podstawowe</div>
+                    <div class="form-group col col-xs-12">
+                        <label ng-class="{'error': data.validation.name&&!data.channel.name}">Nazwa kanału sprzedaży</label>
+                        <input type="text" ng-model="data.channel.name"
+                               ng-class="{'error': data.validation.name&&!data.channel.name}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="sender icon" ng-click="data.send()">Zapisz</button>
+        </div>
+    </article>
+</div>
