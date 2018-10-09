@@ -73,8 +73,8 @@ class Database
             } else
                 $sth->execute();
             return $sth->fetchAll(PDO::FETCH_ASSOC);
-        } catch (PDOException $e) {
-            $this->setErrorMsg($e->getMessage());
+        } catch (\PDOException $e) {
+            print_r([$e->getMessage(), $this->sql, $param]);
         }
         return null;
     }

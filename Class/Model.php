@@ -132,9 +132,11 @@ class Model
 
     function where($value1, string $value2 = null, string $value3 = null)
     {
-        if(is_object($value1)) {
+        if (is_object($value1)) {
             $this->where[] = $value1;
-        }else{
+        }else if (is_string($value1)&&($value2==null)&&($value3==null)) {
+            $this->where[] = $value1;
+        } else {
             $this->where[] = new Filter([
                 'name' => $value1,
                 'kind' => new FilterKind($value2),
@@ -198,22 +200,26 @@ class Model
         $where2 = '';
         if ($filters) {
             foreach ($filters as $key => $value) {
-                $kind = $value->getKind();
-                $kindValue = $kind->getValue();
-                if ($kindValue == '=') {
-                    $where2 .= ' `' . $value->getName() . '`=? and ';
-                    $params[] = $value->getValue();
-                } else if ($kindValue == '>') {
-                    $where2 .= ' `' . $value->getName() . '`>? and ';
-                    $params[] = $value->getValue();
-                } else if ($kindValue == '<') {
-                    $where2 .= ' `' . $value->getName() . '`<? and ';
-                    $params[] = $value->getValue();
-                } else if ($kindValue == 'null') {
-                    $where2 .= ' `' . $value->getName() . '` is null and ';
-                } else if ($kindValue == '%') {
-                    $where2 .= ' `' . $value->getName() . "` like concat('%', ?, '%') and ";
-                    $params[] = $value->getValue();
+                if (!is_string($value)) {
+                    $kind = $value->getKind();
+                    $kindValue = $kind->getValue();
+                    if ($kindValue == '=') {
+                        $where2 .= ' `' . $value->getName() . '`=? and ';
+                        $params[] = $value->getValue();
+                    } else if ($kindValue == '>') {
+                        $where2 .= ' `' . $value->getName() . '`>? and ';
+                        $params[] = $value->getValue();
+                    } else if ($kindValue == '<') {
+                        $where2 .= ' `' . $value->getName() . '`<? and ';
+                        $params[] = $value->getValue();
+                    } else if ($kindValue == 'null') {
+                        $where2 .= ' `' . $value->getName() . '` is null and ';
+                    } else if ($kindValue == '%') {
+                        $where2 .= ' `' . $value->getName() . "` like concat('%', ?, '%') and ";
+                        $params[] = $value->getValue();
+                    }
+                } else {
+                    $where2 .= ' ' . $value . ' and ';
                 }
             }
         }
@@ -221,7 +227,7 @@ class Model
             $where = ' where ' . $where . ' ';
             $where = $where . (!empty($where2) ? (' and ' . trim($where2, 'and ')) : '');
         } else {
-            $where = !empty($where2)?' where ' . trim($where2, 'and '):'';
+            $where = !empty($where2) ? ' where ' . trim($where2, 'and ') : '';
         }
 
         if (!isset($this->order) || (count($this->order) == 0)) {
@@ -365,14 +371,16 @@ class Model
 
     function isLoaded()
     {
-        return ($this->updatedFields)>0;
+        return ($this->updatedFields) > 0;
     }
 
-    function start(){
+    function start()
+    {
         $this->db()->execute('start transaction');
     }
 
-    function commit(){
+    function commit()
+    {
         $this->db()->execute('commit');
     }
 }
