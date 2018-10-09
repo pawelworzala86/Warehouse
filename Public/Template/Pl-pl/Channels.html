@@ -106,10 +106,8 @@
                    ng-click="loadDetail('/channel', channels, channel);document.detailShow=true">zoom_in</i>
                 <div class="col col-xs-12">{{channel.name}}</div>
                 <div class="buttons">
-                    <a download="true" ng-href="/api/document/{{channel.id}}/print" target="_blank"><i
-                            class="material-icons">print</i></a>
                     <a ng-href="/kanal-sprzedazy/{{channel.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
-                    <i class="material-icons" ng-click="deleteRow(cashs, cash)">delete_forever</i>
+                    <i class="material-icons" ng-click="deleteRow(channels, channel)">delete_forever</i>
                 </div>
             </div>
         </div>

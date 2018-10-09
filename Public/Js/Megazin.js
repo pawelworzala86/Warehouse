@@ -2429,7 +2429,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                     rows: rows,
                     row: row,
                     id: row.id,
-                    apiUrl: '/cash',
+                    apiUrl: '/channel',
                 }
             });
         }

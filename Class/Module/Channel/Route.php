@@ -10,4 +10,5 @@ return [
     Router::get('/channel', Handler\GetChannelsHandler::class),
     Router::get('/channel/{id}', Handler\GetChannelHandler::class),
     Router::put('/channel/{id}', Handler\UpdateChannelHandler::class),
+    Router::delete('/channel/{id}', Handler\DeleteChannelHandler::class),
 ];
