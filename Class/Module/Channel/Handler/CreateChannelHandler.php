@@ -18,6 +18,8 @@ class CreateChannelHandler extends Handler
         (new ChannelModel)
             ->setUuid($uuid)
             ->setName($request->getName())
+            ->setHost($request->getHost())
+            ->setKey($request->getKey())
             ->insert();
 
         return (new CreateChannelResponse)

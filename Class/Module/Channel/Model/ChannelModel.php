@@ -11,6 +11,32 @@ class ChannelModel extends Model
     private $name;
     private $uuid;
     private $id;
+    public $host;
+    public $key;
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function setKey(string $key): ChannelModel
+    {
+        $this->set('key', $key);
+        $this->key = $key;
+        return $this;
+    }
+
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    public function setHost(string $host): ChannelModel
+    {
+        $this->set('host', $host);
+        $this->host = $host;
+        return $this;
+    }
 
     public function getId(): ?int
     {

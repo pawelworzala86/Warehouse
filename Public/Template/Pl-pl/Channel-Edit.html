@@ -9,6 +9,16 @@
                         <input type="text" ng-model="data.channel.name"
                                ng-class="{'error': data.validation.name&&!data.channel.name}"/>
                     </div>
+                    <div class="form-group col col-xs-6">
+                        <label ng-class="{'error': data.validation.host&&!data.channel.host}">Adres sklepu</label>
+                        <input type="text" ng-model="data.channel.host"
+                               ng-class="{'error': data.validation.host&&!data.channel.host}"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label ng-class="{'error': data.validation.key&&!data.channel.key}">Klucz API</label>
+                        <input type="text" ng-model="data.channel.key"
+                               ng-class="{'error': data.validation.key&&!data.channel.key}"/>
+                    </div>
                 </div>
             </div>
         </div>

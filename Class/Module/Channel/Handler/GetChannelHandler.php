@@ -16,6 +16,8 @@ class GetChannelHandler extends Handler
 
         return (new GetChannelResponse)
             ->setId($channel->getUuid())
-            ->setName($channel->getName());
+            ->setName($channel->getName())
+            ->setHost($channel->getHost())
+            ->setKey($channel->getKey());
     }
 }

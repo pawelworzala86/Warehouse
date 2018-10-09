@@ -10,6 +10,30 @@ class UpdateChannelRequest extends UserRequest
 
     public $name;
     public $id;
+    public $host;
+    public $key;
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function setKey(string $key)
+    {
+        $this->key = $key;
+        return $this;
+    }
+
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    public function setHost(string $host)
+    {
+        $this->host = $host;
+        return $this;
+    }
 
     public function getId(): UUID
     {

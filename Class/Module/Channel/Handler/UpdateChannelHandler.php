@@ -16,6 +16,8 @@ class UpdateChannelHandler extends Handler
         (new ChannelModel)
             ->setUuid($request->getId())
             ->setName($request->getName())
+            ->setHost($request->getHost())
+            ->setKey($request->getKey())
             ->update();
 
         return new SuccessResponse;

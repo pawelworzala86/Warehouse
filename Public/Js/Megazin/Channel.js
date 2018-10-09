@@ -5,6 +5,8 @@ angular.module('Megazin')
             id: $routeParams.id,
             validation: {
                 name: true,
+                host: true,
+                key: true,
             },
             channel: {
                 name: null,
@@ -23,6 +25,8 @@ angular.module('Megazin')
         }
         $scope.data.send = function () {
             $scope.data.validation.name = $scope.data.channel.name ? false : true
+            $scope.data.validation.host = $scope.data.channel.host ? false : true
+            $scope.data.validation.key = $scope.data.channel.key ? false : true
             validate = true
             angular.forEach($scope.data.validation, (el) => {
                 if (el) {
@@ -32,6 +36,10 @@ angular.module('Megazin')
             if (!validate) {
                 if ($scope.data.validation.name) {
                     showError.show($scope, 'Wprowadź nazwę kanału')
+                }else if ($scope.data.validation.host) {
+                    showError.show($scope, 'Wprowadź adres URL sklepu')
+                }else if ($scope.data.validation.key) {
+                    showError.show($scope, 'Wprowadź klucz API')
                 }
                 return
             }

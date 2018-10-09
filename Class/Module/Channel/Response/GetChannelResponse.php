@@ -9,6 +9,30 @@ class GetChannelResponse extends Response
 {
     private $id;
     private $name;
+    public $host;
+    public $key;
+
+    public function getKey(): string
+    {
+        return $this->key;
+    }
+
+    public function setKey(string $key): GetChannelResponse
+    {
+        $this->key = $key;
+        return $this;
+    }
+
+    public function getHost(): string
+    {
+        return $this->host;
+    }
+
+    public function setHost(string $host): GetChannelResponse
+    {
+        $this->host = $host;
+        return $this;
+    }
 
     public function getName(): string
     {

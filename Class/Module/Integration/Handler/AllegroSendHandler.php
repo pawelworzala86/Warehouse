@@ -17,7 +17,7 @@ class AllegroSendHandler extends Handler
         $auction = new Auction;
         $auction->setTitle('kuku');
 
-        $allegro = new Allegro('rozwala_pl', 'f7b04cb413B92bba', 'sf7b04cb');
+        $allegro = new Allegro('worzala86@gmail.com', '347142856ABab', 'cR5j03IqZapGQ0Z');
         $allegro->login();
         $result = $allegro->send($auction);
 
