@@ -6,12 +6,12 @@ chdir('../');
 
 require_once('vendor/autoload.php');
 
-chdir('Api');
-require_once('index.php');
-require_once('Class/Doc.php');
-require_once('Class/Output.php');
+//chdir('Api');
+require_once('Api/index.php');
+require_once('Doc/Class/Doc.php');
+require_once('Doc/Class/Output.php');
 
-chdir('../');
+//chdir('../');
 
 echo '<style>'.file_get_contents('Doc/Doc.css').'</style>';
 
