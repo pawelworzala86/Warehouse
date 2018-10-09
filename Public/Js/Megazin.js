@@ -2032,12 +2032,6 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             pagination.page = 1;
             loadPage()
         }
-        $scope.downloadProducts = ()=>{
-            $http.get(apiBase+'/integration/presta/products').then(()=>{})
-        }
-        $scope.sendProducts = ()=>{
-            $http.put(apiBase+'/integration/presta/products').then(()=>{})
-        }
         $scope.synchronizeProducts = ()=>{
             $http.put(apiBase+'/integration/presta/synchronize').then(()=>{})
         }
