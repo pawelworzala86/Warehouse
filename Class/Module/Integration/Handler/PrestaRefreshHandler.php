@@ -266,7 +266,7 @@ class PrestaRefreshHandler extends Handler
                                 ->setPrestaId($prestaProductId)
                                 ->insert();
 
-                            $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . 'images/products/' . $prestaProductId;
+                            $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId;
                             $data = $curl->get($url);
                             $prestaImageXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
                             //print_r($prestaImageXML);
