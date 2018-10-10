@@ -33,11 +33,12 @@ class GetSearchCatalogProductsHandler extends Handler
                 'kind' => new FilterKind('='),
                 'value' => 0,
             ]))
-            ->where(new Filter([
+            /*->where(new Filter([
                 'name' => 'name',
                 'kind' => new FilterKind('%'),
                 'value' => $request->getSearch(),
-            ]))
+            ]))*/
+            ->where(' name like \'%'.htmlspecialchars($request->getSearch()).'%\' or sku like \'%'.htmlspecialchars($request->getSearch()).'%\' and')
             ->load();
 
         $productsList = new CatalogProducts;

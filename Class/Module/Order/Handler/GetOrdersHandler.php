@@ -17,6 +17,7 @@ use App\Container\Filter;
 use App\Type\FilterKind;
 use App\Container\OrderResponse;
 use App\Container\OrdersResponse;
+use App\Type\UUID;
 use App\User;
 
 class GetOrdersHandler extends Handler
@@ -94,13 +95,13 @@ class GetOrdersHandler extends Handler
                 $products->add(
                     (new DocumentProduct)
                         ->setId($product->getUuid())
-                        ->setProductId($prod->getUuid())
+                        ->setProductId(new UUID($product->getProductId()))
                         ->setCount($product->getCount())
                         ->setNet($product->getNet())
                         ->setSumNet($product->getSumNet())
                         ->setSumGross($product->getSumGross())
                         ->setVat($product->getVat())
-                        ->setName($prod->getName())
+                        ->setName($product->getName())
                         ->setImageUrl(($file->getId()&&$file->getSize())?$file->getUrl():null)
                         ->setSku($product->getSku())
                 );

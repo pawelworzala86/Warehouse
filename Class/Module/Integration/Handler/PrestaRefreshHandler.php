@@ -14,6 +14,7 @@ use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Files\Model\FileModel;
+use App\Module\Integration\Model\ContractorIntegrationModel;
 use App\Module\Integration\Model\OrderIntegrationModel;
 use App\Module\Integration\Model\ProductIntegrationModel;
 use App\Module\Order\Model\OrderModel;
@@ -38,7 +39,7 @@ class PrestaRefreshHandler extends Handler
             ->where('added_by', '=', User::getId())
             ->load();
 
-        while($channel = $channels->current()) {
+        while ($channel = $channels->current()) {
             $PS_WS_AUTH_KEY = $channel->getKey();
             $PS_HOST_NAME = $channel->getHost();
 
@@ -161,7 +162,7 @@ class PrestaRefreshHandler extends Handler
                         ->setPrestaId((string)$prestaOrder->id)
                         ->insert();
 
-                    $contractorModel = (new ContractorModel)
+                    /*$contractorModel = (new ContractorModel)
                         ->where(
                             (new Filter)
                                 ->setName('added_by')
@@ -178,9 +179,16 @@ class PrestaRefreshHandler extends Handler
                                 ->setKind(new FilterKind('='))
                                 ->setValue($prestaOrder->customer_id)
                         )
+                        ->load();*/
+                    //print_r([$prestaOrder]);
+                    $contractorIntegration = (new ContractorIntegrationModel)
+                        ->where('added_by', '=', User::getId())
+                        ->where('deleted', '=', 0)
+                        //->where('sku', '=', $product->getSku())
+                        ->where('channel_id', '=', $channel->getId())
+                        ->where('presta_id', '=', (string)$prestaOrder->id_customer)
                         ->load();
-
-                    if (!$contractorModel->getId()) {
+                    if (!$contractorIntegration->getId()) {
                         $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/customers/' . $prestaOrder->id_customer;
                         $data = $curl->get($url);
                         $prestaCustomerXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
@@ -207,18 +215,24 @@ class PrestaRefreshHandler extends Handler
 
                         (new ContractorModel)
                             ->setUuid(Common::getUuid())
-                            ->setCode('P-' . (string)$prestaOrder->customer_id)
+                            ->setCode('P-' . (string)$channel->getId() . '-' . (string)$prestaOrder->id_customer)
                             ->setName(((string)$addressCustomer->company !== '') ? $addressCustomer->company : $prestaCustomer->firstname . ' ' . $prestaCustomer->lastname)
                             ->setAddressId($addressId)
                             ->setContactId($contactId)
-                            ->setPrestaId($prestaOrder->customer_id)
+                            //->setPrestaId($prestaOrder->customer_id)
+                            ->insert();
+
+                        (new ContractorIntegrationModel)
+                            ->setUuid(Common::getUuid())
+                            ->setChannelId($channel->getId())
+                            ->setPrestaId((string)$prestaOrder->id_customer)
                             ->insert();
                         //print_r($prestaCustomer);
                     }
 
                     foreach ($prestaOrder->associations->order_rows->order_row as $row) {
                         $prestaProductId = (string)$row->product_id;
-
+                        $sku = new SKU((string)$row->product_reference);
                         /*$product = (new ProductModel)
                             ->where(
                                 (new Filter)
@@ -238,22 +252,21 @@ class PrestaRefreshHandler extends Handler
                             )
                             ->load();*/
                         $productIntegration = (new ProductIntegrationModel)
-                            ->where('deleted', '=',0)
+                            ->where('deleted', '=', 0)
                             ->where('added_by', '=', User::getId())
                             ->where('channel_id', '=', $channel->getId())
                             ->where('sku', '=', (string)$row->product_reference)
                             ->load();
-                        $productId = $productIntegration->getProductId();
+                        //$productId = $productIntegration->getProductId();
                         if (!$productIntegration->getId()) {
-                            $sku = !empty((string)$row->product_reference) ? new SKU((string)$row->product_reference) : new SKU(substr_replace(Common::getUuid(), 0, 8));
                             $productId = (new ProductModel)
                                 ->setUuid(Common::getUuid())
                                 ->setName($row->product_name)
                                 ->setSku($sku)
                                 //->setPrestaId($prestaProductId)
-                                ->setSellNet(round((float)$row->unit_price_tax_excl, 2))
+                                ->setSellNet(round(((float)$row->unit_price_tax_excl/123)*100, 2))
                                 ->setVat('23')
-                                ->setSellGross(round((float)$row->unit_price_tax_incl, 2))
+                                ->setSellGross(round((float)$row->unit_price_tax_excl, 2))
                                 ->setDescriptionShort((string)$row->description_short->language)
                                 ->setDescriptionFull((string)$row->description->language)
                                 ->insert();
@@ -270,9 +283,9 @@ class PrestaRefreshHandler extends Handler
                             $data = $curl->get($url);
                             $prestaImageXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
                             //print_r($prestaImageXML);
-                            $prestaImage = $prestaImageXML?$prestaImageXML->children()->children():null;
+                            $prestaImage = $prestaImageXML ? $prestaImageXML->children()->children() : null;
                             $index = 1;
-                            if($prestaImage) {
+                            if ($prestaImage) {
                                 foreach ($prestaImage->declination as $img) {
                                     $data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId . '/' . $img['id']);
                                     $name = trim(strtok($row->product_name . ($index++), '?'));
@@ -295,7 +308,7 @@ class PrestaRefreshHandler extends Handler
                                 }
                             }
                         }// else {
-                            //$productId = $product->getId();
+                        //    $productId = $productIntegration->getProductId();
                         //}
 
                         (new OrderProductModel)
@@ -303,11 +316,11 @@ class PrestaRefreshHandler extends Handler
                             ->setProductId($productId)
                             ->setOrderId($orderId)
                             ->setCount((float)$row->product_quantity)
-                            ->setNet(round((float)$row->unit_price_tax_excl, 2))
+                            ->setNet(round(((float)$row->unit_price_tax_excl/123)*100, 2))
                             ->setVat('23')
-                            ->setSumNet(round((float)$row->unit_price_tax_excl * (float)$row->product_quantity, 2))
-                            ->setSumGross(round((float)$row->unit_price_tax_incl * (float)$row->product_quantity, 2))
-                            ->setSku(!empty((string)$row->product_reference) ? new SKU((string)$row->product_reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
+                            ->setSumNet(round((((float)$row->unit_price_tax_excl * (float)$row->product_quantity)/123)*100, 2))
+                            ->setSumGross(round((float)$row->unit_price_tax_excl * (float)$row->product_quantity, 2))
+                            ->setSku($sku)
                             ->setName($row->product_name)
                             ->insert();
                     }
