@@ -10,6 +10,9 @@ class UUID extends Type
 
     function setUuid(string $uuid): UUID
     {
+        if(strlen($uuid)!==32){
+            throw new \Exception('UUID must have 32 characters lenght!');
+        }
         $this->uuid = $uuid;
         return $this;
     }
