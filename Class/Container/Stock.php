@@ -3,6 +3,7 @@
 namespace App\Container;
 
 use App\Container;
+use App\Type\SKU;
 
 class Stock extends Container
 {

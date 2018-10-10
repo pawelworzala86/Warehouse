@@ -22,7 +22,7 @@ class UserRegisterModel extends Model
 
     public function setUuid(UUID $uuid): UserRegisterModel
     {
-        $this->set('uuid', $uuid);
+        $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;
         return $this;
     }

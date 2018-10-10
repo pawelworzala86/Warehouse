@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Czas generowania: 06 Paź 2018, 14:03
+-- Czas generowania: 10 Paź 2018, 02:24
 -- Wersja serwera: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- Wersja PHP: 7.2.10-0ubuntu0.18.04.1
 
@@ -51,6 +51,62 @@ CREATE TABLE `address` (
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `cash_document`
+--
+
+CREATE TABLE `cash_document` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `number` varchar(250) DEFAULT NULL,
+  `kind` varchar(10) DEFAULT NULL,
+  `amount` float DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `document_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `cash_document_view`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `cash_document_view` (
+`id` int(11)
+,`uuid` binary(16)
+,`number` varchar(250)
+,`added_by` int(11)
+,`amount` float
+,`kind` varchar(10)
+,`added` int(11)
+,`date` date
+,`hour` varchar(10)
+,`document_number` varchar(90)
+,`document_id` binary(16)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `cash_view`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `cash_view` (
+`ballance` double
+,`added_by` int(11)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `category`
 --
 
@@ -70,6 +126,29 @@ CREATE TABLE `category` (
   `lp` int(11) DEFAULT '0',
   `category_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `channel`
+--
+
+CREATE TABLE `channel` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL,
+  `host` varchar(250) DEFAULT NULL,
+  `key` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
 
@@ -122,6 +201,22 @@ CREATE TABLE `contractor_contact` (
   `www` varchar(250) DEFAULT NULL,
   `contractor_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `debtor_view`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `debtor_view` (
+`uuid` binary(16)
+,`id` int(11)
+,`added_by` int(11)
+,`deleted` int(11)
+,`debt` double(19,2)
+,`name` varchar(250)
+,`code` varchar(90)
+);
 
 -- --------------------------------------------------------
 
@@ -268,14 +363,6 @@ CREATE TABLE `ip` (
   `date` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `ip`
---
-
-INSERT INTO `ip` (`id`, `ip`, `user_id`, `date`) VALUES
-(1, 1, NULL, 1538281370),
-(2, 1, 1, 1538827359);
-
 -- --------------------------------------------------------
 
 --
@@ -366,9 +453,66 @@ CREATE TABLE `product` (
   `partial` tinyint(1) DEFAULT '0',
   `sell_net` float DEFAULT NULL,
   `sell_gross` float DEFAULT NULL,
-  `vat` varchar(10) DEFAULT NULL,
-  `presta_id` varchar(250) DEFAULT NULL
+  `vat` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `production`
+--
+
+CREATE TABLE `production` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `name` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `production_document`
+--
+
+CREATE TABLE `production_document` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `production_id` int(11) DEFAULT NULL,
+  `document_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Zastąpiona struktura widoku `production_view`
+-- (Zobacz poniżej rzeczywisty widok)
+--
+CREATE TABLE `production_view` (
+`id` int(11)
+,`uuid` binary(16)
+,`added_by` int(11)
+,`name` varchar(250)
+,`buy_net` double(19,2)
+,`sell_net` double(19,2)
+);
 
 -- --------------------------------------------------------
 
@@ -560,13 +704,6 @@ CREATE TABLE `session` (
   `deleted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `session`
---
-
-INSERT INTO `session` (`sessid`, `access`, `data`, `ip_id`, `user_id`, `deleted`) VALUES
-(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1538827359, 'userId|i:1;', 2, 1, NULL);
-
 -- --------------------------------------------------------
 
 --
@@ -591,29 +728,6 @@ CREATE TABLE `stock` (
   `document_product_id` int(11) DEFAULT NULL,
   `stock_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Zrzut danych tabeli `stock`
---
-
-INSERT INTO `stock` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `product_id`, `count`, `document_id`, `document_product_id`, `stock_id`) VALUES
-(1, 0x5c514d5a937871b192c18646aa841f03, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 6, 100, 2, 1, NULL),
-(2, 0x023f391a3c99fb642b7365f626bfaab0, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 5, 100, 2, 2, NULL),
-(3, 0xb5726a66b7dd8b56b253d2f8f9cf9763, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 4, 100, 2, 3, NULL),
-(4, 0xf121cb0ab098f65dd251254fd2073438, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 3, 100, 2, 4, NULL),
-(5, 0x32709cddca1cac0bdf1ff5dab6cd17ad, 1538778490, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 2, 100, 2, 5, NULL),
-(6, 0x9cf1598795b94b790b87314031501a63, 1538798860, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, 100, 0, 57424, NULL),
-(7, 0x0b0a4826b8af672cd235b34dd58dfdd2, 1538798936, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, 100, 10, 57425, NULL),
-(8, 0xf165fa6d18399bdc4572a4c9a6004880, 1538798964, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, 1, 11, 57426, NULL),
-(9, 0x654a9345f6c78b61300014d94114b815, 1538799007, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, -1, 12, 57428, 6),
-(10, 0xba8f9986137606f14d7a16535a120a1a, 1538799064, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 2, 100, 14, 57430, NULL),
-(11, 0x252051fd9199ac6d6c6f2f73316b75d5, 1538799064, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, 100, 14, 57431, NULL),
-(12, 0x6967386763857c41ac113c41f475c335, 1538799070, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 15, 57433, 11),
-(13, 0x0a89a2bb5ca70b707cff733f8f3f161d, 1538799285, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 16, 57435, 11),
-(14, 0x87f604f996fa70c6f6184d77907159ab, 1538799316, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 17, 57437, 11),
-(15, 0xd8b6ca25b1046843d7997ff96dfb8183, 1538801760, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 7, -1, 18, 57439, 6),
-(16, 0x3baf214010d9f12c733414b3622f51f6, 1538801815, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 1, -1, 19, 57441, 11),
-(17, 0xca4c0f5d33f57a8762646099adf3ddcf, 1538816034, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 5, -7, 20, 57442, 2);
 
 -- --------------------------------------------------------
 
@@ -662,13 +776,6 @@ CREATE TABLE `user` (
   `bank_number` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
---
--- Zrzut danych tabeli `user`
---
-
-INSERT INTO `user` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `address_id`, `contact_id`, `bank_name`, `bank_swift`, `issue_place`, `bank_number`) VALUES
-(1, 0x05867f4d98570fd6716b73dc00976b21, 1523047519, NULL, 1, 1538801718, 1, 2, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 4, 2, 'mBank', 'SWIFT', 'Elbląg', '132456456465456465');
-
 -- --------------------------------------------------------
 
 --
@@ -695,11 +802,47 @@ CREATE TABLE `user_register` (
 -- --------------------------------------------------------
 
 --
+-- Struktura widoku `cash_document_view`
+--
+DROP TABLE IF EXISTS `cash_document_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cash_document_view`  AS  select `cash_document`.`id` AS `id`,`cash_document`.`uuid` AS `uuid`,`cash_document`.`number` AS `number`,`cash_document`.`added_by` AS `added_by`,`cash_document`.`amount` AS `amount`,`cash_document`.`kind` AS `kind`,`cash_document`.`added` AS `added`,`cash_document`.`date` AS `date`,date_format(from_unixtime(`cash_document`.`added`),'%k:%i') AS `hour`,`document`.`name` AS `document_number`,`document`.`uuid` AS `document_id` from (`cash_document` left join `document` on((`document`.`id` = `cash_document`.`document_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `cash_view`
+--
+DROP TABLE IF EXISTS `cash_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `cash_view`  AS  select sum((if((`cash_document`.`kind` = 'kp'),`cash_document`.`amount`,0) - if((`cash_document`.`kind` = 'kw'),`cash_document`.`amount`,0))) AS `ballance`,`cash_document`.`added_by` AS `added_by` from `cash_document` where (`cash_document`.`added` > coalesce((select `c`.`added` from `cash_document` `c` where ((`c`.`added_by` = `cash_document`.`added_by`) and (`c`.`kind` = 'kz')) order by `c`.`added` desc limit 1),0)) group by `cash_document`.`added_by` ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `debtor_view`
+--
+DROP TABLE IF EXISTS `debtor_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `debtor_view`  AS  select `contractor`.`uuid` AS `uuid`,`contractor`.`id` AS `id`,`contractor`.`added_by` AS `added_by`,`contractor`.`deleted` AS `deleted`,coalesce(round((select sum(`document`.`to_pay`) from `document` where (`document`.`contractor_id` = `contractor`.`id`)),2),0) AS `debt`,`contractor`.`name` AS `name`,`contractor`.`code` AS `code` from `contractor` ;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura widoku `document_view`
 --
 DROP TABLE IF EXISTS `document_view`;
 
 CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `document_view`  AS  select `document`.`uuid` AS `uuid`,`document`.`id` AS `id`,`document`.`name` AS `name`,`document`.`date` AS `date`,`document`.`added_by` AS `added_by`,`document`.`deleted` AS `deleted`,`contractor`.`name` AS `contractor_name`,`document`.`gross` AS `gross`,`contractor`.`uuid` AS `contractor_id` from (`document` left join `contractor` on((`contractor`.`id` = `document`.`contractor_id`))) ;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura widoku `production_view`
+--
+DROP TABLE IF EXISTS `production_view`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `production_view`  AS  select `production`.`id` AS `id`,`production`.`uuid` AS `uuid`,`production`.`added_by` AS `added_by`,`production`.`name` AS `name`,round(coalesce(sum(if((`document`.`type` = 'rw'),`document`.`net`,0)),0),2) AS `buy_net`,round(coalesce(sum(if((`document`.`type` = 'pw'),`document`.`net`,0)),0),2) AS `sell_net` from ((`production` left join `production_document` on((`production_document`.`production_id` = `production`.`id`))) left join `document` on((`document`.`id` = `production_document`.`document_id`))) where (`production`.`deleted` = 0) group by `production`.`id` ;
 
 -- --------------------------------------------------------
 
@@ -746,9 +889,36 @@ ALTER TABLE `address`
   ADD KEY `deleted_ip_id` (`deleted_ip_id`);
 
 --
+-- Indeksy dla tabeli `cash_document`
+--
+ALTER TABLE `cash_document`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `document_id` (`document_id`);
+
+--
 -- Indeksy dla tabeli `category`
 --
 ALTER TABLE `category`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+
+--
+-- Indeksy dla tabeli `channel`
+--
+ALTER TABLE `channel`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
   ADD KEY `added_by` (`added_by`),
@@ -866,7 +1036,8 @@ ALTER TABLE `order`
   ADD KEY `contractor_id` (`contractor_id`),
   ADD KEY `address_id` (`address_id`),
   ADD KEY `document_id` (`document_id`),
-  ADD KEY `number` (`number`);
+  ADD KEY `number` (`number`),
+  ADD KEY `presta_id` (`presta_id`(191));
 
 --
 -- Indeksy dla tabeli `order_product`
@@ -889,13 +1060,40 @@ ALTER TABLE `order_product`
 ALTER TABLE `product`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `uuid` (`uuid`),
-  ADD UNIQUE KEY `added_by_2` (`added_by`,`deleted`,`sku`),
   ADD KEY `added_by` (`added_by`),
   ADD KEY `added_ip_id` (`added_ip_id`),
   ADD KEY `updated_by` (`updated_by`),
   ADD KEY `updated_ip_id` (`updated_ip_id`),
   ADD KEY `deleted_by` (`deleted_by`),
   ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+
+--
+-- Indeksy dla tabeli `production`
+--
+ALTER TABLE `production`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+
+--
+-- Indeksy dla tabeli `production_document`
+--
+ALTER TABLE `production_document`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `production_id` (`production_id`),
+  ADD KEY `document_id` (`document_id`);
 
 --
 -- Indeksy dla tabeli `product_attachment`
@@ -1000,9 +1198,21 @@ ALTER TABLE `address`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `cash_document`
+--
+ALTER TABLE `cash_document`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `category`
 --
 ALTER TABLE `category`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `channel`
+--
+ALTER TABLE `channel`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1045,7 +1255,7 @@ ALTER TABLE `file`
 -- AUTO_INCREMENT dla tabeli `ip`
 --
 ALTER TABLE `ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `order`
@@ -1063,6 +1273,18 @@ ALTER TABLE `order_product`
 -- AUTO_INCREMENT dla tabeli `product`
 --
 ALTER TABLE `product`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `production`
+--
+ALTER TABLE `production`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `production_document`
+--
+ALTER TABLE `production_document`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1087,13 +1309,13 @@ ALTER TABLE `root_todo`
 -- AUTO_INCREMENT dla tabeli `stock`
 --
 ALTER TABLE `stock`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `user_register`

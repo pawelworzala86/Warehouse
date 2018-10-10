@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\Type\Filter;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use ReflectionMethod;
 

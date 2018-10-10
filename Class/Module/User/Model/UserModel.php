@@ -3,6 +3,7 @@
 namespace App\Module\User\Model;
 
 use App\Model;
+use App\Type\EncodedPassword;
 use App\Type\Mail;
 use App\Type\Password;
 use App\Type\UUID;
@@ -128,12 +129,12 @@ class UserModel extends Model
         return $this;
     }
 
-    public function getPassword(): Password
+    public function getPassword(): EncodedPassword
     {
         return $this->password;
     }
 
-    public function setPassword(Password $password): UserModel
+    public function setPassword(EncodedPassword $password): UserModel
     {
         $this->set('password', $password);
         $this->password = $password;
