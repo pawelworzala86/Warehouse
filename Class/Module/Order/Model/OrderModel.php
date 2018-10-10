@@ -24,6 +24,19 @@ class OrderModel extends Model
     private $sumGross;
     private $sumVat;
     private $totalPaid;
+    private $channelId;
+
+    public function getChannelId(): ?float
+    {
+        return $this->channelId;
+    }
+
+    public function setChannelId(float $channelId = null): OrderModel
+    {
+        $this->set('channel_id', $channelId);
+        $this->channelId = $channelId;
+        return $this;
+    }
 
     public function getTotalPaid(): ?float
     {

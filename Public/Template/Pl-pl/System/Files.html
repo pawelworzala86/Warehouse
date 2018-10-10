@@ -65,7 +65,7 @@
                 </div>
             </div>
         </div>
-        <div ng-class="{'selected': file.selected, 'deleted': file.deleted" class="row" ng-repeat="file in files" ng-if="!deleted">
+        <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files" ng-if="!deleted">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
                                                                                             class="checkbox chbx"></label>
             <div class="col col-xs-12 image" ng-if="file.type=='image/jpg'"><img src="{{file.url}}"></div>

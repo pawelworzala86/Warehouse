@@ -151,6 +151,7 @@ class PrestaRefreshHandler extends Handler
                         ->setSumVat($vat)
                         ->setSumGross($gross)
                         ->setTotalPaid((float)$prestaOrder->total_paid_real)
+                        ->setChannelId($channel->getId())
                         ->insert();
 
                     (new OrderIntegrationModel)
