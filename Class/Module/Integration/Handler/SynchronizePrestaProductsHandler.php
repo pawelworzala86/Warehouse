@@ -227,36 +227,36 @@ class SynchronizePrestaProductsHandler extends Handler
                 $xml = simplexml_load_string($curl->get($url));
                 $prestaProduct = $xml->children()->children();
 
-                $product = (new ProductModel)
-                    ->where(
-                        (new Filter)
-                            ->setName('added_by')
-                            ->setKind(new FilterKind('='))
-                            ->setValue(User::getId())
-                    )->where(
-                        (new Filter)
-                            ->setName('deleted')
-                            ->setKind(new FilterKind('='))
-                            ->setValue(0)
-                    )->where(
-                        (new Filter)
-                            ->setName('sku')
-                            ->setKind(new FilterKind('='))
-                            ->setValue((string)$prestaProduct->reference)
-                    )
+                //$productId = null;
+                $productIntegration = (new ProductIntegrationModel)
+                    ->where('deleted', '=',0)
+                    ->where('added_by', '=', User::getId())
+                    ->where('channel_id', '=', $channel->getId())
+                    ->where('presta_id', '=', $prestaProduct->id)
+                    //->where('sku', '=', (string)$prestaProduct->product_reference)
                     ->load();
-                $productId = null;
+                $product = (new ProductModel)
+                    ->load($productIntegration->getProductId());
+                //$productId = $productIntegration->getProductId();
                 if (!$product->getId()) {
                     $productId = (new ProductModel)
                         ->setUuid(Common::getUuid())
                         ->setName((string)$prestaProduct->name->language)
-                        ->setSku(!empty((string)$prestaProduct->reference) ? new SKU((string)$prestaProduct->reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
+                        ->setSku(new SKU((string)$prestaProduct->reference))
                         //->setPrestaId($prestaProduct->id)
                         ->setSellNet(round((float)$prestaProduct->price, 2))
                         ->setVat('23')
                         ->setSellGross(round((float)$prestaProduct->price * 1.23, 2))
                         ->setDescriptionShort((string)$prestaProduct->description_short->language)
                         ->setDescriptionFull((string)$prestaProduct->description->language)
+                        ->insert();
+
+                    (new ProductIntegrationModel)
+                        ->setUuid(Common::getUuid())
+                        ->setChannelId($channel->getId())
+                        ->setProductId($productId)
+                        ->setSku((string)$prestaProduct->reference)
+                        ->setPrestaId($prestaProduct->id)
                         ->insert();
 
                     $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id;

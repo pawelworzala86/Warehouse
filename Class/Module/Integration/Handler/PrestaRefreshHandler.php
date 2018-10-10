@@ -237,6 +237,8 @@ class PrestaRefreshHandler extends Handler
                             )
                             ->load();*/
                         $productIntegration = (new ProductIntegrationModel)
+                            ->where('deleted', '=',0)
+                            ->where('added_by', '=', User::getId())
                             ->where('channel_id', '=', $channel->getId())
                             ->where('sku', '=', (string)$row->product_reference)
                             ->load();

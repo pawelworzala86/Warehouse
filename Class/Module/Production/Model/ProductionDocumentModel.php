@@ -34,7 +34,7 @@ class ProductionDocumentModel extends Model
         return $this;
     }
 
-    public function getProductionId(): int
+    public function getProductionId(): ?int
     {
         return $this->productionId;
     }
