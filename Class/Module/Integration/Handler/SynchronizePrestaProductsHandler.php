@@ -56,7 +56,7 @@ class SynchronizePrestaProductsHandler extends Handler
                 $productIntegration = (new ProductIntegrationModel)
                     ->where('added_by', '=', User::getId())
                     ->where('deleted', '=', 0)
-                    ->where('product_id', '=', $product->getId())
+                    ->where('sku', '=', $product->getSku())
                     ->where('channel_id', '=', $channel->getId())
                     ->load();
                 //print_r($product);
@@ -114,13 +114,13 @@ class SynchronizePrestaProductsHandler extends Handler
                                     ->setValue((string)$prestaProduct->reference)
                             )
                             ->load();*/
-                        $productIntegration = (new ProductIntegrationModel)
+                        /*$productIntegration = (new ProductIntegrationModel)
                             ->where('deleted', '=',0)
                             ->where('added_by', '=', User::getId())
                             ->where('channel_id', '=', $channel->getId())
                             ->where('presta_id', '=', $prestaProduct->id)
                             //->where('sku', '=', (string)$prestaProduct->product_reference)
-                            ->load();
+                            ->load();*/
                         $productModel = (new ProductModel)
                             ->load($productIntegration->getProductId());
                         //$productId = null;
@@ -244,10 +244,10 @@ class SynchronizePrestaProductsHandler extends Handler
                     ->where('presta_id', '=', $prestaProduct->id)
                     //->where('sku', '=', (string)$prestaProduct->product_reference)
                     ->load();
-                $product = (new ProductModel)
-                    ->load($productIntegration->getProductId());
+                //$product = (new ProductModel)
+                //    ->load($productIntegration->getProductId());
                 //$productId = $productIntegration->getProductId();
-                if (!$product->getId()) {
+                if (!$productIntegration->getId()) {
                     $productId = (new ProductModel)
                         ->setUuid(Common::getUuid())
                         ->setName((string)$prestaProduct->name->language)
