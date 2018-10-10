@@ -94,7 +94,7 @@ class CreateDocumentHandler extends Handler
             ->setNameFrom($request->getNameFrom())
             ->insert();
 
-        if(($type=='fvs')&&$request->getCashDocument()&&($request->getPayment()=='money')){
+        if(($type=='fvs')&&$request->getCashDocument()&&($request->getPayment()=='money')&&($request->getPayed()>0)){
             $numberType = 'kp';
             $numberModel = (new DocumentNumberModel)
                 ->where(
@@ -217,7 +217,7 @@ class CreateDocumentHandler extends Handler
                     ->order(' id asc ')
                     ->load();
 
-                $stockModel2 = (new StockCollection)
+                /*$stockModel2 = (new StockCollection)
                     ->where(new Filter([
                         'name' => 'added_by',
                         'kind' => new FilterKind('='),
@@ -245,7 +245,7 @@ class CreateDocumentHandler extends Handler
                 while ($stock = $stockModel2->current()) {
                     $count -= $stock->getCount();
                     $stockModel2->next();
-                }
+                }*/
 
                 $stockModel->rewind();
                 //print_r([$productId]);
