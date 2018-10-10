@@ -6,9 +6,9 @@ use App\Handler;
 use App\Module\Catalog\Collection\ProductAttachmentViewCollection;
 use App\Module\Catalog\Request\GetCatalogProductAttachmentsRequest;
 use App\Module\Catalog\Response\GetCatalogProductAttachmentsResponse;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
-use App\Type\Filter;
+use App\Container\FileResponse;
+use App\Container\FilesResponse;
+use App\Container\Filter;
 use App\Type\FilterKind;
 
 class GetCatalogProductAttachmentsHandler extends Handler

@@ -3,14 +3,13 @@
 namespace App\Module\Cash\Handler;
 
 use App\Handler;
-use App\Module\Cash\Collection\CashViewCollection;
 use App\Module\Cash\Model\CashViewModel;
 use App\Module\Cash\Response\GetCashsResponse;
 use App\Module\Cash\Collection\CashDocumentViewCollection;
 use App\Request\PaginationRequest;
-use App\Type\Cash;
-use App\Type\Cashs;
-use App\Type\Filter;
+use App\Container\Cash;
+use App\Container\Cashs;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

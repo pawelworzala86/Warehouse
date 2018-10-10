@@ -7,11 +7,10 @@ use App\Module\Contractor\Model\AddressModel;
 use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\User\Model\UserModel;
 use App\Module\User\Response\GetUserProfileResponse;
-use App\Module\User\Response\UserStatusResponse;
 use App\Request\EmptyRequest;
-use App\Type\Address;
-use App\Type\Contact;
-use App\Type\ProfileInvoice;
+use App\Container\Address;
+use App\Container\Contact;
+use App\Container\ProfileInvoice;
 use App\User;
 
 class GetUserProfileHandler extends Handler

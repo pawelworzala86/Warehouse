@@ -3,8 +3,6 @@
 namespace App\Module\Document\Request;
 
 use App\Request\UserRequest;
-use App\Type\DocumentProducts;
-use App\Type\SKU;
 use App\Type\UUID;
 
 class AddInvoiceRequest extends UserRequest

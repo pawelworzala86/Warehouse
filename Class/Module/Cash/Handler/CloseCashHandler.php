@@ -6,12 +6,10 @@ use App\Common;
 use App\Handler;
 use App\Module\Cash\Collection\CashDocumentViewCollection;
 use App\Module\Cash\Model\CashDocumentModel;
-use App\Module\Cash\Response\CreateCashResponse;
-use App\Module\Cash\Request\CreateCashRequest;
 use App\Module\Document\Model\DocumentNumberModel;
 use App\Request\EmptyRequest;
 use App\Response\SuccessResponse;
-use App\Type\Filter;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

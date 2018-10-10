@@ -4,15 +4,13 @@ namespace App\Module\Catalog\Handler;
 
 use App\Handler;
 use App\Module\Catalog\Collection\ProductCollection;
-use App\Module\Catalog\Response\GetCatalogProductsResponse;
 use App\Module\Catalog\Request\GetSearchCatalogProductsRequest;
 use App\Module\Catalog\Response\GetSearchCatalogProductsResponse;
-use App\Request\PaginationRequest;
-use App\Type\CatalogProduct;
-use App\Type\CatalogProducts;
-use App\Type\Filter;
+use App\Container\CatalogProduct;
+use App\Container\CatalogProducts;
+use App\Container\Filter;
 use App\Type\FilterKind;
-use App\Type\Pagination;
+use App\Container\Pagination;
 use App\User;
 
 class GetSearchCatalogProductsHandler extends Handler

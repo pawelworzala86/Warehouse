@@ -2,18 +2,13 @@
 
 namespace App\Module\Catalog\Handler;
 
-use App\Common;
 use App\Handler;
 use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
-use App\Module\Catalog\Request\AddImageToCatalogProductRequest;
-use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Catalog\Request\DeleteImageFromCatalogProductRequest;
-use App\Module\Catalog\Response\CreateCatalogProductResponse;
-use App\Request\EmptyRequest;
 use App\Response\SuccessResponse;
-use App\Type\Filter;
+use App\Container\Filter;
 use App\Type\FilterKind;
 
 class DeleteImageFromCatalogProductHandler extends Handler

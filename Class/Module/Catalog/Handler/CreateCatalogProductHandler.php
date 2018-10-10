@@ -8,10 +8,9 @@ use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\CreateCatalogProductRequest;
 use App\Module\Catalog\Response\CreateCatalogProductResponse;
 use App\Response\ErrorResponse;
-use App\Type\Filter;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
-use Complex\Exception;
 
 class CreateCatalogProductHandler extends Handler
 {

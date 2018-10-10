@@ -7,10 +7,10 @@ use App\Module\Production\Collection\ProductionCollection;
 use App\Module\Production\Collection\ProductionViewCollection;
 use App\Module\Production\Response\GetProductionsResponse;
 use App\Request\PaginationRequest;
-use App\Type\Filter;
+use App\Container\Filter;
 use App\Type\FilterKind;
-use App\Type\Production;
-use App\Type\Productions;
+use App\Container\Production;
+use App\Container\Productions;
 use App\User;
 
 class GetProductionsHandler extends Handler

@@ -2,8 +2,8 @@
 
 namespace App\Module\Contractor\Traits;
 
-use App\Type\Address;
-use App\Type\Contact;
+use App\Container\Address;
+use App\Container\Contact;
 use App\Type\UUID;
 
 trait ContractorTrait

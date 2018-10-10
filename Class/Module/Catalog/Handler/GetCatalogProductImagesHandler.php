@@ -6,9 +6,9 @@ use App\Handler;
 use App\Module\Catalog\Collection\ProductFileViewCollection;
 use App\Module\Catalog\Request\GetCatalogProductImagesRequest;
 use App\Module\Catalog\Response\GetCatalogProductImagesResponse;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
-use App\Type\Filter;
+use App\Container\FileResponse;
+use App\Container\FilesResponse;
+use App\Container\Filter;
 use App\Type\FilterKind;
 
 class GetCatalogProductImagesHandler extends Handler

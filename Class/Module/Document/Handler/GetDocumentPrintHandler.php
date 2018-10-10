@@ -22,16 +22,7 @@ use App\Module\Document\Response\GetDocumentsResponse;
 use App\Module\Document\Collection\DocumentCollection;
 use App\Module\User\Model\UserModel;
 use App\Prints\Invoice;
-use App\Request\EmptyRequest;
-use App\Request\PaginationRequest;
-use App\Response\SuccessResponse;
-use App\Type\Address;
-use App\Type\Contractor;
-use App\Type\Document;
-use App\Type\DocumentProduct;
-use App\Type\DocumentProducts;
-use App\Type\Documents;
-use App\Type\Filter;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

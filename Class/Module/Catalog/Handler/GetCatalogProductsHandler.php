@@ -8,10 +8,9 @@ use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Response\GetCatalogProductsResponse;
 use App\Request\PaginationRequest;
-use App\Type\CatalogProduct;
-use App\Type\CatalogProducts;
-use App\Type\File;
-use App\Type\Filter;
+use App\Container\CatalogProduct;
+use App\Container\CatalogProducts;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

@@ -5,8 +5,8 @@ namespace App\Module\Files\Handler;
 use App\Handler;
 use App\Module\Files\Request\UploadFileRequest;
 use App\Module\Files\Response\UploadFileResponse;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
+use App\Container\FileResponse;
+use App\Container\FilesResponse;
 
 class UploadFileHandler extends Handler
 {

@@ -3,18 +3,12 @@
 namespace App\Module\Catalog\Handler;
 
 use App\Handler;
-use App\Module\Catalog\Collection\ProductCollection;
 use App\Module\Catalog\Model\FileModel;
 use App\Module\Catalog\Model\ProductFilesModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Catalog\Request\GetCatalogProductRequest;
 use App\Module\Catalog\Response\GetCatalogProductResponse;
-use App\Module\Catalog\Response\GetDocumentsResponse;
-use App\Request\EmptyRequest;
-use App\Type\CatalogCategory;
-use App\Type\CatalogProduct;
-use App\Type\CatalogProducts;
-use App\Type\Filter;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

@@ -2,26 +2,15 @@
 
 namespace App\Module\Stock\Handler;
 
-use App\Common;
 use App\Handler;
-use App\Module\Catalog\Model\FileModel;
-use App\Module\Catalog\Model\ProductFilesModel;
-use App\Module\Catalog\Model\ProductModel;
-use App\Module\Catalog\Request\CreateCatalogProductRequest;
-use App\Module\Catalog\Response\CreateCatalogProductResponse;
-use App\Module\Document\Response\GetDocumentsResponse;
-use App\Module\Document\Collection\DocumentCollection;
 use App\Module\Stock\Response\GetStocksResponse;
 use App\Module\Stock\Collection\StockViewCollection;
-use App\Request\EmptyRequest;
 use App\Request\PaginationRequest;
-use App\Response\SuccessResponse;
-use App\Type\Document;
-use App\Type\Documents;
-use App\Type\Filter;
+use App\Container\Documents;
+use App\Container\Filter;
 use App\Type\FilterKind;
-use App\Type\Stock;
-use App\Type\Stocks;
+use App\Container\Stock;
+use App\Container\Stocks;
 use App\User;
 
 class GetStocksHandler extends Handler

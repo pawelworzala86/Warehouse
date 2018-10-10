@@ -3,8 +3,8 @@
 namespace App\Module\Catalog\Response;
 
 use App\Response\Response;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
+use App\Container\FileResponse;
+use App\Container\FilesResponse;
 
 class GetCatalogProductImagesResponse extends Response
 {

@@ -3,9 +3,9 @@
 namespace App\Module\User\Response;
 
 use App\Response\Response;
-use App\Type\Address;
-use App\Type\Contact;
-use App\Type\ProfileInvoice;
+use App\Container\Address;
+use App\Container\Contact;
+use App\Container\ProfileInvoice;
 
 class GetUserProfileResponse extends Response
 {

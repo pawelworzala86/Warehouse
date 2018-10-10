@@ -3,7 +3,6 @@
 namespace App\Module\Channel\Model;
 
 use App\Model;
-use App\Type\SKU;
 use App\Type\UUID;
 
 class ChannelModel extends Model

@@ -3,14 +3,8 @@
 namespace App\Module\Order\Response;
 
 use App\Response\Response;
-use App\Traits\FiltersTrait;
-use App\Traits\PaginationResponseTrait;
-use App\Type\CallResponse;
-use App\Type\CallResponses;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
-use App\Type\OrderResponse;
-use App\Type\OrdersResponse;
+use App\Container\CallResponse;
+use App\Container\CallResponses;
 
 class OrderCallResponse extends Response
 {

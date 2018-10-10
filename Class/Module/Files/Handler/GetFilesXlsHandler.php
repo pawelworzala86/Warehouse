@@ -7,7 +7,7 @@ use App\Handler;
 use App\Response\XlsResponse;
 use App\Module\Files\Collection\FileCollection;
 use App\Request\UuidCollectionRequest;
-use App\Type\File;
+use App\Container\File;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 

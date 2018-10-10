@@ -2,22 +2,16 @@
 
 namespace App\Module\Order\Handler;
 
-use App\Common;
 use App\Handler;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Contractor\Model\ContractorModel;
-use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Order\Collection\OrderProductCollection;
 use App\Module\Order\Model\OrderModel;
-use App\Module\Order\Model\OrderProductModel;
-use App\Module\Order\Request\CreateOrderRequest;
 use App\Module\Order\Request\GetOrderRequest;
-use App\Module\Order\Response\CreateOrderResponse;
 use App\Module\Order\Response\GetOrderResponse;
-use App\Response\SuccessResponse;
-use App\Type\DocumentProduct;
-use App\Type\DocumentProducts;
-use App\Type\Filter;
+use App\Container\DocumentProduct;
+use App\Container\DocumentProducts;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

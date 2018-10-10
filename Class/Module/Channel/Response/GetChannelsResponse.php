@@ -5,8 +5,8 @@ namespace App\Module\Channel\Response;
 use App\Response\Response;
 use App\Traits\FiltersTrait;
 use App\Traits\PaginationResponseTrait;
-use App\Type\Channel;
-use App\Type\Channels;
+use App\Container\Channel;
+use App\Container\Channels;
 
 class GetChannelsResponse extends Response
 {

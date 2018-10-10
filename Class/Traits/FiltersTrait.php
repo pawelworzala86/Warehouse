@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Type\Filters;
+use App\Container\Filters;
 
 trait FiltersTrait
 {

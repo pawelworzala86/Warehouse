@@ -3,15 +3,7 @@
 namespace App\Module\Stock\Response;
 
 use App\Response\Response;
-use App\Traits\FiltersTrait;
-use App\Type\CatalogProduct;
-use App\Type\CatalogProducts;
-use App\Traits\PaginationResponseTrait;
-use App\Type\Document;
-use App\Type\Documents;
 use App\Type\SKU;
-use App\Type\Stock;
-use App\Type\Stocks;
 use App\Type\UUID;
 
 class GetStockResponse extends Response

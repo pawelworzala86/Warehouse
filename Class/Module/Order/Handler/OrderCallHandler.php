@@ -6,24 +6,11 @@ use App\Handler;
 use App\Module\Order\Collection\OrderCollection;
 use App\Module\Order\Model\OrderModel;
 use App\Module\Order\Request\OrderAddRequest;
-use App\Module\Order\Response\GetOrdersResponse;
-use App\Module\Order\Response\OrderAddResponse;
 use App\Module\Order\Response\OrderCallResponse;
-use App\Module\Order\Response\OrderCheckPriceResponse;
-use App\Request\EmptyRequest;
-use App\Request\PaginationRequest;
-use App\Request\UuidCollectionRequest;
-use App\Response\SuccessResponse;
-use App\Type\CallResponse;
-use App\Type\CallResponses;
-use App\Type\Filter;
+use App\Container\CallResponse;
+use App\Container\CallResponses;
+use App\Container\Filter;
 use App\Type\FilterKind;
-use App\Type\Order;
-use App\Type\OrderPrice;
-use App\Type\OrderPrices;
-use App\Type\OrderResponse;
-use App\Type\Orders;
-use App\Type\OrdersResponse;
 use App\User;
 
 class OrderCallHandler extends Handler

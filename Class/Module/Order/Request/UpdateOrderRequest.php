@@ -3,9 +3,7 @@
 namespace App\Module\Order\Request;
 
 use App\Request\UserRequest;
-use App\Traits\FiltersTrait;
-use App\Traits\PaginationTrait;
-use App\Type\DocumentProducts;
+use App\Container\DocumentProducts;
 use App\Type\UUID;
 
 class UpdateOrderRequest extends UserRequest

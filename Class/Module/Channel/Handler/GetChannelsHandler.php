@@ -6,10 +6,10 @@ use App\Handler;
 use App\Module\Channel\Collection\ChannelCollection;
 use App\Module\Channel\Response\GetChannelsResponse;
 use App\Request\PaginationRequest;
-use App\Type\Channel;
-use App\Type\Channels;
-use App\Type\Filter;
-use App\Type\FilterKind;
+use App\Container\Channel;
+use App\Container\Channels;
+use App\Container\Filter;
+use App\Container\FilterKind;
 use App\User;
 
 class GetChannelsHandler extends Handler

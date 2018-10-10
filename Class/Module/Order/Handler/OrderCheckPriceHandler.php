@@ -3,21 +3,10 @@
 namespace App\Module\Order\Handler;
 
 use App\Handler;
-use App\Module\Order\Collection\OrderCollection;
-use App\Module\Order\Response\GetOrdersResponse;
 use App\Module\Order\Response\OrderCheckPriceResponse;
 use App\Request\EmptyRequest;
-use App\Request\PaginationRequest;
-use App\Response\SuccessResponse;
-use App\Type\Filter;
-use App\Type\FilterKind;
-use App\Type\Order;
-use App\Type\OrderPrice;
-use App\Type\OrderPrices;
-use App\Type\OrderResponse;
-use App\Type\Orders;
-use App\Type\OrdersResponse;
-use App\User;
+use App\Container\OrderPrice;
+use App\Container\OrderPrices;
 
 class OrderCheckPriceHandler extends Handler
 {

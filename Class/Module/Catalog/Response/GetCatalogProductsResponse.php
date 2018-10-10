@@ -4,8 +4,8 @@ namespace App\Module\Catalog\Response;
 
 use App\Response\Response;
 use App\Traits\FiltersTrait;
-use App\Type\CatalogProduct;
-use App\Type\CatalogProducts;
+use App\Container\CatalogProduct;
+use App\Container\CatalogProducts;
 use App\Traits\PaginationResponseTrait;
 
 class GetCatalogProductsResponse extends Response

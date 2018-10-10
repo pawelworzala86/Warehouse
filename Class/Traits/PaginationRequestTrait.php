@@ -2,7 +2,7 @@
 
 namespace App\Traits;
 
-use App\Type\Pagination;
+use App\Container\Pagination;
 
 trait PaginationRequestTrait
 {

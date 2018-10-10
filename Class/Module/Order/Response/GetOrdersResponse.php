@@ -5,10 +5,8 @@ namespace App\Module\Order\Response;
 use App\Response\Response;
 use App\Traits\FiltersTrait;
 use App\Traits\PaginationResponseTrait;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
-use App\Type\OrderResponse;
-use App\Type\OrdersResponse;
+use App\Container\OrderResponse;
+use App\Container\OrdersResponse;
 
 class GetOrdersResponse extends Response
 {

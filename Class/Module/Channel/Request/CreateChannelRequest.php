@@ -3,7 +3,6 @@
 namespace App\Module\Channel\Request;
 
 use App\Request\UserRequest;
-use App\Type\UUID;
 
 class CreateChannelRequest extends UserRequest
 {

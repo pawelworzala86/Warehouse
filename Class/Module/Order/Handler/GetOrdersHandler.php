@@ -9,18 +9,14 @@ use App\Module\Document\Model\DocumentModel;
 use App\Module\Files\Model\FileModel;
 use App\Module\Order\Collection\OrderCollection;
 use App\Module\Order\Collection\OrderProductCollection;
-use App\Module\Order\Model\OrderProductModel;
 use App\Module\Order\Response\GetOrdersResponse;
 use App\Request\PaginationRequest;
-use App\Response\SuccessResponse;
-use App\Type\DocumentProduct;
-use App\Type\DocumentProducts;
-use App\Type\Filter;
+use App\Container\DocumentProduct;
+use App\Container\DocumentProducts;
+use App\Container\Filter;
 use App\Type\FilterKind;
-use App\Type\Order;
-use App\Type\OrderResponse;
-use App\Type\Orders;
-use App\Type\OrdersResponse;
+use App\Container\OrderResponse;
+use App\Container\OrdersResponse;
 use App\User;
 
 class GetOrdersHandler extends Handler

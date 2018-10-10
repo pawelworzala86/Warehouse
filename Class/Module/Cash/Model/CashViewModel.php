@@ -3,7 +3,6 @@
 namespace App\Module\Cash\Model;
 
 use App\Model;
-use App\Type\UUID;
 
 class CashViewModel extends Model
 {

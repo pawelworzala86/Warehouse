@@ -4,12 +4,11 @@ namespace App\Module\Catalog\Handler;
 
 use App\Handler;
 use App\Module\Catalog\Collection\CategoryCollection;
-use App\Module\Catalog\Model\CategoryModel;
 use App\Module\Catalog\Response\GetCatalogCategoriesResponse;
 use App\Request\EmptyRequest;
-use App\Type\CatalogCategory;
-use App\Type\CatalogCategorys;
-use App\Type\Filter;
+use App\Container\CatalogCategory;
+use App\Container\CatalogCategorys;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

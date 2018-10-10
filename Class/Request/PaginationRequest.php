@@ -2,7 +2,6 @@
 
 namespace App\Request;
 
-use App\Request\UserRequest;
 use App\Traits\FiltersTrait;
 use App\Traits\PaginationRequestTrait;
 

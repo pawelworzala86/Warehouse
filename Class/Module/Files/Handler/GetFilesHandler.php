@@ -6,9 +6,9 @@ use App\Handler;
 use App\Module\Files\Collection\FileCollection;
 use App\Module\Files\Request\GetFilesRequest;
 use App\Module\Files\Response\GetFilesResponse;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
-use App\Type\Filter;
+use App\Container\FileResponse;
+use App\Container\FilesResponse;
+use App\Container\Filter;
 use App\Type\FilterKind;
 use App\User;
 

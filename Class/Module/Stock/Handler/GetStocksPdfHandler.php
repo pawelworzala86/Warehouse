@@ -4,19 +4,12 @@ namespace App\Module\Stock\Handler;
 
 use App\Common;
 use App\Handler;
-use App\Module\Catalog\Collection\ProductCollection;
-use App\Module\Catalog\Model\ProductModel;
-use App\Module\Contractor\Collection\ContractorCollection;
-use App\Module\Document\Collection\DocumentCollection;
-use App\Module\Document\Collection\DocumentViewCollection;
 use App\Module\Stock\Collection\StockViewCollection;
 use App\Prints\Table;
 use App\Response\XlsResponse;
 use App\Request\UuidCollectionRequest;
-use App\Type\File;
+use App\Container\File;
 use App\Type\UUID;
-use PhpOffice\PhpSpreadsheet\IOFactory;
-use PhpOffice\PhpSpreadsheet\Spreadsheet;
 
 class GetStocksPdfHandler extends Handler
 {

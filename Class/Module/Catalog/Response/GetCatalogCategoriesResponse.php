@@ -3,7 +3,7 @@
 namespace App\Module\Catalog\Response;
 
 use App\Response\Response;
-use App\Type\CatalogCategorys;
+use App\Container\CatalogCategorys;
 
 class GetCatalogCategoriesResponse extends Response
 {

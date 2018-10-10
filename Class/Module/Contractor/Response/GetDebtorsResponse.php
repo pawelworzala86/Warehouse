@@ -4,13 +4,9 @@ namespace App\Module\Contractor\Response;
 
 use App\Response\Response;
 use App\Traits\FiltersTrait;
-use App\Type\CatalogProduct;
-use App\Type\CatalogProducts;
 use App\Traits\PaginationResponseTrait;
-use App\Type\Contractor;
-use App\Type\Contractors;
-use App\Type\Debtor;
-use App\Type\Debtors;
+use App\Container\Debtor;
+use App\Container\Debtors;
 
 class GetDebtorsResponse extends Response
 {

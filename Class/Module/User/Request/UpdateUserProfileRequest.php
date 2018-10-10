@@ -3,9 +3,9 @@
 namespace App\Module\User\Request;
 
 use App\Request\Request;
-use App\Type\Address;
-use App\Type\Contact;
-use App\Type\ProfileInvoice;
+use App\Container\Address;
+use App\Container\Contact;
+use App\Container\ProfileInvoice;
 
 class UpdateUserProfileRequest extends Request
 {
