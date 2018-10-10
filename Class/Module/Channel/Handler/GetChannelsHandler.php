@@ -9,7 +9,7 @@ use App\Request\PaginationRequest;
 use App\Container\Channel;
 use App\Container\Channels;
 use App\Container\Filter;
-use App\Container\FilterKind;
+use App\Type\FilterKind;
 use App\User;
 
 class GetChannelsHandler extends Handler

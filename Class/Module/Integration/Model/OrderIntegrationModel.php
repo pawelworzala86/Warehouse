@@ -6,13 +6,12 @@ use App\Model;
 use App\Type\SKU;
 use App\Type\UUID;
 
-class ProductIntegrationModel extends Model
+class OrderIntegrationModel extends Model
 {
     private $id;
     private $uuid;
     private $channelId;
-    private $productId;
-    private $sku;
+    private $orderId;
     private $prestaId;
 
     public function getPrestaId(): string
@@ -20,7 +19,7 @@ class ProductIntegrationModel extends Model
         return $this->prestaId;
     }
 
-    public function setPrestaId(string $prestaId): ProductIntegrationModel
+    public function setPrestaId(string $prestaId): OrderIntegrationModel
     {
         $this->set('presta_id', $prestaId);
         $this->prestaId = $prestaId;
@@ -32,22 +31,10 @@ class ProductIntegrationModel extends Model
         return $this->sku;
     }
 
-    public function setSku(string $sku): ProductIntegrationModel
+    public function setSku(string $sku): OrderIntegrationModel
     {
         $this->set('sku', $sku);
         $this->sku = $sku;
-        return $this;
-    }
-
-    public function getProductId(): ?int
-    {
-        return $this->productId;
-    }
-
-    public function setProductId(int $productId): ProductIntegrationModel
-    {
-        $this->set('product_id', $productId);
-        $this->productId = $productId;
         return $this;
     }
 
@@ -56,10 +43,22 @@ class ProductIntegrationModel extends Model
         return $this->channelId;
     }
 
-    public function setChannelId(int $channelId): ProductIntegrationModel
+    public function setChannelId(int $channelId): OrderIntegrationModel
     {
         $this->set('channel_id', $channelId);
         $this->channelId = $channelId;
+        return $this;
+    }
+
+    public function getOrderId(): ?int
+    {
+        return $this->orderId;
+    }
+
+    public function setOrderId(int $orderId): OrderIntegrationModel
+    {
+        $this->set('order_id', $orderId);
+        $this->orderId = $orderId;
         return $this;
     }
 
@@ -68,7 +67,7 @@ class ProductIntegrationModel extends Model
         return $this->id;
     }
 
-    public function setId(int $id): ProductIntegrationModel
+    public function setId(int $id): OrderIntegrationModel
     {
         $this->set('id', $id);
         $this->id = $id;
@@ -80,7 +79,7 @@ class ProductIntegrationModel extends Model
         return $this->uuid;
     }
 
-    public function setUuid(UUID $uuid): ProductIntegrationModel
+    public function setUuid(UUID $uuid): OrderIntegrationModel
     {
         $this->set('uuid', hex2bin($uuid));
         $this->uuid = $uuid;

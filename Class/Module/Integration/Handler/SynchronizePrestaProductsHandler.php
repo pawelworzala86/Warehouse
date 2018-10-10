@@ -63,7 +63,7 @@ class SynchronizePrestaProductsHandler extends Handler
                 if ($productIntegration->getId()) {
                     //update
                     $curl = new Curl;
-                    $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products/' . $product->getPrestaId();
+                    $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products/' . $productIntegration->getPrestaId();
                     $data = $curl->get($url);
                     $xmlp = simplexml_load_string($data, null, LIBXML_NOCDATA);
                     $prestaProduct = $xmlp->children()->children();
@@ -76,7 +76,7 @@ class SynchronizePrestaProductsHandler extends Handler
                     if ($datePr > $dateUpd) {
                         $xmlp = simplexml_load_string(file_get_contents(DIR . '/Class/Module/Integration/product.xml'));
                         $productXML = $xmlp->children()->children();
-                        $productXML->id = $product->getPrestaId();
+                        $productXML->id = $productIntegration->getPrestaId();
                         $productXML->id_manufacturer = null;
                         $productXML->id_supplier = null;
                         $productXML->id_category_default = null;
@@ -129,10 +129,10 @@ class SynchronizePrestaProductsHandler extends Handler
                             ->setDescriptionFull((string)$prestaProduct->description->language)
                             ->update();
 
-                        $productIntegration = (new ProductIntegrationModel)
+                        /*$productIntegration = (new ProductIntegrationModel)
                             ->where('channel_id', '=', $channel->getId())
                             ->where('sku', '=', $sku)
-                            ->load();
+                            ->load();*/
 
                         /*(new ProductIntegrationModel)
                             ->setUuid($productIntegration->getUuid())
@@ -210,6 +210,7 @@ class SynchronizePrestaProductsHandler extends Handler
                         ->setChannelId($channel->getId())
                         ->setProductId($product->getId())
                         ->setSku((string)$product->getSku())
+                        ->setPrestaId((string)$productXML->id)
                         ->insert();
                 }
 

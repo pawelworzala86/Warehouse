@@ -3,6 +3,7 @@
 namespace App\Module\Integration\Handler;
 
 use App\Common;
+use App\Container\Order;
 use App\Curl;
 use App\Handler;
 use App\Module\Catalog\Model\ProductFilesModel;
@@ -13,6 +14,7 @@ use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Files\Model\FileModel;
+use App\Module\Integration\Model\OrderIntegrationModel;
 use App\Module\Integration\Model\ProductIntegrationModel;
 use App\Module\Order\Model\OrderModel;
 use App\Module\Order\Model\OrderProductModel;
@@ -45,6 +47,7 @@ class PrestaRefreshHandler extends Handler
             $data = $curl->get($url);
             $xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
             $prestaOrders = $xml->children()->children();
+            //print_r([$prestaOrders]);
 
             foreach ($prestaOrders->order as $order) {
                 $orderId = (string)$order['id'];
@@ -54,7 +57,7 @@ class PrestaRefreshHandler extends Handler
                 $prestaOrderXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
                 $prestaOrder = $prestaOrderXML->children()->children();
 
-                $orderModel = (new OrderModel)
+                /*$orderModel = (new OrderModel)
                     ->where(
                         (new Filter)
                             ->setName('added_by')
@@ -71,8 +74,16 @@ class PrestaRefreshHandler extends Handler
                             ->setKind(new FilterKind('='))
                             ->setValue($prestaOrder->id)
                     )
+                    ->load();*/
+                $orderIntegration = (new OrderIntegrationModel)
+                    ->where('added_by', '=', User::getId())
+                    ->where('deleted', '=', 0)
+                    ->where('order_id', '=', $prestaOrder->id)
+                    ->where('channel_id', '=', $channel->getId())
                     ->load();
-                if ($orderModel->getId()) {
+                if ($orderIntegration->getId()) {
+                    $orderModel = (new OrderModel)
+                        ->load($orderIntegration->getOrderId());
                     $orderModel
                         ->setUuid($orderModel->getUuid())
                         ->setTotalPaid((float)$prestaOrder->total_paid_real)
@@ -129,17 +140,24 @@ class PrestaRefreshHandler extends Handler
                     $net = $gross - $vat;
 
                     $shippingPrice = (float)$prestaOrder->total_shipping;
-                    (new OrderModel)
+                    $orderId = (new OrderModel)
                         ->setUuid(Common::getUuid())
                         ->setNumber($name)
                         ->setContractorId(1)
                         ->setAddressId(1)
-                        ->setPrestaId($prestaOrder->id)
+                        //->setPrestaId($prestaOrder->id)
                         ->setDate(date("Y-m-d", time()))
                         ->setSumNet($net)
                         ->setSumVat($vat)
                         ->setSumGross($gross)
                         ->setTotalPaid((float)$prestaOrder->total_paid_real)
+                        ->insert();
+
+                    (new OrderIntegrationModel)
+                        ->setUuid(Common::getUuid())
+                        ->setChannelId($channel->getId())
+                        ->setOrderId($orderId)
+                        ->setPrestaId((string)$prestaOrder->id)
                         ->insert();
 
                     $contractorModel = (new ContractorModel)
@@ -242,36 +260,40 @@ class PrestaRefreshHandler extends Handler
                                 ->setChannelId($channel->getId())
                                 ->setProductId($productId)
                                 ->setSku($sku)
+                                ->setPrestaId($prestaProductId)
                                 ->insert();
 
                             $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . 'images/products/' . $prestaProductId;
                             $data = $curl->get($url);
                             $prestaImageXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                            $prestaImage = $prestaImageXML->children()->children();
+                            //print_r($prestaImageXML);
+                            $prestaImage = $prestaImageXML?$prestaImageXML->children()->children():null;
                             $index = 1;
-                            foreach ($prestaImage->declination as $img) {
-                                $data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId . '/' . $img['id']);
-                                $name = trim(strtok($row->product_name . ($index++), '?'));
-                                $name = str_replace(' ', '-', $name);
-                                file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);
-                                $fileUuid = (new File)
-                                    ->setName($name)
-                                    ->setType('image/jpg')
-                                    ->setUuid(Common::getUuid())
-                                    ->setUrl('/Files/' . $name . '.jpg')
-                                    ->setSize(filesize(DIR . '/Files/' . $name . '.jpg'))
-                                    ->save();
-                                $fileModel = (new FileModel)
-                                    ->load($fileUuid, true);
-                                (new ProductFilesModel)
-                                    ->setUuid(Common::getUuid())
-                                    ->setFileId($fileModel->getId())
-                                    ->setProductId($productId)
-                                    ->insert();
+                            if($prestaImage) {
+                                foreach ($prestaImage->declination as $img) {
+                                    $data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId . '/' . $img['id']);
+                                    $name = trim(strtok($row->product_name . ($index++), '?'));
+                                    $name = str_replace(' ', '-', $name);
+                                    file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);
+                                    $fileUuid = (new File)
+                                        ->setName($name)
+                                        ->setType('image/jpg')
+                                        ->setUuid(Common::getUuid())
+                                        ->setUrl('/Files/' . $name . '.jpg')
+                                        ->setSize(filesize(DIR . '/Files/' . $name . '.jpg'))
+                                        ->save();
+                                    $fileModel = (new FileModel)
+                                        ->load($fileUuid, true);
+                                    (new ProductFilesModel)
+                                        ->setUuid(Common::getUuid())
+                                        ->setFileId($fileModel->getId())
+                                        ->setProductId($productId)
+                                        ->insert();
+                                }
                             }
-                        } else {
-                            $productId = $product->getId();
-                        }
+                        }// else {
+                            //$productId = $product->getId();
+                        //}
 
                         (new OrderProductModel)
                             ->setUuid(Common::getUuid())
