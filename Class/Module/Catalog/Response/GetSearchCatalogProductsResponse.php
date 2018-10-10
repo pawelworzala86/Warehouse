@@ -3,14 +3,8 @@
 namespace App\Module\Catalog\Response;
 
 use App\Response\Response;
-use App\Traits\FiltersTrait;
-use App\Type\CatalogProduct;
-use App\Type\CatalogProducts;
-use App\Traits\PaginationResponseTrait;
-use App\Type\Contractor;
-use App\Type\Contractors;
-use App\Type\Products;
-use App\Type\UUID;
+use App\Container\CatalogProduct;
+use App\Container\CatalogProducts;
 
 class GetSearchCatalogProductsResponse extends Response
 {

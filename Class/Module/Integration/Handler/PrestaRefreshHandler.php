@@ -13,6 +13,7 @@ use App\Module\Contractor\Model\ContractorContactModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Files\Model\FileModel;
+use App\Module\Integration\Model\ProductIntegrationModel;
 use App\Module\Order\Model\OrderModel;
 use App\Module\Order\Model\OrderProductModel;
 use App\Request\EmptyRequest;
@@ -199,7 +200,7 @@ class PrestaRefreshHandler extends Handler
                     foreach ($prestaOrder->associations->order_rows->order_row as $row) {
                         $prestaProductId = (string)$row->product_id;
 
-                        $product = (new ProductModel)
+                        /*$product = (new ProductModel)
                             ->where(
                                 (new Filter)
                                     ->setName('added_by')
@@ -216,19 +217,31 @@ class PrestaRefreshHandler extends Handler
                                     ->setKind(new FilterKind('='))
                                     ->setValue((string)$row->product_reference)
                             )
+                            ->load();*/
+                        $productIntegration = (new ProductIntegrationModel)
+                            ->where('channel_id', '=', $channel->getId())
+                            ->where('sku', '=', (string)$row->product_reference)
                             ->load();
-                        $productId = null;
-                        if (!$product->getId()) {
+                        $productId = $productIntegration->getProductId();
+                        if (!$productIntegration->getId()) {
+                            $sku = !empty((string)$row->product_reference) ? new SKU((string)$row->product_reference) : new SKU(substr_replace(Common::getUuid(), 0, 8));
                             $productId = (new ProductModel)
                                 ->setUuid(Common::getUuid())
                                 ->setName($row->product_name)
-                                ->setSku(!empty((string)$row->product_reference) ? new SKU((string)$row->product_reference) : new SKU(substr_replace(Common::getUuid(), 0, 8)))
+                                ->setSku($sku)
                                 //->setPrestaId($prestaProductId)
                                 ->setSellNet(round((float)$row->unit_price_tax_excl, 2))
                                 ->setVat('23')
                                 ->setSellGross(round((float)$row->unit_price_tax_incl, 2))
                                 ->setDescriptionShort((string)$row->description_short->language)
                                 ->setDescriptionFull((string)$row->description->language)
+                                ->insert();
+
+                            (new ProductIntegrationModel)
+                                ->setUuid(Common::getUuid())
+                                ->setChannelId($channel->getId())
+                                ->setProductId($productId)
+                                ->setSku($sku)
                                 ->insert();
 
                             $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . 'images/products/' . $prestaProductId;

@@ -3,8 +3,7 @@
 namespace App\Module\Document\Request;
 
 use App\Request\UserRequest;
-use App\Type\DocumentProducts;
-use App\Type\SKU;
+use App\Container\DocumentProducts;
 use App\Type\UUID;
 
 class CreateDocumentRequest extends UserRequest

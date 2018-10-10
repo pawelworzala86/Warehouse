@@ -4,6 +4,7 @@ namespace App\Container;
 
 use App\Container;
 use App\Type\SKU;
+use App\Type\UUID;
 
 class Stock extends Container
 {

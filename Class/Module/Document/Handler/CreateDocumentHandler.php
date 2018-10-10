@@ -151,11 +151,13 @@ class CreateDocumentHandler extends Handler
             ->load($request->getProductionId(), true);
         $productionId = $productionModel->getId();
 
-        (new ProductionDocumentModel)
-            ->setUuid(Common::getUuid())
-            ->setProductionId($productionId)
-            ->setDocumentId($documentId)
-            ->insert();
+        if($productionId) {
+            (new ProductionDocumentModel)
+                ->setUuid(Common::getUuid())
+                ->setProductionId($productionId)
+                ->setDocumentId($documentId)
+                ->insert();
+        }
 
         $products = $request->getProducts();
 

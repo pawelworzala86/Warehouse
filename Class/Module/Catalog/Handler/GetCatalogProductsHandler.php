@@ -52,9 +52,12 @@ class GetCatalogProductsHandler extends Handler
                     'value' => $product->getId(),
                 ]))
                 ->load();
-            $fileModel = (new FileModel)
-                ->load($productFileModel->getFileId());
-            $imageUrl = ($fileModel->getId()&&$fileModel->getSize())?$fileModel->getUrl():null;
+            $imageUrl = null;
+            if($productFileModel->getId()) {
+                $fileModel = (new FileModel)
+                    ->load($productFileModel->getFileId());
+                $imageUrl = ($fileModel->getId() && $fileModel->getSize()) ? $fileModel->getUrl() : null;
+            }
             $productsList->add(
                 (new CatalogProduct)
                     ->setName($product->getName())

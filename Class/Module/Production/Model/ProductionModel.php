@@ -49,7 +49,7 @@ class ProductionModel extends Model
         return $this;
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
