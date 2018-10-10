@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Czas generowania: 10 Paź 2018, 02:24
+-- Czas generowania: 10 Paź 2018, 05:30
 -- Wersja serwera: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- Wersja PHP: 7.2.10-0ubuntu0.18.04.1
 
@@ -47,6 +47,13 @@ CREATE TABLE `address` (
   `city` varchar(250) DEFAULT NULL,
   `postcode` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `address`
+--
+
+INSERT INTO `address` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `name`, `first_name`, `last_name`, `street`, `city`, `postcode`) VALUES
+(1, NULL, 1539131982, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'My Company', 'John', 'DOE', '16, Main street 2nd floor', 'Miami', '33133');
 
 -- --------------------------------------------------------
 
@@ -149,6 +156,13 @@ CREATE TABLE `channel` (
   `host` varchar(250) DEFAULT NULL,
   `key` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Zrzut danych tabeli `channel`
+--
+
+INSERT INTO `channel` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `name`, `host`, `key`) VALUES
+(1, 0x8f4210468394903971622d8906a1da18, 1539131866, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'prestashop', 'prestashop.localhost', 'GV5QM1CQP218HD2SIRVX1LENDFAIVM8S');
 
 -- --------------------------------------------------------
 
@@ -390,12 +404,35 @@ CREATE TABLE `order` (
   `document_id` int(11) DEFAULT NULL,
   `courier_number_second` varchar(250) DEFAULT NULL,
   `pickup` varchar(250) DEFAULT NULL,
-  `presta_id` varchar(250) DEFAULT NULL,
   `date` date DEFAULT NULL,
   `sum_net` float DEFAULT NULL,
   `sum_gross` float DEFAULT NULL,
   `sum_vat` float DEFAULT NULL,
-  `total_paid` float DEFAULT NULL
+  `total_paid` float DEFAULT NULL,
+  `channel_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `order_integration`
+--
+
+CREATE TABLE `order_integration` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `order_id` int(11) DEFAULT NULL,
+  `channel_id` int(11) DEFAULT NULL,
+  `presta_id` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -605,6 +642,30 @@ CREATE TABLE `product_file_view` (
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `product_integration`
+--
+
+CREATE TABLE `product_integration` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `product_id` int(11) DEFAULT NULL,
+  `channel_id` int(11) DEFAULT NULL,
+  `sku` varchar(250) DEFAULT NULL,
+  `presta_id` varchar(250) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `root_todo`
 --
 
@@ -704,6 +765,13 @@ CREATE TABLE `session` (
   `deleted` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Zrzut danych tabeli `session`
+--
+
+INSERT INTO `session` (`sessid`, `access`, `data`, `ip_id`, `user_id`, `deleted`) VALUES
+(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1539142105, 'userId|i:1;', 2, 1, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -776,6 +844,13 @@ CREATE TABLE `user` (
   `bank_number` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+--
+-- Zrzut danych tabeli `user`
+--
+
+INSERT INTO `user` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `address_id`, `contact_id`, `bank_name`, `bank_swift`, `issue_place`, `bank_number`) VALUES
+(1, 0x83c65ff4ffdb372f5c008a9a2918827d, 1539131697, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', NULL, NULL, NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -798,6 +873,16 @@ CREATE TABLE `user_register` (
   `password` varchar(250) DEFAULT NULL,
   `confirmation_code` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Zrzut danych tabeli `user_register`
+--
+
+INSERT INTO `user_register` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `confirmation_code`) VALUES
+(1, 0x39306666636639333235323066613466, 1539131087, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 'fc3aa216956b075f866a1887c89dd28d'),
+(2, 0x34343237396330303733353134393938, 1539131152, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', '1d5c2bd2b5a5cbc35c36ba80a7a8b6ad'),
+(3, 0x37346266323331316636353963333536, 1539131287, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 'b758297900185bd088c08d093fd7c988'),
+(4, 0x52c5349f36bd927ca465006a6005b511, 1539131677, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', '9d53c1365fb655736db3641f96030b7d');
 
 -- --------------------------------------------------------
 
@@ -1037,6 +1122,22 @@ ALTER TABLE `order`
   ADD KEY `address_id` (`address_id`),
   ADD KEY `document_id` (`document_id`),
   ADD KEY `number` (`number`),
+  ADD KEY `channel_id` (`channel_id`);
+
+--
+-- Indeksy dla tabeli `order_integration`
+--
+ALTER TABLE `order_integration`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `order_id` (`order_id`),
+  ADD KEY `channel_id` (`channel_id`),
   ADD KEY `presta_id` (`presta_id`(191));
 
 --
@@ -1127,6 +1228,22 @@ ALTER TABLE `product_files`
   ADD KEY `product_id` (`product_id`);
 
 --
+-- Indeksy dla tabeli `product_integration`
+--
+ALTER TABLE `product_integration`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `product_id` (`product_id`),
+  ADD KEY `channel_id` (`channel_id`),
+  ADD KEY `presta_id` (`presta_id`(191));
+
+--
 -- Indeksy dla tabeli `root_todo`
 --
 ALTER TABLE `root_todo`
@@ -1195,7 +1312,7 @@ ALTER TABLE `user_register`
 -- AUTO_INCREMENT dla tabeli `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT dla tabeli `cash_document`
@@ -1213,7 +1330,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT dla tabeli `channel`
 --
 ALTER TABLE `channel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `contractor`
@@ -1264,6 +1381,12 @@ ALTER TABLE `order`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `order_integration`
+--
+ALTER TABLE `order_integration`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `order_product`
 --
 ALTER TABLE `order_product`
@@ -1300,6 +1423,12 @@ ALTER TABLE `product_files`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `product_integration`
+--
+ALTER TABLE `product_integration`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `root_todo`
 --
 ALTER TABLE `root_todo`
@@ -1315,13 +1444,13 @@ ALTER TABLE `stock`
 -- AUTO_INCREMENT dla tabeli `user`
 --
 ALTER TABLE `user`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT dla tabeli `user_register`
 --
 ALTER TABLE `user_register`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
