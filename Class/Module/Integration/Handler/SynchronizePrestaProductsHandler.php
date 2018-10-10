@@ -96,7 +96,7 @@ class SynchronizePrestaProductsHandler extends Handler
                         $curl = new Curl;
                         $data = $curl->put($url, $xmlp->asXML());
                     } else {
-                        $productModel = (new ProductModel)
+                       /* $productModel = (new ProductModel)
                             ->where(
                                 (new Filter)
                                     ->setName('added_by')
@@ -113,7 +113,16 @@ class SynchronizePrestaProductsHandler extends Handler
                                     ->setKind(new FilterKind('='))
                                     ->setValue((string)$prestaProduct->reference)
                             )
+                            ->load();*/
+                        $productIntegration = (new ProductIntegrationModel)
+                            ->where('deleted', '=',0)
+                            ->where('added_by', '=', User::getId())
+                            ->where('channel_id', '=', $channel->getId())
+                            ->where('presta_id', '=', $prestaProduct->id)
+                            //->where('sku', '=', (string)$prestaProduct->product_reference)
                             ->load();
+                        $productModel = (new ProductModel)
+                            ->load($productIntegration->getProductId());
                         //$productId = null;
                         //if (!$product->getId()) {
                         $sku = !empty((string)$prestaProduct->reference) ? new SKU((string)$prestaProduct->reference) : new SKU(substr_replace(Common::getUuid(), 0, 8));
