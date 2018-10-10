@@ -95,7 +95,7 @@ class GetOrdersHandler extends Handler
                 $products->add(
                     (new DocumentProduct)
                         ->setId($product->getUuid())
-                        ->setProductId($product->getUuid())
+                        ->setProductId($prod->getUuid())
                         ->setCount($product->getCount())
                         ->setNet($product->getNet())
                         ->setSumNet($product->getSumNet())

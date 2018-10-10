@@ -257,7 +257,7 @@ class PrestaRefreshHandler extends Handler
                             ->where('channel_id', '=', $channel->getId())
                             ->where('sku', '=', (string)$row->product_reference)
                             ->load();
-                        //$productId = $productIntegration->getProductId();
+                        $productId = $productIntegration->getProductId();
                         if (!$productIntegration->getId()) {
                             $productId = (new ProductModel)
                                 ->setUuid(Common::getUuid())
@@ -316,10 +316,10 @@ class PrestaRefreshHandler extends Handler
                             ->setProductId($productId)
                             ->setOrderId($orderId)
                             ->setCount((float)$row->product_quantity)
-                            ->setNet(round(((float)$row->unit_price_tax_excl/123)*100, 2))
+                            ->setNet(round(((float)$row->unit_price_tax_incl/123)*100, 2))
                             ->setVat('23')
-                            ->setSumNet(round((((float)$row->unit_price_tax_excl * (float)$row->product_quantity)/123)*100, 2))
-                            ->setSumGross(round((float)$row->unit_price_tax_excl * (float)$row->product_quantity, 2))
+                            ->setSumNet(round((((float)$row->unit_price_tax_incl * (float)$row->product_quantity)/123)*100, 2))
+                            ->setSumGross(round((float)$row->unit_price_tax_incl * (float)$row->product_quantity, 2))
                             ->setSku($sku)
                             ->setName($row->product_name)
                             ->insert();

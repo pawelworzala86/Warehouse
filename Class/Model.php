@@ -64,11 +64,11 @@ class Model
         return $this->afterLoadFunctions;
     }
 
-    function setFromData(array $data = [])
+    function setFromData(array $dataFrom = [])
     {
         //print_r($data);
         $uuid = null;
-        foreach ($data as $key => $data) {
+        foreach ($dataFrom as $key => $data) {
             $fieldNameCamel = Common::camelCase($key);
             if (method_exists($this, 'set' . ucfirst($fieldNameCamel))) {
                 $method = new ReflectionMethod($this, 'set' . ucfirst($fieldNameCamel));
@@ -84,8 +84,10 @@ class Model
                         $uuid = $data;
                     }
                     //print_r([$className, $data]);
-                    $class = new $className($data);
-                    $this->{'set' . ucfirst($fieldNameCamel)}($class);
+                    if(!empty($data)) {
+                        $class = new $className($data);
+                        $this->{'set' . ucfirst($fieldNameCamel)}($class);
+                    }
                 } else {
                     $this->{'set' . ucfirst($fieldNameCamel)}($data);
                 }
