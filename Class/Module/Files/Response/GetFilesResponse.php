@@ -5,8 +5,8 @@ namespace App\Module\Files\Response;
 use App\Response\Response;
 use App\Traits\FiltersTrait;
 use App\Traits\PaginationResponseTrait;
-use App\Type\FileResponse;
-use App\Type\FilesResponse;
+use App\Container\FileResponse;
+use App\Container\FilesResponse;
 
 class GetFilesResponse extends Response
 {

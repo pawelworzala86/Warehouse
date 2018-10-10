@@ -13,7 +13,7 @@ require_once('Doc/Class/Output.php');
 
 //chdir('../');
 
-echo '<style>'.file_get_contents('Doc/Doc.css').'</style>';
+//echo '<style>'.file_get_contents('Doc/Doc.css').'</style>';
 
 $doc = new Doc;
 $output = new Output;
