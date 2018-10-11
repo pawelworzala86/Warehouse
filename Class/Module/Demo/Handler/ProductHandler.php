@@ -63,8 +63,8 @@ class ProductHandler extends Handler
             ->setSellNet($net)
             ->setVat('23')
             ->setSellGross(round($net*1.23, 2))
-            ->setDescriptionShort($this->lorem()->paragraphs(1))
-            ->setDescriptionFull($this->lorem()->paragraphs(rand(2, 5)))
+            ->setDescriptionShort($this->lorem()->sentences(rand(1, 3)))
+            ->setDescriptionFull($this->lorem()->paragraphs(rand(2, 5), 'p'))
             ->setToSell($product?true:false)
             ->setPartial($product?false:true)
             ->insert();
@@ -75,12 +75,14 @@ class ProductHandler extends Handler
         }
 
         $image = $images[rand(0, count($images)-1)];
+        $imageName = explode('/', $image);
+        $imageName = $imageName[count($imageName)-1];
         $fileId = (new FileModel)
             ->setUuid(Common::getUuid())
-            ->setName($image)
+            ->setName($imageName)
             ->setUrl(str_replace('/var/www/werhouse', '', $image))
             ->setSize(filesize($image))
-            ->setType('application/jpg')
+            ->setType('image/jpg')
             ->insert();
 
         (new ProductFilesModel)

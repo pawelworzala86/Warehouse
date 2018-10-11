@@ -243,17 +243,47 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
     })
 
     .controller('demoController', function ($scope, $http) {
+        $scope.progressBar = 0;
+        $scope.contractors = 100
+        $scope.products = 100
+        $scope.documents = 100
+        $scope.max = $scope.contractors+$scope.products+$scope.documents;
+        $scope.progress = 1;
+        $scope.setProgress = ()=>{
+            $scope.progressBar = (($scope.progress++)/$scope.max)*100;
+        }
         $scope.clear = ()=>{
-            $http.get(apiBase+'/demo/clear');
+            $http.get(apiBase+'/demo/clear').then(()=>{
+                $scope.setProgress()
+            })
         }
         $scope.contractor = ()=>{
-            $http.get(apiBase+'/demo/generate/contractor');
+            for(i=0;i<$scope.contractors;i++) {
+                $http.get(apiBase + '/demo/generate/contractor').then(()=>{
+                    $scope.setProgress()
+                })
+            }
         }
         $scope.product = ()=>{
-            $http.get(apiBase+'/demo/generate/product');
+            for(i=0;i<$scope.products;i++) {
+                $http.get(apiBase + '/demo/generate/product').then(()=>{
+                    $scope.setProgress()
+                })
+            }
         }
         $scope.document = ()=>{
-            $http.get(apiBase+'/demo/generate/document');
+            for(i=0;i<$scope.documents;i++) {
+                $http.get(apiBase + '/demo/generate/document').then(()=>{
+                    $scope.setProgress()
+                })
+            }
+        }
+        $scope.genere = ()=>{
+            $http.get(apiBase+'/demo/clear').then(()=>{
+                $scope.contractor()
+                $scope.product()
+                $scope.document()
+            })
         }
     })
 ;

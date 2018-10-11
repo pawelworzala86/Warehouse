@@ -5,6 +5,16 @@
         width: 100%;
         cursor: pointer;
     }
+    .demo .progress{
+        background: rgba(100, 100, 255, 0.1);
+        height: 15px;
+        border: 1px solid #ccc;
+    }
+    .demo .bar{
+        width: 200px;
+        height: 15px;
+        background: rgba(100, 100, 255, 0.5);
+    }
 </style>
 <div class="container demo">
     <article>
@@ -14,6 +24,10 @@
                 <div><a ng-click="contractor()">Generuj kontrahenta</a></div>
                 <div><a ng-click="product()">Generuj produkt</a></div>
                 <div><a ng-click="document()">Generuj dokument</a></div>
+                <div><a ng-click="genere()">Generuj wszystko</a></div>
+            </div>
+            <div class="col col-xs-12">
+                <div class="progress"><div class="bar" style="width: {{progressBar}}%;"></div></div>
             </div>
         </div>
     </article>
