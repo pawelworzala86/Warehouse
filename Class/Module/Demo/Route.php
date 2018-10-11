@@ -10,4 +10,5 @@ return [
     Router::get('/demo/generate/contractor', Handler\ContractorHandler::class),
     Router::get('/demo/generate/product', Handler\ProductHandler::class),
     Router::get('/demo/generate/document', Handler\DocumentHandler::class),
+    Router::get('/demo/generate/order', Handler\OrderHandler::class),
 ];

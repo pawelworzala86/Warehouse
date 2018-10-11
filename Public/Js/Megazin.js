@@ -247,7 +247,8 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $scope.contractors = 100
         $scope.products = 100
         $scope.documents = 100
-        $scope.max = $scope.contractors+$scope.products+$scope.documents;
+        $scope.orders = 100
+        $scope.max = $scope.contractors+$scope.products+$scope.documents+$scope.orders;
         $scope.progress = 1;
         $scope.setProgress = ()=>{
             $scope.progressBar = (($scope.progress++)/$scope.max)*100;
@@ -278,11 +279,19 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 })
             }
         }
+        $scope.order = ()=>{
+            for(i=0;i<$scope.orders;i++) {
+                $http.get(apiBase + '/demo/generate/order').then(()=>{
+                    $scope.setProgress()
+                })
+            }
+        }
         $scope.genere = ()=>{
             $http.get(apiBase+'/demo/clear').then(()=>{
                 $scope.contractor()
                 $scope.product()
                 $scope.document()
+                $scope.order()
             })
         }
     })
