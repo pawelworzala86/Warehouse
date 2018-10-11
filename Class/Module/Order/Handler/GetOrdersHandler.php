@@ -39,7 +39,7 @@ class GetOrdersHandler extends Handler
                     ->setKind(new FilterKind('='))
                     ->setValue(0)
             )
-            ->where('total_paid=sum_gross')
+            //->where('total_paid=sum_gross')
             ->load();
 
         $orders = new OrdersResponse;

@@ -63,6 +63,7 @@ class CreateOrderHandler extends Handler
             ->setSumNet($request->getSumNet())
             ->setSumVat($request->getSumVat())
             ->setSumGross($request->getSumGross())
+            ->setTotalPaid(0)
             ->insert();
 
         $products = $request->getProducts();
@@ -79,6 +80,8 @@ class CreateOrderHandler extends Handler
                 ->setSumNet($product->getSumNet())
                 ->setSumGross($product->getSumGross())
                 ->setVat($product->getVat())
+                ->setName($product->getName())
+                ->setSku($product->getSku())
                 ->insert();
             $products->next();
         }

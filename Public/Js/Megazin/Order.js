@@ -348,6 +348,17 @@ angular.module('Megazin')
             $http.get(apiBase + '/integration/presta/refresh').then((response) => {
             })
         }
+        $scope.deleteRow = function (rows, row) {
+            deleteDialog.show($scope, {
+                title: 'Usunięcie zamówienia',
+                data: {
+                    rows: rows,
+                    row: row,
+                    id: row.id,
+                    apiUrl: '/orders'
+                },
+            });
+        }
     })
 
     .factory('orders', function ($http, $httpParamSerializerJQLike) {
