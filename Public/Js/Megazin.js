@@ -161,6 +161,11 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 controller: 'channelEditController',
                 pageName: 'Edycja kanału sprzedaży',
             })
+            .when(base + '/demo', {
+                templateUrl: templateBase + 'Demo.html',
+                controller: 'demoController',
+                pageName: 'Ustawienia demonstracyjne',
+            })
         ;
 
         $locationProvider.html5Mode({
@@ -235,5 +240,11 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
     })
 
     .controller('landingController', function ($scope) {
+    })
+
+    .controller('demoController', function ($scope, $http) {
+        $scope.clear = ()=>{
+            $http.get(apiBase+'/demo/clear');
+        }
     })
 ;
