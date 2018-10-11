@@ -23,19 +23,16 @@ use App\User;
 
 class SynchronizePrestaProductsHandler extends Handler
 {
+    const productXMLPath = DIR . '/Class/Module/Integration/product.xml';
+
     public function __invoke(EmptyRequest $request): SuccessResponse
     {
-        //define('PS_HOST_NAME', 'prestashop.localhost');
-        //define('PS_WS_AUTH_KEY', 'GV5QM1CQP218HD2SIRVX1LENDFAIVM8S');
-
         $channels = (new ChannelCollection)
             ->where('deleted', '=', 0)
             ->where('added_by', '=', User::getId())
             ->load();
 
         while($channel = $channels->current()) {
-            //$PS_WS_AUTH_KEY = $channel->getKey();
-            //$PS_HOST_NAME = $channel->getHost();
             $prestaWorker = new PrestaWorker($channel->getHost(), $channel->getKey());
 
             $products = (new ProductCollection)
@@ -52,8 +49,6 @@ class SynchronizePrestaProductsHandler extends Handler
                 )
                 ->load();
 
-            //print_r($products);
-
             while ($product = $products->current()) {
                 $productIntegration = (new ProductIntegrationModel)
                     ->where('added_by', '=', User::getId())
@@ -62,170 +57,45 @@ class SynchronizePrestaProductsHandler extends Handler
                     ->where('channel_id', '=', $channel->getId())
                     ->where(' exists(select 1 from product where id=product_integration.product_id and deleted=0 limit 1) and ')
                     ->load();
-                //print_r($product);
                 if ($productIntegration->getId()) {
-                    //update
-                    /*$curl = new Curl;
-                    $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products/' . $productIntegration->getPrestaId();
-                    $data = $curl->get($url);
-                    $xmlp = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                    $prestaProduct = $xmlp->children()->children();*/
 
                     $prestaProduct = $prestaWorker->getProduct($productIntegration->getPrestaId());
                     if(!$prestaProduct){
                         $products->next();
                         continue;
                     }
-                    //print_r([$prestaProduct]);
 
                     $dateUpd = strtotime((string)$prestaProduct->date_upd[0]);
                     $datePr = $product->getUpdated();
 
-                    //print_r([$product->getSku(), $datePr, $dateUpd]);
                     if ($datePr > $dateUpd) {
-                        $xmlp = simplexml_load_string(file_get_contents(DIR . '/Class/Module/Integration/product.xml'));
+                        $xmlp = simplexml_load_string(file_get_contents($this::productXMLPath));
                         $productXML = $xmlp->children()->children();
-                        $productXML->id = $productIntegration->getPrestaId();
-                        $productXML->id_manufacturer = null;
-                        $productXML->id_supplier = null;
-                        $productXML->id_category_default = null;
-                        $productXML->id_default_image = null;
-                        $productXML->id_default_combination = null;
-                        $productXML->id_tax_rules_group = null;
-                        $productXML->reference = (string)$product->getSku();
-                        $productXML->price = $product->getSellGross();
-                        $productXML->meta_description = '';
-                        $productXML->meta_keywords = '';
-                        $productXML->meta_title = $product->getName();
-                        $productXML->name->language = $product->getName();
-                        $productXML->description->language = $product->getDescriptionFull();
-                        $productXML->description_short->language = $product->getDescriptionShort();
 
-                        /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
-                        $curl = new Curl;
-                        $data = $curl->put($url, $xmlp->asXML());*/
-                        $data = $prestaWorker->updateProduct($productXML);
+                        $this->setProductXMLFromProduct($productIntegration->getPrestaId(), $productXML, $product);
+                        $prestaWorker->updateProduct($xmlp);
                     } else {
-                       /* $productModel = (new ProductModel)
-                            ->where(
-                                (new Filter)
-                                    ->setName('added_by')
-                                    ->setKind(new FilterKind('='))
-                                    ->setValue(User::getId())
-                            )->where(
-                                (new Filter)
-                                    ->setName('deleted')
-                                    ->setKind(new FilterKind('='))
-                                    ->setValue(0)
-                            )->where(
-                                (new Filter)
-                                    ->setName('sku')
-                                    ->setKind(new FilterKind('='))
-                                    ->setValue((string)$prestaProduct->reference)
-                            )
-                            ->load();*/
-                        /*$productIntegration = (new ProductIntegrationModel)
-                            ->where('deleted', '=',0)
-                            ->where('added_by', '=', User::getId())
-                            ->where('channel_id', '=', $channel->getId())
-                            ->where('presta_id', '=', $prestaProduct->id)
-                            //->where('sku', '=', (string)$prestaProduct->product_reference)
-                            ->load();*/
                         $productModel = (new ProductModel)
                             ->load($productIntegration->getProductId());
-                        //$productId = null;
-                        //if (!$product->getId()) {
+
                         $sku = !empty((string)$prestaProduct->reference) ? new SKU((string)$prestaProduct->reference) : new SKU(substr_replace(Common::getUuid(), 0, 8));
-                        $productId = (new ProductModel)
+                        (new ProductModel)
                             ->setUuid($productModel->getUuid())
                             ->setName((string)$prestaProduct->name->language)
                             ->setSku($sku)
-                            //->setPrestaId($prestaProduct->id)
                             ->setSellNet(round((float)$prestaProduct->price, 2))
                             ->setVat('23')
                             ->setSellGross(round((float)$prestaProduct->price * 1.23, 2))
                             ->setDescriptionShort((string)$prestaProduct->description_short->language)
                             ->setDescriptionFull((string)$prestaProduct->description->language)
                             ->update();
-
-                        /*$productIntegration = (new ProductIntegrationModel)
-                            ->where('channel_id', '=', $channel->getId())
-                            ->where('sku', '=', $sku)
-                            ->load();*/
-
-                        /*(new ProductIntegrationModel)
-                            ->setUuid($productIntegration->getUuid())
-                            ->setChannelId($channel->getId())
-                            ->setProductId($productId)
-                            //->setPrestaId($productId)
-                            ->setSku($sku)
-                            ->insert();*/
-
-                        /*$url = 'http://'.PS_WS_AUTH_KEY.'@'.PS_HOST_NAME.'/api/images/products/'.$prestaProduct->id;
-                        $xml = simplexml_load_string($curl->get($url));
-                        if($xml) {
-                            $prestaImage = $xml->children()->children();
-                            $index = 1;
-                            foreach ($prestaImage->declination as $img) {
-                                $data = @file_get_contents($url = 'http://' . PS_WS_AUTH_KEY . '@' . PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id . '/' . $img['id']);
-                                $name = trim(strtok($prestaProduct->link_rewrite->language . ($index++), '?'));
-                                $name = str_replace(' ', '-', $name);
-                                file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);
-                                $fileUuid = (new File)
-                                    ->setName($name)
-                                    ->setType('image/jpg')
-                                    ->setUuid(Common::getUuid())
-                                    ->setUrl('/Files/' . $name . '.jpg')
-                                    ->setSize(filesize(DIR . '/Files/' . $name . '.jpg'))
-                                    ->save();
-                                $fileModel = (new FileModel)
-                                    ->load($fileUuid, true);
-                                (new ProductFilesModel)
-                                    ->setUuid(Common::getUuid())
-                                    ->setFileId($fileModel->getId())
-                                    ->setProductId($productId)
-                                    ->insert();
-                            }
-                        }*/
-                        //}
                     }
-                    //exit;
-                    //$xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
                 } else {
-                    //create
-                    $xml = \simplexml_load_string(file_get_contents(DIR . '/Class/Module/Integration/product.xml'));
+                    $xml = \simplexml_load_string(file_get_contents($this::productXMLPath));
                     $productXML = $xml->children()->children();
-                    $productXML->id_manufacturer = null;
-                    $productXML->id_supplier = null;
-                    $productXML->id_category_default = null;
-                    $productXML->id_default_image = null;
-                    $productXML->id_default_combination = null;
-                    $productXML->id_tax_rules_group = null;
-                    @$productXML->reference = (string)$product->getSku();
-                    $productXML->price = $product->getSellGross();
-                    $productXML->meta_description = '';
-                    $productXML->meta_keywords = '';
-                    $productXML->meta_title = $product->getName();
-                    $productXML->name->language = $product->getName();
-                    $productXML->description->language = $product->getDescriptionFull();
-                    $productXML->description_short->language = $product->getDescriptionShort();
-
-                    /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
-                    $curl = new Curl;
-                    $data = $curl->post($url, $xml->asXML());
-                    $xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                    $productXML = $xml->children()->children();*/
-                    //$xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
+                    $this->setProductXMLFromProduct('', $productXML, $product);
                     $productXML = $prestaWorker->insertProduct($xml);
-                    //print_r($xml->asXML());
-                    /*$prestaId = @(string)$productXML->id;
 
-                    if ($prestaId) {
-                        (new ProductModel)
-                            ->setUuid($product->getUuid())
-                            ->setPrestaId($prestaId)
-                            ->update();
-                    }*/
                     (new ProductIntegrationModel)
                         ->setUuid(Common::getUuid())
                         ->setChannelId($channel->getId())
@@ -238,35 +108,22 @@ class SynchronizePrestaProductsHandler extends Handler
                 $products->next();
             }
 
-            //download
-            /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
-            $curl = new Curl;
-            $xml = simplexml_load_string($curl->get($url));
-            $prestaProducts = $xml->children()->children();*/
             $prestaProducts = $prestaWorker->getProducts();
             foreach ($prestaProducts->product as $prod) {
-                /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products/' . $prod['id'];
-                $xml = simplexml_load_string($curl->get($url));
-                $prestaProduct = $xml->children()->children();*/
                 $prestaProduct = $prestaWorker->getProduct($prod['id']);
 
-                //$productId = null;
                 $productIntegration = (new ProductIntegrationModel)
                     ->where('deleted', '=',0)
                     ->where('added_by', '=', User::getId())
                     ->where('channel_id', '=', $channel->getId())
                     ->where('presta_id', '=', $prestaProduct->id)
-                    //->where('sku', '=', (string)$prestaProduct->product_reference)
                     ->load();
-                //$product = (new ProductModel)
-                //    ->load($productIntegration->getProductId());
-                //$productId = $productIntegration->getProductId();
+
                 if (!$productIntegration->getId()) {
                     $productId = (new ProductModel)
                         ->setUuid(Common::getUuid())
                         ->setName((string)$prestaProduct->name->language)
                         ->setSku(new SKU((string)$prestaProduct->reference))
-                        //->setPrestaId($prestaProduct->id)
                         ->setSellNet(round((float)$prestaProduct->price, 2))
                         ->setVat('23')
                         ->setSellGross(round((float)$prestaProduct->price * 1.23, 2))
@@ -282,40 +139,58 @@ class SynchronizePrestaProductsHandler extends Handler
                         ->setPrestaId($prestaProduct->id)
                         ->insert();
 
-                    /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id;
-                    $xml = simplexml_load_string($curl->get($url));*/
                     $xml = $prestaWorker->getImages($prestaProduct->id);
                     if ($xml) {
                         $prestaImage = $xml->children()->children();
                         $index = 1;
                         foreach ($prestaImage->declination as $img) {
-                            //$data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id . '/' . $img['id']);
                             $data = $prestaWorker->getImage($prestaProduct->id, $img['id']);
-                            $name = trim(strtok($prestaProduct->link_rewrite->language . ($index++), '?'));
+                            $name = trim(strtok($prestaProduct->name->language . ($index++), '?'));
                             $name = str_replace(' ', '-', $name);
-                            file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);
-                            $fileUuid = (new File)
-                                ->setName($name)
-                                ->setType('image/jpg')
-                                ->setUuid(Common::getUuid())
-                                ->setUrl('/Files/' . $name . '.jpg')
-                                ->setSize(filesize(DIR . '/Files/' . $name . '.jpg'))
-                                ->save();
-                            $fileModel = (new FileModel)
-                                ->load($fileUuid, true);
-                            (new ProductFilesModel)
-                                ->setUuid(Common::getUuid())
-                                ->setFileId($fileModel->getId())
-                                ->setProductId($productId)
-                                ->insert();
+                            $this->saveImage($name, $data, $productId);
                         }
                     }
                 }
-                //$curl->close();
             }
             $channels->next();
         }
 
         return new SuccessResponse;
+    }
+
+    private function saveImage($name, $data, $productId){
+        file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);
+        $fileUuid = (new File)
+            ->setName($name)
+            ->setType('image/jpg')
+            ->setUuid(Common::getUuid())
+            ->setUrl('/Files/' . $name . '.jpg')
+            ->setSize(filesize(DIR . '/Files/' . $name . '.jpg'))
+            ->save();
+        $fileModel = (new FileModel)
+            ->load($fileUuid, true);
+        (new ProductFilesModel)
+            ->setUuid(Common::getUuid())
+            ->setFileId($fileModel->getId())
+            ->setProductId($productId)
+            ->insert();
+    }
+
+    private function setProductXMLFromProduct($prestaId, &$productXML, $product){
+        $productXML->id = $prestaId;
+        $productXML->id_manufacturer = null;
+        $productXML->id_supplier = null;
+        $productXML->id_category_default = null;
+        $productXML->id_default_image = null;
+        $productXML->id_default_combination = null;
+        $productXML->id_tax_rules_group = null;
+        $productXML->reference = (string)$product->getSku();
+        $productXML->price = $product->getSellGross();
+        $productXML->meta_description = '';
+        $productXML->meta_keywords = '';
+        $productXML->meta_title = $product->getName();
+        $productXML->name->language = $product->getName();
+        $productXML->description->language = $product->getDescriptionFull();
+        $productXML->description_short->language = $product->getDescriptionShort();
     }
 }

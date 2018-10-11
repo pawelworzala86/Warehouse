@@ -32,54 +32,20 @@ class PrestaRefreshHandler extends Handler
 {
     public function __invoke(EmptyRequest $request): SuccessResponse
     {
-        //define('PS_HOST_NAME', 'prestashop.localhost');
-        //define('PS_WS_AUTH_KEY', 'GV5QM1CQP218HD2SIRVX1LENDFAIVM8S');
-
         $channels = (new ChannelCollection)
             ->where('deleted', '=', 0)
             ->where('added_by', '=', User::getId())
             ->load();
 
         while ($channel = $channels->current()) {
-            //$PS_WS_AUTH_KEY = $channel->getKey();
-            //$PS_HOST_NAME = $channel->getHost();
             $prestaWorker = new PrestaWorker($channel->getHost(), $channel->getKey());
 
-            //$curl = new Curl;
-            /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/orders';
-            $data = $curl->get($url);
-            $xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
-            $prestaOrders = $xml->children()->children();*/
             $prestaOrders = $prestaWorker->getOrders();
-            //print_r([$prestaOrders]);
-
             foreach ($prestaOrders->order as $order) {
                 $orderId = (string)$order['id'];
 
-                /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/orders/' . $orderId;
-                $data = $curl->get($url);
-                $prestaOrderXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                $prestaOrder = $prestaOrderXML->children()->children();*/
                 $prestaOrder = $prestaWorker->getOrder($orderId);
 
-                /*$orderModel = (new OrderModel)
-                    ->where(
-                        (new Filter)
-                            ->setName('added_by')
-                            ->setKind(new FilterKind('='))
-                            ->setValue(User::getId())
-                    )->where(
-                        (new Filter)
-                            ->setName('deleted')
-                            ->setKind(new FilterKind('='))
-                            ->setValue(0)
-                    )->where(
-                        (new Filter)
-                            ->setName('presta_id')
-                            ->setKind(new FilterKind('='))
-                            ->setValue($prestaOrder->id)
-                    )
-                    ->load();*/
                 $orderIntegration = (new OrderIntegrationModel)
                     ->where('added_by', '=', User::getId())
                     ->where('deleted', '=', 0)
@@ -150,7 +116,6 @@ class PrestaRefreshHandler extends Handler
                         ->setNumber($name)
                         ->setContractorId(1)
                         ->setAddressId(1)
-                        //->setPrestaId($prestaOrder->id)
                         ->setDate(date("Y-m-d", time()))
                         ->setSumNet($net)
                         ->setSumVat($vat)
@@ -166,43 +131,14 @@ class PrestaRefreshHandler extends Handler
                         ->setPrestaId((string)$prestaOrder->id)
                         ->insert();
 
-                    /*$contractorModel = (new ContractorModel)
-                        ->where(
-                            (new Filter)
-                                ->setName('added_by')
-                                ->setKind(new FilterKind('='))
-                                ->setValue(User::getId())
-                        )->where(
-                            (new Filter)
-                                ->setName('deleted')
-                                ->setKind(new FilterKind('='))
-                                ->setValue(0)
-                        )->where(
-                            (new Filter)
-                                ->setName('presta_id')
-                                ->setKind(new FilterKind('='))
-                                ->setValue($prestaOrder->customer_id)
-                        )
-                        ->load();*/
-                    //print_r([$prestaOrder]);
                     $contractorIntegration = (new ContractorIntegrationModel)
                         ->where('added_by', '=', User::getId())
                         ->where('deleted', '=', 0)
-                        //->where('sku', '=', $product->getSku())
                         ->where('channel_id', '=', $channel->getId())
                         ->where('presta_id', '=', (string)$prestaOrder->id_customer)
                         ->load();
                     if (!$contractorIntegration->getId()) {
-                        /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/customers/' . $prestaOrder->id_customer;
-                        $data = $curl->get($url);
-                        $prestaCustomerXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                        $prestaCustomer = $prestaCustomerXML->children()->children();*/
                         $prestaCustomer = $prestaWorker->getCustomer($prestaOrder->id_customer);
-
-                        /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/addresses/' . $prestaOrder->id_address_delivery;
-                        $data = $curl->get($url);
-                        $prestaAddresXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                        $addressCustomer = $prestaAddresXML->children()->children();*/
                         $addressCustomer = $prestaWorker->getAddress($prestaOrder->id_address_delivery);
 
                         $addressId = (new AddressModel)
@@ -225,7 +161,6 @@ class PrestaRefreshHandler extends Handler
                             ->setName(((string)$addressCustomer->company !== '') ? $addressCustomer->company : $prestaCustomer->firstname . ' ' . $prestaCustomer->lastname)
                             ->setAddressId($addressId)
                             ->setContactId($contactId)
-                            //->setPrestaId($prestaOrder->customer_id)
                             ->insert();
 
                         (new ContractorIntegrationModel)
@@ -233,30 +168,12 @@ class PrestaRefreshHandler extends Handler
                             ->setChannelId($channel->getId())
                             ->setPrestaId((string)$prestaOrder->id_customer)
                             ->insert();
-                        //print_r($prestaCustomer);
                     }
 
                     foreach ($prestaOrder->associations->order_rows->order_row as $row) {
                         $prestaProductId = (string)$row->product_id;
                         $sku = new SKU((string)$row->product_reference);
-                        /*$product = (new ProductModel)
-                            ->where(
-                                (new Filter)
-                                    ->setName('added_by')
-                                    ->setKind(new FilterKind('='))
-                                    ->setValue(User::getId())
-                            )->where(
-                                (new Filter)
-                                    ->setName('deleted')
-                                    ->setKind(new FilterKind('='))
-                                    ->setValue(0)
-                            )->where(
-                                (new Filter)
-                                    ->setName('sku')
-                                    ->setKind(new FilterKind('='))
-                                    ->setValue((string)$row->product_reference)
-                            )
-                            ->load();*/
+
                         $productIntegration = (new ProductIntegrationModel)
                             ->where('deleted', '=', 0)
                             ->where('added_by', '=', User::getId())
@@ -285,16 +202,10 @@ class PrestaRefreshHandler extends Handler
                                 ->setPrestaId($prestaProductId)
                                 ->insert();
 
-                            /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId;
-                            $data = $curl->get($url);
-                            $prestaImageXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                            //print_r($prestaImageXML);
-                            $prestaImages = $prestaImageXML ? $prestaImageXML->children()->children() : null;*/
                             $prestaImages = ($xml = $prestaWorker->getImages($prestaProductId))?$xml->children()->children():null;
                             $index = 1;
                             if ($prestaImages) {
                                 foreach ($prestaImages->declination as $img) {
-                                    //$data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId . '/' . $img['id']);
                                     $data = $prestaWorker->getImage($prestaProductId, $img['id']);
                                     $name = trim(strtok($row->product_name . ($index++), '?'));
                                     $name = str_replace(' ', '-', $name);
@@ -315,9 +226,7 @@ class PrestaRefreshHandler extends Handler
                                         ->insert();
                                 }
                             }
-                        }// else {
-                        //    $productId = $productIntegration->getProductId();
-                        //}
+                        }
 
                         (new OrderProductModel)
                             ->setUuid(Common::getUuid())

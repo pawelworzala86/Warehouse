@@ -41,7 +41,7 @@ class PrestaWorker
     }
 
     public function getImages($productId){
-        $url = $this->apiUrl.'products/' . $productId;
+        $url = $this->apiUrl.'images/products/' . $productId;
         $data = $this->curl->get($url);
         $xmlp = \simplexml_load_string($data, null, LIBXML_NOCDATA);
         return $xmlp;
