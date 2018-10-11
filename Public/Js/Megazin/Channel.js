@@ -47,7 +47,7 @@ angular.module('Megazin')
             if ($scope.data.id) {
                 $http.put(apiBase + '/channel/' + $scope.data.id, data).then(function (response) {
                     if (response.data.success) {
-                        //$location.path('/katalog/produkty');
+                        $location.path('/kanaly-sprzedazy');
                     }
                 });
                 //$scope.messages = response.data.errors
@@ -55,7 +55,8 @@ angular.module('Megazin')
                 $http.post(apiBase + '/channel', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
-                        $location.path('/kanal-sprzedazy/' + response.data.id, false);
+                        //$location.path('/kanal-sprzedazy/' + response.data.id, false);
+                        $location.path('/kanaly-sprzedazy');
                     }
                     //$scope.messages = response.data.errors
                 });

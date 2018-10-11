@@ -44,7 +44,7 @@ angular.module('Megazin')
             if ($routeParams.id) {
                 $http.put(apiBase + '/contractor/' + $routeParams.id, data).then(function (response) {
                     if (response.data.success) {
-                        //$location.path('/katalog/produkty');
+                        $location.path('/kontrahenci');
                     }
                 });
                 //$scope.messages = response.data.errors
@@ -52,7 +52,8 @@ angular.module('Megazin')
                 $http.post(apiBase + '/contractor', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
-                        $location.path('/kontrahent/' + response.data.id, false);
+                        //$location.path('/kontrahent/' + response.data.id, false);
+                        $location.path('/kontrahenci');
                     }
                     //$scope.messages = response.data.errors
                 });

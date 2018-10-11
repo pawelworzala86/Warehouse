@@ -146,7 +146,7 @@ angular.module('Megazin')
             if (data.id) {
                 $http.put(apiBase + '/document/' + data.id, data).then(function (response) {
                     if (response.data.success) {
-                        //$location.path('/katalog/produkty');
+                        $location.path('/dokumenty');
                     }
                 });
                 //$scope.messages = response.data.errors
@@ -154,7 +154,8 @@ angular.module('Megazin')
                 $http.post(apiBase + '/document', data).then(function (response) {
                     if (response.data.id) {
                         $scope.data.id = response.data.id;
-                        $location.path('/dokument/' + response.data.id, false);
+                        //$location.path('/dokument/' + response.data.id, false);
+                        $location.path('/dokumenty');
                     }
                     //$scope.messages = response.data.errors
                 });
