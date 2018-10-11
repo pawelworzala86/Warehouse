@@ -246,5 +246,14 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $scope.clear = ()=>{
             $http.get(apiBase+'/demo/clear');
         }
+        $scope.contractor = ()=>{
+            $http.get(apiBase+'/demo/generate/contractor');
+        }
+        $scope.product = ()=>{
+            $http.get(apiBase+'/demo/generate/product');
+        }
+        $scope.document = ()=>{
+            $http.get(apiBase+'/demo/generate/document');
+        }
     })
 ;

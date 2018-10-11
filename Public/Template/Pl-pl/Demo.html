@@ -1,8 +1,19 @@
-<div class="container">
+<style>
+    .demo a{
+        margin-bottom: 10px;
+        float: left;
+        width: 100%;
+        cursor: pointer;
+    }
+</style>
+<div class="container demo">
     <article>
         <div class="row">
             <div class="col col-xs-12">
-                <a ng-click="clear()">Wyczyść bazę danych</a>
+                <div><a ng-click="clear()">Wyczyść bazę danych</a></div>
+                <div><a ng-click="contractor()">Generuj kontrahenta</a></div>
+                <div><a ng-click="product()">Generuj produkt</a></div>
+                <div><a ng-click="document()">Generuj dokument</a></div>
             </div>
         </div>
     </article>
