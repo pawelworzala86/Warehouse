@@ -17,6 +17,7 @@ use App\Module\Files\Model\FileModel;
 use App\Module\Integration\Model\ContractorIntegrationModel;
 use App\Module\Integration\Model\OrderIntegrationModel;
 use App\Module\Integration\Model\ProductIntegrationModel;
+use App\Module\Integration\Worker\PrestaWorker;
 use App\Module\Order\Model\OrderModel;
 use App\Module\Order\Model\OrderProductModel;
 use App\Request\EmptyRequest;
@@ -40,23 +41,26 @@ class PrestaRefreshHandler extends Handler
             ->load();
 
         while ($channel = $channels->current()) {
-            $PS_WS_AUTH_KEY = $channel->getKey();
-            $PS_HOST_NAME = $channel->getHost();
+            //$PS_WS_AUTH_KEY = $channel->getKey();
+            //$PS_HOST_NAME = $channel->getHost();
+            $prestaWorker = new PrestaWorker($channel->getHost(), $channel->getKey());
 
-            $curl = new Curl;
-            $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/orders';
+            //$curl = new Curl;
+            /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/orders';
             $data = $curl->get($url);
             $xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
-            $prestaOrders = $xml->children()->children();
+            $prestaOrders = $xml->children()->children();*/
+            $prestaOrders = $prestaWorker->getOrders();
             //print_r([$prestaOrders]);
 
             foreach ($prestaOrders->order as $order) {
                 $orderId = (string)$order['id'];
 
-                $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/orders/' . $orderId;
+                /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/orders/' . $orderId;
                 $data = $curl->get($url);
                 $prestaOrderXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                $prestaOrder = $prestaOrderXML->children()->children();
+                $prestaOrder = $prestaOrderXML->children()->children();*/
+                $prestaOrder = $prestaWorker->getOrder($orderId);
 
                 /*$orderModel = (new OrderModel)
                     ->where(
@@ -189,15 +193,17 @@ class PrestaRefreshHandler extends Handler
                         ->where('presta_id', '=', (string)$prestaOrder->id_customer)
                         ->load();
                     if (!$contractorIntegration->getId()) {
-                        $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/customers/' . $prestaOrder->id_customer;
+                        /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/customers/' . $prestaOrder->id_customer;
                         $data = $curl->get($url);
                         $prestaCustomerXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                        $prestaCustomer = $prestaCustomerXML->children()->children();
+                        $prestaCustomer = $prestaCustomerXML->children()->children();*/
+                        $prestaCustomer = $prestaWorker->getCustomer($prestaOrder->id_customer);
 
-                        $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/addresses/' . $prestaOrder->id_address_delivery;
+                        /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/addresses/' . $prestaOrder->id_address_delivery;
                         $data = $curl->get($url);
                         $prestaAddresXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                        $addressCustomer = $prestaAddresXML->children()->children();
+                        $addressCustomer = $prestaAddresXML->children()->children();*/
+                        $addressCustomer = $prestaWorker->getAddress($prestaOrder->id_address_delivery);
 
                         $addressId = (new AddressModel)
                             ->setName(((string)$addressCustomer->company !== '') ? $addressCustomer->company : $prestaCustomer->firstname . ' ' . $prestaCustomer->lastname)
@@ -279,15 +285,17 @@ class PrestaRefreshHandler extends Handler
                                 ->setPrestaId($prestaProductId)
                                 ->insert();
 
-                            $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId;
+                            /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId;
                             $data = $curl->get($url);
                             $prestaImageXML = simplexml_load_string($data, null, LIBXML_NOCDATA);
                             //print_r($prestaImageXML);
-                            $prestaImage = $prestaImageXML ? $prestaImageXML->children()->children() : null;
+                            $prestaImages = $prestaImageXML ? $prestaImageXML->children()->children() : null;*/
+                            $prestaImages = ($xml = $prestaWorker->getImages($prestaProductId))?$xml->children()->children():null;
                             $index = 1;
-                            if ($prestaImage) {
-                                foreach ($prestaImage->declination as $img) {
-                                    $data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId . '/' . $img['id']);
+                            if ($prestaImages) {
+                                foreach ($prestaImages->declination as $img) {
+                                    //$data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProductId . '/' . $img['id']);
+                                    $data = $prestaWorker->getImage($prestaProductId, $img['id']);
                                     $name = trim(strtok($row->product_name . ($index++), '?'));
                                     $name = str_replace(' ', '-', $name);
                                     file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);

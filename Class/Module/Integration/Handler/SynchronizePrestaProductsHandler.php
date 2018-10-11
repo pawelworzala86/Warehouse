@@ -12,6 +12,7 @@ use App\Module\Catalog\Model\ProductModel;
 use App\Module\Channel\Collection\ChannelCollection;
 use App\Module\Files\Model\FileModel;
 use App\Module\Integration\Model\ProductIntegrationModel;
+use App\Module\Integration\Worker\PrestaWorker;
 use App\Request\EmptyRequest;
 use App\Response\SuccessResponse;
 use App\Container\File;
@@ -33,8 +34,9 @@ class SynchronizePrestaProductsHandler extends Handler
             ->load();
 
         while($channel = $channels->current()) {
-            $PS_WS_AUTH_KEY = $channel->getKey();
-            $PS_HOST_NAME = $channel->getHost();
+            //$PS_WS_AUTH_KEY = $channel->getKey();
+            //$PS_HOST_NAME = $channel->getHost();
+            $prestaWorker = new PrestaWorker($channel->getHost(), $channel->getKey());
 
             $products = (new ProductCollection)
                 ->where(
@@ -58,15 +60,22 @@ class SynchronizePrestaProductsHandler extends Handler
                     ->where('deleted', '=', 0)
                     ->where('sku', '=', $product->getSku())
                     ->where('channel_id', '=', $channel->getId())
+                    ->where(' exists(select 1 from product where id=product_integration.product_id and deleted=0 limit 1) and ')
                     ->load();
                 //print_r($product);
                 if ($productIntegration->getId()) {
                     //update
-                    $curl = new Curl;
+                    /*$curl = new Curl;
                     $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products/' . $productIntegration->getPrestaId();
                     $data = $curl->get($url);
                     $xmlp = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                    $prestaProduct = $xmlp->children()->children();
+                    $prestaProduct = $xmlp->children()->children();*/
+
+                    $prestaProduct = $prestaWorker->getProduct($productIntegration->getPrestaId());
+                    if(!$prestaProduct){
+                        $products->next();
+                        continue;
+                    }
                     //print_r([$prestaProduct]);
 
                     $dateUpd = strtotime((string)$prestaProduct->date_upd[0]);
@@ -92,9 +101,10 @@ class SynchronizePrestaProductsHandler extends Handler
                         $productXML->description->language = $product->getDescriptionFull();
                         $productXML->description_short->language = $product->getDescriptionShort();
 
-                        $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
+                        /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
                         $curl = new Curl;
-                        $data = $curl->put($url, $xmlp->asXML());
+                        $data = $curl->put($url, $xmlp->asXML());*/
+                        $data = $prestaWorker->updateProduct($productXML);
                     } else {
                        /* $productModel = (new ProductModel)
                             ->where(
@@ -183,7 +193,7 @@ class SynchronizePrestaProductsHandler extends Handler
                     //$xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
                 } else {
                     //create
-                    $xml = simplexml_load_string(file_get_contents(DIR . '/Class/Module/Integration/product.xml'));
+                    $xml = \simplexml_load_string(file_get_contents(DIR . '/Class/Module/Integration/product.xml'));
                     $productXML = $xml->children()->children();
                     $productXML->id_manufacturer = null;
                     $productXML->id_supplier = null;
@@ -200,11 +210,13 @@ class SynchronizePrestaProductsHandler extends Handler
                     $productXML->description->language = $product->getDescriptionFull();
                     $productXML->description_short->language = $product->getDescriptionShort();
 
-                    $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
+                    /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
                     $curl = new Curl;
                     $data = $curl->post($url, $xml->asXML());
                     $xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
-                    $productXML = $xml->children()->children();
+                    $productXML = $xml->children()->children();*/
+                    //$xml = simplexml_load_string($data, null, LIBXML_NOCDATA);
+                    $productXML = $prestaWorker->insertProduct($xml);
                     //print_r($xml->asXML());
                     /*$prestaId = @(string)$productXML->id;
 
@@ -227,14 +239,16 @@ class SynchronizePrestaProductsHandler extends Handler
             }
 
             //download
-            $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
+            /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products';
             $curl = new Curl;
             $xml = simplexml_load_string($curl->get($url));
-            $prestaProducts = $xml->children()->children();
+            $prestaProducts = $xml->children()->children();*/
+            $prestaProducts = $prestaWorker->getProducts();
             foreach ($prestaProducts->product as $prod) {
-                $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products/' . $prod['id'];
+                /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/products/' . $prod['id'];
                 $xml = simplexml_load_string($curl->get($url));
-                $prestaProduct = $xml->children()->children();
+                $prestaProduct = $xml->children()->children();*/
+                $prestaProduct = $prestaWorker->getProduct($prod['id']);
 
                 //$productId = null;
                 $productIntegration = (new ProductIntegrationModel)
@@ -268,13 +282,15 @@ class SynchronizePrestaProductsHandler extends Handler
                         ->setPrestaId($prestaProduct->id)
                         ->insert();
 
-                    $url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id;
-                    $xml = simplexml_load_string($curl->get($url));
+                    /*$url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id;
+                    $xml = simplexml_load_string($curl->get($url));*/
+                    $xml = $prestaWorker->getImages($prestaProduct->id);
                     if ($xml) {
                         $prestaImage = $xml->children()->children();
                         $index = 1;
                         foreach ($prestaImage->declination as $img) {
-                            $data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id . '/' . $img['id']);
+                            //$data = @file_get_contents($url = 'http://' . $PS_WS_AUTH_KEY . '@' . $PS_HOST_NAME . '/api/images/products/' . $prestaProduct->id . '/' . $img['id']);
+                            $data = $prestaWorker->getImage($prestaProduct->id, $img['id']);
                             $name = trim(strtok($prestaProduct->link_rewrite->language . ($index++), '?'));
                             $name = str_replace(' ', '-', $name);
                             file_put_contents(DIR . '/Files/' . $name . '.jpg', $data);
@@ -295,7 +311,7 @@ class SynchronizePrestaProductsHandler extends Handler
                         }
                     }
                 }
-                $curl->close();
+                //$curl->close();
             }
             $channels->next();
         }
