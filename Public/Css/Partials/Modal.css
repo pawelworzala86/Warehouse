@@ -1,6 +1,6 @@
 .modal {
     position: fixed;
-    background: #efefff;
+    background: rgba(235, 235, 255, 0.8);
     width: 100%;
     height: 100%;
     top: 0;
