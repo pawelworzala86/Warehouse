@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Czas generowania: 10 Paź 2018, 05:30
+-- Czas generowania: 12 Paź 2018, 21:29
 -- Wersja serwera: 10.1.34-MariaDB-0ubuntu0.18.04.1
 -- Wersja PHP: 7.2.10-0ubuntu0.18.04.1
 
@@ -47,13 +47,6 @@ CREATE TABLE `address` (
   `city` varchar(250) DEFAULT NULL,
   `postcode` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
---
--- Zrzut danych tabeli `address`
---
-
-INSERT INTO `address` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `name`, `first_name`, `last_name`, `street`, `city`, `postcode`) VALUES
-(1, NULL, 1539131982, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'My Company', 'John', 'DOE', '16, Main street 2nd floor', 'Miami', '33133');
 
 -- --------------------------------------------------------
 
@@ -157,13 +150,6 @@ CREATE TABLE `channel` (
   `key` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
---
--- Zrzut danych tabeli `channel`
---
-
-INSERT INTO `channel` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `name`, `host`, `key`) VALUES
-(1, 0x8f4210468394903971622d8906a1da18, 1539131866, 1, 2, NULL, NULL, NULL, 0, NULL, NULL, 'prestashop', 'prestashop.localhost', 'GV5QM1CQP218HD2SIRVX1LENDFAIVM8S');
-
 -- --------------------------------------------------------
 
 --
@@ -187,8 +173,7 @@ CREATE TABLE `contractor` (
   `code` varchar(90) DEFAULT NULL,
   `contact_id` int(11) DEFAULT NULL,
   `nip` varchar(250) DEFAULT NULL,
-  `supplier` tinyint(1) DEFAULT '0',
-  `presta_id` varchar(250) DEFAULT NULL
+  `supplier` tinyint(1) DEFAULT '0'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -214,6 +199,29 @@ CREATE TABLE `contractor_contact` (
   `mail` varchar(250) DEFAULT NULL,
   `www` varchar(250) DEFAULT NULL,
   `contractor_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `contractor_integration`
+--
+
+CREATE TABLE `contractor_integration` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `contractor_id` int(11) DEFAULT NULL,
+  `channel_id` int(11) DEFAULT NULL,
+  `presta_id` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -271,6 +279,29 @@ CREATE TABLE `document` (
   `name_from` varchar(250) DEFAULT NULL,
   `owner_address_id` int(11) DEFAULT NULL,
   `contractor_address_id` int(11) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
+-- Struktura tabeli dla tabeli `document_financial`
+--
+
+CREATE TABLE `document_financial` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `financial_id` int(11) DEFAULT NULL,
+  `document_id` int(11) DEFAULT NULL,
+  `amount` float DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- --------------------------------------------------------
@@ -367,6 +398,28 @@ CREATE TABLE `file` (
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `financial`
+--
+
+CREATE TABLE `financial` (
+  `id` int(11) NOT NULL,
+  `uuid` binary(16) DEFAULT NULL,
+  `added` int(11) DEFAULT NULL,
+  `added_by` int(11) DEFAULT NULL,
+  `added_ip_id` int(11) DEFAULT NULL,
+  `updated` int(11) DEFAULT NULL,
+  `updated_by` int(11) DEFAULT NULL,
+  `updated_ip_id` int(11) DEFAULT NULL,
+  `deleted` int(11) DEFAULT '0',
+  `deleted_by` int(11) DEFAULT NULL,
+  `deleted_ip_id` int(11) DEFAULT NULL,
+  `date` date DEFAULT NULL,
+  `amount` float DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `ip`
 --
 
@@ -376,6 +429,14 @@ CREATE TABLE `ip` (
   `user_id` int(11) DEFAULT NULL,
   `date` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Zrzut danych tabeli `ip`
+--
+
+INSERT INTO `ip` (`id`, `ip`, `user_id`, `date`) VALUES
+(1, 1, NULL, 1539142245),
+(2, 1, 1, 1539372570);
 
 -- --------------------------------------------------------
 
@@ -666,93 +727,6 @@ CREATE TABLE `product_integration` (
 -- --------------------------------------------------------
 
 --
--- Struktura tabeli dla tabeli `root_todo`
---
-
-CREATE TABLE `root_todo` (
-  `id` int(11) NOT NULL,
-  `name` varchar(250) DEFAULT NULL,
-  `description` text,
-  `done` tinyint(1) DEFAULT '0'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Zrzut danych tabeli `root_todo`
---
-
-INSERT INTO `root_todo` (`id`, `name`, `description`, `done`) VALUES
-(6, 'GetCatalogCategories', 'Dodanie metody w API', 1),
-(7, 'lista kategori w frontendzie', '', 1),
-(8, 'dodawanie nowej kategori w frontendzie', '', 1),
-(9, 'typy danych - validacja', 'Dodanie walidacji pól takich jak mail', 0),
-(10, 'usuniecie śmieci z api', 'usuniecie pozostałości po testach z api', 1),
-(11, 'CreateCatalogCategory', 'Dodanie na froncie obsługi', 1),
-(13, 'Zmiana grafiki w DocHandler', '', 1),
-(14, 'Zmiana grafiki w Test', '', 1),
-(15, 'Zrobienie kolekcji i usuniecie pozostałości po iteratorze w modelu', '', 1),
-(16, 'usuniecie kontrollerów i przeniesienie ich funkcji do handlerów', '', 1),
-(17, 'usuwanie kategorii', '', 1),
-(18, 'edycja kategorii', '', 1),
-(19, 'tree view w kategoriach', '', 1),
-(20, 'zapis struktury katalogu i kolejności elementów', '', 1),
-(21, 'useId w clasie statycznej jest nulem', 'Prawdopodobnie trzeba będzie przerobic sesję o odczyt userId z bazy albo coś', 1),
-(22, 'SESSION-ID', 'stworzenie metody która będzie zwracała id sessji i usuwała sessię z bazy danych', 1),
-(23, 'CURL - TESTY', 'dodanie obsługi SESSION-ID', 1),
-(24, 'dodkończenie rejestracji nowego konta - mailing', '', 1),
-(25, 'SessionCreate', '', 1),
-(26, 'SessionDelete', '', 1),
-(27, 'poprawienie zapisu kategorii o ustawianie lp', '', 1),
-(28, 'dodanie rodziców dla kategorii w katalogu', '', 1),
-(29, 'dodanie ładowania drzewka kategori - rekurencja', '', 1),
-(30, 'dodanie edycji kategorii', '', 1),
-(31, 'dodanie usuwania kategorii', '', 1),
-(32, 'poprawienie requestu że jak zmienna ma wartość domyślną null to jej nie wymaga', '', 1),
-(33, 'mass update lp w modelu kategorii', '', 1),
-(34, 'naprawienie sesji', '', 1),
-(35, 'naprawa okienek modalnych', '', 1),
-(36, 'dodać w testach api - wyświetlanie nowych niezaimplementowanych itd', '', 1),
-(37, 'testy - linkowanie zmiennych miedzy zakładkami w testach', 'Zapisanie zmiennych na dysku - aby linkowało automatycznie i żeby można było układać testy', 1),
-(38, 'testy - poprawienie grafiki testów', '', 1),
-(39, 'ulepszenie grafiki strony zalogowanego użytkownika', '', 0),
-(40, 'testy - sprawdzanie pól w responsie ', '', 0),
-(41, 'testy - przemyśleć kontrolę wersji', '', 0),
-(42, 'przerobienie modelu aby nie był kolekcją jednocześnie', '', 1),
-(43, 'zmiana grafiki katalogu', '', 1),
-(44, 'zmiana nazwy listy categori na bardziej przejrzystą', '', 1),
-(45, 'dodanie do testów loremipsum - autorskiego', '', 1),
-(46, 'testy - linkowanie trzeba dać o zagłębianie się do kolejnych elementów', '', 0),
-(47, 'zmiana category_id na parent_id w bazie i modelach', '', 0),
-(48, 'naprawienei usuwania w modelu i w kategoriach', '', 0),
-(49, 'usuwanie podkategorii razem z kategorią główną', '', 0),
-(50, 'testy - dodanie hooka systemowego', '', 0),
-(51, 'testy - usuwanie linku', '', 0),
-(52, 'produkty - dodawanie', 'dodawanie produktów zawieracjących pola: nazwa, opis, sku', 0),
-(53, 'TODO - przepisać na jquery ajax', '', 0),
-(54, 'dodanie FPDF', '', 0),
-(55, 'przygotowanie faktury i testu', '', 0),
-(56, 'dodanie do handlerów wymaganego zalogowania lub nie', '', 0),
-(57, 'Testy - po wysłaniu posta i utworzeniu wpisu zasetować od nowa wartości dla nastepnego posta', '', 0),
-(58, 'Przygotowanie do translacji - adresy URL, ewentualne Napisy', '', 0),
-(59, 'request - wymagane pole a null w posicie', '', 0),
-(60, 'dodanie ładowania commons dla zalogowanego użytkownika', 'commons w rootScope - stawki VAT, kraje itd', 0),
-(61, 'przerobienie tabel na dyrektywy', '', 0),
-(62, 'ujednolicenie PUT i POST - w handlerach', '', 0),
-(63, 'dodanie paginacji', '', 0),
-(64, 'dodanie filtórw', '', 0),
-(65, 'dodanie sortowania', '', 0),
-(66, 'zrobić porządek z nazwami - liczby mnogie itp', '', 0),
-(67, 'ogolne zmienne - dodanie filtrów - rodzajów do ładowania na start systemu', '', 0),
-(68, 'dodanie VALIDACJI pól na froncie', '', 1),
-(69, 'uzupełmnienie validationTrait o lepsze komunikaty i spięcie tego z frontem', '', 1),
-(70, 'rozwiązać - wspólna metoda GET w Request, Response i Type', '', 0),
-(71, 'dodać zapis filtrów we froncie', '', 0),
-(72, 'dodanie uploadu plików w api', '', 1),
-(73, 'dodanie widoku na pliki użytkownika', '', 1),
-(74, 'powiązanie zdjęć z produktem i wyświetlanie tego', '', 1);
-
--- --------------------------------------------------------
-
---
 -- Struktura tabeli dla tabeli `session`
 --
 
@@ -770,7 +744,9 @@ CREATE TABLE `session` (
 --
 
 INSERT INTO `session` (`sessid`, `access`, `data`, `ip_id`, `user_id`, `deleted`) VALUES
-(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1539142105, 'userId|i:1;', 2, 1, NULL);
+(0x24aaac32ad8b584a3569818dd4355735f58b9a815751713d9642fca04b98745a, 1539292617, '', 1, NULL, NULL),
+(0x6aaa8162273360bbc41765b15363c68d91363f5ab62658b77031b96c563127bc, 1539292573, '', 1, NULL, NULL),
+(0x79452c83dd47fb6bf593ddcccd93b263461ba96c7134899157fb1dc8ba21b5f3, 1539372570, 'userId|i:1;', 2, 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -849,7 +825,7 @@ CREATE TABLE `user` (
 --
 
 INSERT INTO `user` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `address_id`, `contact_id`, `bank_name`, `bank_swift`, `issue_place`, `bank_number`) VALUES
-(1, 0x83c65ff4ffdb372f5c008a9a2918827d, 1539131697, NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', NULL, NULL, NULL, NULL, NULL, NULL);
+(1, 0x83c65ff4ffdb372f5c008a9a2918827d, 1539131697, NULL, 1, 1539166858, 1, 2, NULL, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 3, 3, 'mBank', 'MBANK', 'Elbląg', '1234567891234567891212');
 
 -- --------------------------------------------------------
 
@@ -873,16 +849,6 @@ CREATE TABLE `user_register` (
   `password` varchar(250) DEFAULT NULL,
   `confirmation_code` varchar(32) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
---
--- Zrzut danych tabeli `user_register`
---
-
-INSERT INTO `user_register` (`id`, `uuid`, `added`, `added_by`, `added_ip_id`, `updated`, `updated_by`, `updated_ip_id`, `deleted`, `deleted_by`, `deleted_ip_id`, `mail`, `password`, `confirmation_code`) VALUES
-(1, 0x39306666636639333235323066613466, 1539131087, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 'fc3aa216956b075f866a1887c89dd28d'),
-(2, 0x34343237396330303733353134393938, 1539131152, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', '1d5c2bd2b5a5cbc35c36ba80a7a8b6ad'),
-(3, 0x37346266323331316636353963333536, 1539131287, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', 'b758297900185bd088c08d093fd7c988'),
-(4, 0x52c5349f36bd927ca465006a6005b511, 1539131677, NULL, 1, NULL, NULL, NULL, 0, NULL, NULL, 'worzala86@gmail.com', '26c669cd0814ac40e5328752b21c4aa6450d16295e4eec30356a06a911c23983aaebe12d5da38eeebfc1b213be650498df8419194d5a26c7e0a50af156853c79', '9d53c1365fb655736db3641f96030b7d');
 
 -- --------------------------------------------------------
 
@@ -1044,6 +1010,22 @@ ALTER TABLE `contractor_contact`
   ADD KEY `contractor_id` (`contractor_id`);
 
 --
+-- Indeksy dla tabeli `contractor_integration`
+--
+ALTER TABLE `contractor_integration`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `contractor_id` (`contractor_id`),
+  ADD KEY `channel_id` (`channel_id`),
+  ADD KEY `presta_id` (`presta_id`(191));
+
+--
 -- Indeksy dla tabeli `document`
 --
 ALTER TABLE `document`
@@ -1059,6 +1041,21 @@ ALTER TABLE `document`
   ADD KEY `contractor_id` (`contractor_id`),
   ADD KEY `owner_address_id` (`owner_address_id`),
   ADD KEY `contractor_address_id` (`contractor_address_id`);
+
+--
+-- Indeksy dla tabeli `document_financial`
+--
+ALTER TABLE `document_financial`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`),
+  ADD KEY `financial_id` (`financial_id`),
+  ADD KEY `document_id` (`document_id`);
 
 --
 -- Indeksy dla tabeli `document_number`
@@ -1097,6 +1094,19 @@ ALTER TABLE `file`
   ADD UNIQUE KEY `uuid` (`uuid`),
   ADD KEY `added_by` (`added_by`),
   ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `deleted_by` (`deleted_by`),
+  ADD KEY `deleted_ip_id` (`deleted_ip_id`);
+
+--
+-- Indeksy dla tabeli `financial`
+--
+ALTER TABLE `financial`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `uuid` (`uuid`),
+  ADD KEY `added_by` (`added_by`),
+  ADD KEY `added_ip_id` (`added_ip_id`),
+  ADD KEY `updated_by` (`updated_by`),
+  ADD KEY `updated_ip_id` (`updated_ip_id`),
   ADD KEY `deleted_by` (`deleted_by`),
   ADD KEY `deleted_ip_id` (`deleted_ip_id`);
 
@@ -1244,12 +1254,6 @@ ALTER TABLE `product_integration`
   ADD KEY `presta_id` (`presta_id`(191));
 
 --
--- Indeksy dla tabeli `root_todo`
---
-ALTER TABLE `root_todo`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Indeksy dla tabeli `session`
 --
 ALTER TABLE `session`
@@ -1312,7 +1316,7 @@ ALTER TABLE `user_register`
 -- AUTO_INCREMENT dla tabeli `address`
 --
 ALTER TABLE `address`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `cash_document`
@@ -1330,7 +1334,7 @@ ALTER TABLE `category`
 -- AUTO_INCREMENT dla tabeli `channel`
 --
 ALTER TABLE `channel`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT dla tabeli `contractor`
@@ -1345,9 +1349,21 @@ ALTER TABLE `contractor_contact`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `contractor_integration`
+--
+ALTER TABLE `contractor_integration`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `document`
 --
 ALTER TABLE `document`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT dla tabeli `document_financial`
+--
+ALTER TABLE `document_financial`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
@@ -1369,10 +1385,16 @@ ALTER TABLE `file`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
+-- AUTO_INCREMENT dla tabeli `financial`
+--
+ALTER TABLE `financial`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT dla tabeli `ip`
 --
 ALTER TABLE `ip`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT dla tabeli `order`
@@ -1429,12 +1451,6 @@ ALTER TABLE `product_integration`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT dla tabeli `root_todo`
---
-ALTER TABLE `root_todo`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
-
---
 -- AUTO_INCREMENT dla tabeli `stock`
 --
 ALTER TABLE `stock`
@@ -1450,7 +1466,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT dla tabeli `user_register`
 --
 ALTER TABLE `user_register`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
