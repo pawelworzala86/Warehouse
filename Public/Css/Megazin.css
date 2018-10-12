@@ -125,11 +125,19 @@ fluentLoader {
 
 fluentLoader p {
     display: inline-block;
-    padding: 3px 8px;
+    padding: 5px 10px;
     cursor: pointer;
     color: #68c !important;
     font-weight: 400;
     margin-top: 40px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+fluentLoader p:hover {
+    background: #68c !important;
+    color: #fff !important;
 }
 
 upload .borderBox,
@@ -343,6 +351,10 @@ tab article {
     margin: 10px 0px;
     background: #fff;
     border: 1px solid #ccc;
+}
+
+.card .body{
+    padding: 10px;
 }
 
 .card .title {

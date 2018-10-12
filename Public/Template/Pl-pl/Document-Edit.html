@@ -145,11 +145,13 @@
         font-size: 2.75em;
     }
 
-    .document-edit .production .name{
+    .document-edit .production .name {
         font-size: 1.25em;
         font-weight: 400;
         margin: 0px 10px;
+        margin-bottom: 15px;
     }
+
     .form-group.checkbox {
         padding-top: 0;
     }
@@ -203,7 +205,7 @@
                                ng-class="{'error': data.validation.deliveryDate&&!data.document.deliveryDate}"
                                class="date"/>
                     </div>
-                    <div ng-if="data.document.kind=='fvp'"  class="form-group col col-xs-5">
+                    <div ng-if="data.document.kind=='fvp'" class="form-group col col-xs-5">
                         <label>Dokument powiązany</label>
                         <input type="text" ng-model="data.document.nameFrom"/>
                     </div>
@@ -368,7 +370,8 @@
             <div class="form-group col col-xs-12 search">
                 <i class="material-icons search">search</i>
                 <label>Nazwa kontrahenta</label>
-                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadContractor()" type="text" ng-model="data.find.name"/>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadContractor()"
+                       type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.contractors.length>0">
                 <div class="header row">
@@ -395,7 +398,8 @@
             <div class="form-group col col-xs-12 search">
                 <i class="material-icons search">search</i>
                 <label>Nazwa produktu</label>
-                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadProduct()" type="text" ng-model="data.find.name"/>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadProduct()"
+                       type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.products.length>0">
                 <div class="header row">
@@ -422,7 +426,8 @@
             <div class="form-group col col-xs-12 search">
                 <i class="material-icons search">search</i>
                 <label>Nazwa produktu</label>
-                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadStock()" type="text" ng-model="data.find.name"/>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadStock()"
+                       type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.stocks.length>0">
                 <div class="header row">
