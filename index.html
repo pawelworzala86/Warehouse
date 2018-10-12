@@ -75,8 +75,8 @@
     }
 </style>
 <!--<div id="loading"><i class="material-icons rotate big">refresh</i></div>-->
-<header>
-    <div class="wrapper"><i ng-click="showMenu=!showMenu" class="material-icons menu-toggle button menu">menu</i>
+<header ng-if="user.logged">
+    <div class="wrapper"><i ng-click="$root.showMenu=!$root.showMenu" class="material-icons menu-toggle button menu">menu</i>
         <div class="pageTitle">
             <p ng-show="pageName">Obecna strona</p>
             <h1 ng-show="pageName">{{pageName}}</h1>
@@ -84,61 +84,60 @@
         <i ng-if="user.logged" ng-click="logout()" class="material-icons right button">exit_to_app</i>
     </div>
 </header>
+<header class="not-logged" ng-if="!user.logged">
+    <div class="container">
+        <a class="sub" ng-href="/konto/rejestracja">Rejestracja</a>
+        <a class="sub" ng-href="/konto/logowanie">Logowanie</a>
+    </div>
+</header>
 <div class="wrapper">
-    <div ng-show="showMenu" id="menu" ng-click="showMenu=false">
+    <div ng-if="$root.showMenu" id="menu" ng-click="showMenu=false">
         <div class="menu-body">
-            <div ng-show="!user.logged" class="container">
-                <div class="links-group">
-                    <a class="primary">Konto</a>
-                    <a ng-click="showMenu=false" class="sub" ng-href="/konto/rejestracja">Rejestracja</a>
-                    <a ng-click="showMenu=false" class="sub" ng-href="/konto/logowanie">Logowanie</a>
+            <div ng-if="user.logged" class="container">
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Konto</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/konto/profil">Profil</a>
                 </div>
-            </div>
-            <div ng-show="user.logged" class="container">
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Konto</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/konto/profil">Profil</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Katalog</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/katalog/kategorie">Kategorie</a>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/katalog/produkty">Produkty</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Dokumenty</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/dokumenty">Lista dokumentów</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Kontrahenci</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/kontrahenci">Lista kontrahentów</a>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/dluznicy">Lista dłużników</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Magazyn</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/magazyn">Stan towarów</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">System</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/system/pliki">Pliki</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Zamówienia</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/kanaly-sprzedazy">Kanały sprzedaży</a>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/zamowienia">Zamówienia</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Produkcja</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/produkcje">Lista produkcji</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Ksiegowość</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/kasa">Stan kasy</a>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/finanse">Operacje finansowe</a>
-                    </div>
-                    <div class="links-group col col-xs-3">
-                        <h3 class="primary">Demo</h3>
-                        <a ng-click="showMenu=false" class="sub" ng-href="/demo">Demo</a>
-                    </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Katalog</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/katalog/kategorie">Kategorie</a>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/katalog/produkty">Produkty</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Dokumenty</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/dokumenty">Lista dokumentów</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Kontrahenci</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/kontrahenci">Lista kontrahentów</a>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/dluznicy">Lista dłużników</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Magazyn</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/magazyn">Stan towarów</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">System</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/system/pliki">Pliki</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Zamówienia</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/kanaly-sprzedazy">Kanały sprzedaży</a>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/zamowienia">Zamówienia</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Produkcja</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/produkcje">Lista produkcji</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Ksiegowość</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/kasa">Stan kasy</a>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/finanse">Operacje finansowe</a>
+                </div>
+                <div class="links-group col col-xs-3">
+                    <h3 class="primary">Demo</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/demo">Demo</a>
+                </div>
             </div>
         </div>
     </div>

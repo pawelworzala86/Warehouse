@@ -158,37 +158,43 @@
         font-size: 1.75em;
         text-align: right;
     }
-    .col.number{
+
+    .col.number {
         font-size: 1.35em;
         font-weight: 400;
-        color: #666;
+        color: #ddd;
     }
-    .col.date{
+
+    .col.date {
         width: auto;
         margin-right: 5px;
         font-size: 0.9em;
         padding-top: 1px;
         position: relative;
         left: -10px;
-        color: #444;
+        color: #aaa;
     }
-    .table .row{
+
+    .table .row {
         margin-bottom: 25px;
     }
-    .payment{
+
+    .payment {
         text-align: right;
     }
+
     .payment .to-pay,
-    .payment .payed{
+    .payment .payed {
         width: 150px;
         float: right;
         text-align: left;
         font-size: 0.9em;
     }
-    .payment b{
+
+    .payment b {
         float: right;
         font-weight: 500;
-        color: #555;
+        color: #ddd;
     }
 </style>
 <div class="container orders">
@@ -205,13 +211,13 @@
     <div class="filters big">
         <i class="material-icons">search</i>
         <div class="inputs">
-        <div class="col col-xs-4"><input style="margin-left: 9px;" class="date"
-                                         ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                         placeholder="Data zamówienia" type="text" ng-model="filters.date"
-                                         ng-change="filter()"></div>
-        <div class="col col-xs-8"><input class="number" ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                         placeholder="Numer zamówienia" type="text" ng-model="filters.number"
-                                         ng-change="filter()"></div>
+            <div class="col col-xs-4"><input style="margin-left: 9px;" class="date"
+                                             ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="Data zamówienia" type="text" ng-model="filters.date"
+                                             ng-change="filter()"></div>
+            <div class="col col-xs-8"><input class="number" ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="Numer zamówienia" type="text" ng-model="filters.number"
+                                             ng-change="filter()"></div>
         </div>
     </div>
     <div class="table" ng-controller="selectTableController">
@@ -276,8 +282,12 @@
                 </div>
 
                 <div class="col col-xs-12 payment">
-                    <div class="col col-xs-12"><div class="to-pay">Do zapłaty <b>{{order.sumGross.toFixed(2)}}</b></div></div>
-                    <div class="col col-xs-12"><div class="payed">Zapłacono <b>{{order.totalPaid.toFixed(2)}}</b></div></div>
+                    <div class="col col-xs-12">
+                        <div class="to-pay">Do zapłaty <b>{{order.sumGross.toFixed(2)}}</b></div>
+                    </div>
+                    <div class="col col-xs-12">
+                        <div class="payed">Zapłacono <b>{{order.totalPaid.toFixed(2)}}</b></div>
+                    </div>
                 </div>
 
                 <div class="col col-xs-9" ng-if="order.totalPaid==order.sumGross">

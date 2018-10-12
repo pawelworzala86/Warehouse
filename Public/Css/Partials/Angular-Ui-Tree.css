@@ -21,8 +21,10 @@
 .angular-ui-tree-handle .border-node,
 .angular-ui-tree-placeholder {
     padding: 4px 10px 0px 10px;
-    background: #fff;
+    background: transparent;
     float: left;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .angular-ui-tree-placeholder {
