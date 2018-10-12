@@ -7,12 +7,12 @@
 
     .contractor .mini {
         font-size: 0.85em;
-        color: #666;
+        color: #ccc;
     }
 
     .contractor .text {
         font-size: 0.85em;
-        color: #444;
+        color: #aaa;
     }
 
     .payed p,
@@ -64,20 +64,23 @@
         font-weight: 400;
     }
 
-    .summary .term{
+    .summary .term {
         float: left;
         width: 100%;
         margin-bottom: 2px;
         font-size: 0.95em;
     }
-    .summary .term p{
+
+    .summary .term p {
         margin: 0;
     }
-    .payed strong{
+
+    .payed strong {
         float: right;
-        margin-top: 2px;
+        font-weight: 400;
     }
-    .summary .title{
+
+    .summary .title {
         font-weight: 400;
         font-size: 0.85em;
     }
@@ -85,7 +88,8 @@
 <div class="modal big">
     <div class="content">
         <div class="header">
-            <h3>Widok dokumentu</h3><a ng-click="modal.close()" href="/dokument/{{data.id}}">Edytuj</a><i ng-click="modal.close()" class="material-icons close">close</i>
+            <h3>Widok dokumentu</h3><a ng-click="modal.close()" href="/dokument/{{data.id}}">Edytuj</a><i
+                ng-click="modal.close()" class="material-icons close">close</i>
         </div>
         <div class="body">
             <div class="detail">
@@ -139,7 +143,8 @@
                 <div class="summary col col-xs-4 payed">
                     <div class="term"><p>Termin płatności: </p><strong>{{data.payDate}}</strong></div>
                     <div class="term"><p>Zapłacono: </p><strong>{{data.payed}}</strong></div>
-                    <div class="term"><p>Do zapłaty: </p><strong ng-class="{'to-pay': data.toPay>0}">{{data.toPay}}</strong>
+                    <div class="term"><p>Do zapłaty: </p><strong
+                            ng-class="{'to-pay': data.toPay>0}">{{data.toPay}}</strong>
                     </div>
                 </div>
             </div>

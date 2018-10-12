@@ -28,10 +28,8 @@ class RegisterUserHandler extends Handler
             ->setUuid($uuid)
             ->insert();
 
-        $template = new Template;
-        $template->assign('activate', HOST . 'konto/' . $uuid . '/aktywuj/' . $confirmationCode);
-        $template->assign('footerFile', 'Mail/Footer.html');
-        $body = $template->fetch(DIR.'/Template/Mail/Register');
+        $body = file_get_contents(DIR.'/Template/Mail/Register.html');
+        $body = str_replace('{{activate}}', HOST . 'konto/' . $uuid . '/aktywuj/' . $confirmationCode, $body);
 
         try {
             $mail = new \App\Mail;

@@ -66,7 +66,6 @@ class Model
 
     function setFromData(array $dataFrom = [])
     {
-        //print_r($data);
         $uuid = null;
         foreach ($dataFrom as $key => $data) {
             $fieldNameCamel = Common::camelCase($key);
@@ -75,15 +74,12 @@ class Model
                 $params = $method->getParameters();
                 $className = (string)$params[0]->getType();
                 if (class_exists($className)) {
-                    $class = explode('\\', $className);
-                    $class = $class[count($class) - 1];
                     $classRealName = explode('\\', $className);
                     $classRealName = $classRealName[count($classRealName) - 1];
                     if ($classRealName == 'UUID') {
                         $data = bin2hex($data);
                         $uuid = $data;
                     }
-                    //print_r([$className, $data]);
                     if(!empty($data)) {
                         $class = new $className($data);
                         $this->{'set' . ucfirst($fieldNameCamel)}($class);

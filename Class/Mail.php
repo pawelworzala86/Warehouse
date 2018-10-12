@@ -20,14 +20,14 @@ class Mail {
             $this->mail->isSMTP();
             $this->mail->Host = 'smtp.gmail.com';
             $this->mail->SMTPAuth = true;
-            $this->mail->Username = 'megazin2018@gmail.com';
-            $this->mail->Password = 'f3$ct@#b3$%4h%5i*7';
+            $this->mail->Username = 'megazin.automat@gmail.com';
+            $this->mail->Password = 'kuku1234AB';
             $this->mail->SMTPSecure = 'tsl';
             $this->mail->Port = 587;
 
-            $this->mail->setFrom('megazin2018@gmail.com', 'Megazin');
+            $this->mail->setFrom('megazin.automat@gmail.com', 'Megazin');
 
-            $this->mail->addReplyTo('megazin2018@gmail.com', 'Megazin');
+            $this->mail->addReplyTo('megazin.automat@gmail.com', 'Megazin');
 
             $this->mail->isHTML(true);
         } catch (Exception $e) {

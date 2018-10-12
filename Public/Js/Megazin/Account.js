@@ -7,7 +7,7 @@ angular.module('Megazin')
                 password: $scope.password,
             }).then(function (response) {
                 if (response.data.code) {
-                    $location.path('/zarejestrowano');
+                    $location.path('/konto/zarejestrowano');
                 }
             });
         }

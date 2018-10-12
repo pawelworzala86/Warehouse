@@ -5,7 +5,6 @@ namespace App\Module\User\Model;
 use App\Model;
 use App\Type\EncodedPassword;
 use App\Type\Mail;
-use App\Type\Password;
 use App\Type\UUID;
 
 class UserRegisterModel extends Model
@@ -34,7 +33,7 @@ class UserRegisterModel extends Model
 
     public function setConfirmationCode(UUID $confirmationCode): UserRegisterModel
     {
-        $this->set('confirmation_code', $confirmationCode);
+        $this->set('confirmation_code', hex2bin($confirmationCode));
         $this->confirmationCode = $confirmationCode;
         return $this;
     }
