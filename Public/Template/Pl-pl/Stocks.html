@@ -21,9 +21,9 @@
     <div class="filters big">
         <i class="material-icons">search</i>
         <div class="inputs">
-        <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="SKU" type="text" ng-model="filters.sku" ng-change="filter()"></div>
-        <div class="col col-xs-8"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Nazwa produktu" type="text" ng-model="filters.name" ng-change="filter()"></div>
-        <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" class="right" placeholder="Ilość" type="text" ng-model="filters.count" ng-change="filter()"></div>
+        <div class="col col-xxs-12 col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="SKU" type="text" ng-model="filters.sku" ng-change="filter()"></div>
+        <div class="col col-xxs-12 col-xs-8"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Nazwa produktu" type="text" ng-model="filters.name" ng-change="filter()"></div>
+        <div class="col col-xxs-12 col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" class="right" placeholder="Ilość" type="text" ng-model="filters.count" ng-change="filter()"></div>
         </div>
     </div>
     <div class="table" ng-controller="selectTableController">
@@ -50,9 +50,9 @@
         <div class="header">
             <input ng-show="stocks.length>0" type="checkbox" id="chbx" ng-click="checkAll(stocks)"><label ng-show="stocks.length>0" for="chbx" class="checkbox"></label>
             <div class="container" ng-show="stocks.length>0">
-                <div class="col col-xs-2">SKU</div>
-                <div class="col col-xs-8">Nazwa produktu</div>
-                <div class="col col-xs-2 right">Ilość</div>
+                <div class="col col-xxs-4 col-xs-2">SKU</div>
+                <div class="col col-xxs-4 col-xs-8">Nazwa produktu</div>
+                <div class="col col-xxs-4 col-xs-2 right">Ilość</div>
             </div>
         </div>
         <div ng-show="stocks.length==0" class="table-empty">
@@ -64,9 +64,9 @@
                 <input type="checkbox" id="chbx{{stock.id}}" ng-click="check(stock)"><label for="chbx{{stock.id}}"
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in" ng-click="loadDetail('/stock', stocks, stock)">zoom_in</i>
-                <div class="col col-xs-2">{{stock.sku}}</div>
-                <div class="col col-xs-8">{{stock.name}}</div>
-                <div class="col col-xs-2 right">{{stock.count}}</div>
+                <div class="col col-xxs-4 col-xs-2">{{stock.sku}}</div>
+                <div class="col col-xxs-4 col-xs-8">{{stock.name}}</div>
+                <div class="col col-xxs-4 col-xs-2 right">{{stock.count}}</div>
             </div>
         </div>
         <fluentLoader ng-click="fluentLoad()" ng-show="stocks.length>0">

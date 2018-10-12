@@ -388,8 +388,6 @@ tab article {
 
 .row {
     box-sizing: border-box;
-    display: inline-block;
-    width: 100%;
 }
 
 ::-webkit-input-placeholder {
@@ -549,6 +547,7 @@ ng-view {
     background: rgba(255, 255, 255, 0.05);
     border: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 5px;
+    padding-bottom: 5px;
 }
 
 .filters.big .inputs {
@@ -573,6 +572,7 @@ ng-view {
 .filters.big input{
     background: rgba(255, 255, 255, 0.05) !important;
     border: 1px solid rgba(255, 255, 255, 0.2);
+    margin-bottom: 10px;
 }
 
 .filters.big input:active,

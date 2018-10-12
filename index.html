@@ -91,7 +91,7 @@
     </div>
 </header>
 <div class="wrapper">
-    <div ng-if="$root.showMenu" id="menu" ng-click="showMenu=false">
+    <div ng-show="$root.showMenu" id="menu" ng-click="showMenu=false">
         <div class="menu-body">
             <div ng-if="user.logged" class="container">
                 <div class="links-group col col-xs-3">

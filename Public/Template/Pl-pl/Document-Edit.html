@@ -131,8 +131,6 @@
 
     .kind,
     .row.options {
-        float: left;
-        width: 100%;
         box-sizing: border-box;
     }
 
@@ -160,18 +158,19 @@
 </style>
 <div class="container document-edit">
     <article>
-        <div ng-if="!data.productionId" class="kind row">
-            <div class="col col-xs-6">
+        <div ng-if="!data.productionId" class="row">
+        <div class="kind">
+            <div class="col col-xxs-12 col-xs-6">
                 <div class="card">
                     <div class="title">Rodzaj dokumentu</div>
-                    <div class="form-group col col-xs-6">
+                    <div class="form-group col col-xxs-6 col-xs-6">
                         <label>Wybierz rodzaj</label>
                         <select ng-model="data.document.kind">
                             <option value="add">Przychód</option>
                             <option value="dec">Rozchód</option>
                         </select>
                     </div>
-                    <div class="form-group col col-xs-6 hide" ng-class="{'show': data.document.kind}">
+                    <div class="form-group col col-xxs-6 col-xs-6 hide" ng-class="{'show': data.document.kind}">
                         <label>Wybierz dokument</label>
                         <select ng-model="data.document.type">
                             <option ng-repeat="type in data.typeOption" value="{{type.value}}">{{type.name}}</option>
@@ -180,8 +179,9 @@
                 </div>
             </div>
         </div>
+        </div>
         <div class="row options" ng-class="{'show': data.document.type}">
-            <div class="col col-xs-7">
+            <div class="col col-xxs-12 col-xs-7">
                 <div class="card">
                     <div class="title">Dane podstawowe</div>
                     <div class="form-group col col-xs-7">
@@ -213,7 +213,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-xs-5" ng-if="!((data.document.type=='rw')||(data.document.type=='pw'))">
+            <div class="col col-xxs-12 col-xs-5" ng-if="!((data.document.type=='rw')||(data.document.type=='pw'))">
                 <div class="card">
                     <div class="title">Kontrahent</div>
                     <div class="contractor-data">
@@ -229,7 +229,7 @@
                     </button>
                 </div>
             </div>
-            <div class="col col-xs-5" ng-if="((data.document.type=='rw')||(data.document.type=='pw'))">
+            <div class="col col-xxs-12 col-xs-5" ng-if="((data.document.type=='rw')||(data.document.type=='pw'))">
                 <div class="card">
                     <div ng-if="data.document.type=='rw'" class="title">Wydanie do produkcji</div>
                     <div ng-if="data.document.type=='pw'" class="title">Przychód z produkcji</div>
@@ -240,7 +240,7 @@
             </div>
         </div>
         <div class="row options" ng-class="{'show': data.document.type}">
-            <div class="col col-xs-12">
+            <div class="col col-xxs-12 col-xs-12">
                 <div class="card">
                     <div class="title">Produkty/usługi</div>
                     <button ng-if="data.document.kind=='add'" style="margin-bottom: 15px;margin-left: 15px;"
@@ -253,11 +253,11 @@
                     </button>
                     <div class="table products">
                         <div class="header" ng-if="data.document.products.length>0">
-                            <div class="col col-xs-4">Nazwa produktu</div>
-                            <div class="col col-xs-1">VAT</div>
-                            <div class="col col-xs-2 right">Cena netto</div>
-                            <div class="col col-xs-1 center">Ilość</div>
-                            <div class="col col-xs-4">
+                            <div class="col col-xxs-12 col-xs-4">Nazwa produktu</div>
+                            <div class="col col-xxs-4 col-xs-1">VAT</div>
+                            <div class="col col-xxs-4 col-xs-2 right">Cena netto</div>
+                            <div class="col col-xxs-4 col-xs-1 center">Ilość</div>
+                            <div class="col col-xxs-12 col-xs-4">
                                 <div class="col col-xs-4 count right">W.netto</div>
                                 <div class="col col-xs-4 count right">W.VAT</div>
                                 <div class="col col-xs-4 count right">W.brutto</div>
@@ -266,22 +266,22 @@
                         <div class="row" ng-repeat="product in data.document.products" ng-if="!product.deleted">
                             <i class="material-icons delete"
                                ng-click="remove(data.document.products, product)">delete</i>
-                            <div class="col col-xs-4 name">{{product.name}}</div>
-                            <div class="col col-xs-1 count">
+                            <div class="col col-xxs-12 col-xs-4 name">{{product.name}}</div>
+                            <div class="col col-xxs-4 col-xs-1 count">
                                 <select ng-model="product.vat" ng-change="data.callcNet(product)">
                                     <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
                                 </select>
                             </div>
-                            <div class="col col-xs-2 count"><input class="right" type="text" ng-model="product.net"
+                            <div class="col col-xxs-4 col-xs-2 count"><input class="right" type="text" ng-model="product.net"
                                                                    ng-change="data.callcNet(product)"></div>
-                            <div class="col col-xs-1 count"><input class="center" type="text" ng-model="product.count"
+                            <div class="col col-xxs-4 col-xs-1 count"><input class="center" type="text" ng-model="product.count"
                                                                    ng-change="data.callcNet(product)"></div>
-                            <div class="col col-xs-4">
-                                <div class="col col-xs-4 count"><input class="right" type="text"
+                            <div class="col col-xxs-12 col-xs-4">
+                                <div class="col col-xxs-4 col-xs-4 count"><input class="right" type="text"
                                                                        ng-model="product.sumNet"
                                                                        ng-change="data.callcSumNet(product)"></div>
-                                <div class="col col-xs-4 count right" style="padding: 0px 3px;">{{product.sumVat}}</div>
-                                <div class="col col-xs-4 count"><input class="right" type="text"
+                                <div class="col col-xxs-4 col-xs-4 count right" style="padding: 0px 3px;">{{product.sumVat}}</div>
+                                <div class="col col-xxs-4 col-xs-4 count"><input class="right" type="text"
                                                                        ng-model="product.sumGross"
                                                                        ng-change="data.callcSumGross(product)"></div>
                             </div>
@@ -297,8 +297,8 @@
             </div>
         </div>
         <div class="row options" ng-class="{'show': data.document.type}">
-            <div class="col" ng-class="{'col-xs-7': ((data.document.type==='fvp')||(data.document.type==='fvs')),
-                    'col-xs-12': !((data.document.type==='fvp')||(data.document.type==='fvs'))}">
+            <div class="col" ng-class="{'col-xxs-12 col-xs-7': ((data.document.type==='fvp')||(data.document.type==='fvs')),
+                    'col-xxs-12 col-xs-12': !((data.document.type==='fvp')||(data.document.type==='fvs'))}">
                 <div class="card">
                     <div class="title">Dodatkowe informacje</div>
                     <div class="form-group col col-xs-12 textarea">
@@ -307,7 +307,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col col-xs-5" ng-if="(data.document.type==='fvp')||(data.document.type==='fvs')">
+            <div class="col col-xxs-12 col-xs-5" ng-if="(data.document.type==='fvp')||(data.document.type==='fvs')">
                 <div class="card">
                     <div class="title">Płatności</div>
                     <div class="form-group col col-xs-6">
@@ -349,7 +349,7 @@
             </div>
         </div>
         <div class="row settings" ng-if="data.document.type=='fvs'">
-            <div class="col col-xs-12">
+            <div class="col col-xxs-12 col-xs-12">
                 <div class="card">
                     <div class="title">Ustawienia dodatkowe</div>
                     <div class="form-group col col-xs-4 checkbox" ng-if="data.document.type=='fvs'">

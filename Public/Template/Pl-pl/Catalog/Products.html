@@ -52,10 +52,10 @@
     <div class="filters big">
         <i class="material-icons">search</i>
         <div class="inputs">
-            <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+            <div class="col col-xxs-12 col-xs-4"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
                                              placeholder="SKU" type="text" ng-model="filters.sku"
                                              ng-change="filter()"></div>
-            <div class="col col-xs-9"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+            <div class="col col-xxs-12 col-xs-8"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
                                              placeholder="Nazwa produktu" type="text" ng-model="filters.name"
                                              ng-change="filter()"></div>
         </div>
@@ -100,13 +100,13 @@
                                                                                                 class="checkbox"></label>
                 <i class="material-icons zoom-in"
                    ng-click="loadDetail('/catalog/product', products, product, 'product')">zoom_in</i>
-                <div class="col col-xs-2"><img src="{{product.imageUrl}}"></div>
-                <div class="col col-xs-10">
-                    <div class="col col-xs-3 sku">{{product.sku}}</div>
-                    <div class="col col-xs-9">{{product.name}}</div>
+                <div class="col col-xxs-12 col-xs-2"><img src="{{product.imageUrl}}"></div>
+                <div class="col col-xxs-12 col-xs-10">
+                    <div class="col col-xxs-4 col-xs-3 sku">{{product.sku}}</div>
+                    <div class="col col-xxs-8 col-xs-9">{{product.name}}</div>
                     <div class="col col-xs-12 description">{{product.descriptionShort}}</div>
                     <div class="col col-xs-12 price">Netto sprzedaży: <b>{{product.net}}</b></div>
-                    <a class="allegro" ng-click="allegroSend(product)">Wystaw w allegro</a>
+                    <!--<a class="allegro" ng-click="allegroSend(product)">Wystaw w allegro</a>-->
                 </div>
                 <div class="buttons">
                     <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
