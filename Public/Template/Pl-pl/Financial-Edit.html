@@ -1,0 +1,24 @@
+<div class="container">
+    <article>
+        <div class="row">
+            <div class="col col-xs-12">
+                <div class="card">
+                    <div class="title">Dane podstawowe</div>
+                    <div class="form-group col col-xs-6">
+                        <label ng-class="{'error': data.validation.date&&!data.financial.date}">Data operacji</label>
+                        <input type="text" ng-model="data.financial.date"
+                               ng-class="{'error': data.validation.date&&!data.financial.date}"/>
+                    </div>
+                    <div class="form-group col col-xs-6">
+                        <label ng-class="{'error': data.validation.amount&&!data.financial.amount}">Kwota operacji</label>
+                        <input type="text" ng-model="data.financial.amount"
+                               ng-class="{'error': data.validation.amount&&!data.financial.amount}"/>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="sender icon" ng-click="data.send()">Zapisz</button>
+        </div>
+    </article>
+</div>

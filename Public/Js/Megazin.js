@@ -166,6 +166,21 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 controller: 'demoController',
                 pageName: 'Ustawienia demonstracyjne',
             })
+            .when(base + '/finanse', {
+                templateUrl: templateBase + 'Financials.html',
+                controller: 'financialsController',
+                pageName: 'Operacje finansowe',
+            })
+            .when(base + '/finanse/dodaj', {
+                templateUrl: templateBase + 'Financial-Edit.html',
+                controller: 'financialEditController',
+                pageName: 'Edycja operacji finansowej',
+            })
+            .when(base + '/finanse/:id', {
+                templateUrl: templateBase + 'Financial-Edit.html',
+                controller: 'financialEditController',
+                pageName: 'Edycja operacji finansowej',
+            })
         ;
 
         $locationProvider.html5Mode({
