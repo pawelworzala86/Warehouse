@@ -3,7 +3,6 @@ angular.module('Megazin')
     .controller('financialEditController', function (showError, $routeParams, $scope, $http, $location, financial, documentSearch) {
         $scope.data = {
             id: $routeParams.id,
-            document: {},
             validation: {
                 date: true,
                 amount: true,
@@ -11,10 +10,11 @@ angular.module('Megazin')
             financial: {
                 date: (date = new Date()).getFullYear() + '-' + ((month = (date.getMonth() + 1)) < 10 ? ('0' + month) : month) + '-' + date.getDate(),
                 amount: null,
+                documents: [],
             },
             find: {
                 name: '',
-            }
+            },
         }
         loadPage = () => {
             if ($routeParams.id) {
@@ -74,8 +74,10 @@ angular.module('Megazin')
         }
         $scope.data.selectDocument = (document) => {
             $scope.data.documentShow = false
-            $scope.data.financial.documentId = document.id
-            $scope.data.financial.documentNumber = document.name
+            $scope.data.financial.documents.push({
+                id: document.id,
+                number: document.name
+            })
         }
     })
 
