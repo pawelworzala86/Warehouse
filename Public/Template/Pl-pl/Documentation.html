@@ -30,13 +30,39 @@
         float: left;
         width: 100%;
     }
+
+    .doc .method{
+        float: left;
+        font-size: 1.25em;
+        margin-top: 7px;
+        width: 65px;
+        text-align: right;
+    }
+
+    .doc .request{
+        color: #fff;
+        margin-top: 5px;
+    }
+
+    .doc pre{
+        margin: 0;
+        font-size: 0.85em;
+        color: #ccc;
+    }
 </style>
 <div class="container doc">
     <div class="module" ng-repeat="(key,module) in doc.routes">
         <h1>{{key}}</h1>
         <div ng-repeat="(key,detail) in module" class="detail">
-            <div class="col col-xxs-12"><h3>{{detail.name}}</h3></div>
-            <div class="col col-xxs-12"><h4>{{detail.url}}</h4></div>
+            <div class="method">
+                {{detail.method}}
+            </div>
+            <div class="col col-xxs-10">
+                <div class="col col-xxs-12"><h3>{{detail.name}}</h3></div>
+                <div class="col col-xxs-12"><h4>{{detail.url}}</h4></div>
+                <div class="col col-xxs-6"><h4 class="request">{{detail.request}}</h4><pre>{{detail.requestPrepared.fieldsPrepared}}</pre></h4></div>
+                <div class="col col-xxs-6"><h4 class="request">{{detail.response}}</h4><pre>{{detail.responsePrepared.fieldsPrepared}}</pre></h4></div>
+            </div>
         </div>
     </div>
 </div>

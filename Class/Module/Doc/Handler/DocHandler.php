@@ -21,16 +21,23 @@ class DocHandler extends Handler
         foreach ($routesR as $key => $routes) {
             foreach ($routes as $route) {
                 $rout['name'] = $this->getClassNameFromHandlerClassName($route['className']);
+                $rout['method'] = $route['method'];
 
                 $request = $this->getRequestNameAndClassByHandlerClassName($route['className']);
                 $rout['request'] = $request['name'];
+                $class = explode('\\', $request['class']);
+                $class = $class[count($class)-1];
                 $this->requests[$request['name']] = [
+                    'className' => $class,
                     'class' => $request['class'],
                 ];
 
                 $response = $this->getResponseNameAndClassByHandlerClassName($route['className']);
                 $rout['response'] = $response['name'];
+                $class = explode('\\', $response['class']);
+                $class = $class[count($class)-1];
                 $this->responses[$response['name']] = [
+                    'className' => $class,
                     'class' => $response['class'],
                 ];
 
@@ -56,6 +63,9 @@ class DocHandler extends Handler
 
     private function prepareIO(&$returnMethods)
     {
+        if(!$returnMethods){
+            return;
+        }
         foreach ($returnMethods as $key => $response) {
             $requestProperties = [];
 

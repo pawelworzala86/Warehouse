@@ -354,6 +354,14 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload', 'chart.js'])
         $scope.doc = null
         $http.get(apiBase+'/doc').then((response)=>{
             $scope.doc = response.data
+            angular.forEach($scope.doc.routes, (value)=>{
+            angular.forEach(value, (value2)=>{
+                value2.requestPrepared = $scope.doc.requests[value2.request]
+                value2.responsePrepared = $scope.doc.responses[value2.response]
+                value2.requestPrepared.fieldsPrepared = JSON.stringify(value2.requestPrepared.fields, null, 2);
+                value2.responsePrepared.fieldsPrepared = JSON.stringify(value2.responsePrepared.fields, null, 2);
+            })
+            })
         })
     })
 

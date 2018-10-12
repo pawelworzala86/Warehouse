@@ -1,14 +1,6 @@
 <style>
-    .zoom-in {
-        float: left;
-        position: absolute;
-        margin-top: -3px;
-        left: 24px;
-        cursor: pointer;
-    }
-
     .table .row {
-        padding: 5px 20px 20px 50px;
+        padding: 2px 20px 20px 30px;
     }
 
     p.price span.service {
@@ -169,9 +161,9 @@
         width: auto;
         margin-right: 5px;
         font-size: 0.9em;
-        padding-top: 1px;
+        padding-top: 2px;
         position: relative;
-        left: -10px;
+        left: 10px;
         color: #aaa;
     }
 
@@ -195,6 +187,17 @@
         float: right;
         font-weight: 500;
         color: #ddd;
+    }
+
+    .orders .table .row:hover {
+        border: none;
+        background: transparent !important;
+        box-shadow: none;
+    }
+
+    .orders .table .row .row,
+    .orders .table .row:hover .row {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 </style>
 <div class="container orders">
@@ -257,8 +260,10 @@
                 <input type="checkbox" id="chbx{{order.id}}" ng-click="check(order)"><label for="chbx{{order.id}}"
                                                                                             class="checkbox"></label>
                 <!--<i class="material-icons zoom-in" ng-click="loadDetail('/order', orders, order)">zoom_in</i>-->
-                <div class="col col-xs-4 date">{{order.date}}</div>
-                <div class="col col-xs-8 number">{{order.number}}</div>
+                <div class="col col-xxs-12">
+                    <div class="col number">{{order.number}}</div>
+                    <div class="col date">{{order.date}}</div>
+                </div>
 
                 <div class="col col-xs-12 products table">
                     <div class="product row header">

@@ -41,6 +41,16 @@
     .table .row{
         margin-bottom: 25px;
     }
+    .products .table .row:hover {
+        border: none;
+        background: transparent !important;
+        box-shadow: none;
+    }
+
+    .products .table .row .row,
+    .products .table .row:hover .row {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
 </style>
 <div class="container products">
     <div class="buttons">
@@ -106,7 +116,7 @@
                     <div class="col col-xxs-8 col-xs-9">{{product.name}}</div>
                     <div class="col col-xs-12 description">{{product.descriptionShort}}</div>
                     <div class="col col-xs-12 price">Netto sprzedaży: <b>{{product.net}}</b></div>
-                    <a class="allegro" ng-click="allegroSend(product)">Wystaw w allegro</a>
+                    <a class="allegro" ng-click="allegroSend(product)"><button class="mini">Wystaw w allegro</button></a>
                 </div>
                 <div class="buttons">
                     <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>

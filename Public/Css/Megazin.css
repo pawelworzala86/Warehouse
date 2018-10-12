@@ -585,3 +585,8 @@ ng-view {
 option{
     color: #000;
 }
+
+button.mini{
+    font-size: 0.95em;
+    padding: 3px 5px;
+}

@@ -26,6 +26,7 @@
     .table.documents{
         font-size: 0.85em;
         margin-bottom: 25px;
+        margin-top: 5px;
     }
     .table.documents .buttons {
         position: relative;
@@ -36,6 +37,22 @@
     .table.documents .after-term{
         font-weight: 500;
         color: #f66;
+    }
+    .debtors .table .row:hover {
+        border: none;
+        background: transparent !important;
+        box-shadow: none;
+    }
+
+    .debtors .table .row .row,
+    .debtors .table .row:hover .row {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .debtors .total{
+        padding-right: 5px;
+        font-weight: 400;
+        font-size: 1.15em;
     }
 </style>
 <div class="container debtors">
@@ -80,8 +97,7 @@
                                                                                      class="checkbox"></label>
             <div class="container" ng-show="debtors.length>0">
                 <div class="col col-xs-2">Kod</div>
-                <div class="col col-xs-8">Nazwa</div>
-                <div class="col col-xs-2 right">Dług</div>
+                <div class="col col-xs-10">Nazwa</div>
             </div>
         </div>
         <div ng-class="{'selected': debtor.selected, 'deleted': debtor.deleted}" class="row"
@@ -92,7 +108,6 @@
                     class="checkbox"></label>
                 <div class="col col-xs-2">{{debtor.code}}</div>
                 <div class="col col-xs-8">{{debtor.name}}</div>
-                <div class="col col-xs-2 right">{{debtor.debt}}</div>
             </div>
             <div class="col col-xs-12 table documents">
                 <div class="header">
@@ -106,12 +121,13 @@
                     <div class="col col-xs-3">{{document.name}}</div>
                     <div class="col col-xs-3">{{document.date}}</div>
                     <div class="col col-xs-2" ng-class="{'after-term': document.payTerm}">{{document.payDate}}</div>
-                    <div class="col col-xs-2 right">{{document.gross}}</div>
-                    <div class="col col-xs-2 right" ng-class="{'after-term': document.payTerm}">{{document.toPay}}</div>
+                    <div class="col col-xs-2 right">{{document.gross.toFixed(2)}}</div>
+                    <div class="col col-xs-2 right" ng-class="{'after-term': document.payTerm}">{{document.toPay.toFixed(2)}}</div>
                 </div>
-                <div class="buttons">
-                    <a>Wyślij przypomnienie</a>
+                <div class="buttons col col-xxs-10">
+                    <a><button class="mini">Wyślij przypomnienie</button></a>
                 </div>
+                <div class="col col-xxs-2 right total">{{debtor.debt.toFixed(2)}}</div>
             </div>
         </div>
         <div ng-show="debtors.length==0" class="table-empty">

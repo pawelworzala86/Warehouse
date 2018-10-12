@@ -1,11 +1,13 @@
 <style>
-    .table{
+    .table.files {
         text-align: center;
     }
+
     .table .header input {
         left: 0;
     }
-    .table.files .row{
+
+    .table.files .row {
         width: 175px;
         padding: 5px;
         height: 300px;
@@ -14,31 +16,38 @@
         float: none;
         display: inline-block;
     }
-    .table.files .name{
+
+    .table.files .name {
         padding-left: 6px;
         font-weight: 400;
         font-size: 0.85em;
         text-align: center;
         margin-bottom: 2px;
+        word-break: break-all;
     }
-    .table.files .image img{
+
+    .table.files .image img {
         width: 100%;
     }
-    .table.files .chbx{
+
+    .table.files .chbx {
         top: 10px;
         left: 5px;
     }
-    .table.files .not-image{
+
+    .table.files .not-image {
         text-align: center;
         margin-top: 25px;
         margin-bottom: 15px;
     }
+
     .table.files .not-image i,
-    .table.files .not-image i:hover{
+    .table.files .not-image i:hover {
         color: #aaa !important;
         font-size: 8em;
     }
-    .table.files .row:hover{
+
+    .table.files .row:hover {
         background: transparent;
         border: none !important;
         box-shadow: none;
@@ -48,9 +57,15 @@
     <div class="filters big">
         <i class="material-icons">search</i>
         <div class="inputs">
-        <div class="col col-xs-6"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" placeholder="Nazwa pliku" type="text" ng-model="filters.name" ng-change="filter()"></div>
-        <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" style="margin-left: -8px;" placeholder="Typ pliku" type="text" ng-model="filters.type" ng-change="filter()"></div>
-        <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }" style="margin-left: 7px;" class="right" placeholder="Rozmiar pliku" type="text" ng-model="filters.size" ng-change="filter()"></div>
+            <div class="col col-xs-6"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="Nazwa pliku" type="text" ng-model="filters.name"
+                                             ng-change="filter()"></div>
+            <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             style="margin-left: -8px;" placeholder="Typ pliku" type="text"
+                                             ng-model="filters.type" ng-change="filter()"></div>
+            <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             style="margin-left: 7px;" class="right" placeholder="Rozmiar pliku"
+                                             type="text" ng-model="filters.size" ng-change="filter()"></div>
         </div>
     </div>
     <div class="table files" ng-controller="selectTableController">
@@ -74,11 +89,13 @@
                 </div>
             </div>
         </div>
-        <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files" ng-if="!deleted">
+        <div ng-class="{'selected': file.selected, 'deleted': file.deleted}" class="row" ng-repeat="file in files"
+             ng-if="!deleted">
             <input type="checkbox" id="chbx{{file.id}}" ng-click="check(file)"><label for="chbx{{file.id}}"
-                                                                                            class="checkbox chbx"></label>
+                                                                                      class="checkbox chbx"></label>
             <div class="col col-xs-12 image" ng-if="file.type=='image/jpg'"><img src="{{file.url}}"></div>
-            <div class="col col-xs-12 not-image" ng-if="file.type!='image/jpg'"><i class="material-icons">description</i> </div>
+            <div class="col col-xs-12 not-image" ng-if="file.type!='image/jpg'"><i
+                    class="material-icons">description</i></div>
             <div class="col col-xs-12 name">{{file.name}}</div>
             <div class="col col-xs-12 center">{{file.type}}</div>
             <div class="col col-xs-12 center" style="margin-top: 2px;">{{formatSizeUnits(file.size)}}</div>
