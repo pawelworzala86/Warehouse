@@ -129,7 +129,7 @@ class DocumentHandler extends Handler
             ->setDeliveryDate("2018-10-11")
             ->setDocumentNumberId($number->getDocumentNumberId())
             ->setIssuePlace("Elbląg")
-            ->setKind("add")
+            ->setKind((($type=='fvp')||($type=='pz'))?"add":'dec')
             ->setName($number->getName())
             ->setPayDate("2018-10-25")
             ->setPayed($payed)
