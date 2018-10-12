@@ -37,7 +37,8 @@ class GetSearchDocumentsHandler extends Handler
                 'name' => 'name',
                 'kind' => new FilterKind('%'),
                 'value' => $request->getSearch(),
-            ]));
+            ]))
+            ->where('type', '=', 'fvs');
         $documentsCollection->load();
 
         $docs = new Documents;

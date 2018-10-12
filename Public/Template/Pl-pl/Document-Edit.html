@@ -254,9 +254,9 @@
                     <div class="table products">
                         <div class="header" ng-if="data.document.products.length>0">
                             <div class="col col-xxs-12 col-xs-4">Nazwa produktu</div>
-                            <div class="col col-xxs-4 col-xs-1">VAT</div>
-                            <div class="col col-xxs-4 col-xs-2 right">Cena netto</div>
                             <div class="col col-xxs-4 col-xs-1 center">Ilość</div>
+                            <div class="col col-xxs-4 col-xs-2 right">Cena netto</div>
+                            <div class="col col-xxs-4 col-xs-1">VAT</div>
                             <div class="col col-xxs-12 col-xs-4">
                                 <div class="col col-xs-4 count right">W.netto</div>
                                 <div class="col col-xs-4 count right">W.VAT</div>
@@ -267,15 +267,15 @@
                             <i class="material-icons delete"
                                ng-click="remove(data.document.products, product)">delete</i>
                             <div class="col col-xxs-12 col-xs-4 name">{{product.name}}</div>
+                            <div class="col col-xxs-4 col-xs-1 count"><input class="center" type="text" ng-model="product.count"
+                                                                             ng-change="data.callcNet(product)"></div>
+                            <div class="col col-xxs-4 col-xs-2 count"><input class="right" type="text" ng-model="product.net"
+                                                                   ng-change="data.callcNet(product)"></div>
                             <div class="col col-xxs-4 col-xs-1 count">
                                 <select ng-model="product.vat" ng-change="data.callcNet(product)">
                                     <option ng-repeat="vat in data.vatRates" value="{{vat.value}}">{{vat.name}}</option>
                                 </select>
                             </div>
-                            <div class="col col-xxs-4 col-xs-2 count"><input class="right" type="text" ng-model="product.net"
-                                                                   ng-change="data.callcNet(product)"></div>
-                            <div class="col col-xxs-4 col-xs-1 count"><input class="center" type="text" ng-model="product.count"
-                                                                   ng-change="data.callcNet(product)"></div>
                             <div class="col col-xxs-12 col-xs-4">
                                 <div class="col col-xxs-4 col-xs-4 count"><input class="right" type="text"
                                                                        ng-model="product.sumNet"
@@ -358,7 +358,7 @@
                 </div>
             </div>
         </div>
-        <div ng-if="data.document.type">
+        <div ng-if="data.document.type" class="col col-xxs-12 col-xs-12">
             <button class="sender icon" ng-click="data.send()">Zapisz</button>
         </div>
     </article>
