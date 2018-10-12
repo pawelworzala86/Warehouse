@@ -80,11 +80,12 @@
     right: 0px;
     font-size: 1.75em;
     cursor: pointer;
-    opacity: 0.3;
+    opacity: 0.6;
 }
 
 .table .selects .select .material-icons:hover {
-    opacity: 0.8;
+    opacity: 1;
+    color: #555;
 }
 
 .table .col {

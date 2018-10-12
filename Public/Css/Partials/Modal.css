@@ -1,6 +1,6 @@
 .modal {
     position: fixed;
-    background: rgba(255, 255, 255, 0.9);
+    background: #efefff;
     width: 100%;
     height: 100%;
     top: 0;
@@ -20,7 +20,7 @@
     box-shadow: 5px 5px 5px #aaa;
     border: 1px solid #ddd;
     margin-bottom: 60px;
-    background: #efefff;
+    background: #fff;
 }
 
 .modal.big .content {
