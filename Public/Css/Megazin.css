@@ -16,7 +16,7 @@ textarea {
     color: #333;
 }
 
-.container  {
+.container {
     float: left;
     width: 100%;
     box-sizing: border-box;
@@ -123,7 +123,7 @@ fluentLoader {
     box-sizing: border-box;
 }
 
-fluentLoader p{
+fluentLoader p {
     display: inline-block;
     padding: 3px 8px;
     cursor: pointer;
@@ -153,7 +153,7 @@ upload-attachment .borderBox {
 }
 
 upload .borderBox .name,
-upload-attachment .borderBox .name{
+upload-attachment .borderBox .name {
     z-index: 1000;
     position: absolute;
     bottom: -30px;
@@ -166,7 +166,7 @@ upload-attachment .borderBox .name{
     overflow: hidden;
 }
 
-upload-attachment .borderBox .name{
+upload-attachment .borderBox .name {
     text-align: left;
     padding: 0px 20px;
     top: 0;
@@ -174,7 +174,7 @@ upload-attachment .borderBox .name{
 }
 
 upload .borderBox .size,
-upload-attachment .borderBox .size{
+upload-attachment .borderBox .size {
     position: absolute;
     bottom: -42px;
     font-weight: 400;
@@ -183,7 +183,7 @@ upload-attachment .borderBox .size{
     text-align: center;
 }
 
-upload-attachment .borderBox .size{
+upload-attachment .borderBox .size {
     position: relative;
     text-align: left;
     padding: 0px 20px;
@@ -195,7 +195,7 @@ upload-attachment .borderBox .size{
 }
 
 upload .borderBox .material-icons.delete,
-upload-attachment .borderBox .material-icons.delete{
+upload-attachment .borderBox .material-icons.delete {
     z-index: 1000;
     color: #f00;
     position: absolute;
@@ -237,7 +237,7 @@ upload-attachment p.cancel {
 }
 
 upload .material-icons.add,
-upload-attachment .material-icons.add{
+upload-attachment .material-icons.add {
     font-size: 5em;
     color: #888;
     left: 50%;
@@ -247,7 +247,7 @@ upload-attachment .material-icons.add{
 }
 
 upload #uploadBorderBox p.progress,
-upload-attachment #uploadBorderBox p.progress{
+upload-attachment #uploadBorderBox p.progress {
     margin: 0;
     top: 50%;
     position: absolute;
@@ -265,14 +265,13 @@ upload #uploadBorderBox p.progress,
 upload-attachment #uploadBorderBox p.progress {
 }
 
-
 upload input.hide,
-upload-attachment input.hide{
+upload-attachment input.hide {
     display: none;
 }
 
 upload img,
-upload-attachment img{
+upload-attachment img {
     position: absolute;
     left: 0;
     top: 0;
@@ -282,7 +281,7 @@ upload-attachment img{
     border-radius: 15px;
 }
 
-tab article{
+tab article {
     float: left;
     width: 100%;
     box-sizing: border-box;
@@ -301,7 +300,7 @@ tab article{
     margin-top: -2px;
 }
 
-.messages{
+.messages {
     margin-bottom: 20px;
     background: rgba(255, 100, 100, 0.2);
     border-radius: 10px;
@@ -311,7 +310,7 @@ tab article{
     padding: 0px 5px;
 }
 
-.messages .message{
+.messages .message {
     font-weight: 500;
     padding: 3px 5px;
     float: left;
@@ -319,25 +318,25 @@ tab article{
     box-sizing: border-box;
 }
 
-.messages .message:first-child{
+.messages .message:first-child {
     margin-top: 5px;
 }
 
-.messages .message:last-child{
+.messages .message:last-child {
     margin-bottom: 5px;
 }
 
 .modal.contractor,
 .modal.product,
-.modal.stock{
+.modal.stock {
     display: none;
 }
 
-.modal.show{
+.modal.show {
     display: block;
 }
 
-.card{
+.card {
     float: left;
     box-sizing: border-box;
     width: 100%;
@@ -346,7 +345,7 @@ tab article{
     border: 1px solid #ccc;
 }
 
-.card .title{
+.card .title {
     margin-bottom: 15px;
     padding: 0 10px;
     font-size: 16px;
@@ -357,7 +356,7 @@ tab article{
     padding-bottom: 5px;
 }
 
-.row{
+.row {
     box-sizing: border-box;
     display: inline-block;
     width: 100%;
@@ -366,21 +365,24 @@ tab article{
 ::-webkit-input-placeholder {
     color: #666;
 }
+
 ::-moz-placeholder {
     color: #666;
 }
+
 :-ms-input-placeholder {
     color: #666;
 }
+
 :-moz-placeholder {
     color: #666;
 }
 
-.right{
+.right {
     text-align: right;
 }
 
-.center{
+.center {
     text-align: center;
 }
 
@@ -388,23 +390,33 @@ a,
 a:hover,
 a:focus,
 a:active,
-.material-icons{
+.material-icons {
     color: #68c !important;
 }
 
 a:hover,
 a:focus,
 a:active,
-.material-icons{
+.material-icons {
     color: #68c !important;
     font-weight: 400;
 }
 
-button{
+button {
     font-weight: 400;
+    border: 1px solid #ccc;
+    background: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
 }
 
-#menu .row{
+button:hover,
+.material-icons.button:hover {
+    background-color: #68c !important;
+    color: #fff !important;
+}
+
+#menu .row {
     margin-bottom: 15px;
     width: 100%;
 }
@@ -424,18 +436,18 @@ button{
     opacity: 1;
 }
 
-.group{
+.group {
     margin-bottom: 10px;
 }
 
-label{
+label {
     font-size: 0.85em;
     margin-left: 5px;
     width: 100%;
     float: left;
 }
 
-.value{
+.value {
     font-size: 1.1em;
     min-width: 1px;
     min-height: 18px;
@@ -467,7 +479,7 @@ select:focus {
     color: #333;
 }
 
-.panel{
+.panel {
     padding: 10px;
     border: 1px dashed #ccc;
     margin-bottom: 20px;
@@ -475,57 +487,63 @@ select:focus {
     width: 100%;
 }
 
-.wrapper{
+.wrapper {
     max-width: 1000px;
     margin: auto;
     display: block;
     position: relative;
 }
 
-ng-view{
+ng-view {
     position: absolute;
     right: 0;
     box-sizing: border-box;
     width: 100%;
 }
 
-.hide{
+.hide {
     display: none !important;
 }
-.hide.show{
+
+.hide.show {
     display: block !important;
 }
-.filters.big{
+
+.filters.big {
     float: left;
-    width: 98%;
+    width: 100%;
     padding: 15px;
     box-sizing: border-box;
     position: relative;
-    margin: 0% 1%;
     margin-bottom: 15px;
-    box-shadow: 0px 0px 5px #888;
     background: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
-.filters.big .inputs{
+
+.filters.big .inputs {
     width: 100%;
     float: left;
     box-sizing: border-box;
     padding-left: 50px;
 }
-.filters.big .material-icons{
+
+.filters.big .material-icons {
     float: left;
     box-sizing: border-box;
     font-size: 3em;
     position: absolute;
     top: 6px;
 }
+
 .filters.big .material-icons:hover {
     color: #aaa !important;
 }
+
 .filters.big input,
 .filters.big input:active,
 .filters.big input:focus,
-.filters.big input:hover{
+.filters.big input:hover {
     background: #fff !important;
     border: 1px solid #ddd;
 }
