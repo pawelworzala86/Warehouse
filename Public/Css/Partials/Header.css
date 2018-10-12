@@ -145,9 +145,10 @@ header {
 }
 
 header.not-logged{
-    background: transparent !important;
+    background: rgba(93, 83, 130, 0.8) !important;
     border: none;
     box-shadow: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 header.not-logged .container{

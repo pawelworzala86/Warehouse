@@ -687,7 +687,7 @@ INSERT INTO `root_todo` (`id`, `name`, `description`, `done`) VALUES
 (9, 'typy danych - validacja', 'Dodanie walidacji pól takich jak mail', 0),
 (10, 'usuniecie śmieci z api', 'usuniecie pozostałości po testach z api', 1),
 (11, 'CreateCatalogCategory', 'Dodanie na froncie obsługi', 1),
-(13, 'Zmiana grafiki w Doc', '', 1),
+(13, 'Zmiana grafiki w DocHandler', '', 1),
 (14, 'Zmiana grafiki w Test', '', 1),
 (15, 'Zrobienie kolekcji i usuniecie pozostałości po iteratorze w modelu', '', 1),
 (16, 'usuniecie kontrollerów i przeniesienie ich funkcji do handlerów', '', 1),

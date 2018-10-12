@@ -212,6 +212,11 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload', 'chart.js'])
                 pageName: 'Edycja operacji finansowej',
                 logged: true,
             })
+            .when(base + '/dokumentacja', {
+                templateUrl: templateBase + 'Documentation.html',
+                controller: 'documentationController',
+                pageName: null,
+            })
         ;
 
         $locationProvider.html5Mode({
@@ -301,6 +306,13 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload', 'chart.js'])
     })
 
     .controller('landingController', function ($scope) {
+    })
+
+    .controller('documentationController', function ($scope, $http) {
+        $scope.doc = null
+        $http.get(apiBase+'/doc').then((response)=>{
+            $scope.doc = response.data
+        })
     })
 
     .controller('demoController', function ($scope, $http) {
