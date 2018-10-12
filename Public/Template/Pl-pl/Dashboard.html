@@ -1,13 +1,21 @@
 <style>
-    .dashboard .chart{
+    .dashboard h1 {
+        margin: 0;
+        margin-bottom: 15px;
+        font-size: 1.75em;
+        font-weight: 300;
+        padding: 0px 15px;
     }
 </style>
 <div class="container dashboard">
-    <div class="chart">
-        <canvas id="line" class="chart chart-line" chart-data="data"
-                chart-labels="labels" chart-series="series" chart-options="options"
-                chart-dataset-override="datasetOverride" chart-click="onClick"
-                chart-colors="colors" height="150">
-        </canvas>
+    <div class="row">
+        <h1>Sprzedaż dzienna</h1>
+        <div class="chart col col-xxs-12">
+            <canvas id="line" class="chart chart-line" chart-data="data"
+                    chart-labels="labels" chart-series="series" chart-options="options"
+                    chart-dataset-override="datasetOverride" chart-click="onClick"
+                    chart-colors="colors" height="150">
+            </canvas>
+        </div>
     </div>
 </div>

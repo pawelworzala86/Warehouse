@@ -308,6 +308,10 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload', 'chart.js'])
             }
             return bytes;
         }
+        Chart.defaults.global.defaultColor = "rgba(255, 255, 255, 0.4)"
+        Chart.defaults.global.defaultFontColor = "rgba(255, 255, 255, 0.4)"
+        Chart.defaults.global.defaultFontSize = 11
+        Chart.defaults.scale.gridLines.color = 'rgba(255, 255, 255, 0.05)'
     })
 
     .controller('landingController', function ($scope) {
@@ -343,7 +347,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload', 'chart.js'])
                 ]
             }
         }
-        $scope.colors = ['rgba(255,255,255,0.2)'];////
+        $scope.colors = ['rgba(255,255,255,0.1)'];////
     })
 
     .controller('documentationController', function ($scope, $http) {
