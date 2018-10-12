@@ -153,7 +153,7 @@
 </style>
 <div class="container document-edit">
     <article>
-        <div ng-if="!data.productionId" class="kind">
+        <div ng-if="!data.productionId" class="kind row">
             <div class="col col-xs-6">
                 <div class="card">
                     <div class="title">Rodzaj dokumentu</div>
@@ -341,7 +341,7 @@
                 </div>
             </div>
         </div>
-        <div class="row settings" ng-if="data.document.type">
+        <div class="row settings" ng-if="data.document.type=='fvs'">
             <div class="col col-xs-12">
                 <div class="card">
                     <div class="title">Ustawienia dodatkowe</div>

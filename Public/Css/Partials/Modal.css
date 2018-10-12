@@ -20,6 +20,7 @@
     box-shadow: 5px 5px 5px #aaa;
     border: 1px solid #ddd;
     margin-bottom: 60px;
+    background: #efefff;
 }
 
 .modal.big .content {
