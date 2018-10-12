@@ -27,29 +27,34 @@
     .table.cash .info {
         margin-top: 5px;
     }
-    .cash .panel.sum span{
+
+    .cash .panel.sum span {
         top: 7px;
         float: left;
         position: relative;
     }
-    .cash .panel.sum b{
+
+    .cash .panel.sum b {
         font-size: 1.95em;
         font-weight: 400;
-        color: #666;
+        color: #aaa;
         float: right;
     }
-    .width100{
+
+    .width100 {
         width: 100%;
         float: left;
     }
-    .table .row.kz{
+
+    .table .row.kz {
         font-weight: 500;
-        color: #262;
+        color: rgba(160, 255, 160, 1);
     }
-    .table .row .date span{
+
+    .table .row .date span {
         font-size: 0.8em;
         font-weight: 400;
-        color: #666;
+        color: #aaa;
         position: relative;
         top: -1px;
     }
@@ -69,18 +74,18 @@
     <div class="filters big">
         <i class="material-icons">search</i>
         <div class="inputs">
-        <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                         placeholder="Nazwa" type="text" ng-model="filters.number"
-                                         ng-change="filter()"></div>
-        <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                         placeholder="Data" type="text" ng-model="filters.date"
-                                         ng-change="filter()"></div>
-        <div class="col col-xs-5"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                         placeholder="Powiązany dok." type="text" ng-model="filters.documentNumber"
-                                         ng-change="filter()"></div>
-        <div class="col col-xs-2 right"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                               placeholder="Kwota" type="text" ng-model="filters.amount"
-                                               ng-change="filter()" class="right"></div>
+            <div class="col col-xs-2"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="Nazwa" type="text" ng-model="filters.number"
+                                             ng-change="filter()"></div>
+            <div class="col col-xs-3"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="Data" type="text" ng-model="filters.date"
+                                             ng-change="filter()"></div>
+            <div class="col col-xs-5"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                             placeholder="Powiązany dok." type="text" ng-model="filters.documentNumber"
+                                             ng-change="filter()"></div>
+            <div class="col col-xs-2 right"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
+                                                   placeholder="Kwota" type="text" ng-model="filters.amount"
+                                                   ng-change="filter()" class="right"></div>
         </div>
     </div>
     <div class="table productions" ng-controller="selectTableController">
@@ -123,7 +128,8 @@
                 <i class="material-icons zoom-in"
                    ng-click="loadDetail('/cash', cashs, cash);document.detailShow=true">zoom_in</i>
                 <div class="col col-xs-2">{{cash.number}}</div>
-                <div class="col col-xs-3 date">{{cash.date}} <span ng-class="{'hide': cash.kind=='kz'}">{{cash.hour}}</span></div>
+                <div class="col col-xs-3 date">{{cash.date}} <span
+                        ng-class="{'hide': cash.kind=='kz'}">{{cash.hour}}</span></div>
                 <div class="col col-xs-5"><a href="/dokument/{{cash.documentId}}">{{cash.documentNumber}}</a></div>
                 <div class="col col-xs-2 right">{{cash.amount.toFixed(2)}}</div>
                 <div class="buttons">
