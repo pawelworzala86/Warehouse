@@ -1,5 +1,5 @@
 input[type=button],
-button{
+button {
     background: transparent;
     outline: none;
     border: none;
@@ -41,7 +41,7 @@ select:-webkit-autofill {
     box-sizing: border-box;
 }
 
-textarea{
+textarea {
     min-height: 125px;
     padding: 5px;
 }
@@ -53,7 +53,7 @@ textarea{
     color: #aaa;
 }
 
-button.sender{
+button.sender {
     margin: 20px 0px;
     font-size: 1.75em;
     font-weight: 300;
@@ -67,16 +67,16 @@ button.sender{
 
 input:focus,
 input:active,
-input:hover{
+input:hover {
     color: #fff;
 }
 
-button{
+button {
     cursor: pointer;
     position: relative;
 }
 
-button .material-icons{
+button .material-icons {
     position: absolute;
     font-size: 1.5em;
     top: -1px;
@@ -84,7 +84,7 @@ button .material-icons{
     color: rgba(64, 128, 256, 0.6);
 }
 
-button:hover .material-icons{
+button:hover .material-icons {
     color: rgba(64, 128, 256, 0.9);
 }
 
@@ -94,7 +94,7 @@ button:hover,
     color: rgba(0, 0, 0, 0.7);
 }
 
-.material-icons.button{
+.material-icons.button {
     padding: 2px 2px;
     color: rgba(0, 0, 0, 0.5);
     font-size: 30px !important;
@@ -119,7 +119,7 @@ input[type=checkbox]:checked + .checkbox {
     display: block;
 }
 
-button.small{
+button.small {
     margin: 0;
     padding: 2px 8px;
     border-radius: 5px;
@@ -131,11 +131,11 @@ button.danger {
     background: rgba(255, 180, 180, 0.4);
 }
 
-input.error{
-    border-bottom: 1px solid rgba(255, 0, 0, 0.4);
+input.error {
+    border: 1px solid rgba(255, 160, 160, 0.2) !important;
 }
 
-.form-group p{
+.form-group p {
     float: left;
     margin: 2px 5px;
     font-weight: 400;
@@ -143,33 +143,33 @@ input.error{
     color: rgba(255, 0, 0, 0.8);
 }
 
-.form-group label.error{
+.form-group label.error {
     color: rgba(255, 160, 160, 0.7);
 }
 
-.form-group:not(.textarea){
+.form-group:not(.textarea) {
     height: 38px;
 }
 
-.form-group.checkbox{
+.form-group.checkbox {
     padding-top: 18px;
     height: 14px;
 }
 
-.form-group.checkbox input{
+.form-group.checkbox input {
     width: auto;
 }
 
 .form-group.checkbox label,
-.form-group.checkbox input{
+.form-group.checkbox input {
     float: left;
     width: auto;
 }
 
-.form-group.checkbox label{
+.form-group.checkbox label {
     margin-top: 3px;
 }
 
-input.date{
+input.date {
     width: 85px;
 }

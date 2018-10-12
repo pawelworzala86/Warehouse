@@ -240,17 +240,33 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 }
             });
         }
-
+        let original = $location.path
+        $location.path = function (path, reload) {
+            if (reload === false) {
+                const lastRoute = $route.current
+                let un = $rootScope.$on('$locationChangeSuccess', function () {
+                    $route.current = lastRoute
+                    un()
+                })
+            }
+            return original.apply($location, [path])
+        }
+        let path = null
         $http.get(apiBase + '/user/status').then(function (response) {
             $rootScope.user = {
                 logged: response.data.logged,
             };
+            if(response.data.logged&&path){
+                $route.reload();
+                //$location.path(path)
+            }
         });
         $rootScope.$on('$routeChangeStart', function ($event, next, current) {
             $rootScope.selects = []
             $rootScope.filters = [];
             $rootScope.filtersNames = [];
             if (next.logged && !$rootScope.user.logged) {
+                path = next.$$route.originalPath
                 $event.preventDefault();
                 return false;
             }
@@ -282,17 +298,6 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             }
             return bytes;
         }
-        var original = $location.path;
-        $location.path = function (path, reload) {
-            if (reload === false) {
-                var lastRoute = $route.current;
-                var un = $rootScope.$on('$locationChangeSuccess', function () {
-                    $route.current = lastRoute;
-                    un();
-                });
-            }
-            return original.apply($location, [path]);
-        };
     })
 
     .controller('landingController', function ($scope) {
