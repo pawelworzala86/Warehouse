@@ -30,156 +30,187 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 templateUrl: templateBase + 'Catalog/Categories.html',
                 controller: 'catalogCategoriesController',
                 pageName: 'Kategorie produktów',
+                logged: true,
             })
             .when(base + '/katalog/produkty', {
                 templateUrl: templateBase + 'Catalog/Products.html',
                 controller: 'catalogProductsController',
                 pageName: 'Lista produktów',
+                logged: true,
             })
             .when(base + '/katalog/produkt/dodaj', {
                 templateUrl: templateBase + 'Catalog/AddProduct.html',
                 controller: 'catalogEditProductController',
                 pageName: 'Dodawanie produktu',
+                logged: true,
             })
             .when(base + '/katalog/produkt/:id', {
                 templateUrl: templateBase + 'Catalog/AddProduct.html',
                 controller: 'catalogEditProductController',
                 pageName: 'Edycja produktu',
+                logged: true,
             })
             .when(base + '/konto/profil', {
                 templateUrl: templateBase + 'User/Profile.html',
                 controller: 'userProfilController',
                 pageName: 'Profil użytkownika',
+                logged: true,
             })
             .when(base + '/system/pliki', {
                 templateUrl: templateBase + 'System/Files.html',
                 controller: 'systemFilesController',
                 pageName: 'Twoje pliki',
+                logged: true,
             })
             .when(base + '/dokumenty', {
                 templateUrl: templateBase + 'Documents.html',
                 controller: 'documentsController',
                 pageName: 'Lista dokumentów',
+                logged: true,
             })
             .when(base + '/dokument/dodaj', {
                 templateUrl: templateBase + 'Document-Edit.html',
                 controller: 'documentEditController',
                 pageName: 'Edycja dokumentu',
+                logged: true,
             })
             .when(base + '/dokument/:id', {
                 templateUrl: templateBase + 'Document-Edit.html',
                 controller: 'documentEditController',
                 pageName: 'Edycja dokumentu',
+                logged: true,
             })
             .when(base + '/dokument/dodaj/produkcja/:productionId/:type', {
                 templateUrl: templateBase + 'Document-Edit.html',
                 controller: 'documentEditController',
                 pageName: 'Wydanie na produkcję',
+                logged: true,
             })
             .when(base + '/kontrahenci', {
                 templateUrl: templateBase + 'Contractors.html',
                 controller: 'contractorsController',
                 pageName: 'Lista kontrahentów',
+                logged: true,
             })
             .when(base + '/kontrahent/dodaj', {
                 templateUrl: templateBase + 'Contractor-Edit.html',
                 controller: 'contractorEditController',
                 pageName: 'Edycja kontrahenta',
+                logged: true,
             })
             .when(base + '/kontrahent/:id', {
                 templateUrl: templateBase + 'Contractor-Edit.html',
                 controller: 'contractorEditController',
                 pageName: 'Edycja kontrahenta',
+                logged: true,
             })
             .when(base + '/magazyn', {
                 templateUrl: templateBase + 'Stocks.html',
                 controller: 'stocksController',
                 pageName: 'Stan towarów',
+                logged: true,
             })
             .when(base + '/zamowienia', {
                 templateUrl: templateBase + 'Orders.html',
                 controller: 'ordersController',
                 pageName: 'Lista zamówień',
+                logged: true,
             })
             .when(base + '/zamowienie/dodaj', {
                 templateUrl: templateBase + 'Order-Edit.html',
                 controller: 'orderEditController',
                 pageName: 'Dodawanie zamówienia',
+                logged: true,
             })
             .when(base + '/zamowienie/:id', {
                 templateUrl: templateBase + 'Order-Edit.html',
                 controller: 'orderEditController',
                 pageName: 'Edycja zamówienia',
+                logged: true,
             })
             .when(base + '/dluznicy', {
                 templateUrl: templateBase + 'Debtors.html',
                 controller: 'debtorsController',
                 pageName: 'Lista dłużników',
+                logged: true,
             })
             .when(base + '/produkcje', {
                 templateUrl: templateBase + 'Productions.html',
                 controller: 'productionsController',
                 pageName: 'Lista produkcji',
+                logged: true,
             })
             .when(base + '/produkcja/dodaj', {
                 templateUrl: templateBase + 'Production-Edit.html',
                 controller: 'productionEditController',
                 pageName: 'Dodawanie produkcji',
+                logged: true,
             })
             .when(base + '/produkcja/:id', {
                 templateUrl: templateBase + 'Production-Edit.html',
                 controller: 'productionEditController',
                 pageName: 'Edycja produkcji',
+                logged: true,
             })
             .when(base + '/kasa', {
                 templateUrl: templateBase + 'Cash.html',
                 controller: 'cashsController',
                 pageName: 'Stan kasy',
+                logged: true,
             })
             .when(base + '/kasa/dodaj', {
                 templateUrl: templateBase + 'Cash-Edit.html',
                 controller: 'cashEditController',
                 pageName: 'Edycja dokumentu kasowego',
+                logged: true,
             })
             .when(base + '/kasa/:id', {
                 templateUrl: templateBase + 'Cash-Edit.html',
                 controller: 'cashEditController',
                 pageName: 'Edycja dokumentu kasowego',
+                logged: true,
             })
             .when(base + '/kanaly-sprzedazy', {
                 templateUrl: templateBase + 'Channels.html',
                 controller: 'channelsController',
                 pageName: 'Kanały sprzedaży',
+                logged: true,
             })
             .when(base + '/kanal-sprzedazy/dodaj', {
                 templateUrl: templateBase + 'Channel-Edit.html',
                 controller: 'channelEditController',
                 pageName: 'Edycja kanału sprzedaży',
+                logged: true,
             })
             .when(base + '/kanal-sprzedazy/:id', {
                 templateUrl: templateBase + 'Channel-Edit.html',
                 controller: 'channelEditController',
                 pageName: 'Edycja kanału sprzedaży',
+                logged: true,
             })
             .when(base + '/demo', {
                 templateUrl: templateBase + 'Demo.html',
                 controller: 'demoController',
                 pageName: 'Ustawienia demonstracyjne',
+                logged: true,
             })
             .when(base + '/finanse', {
                 templateUrl: templateBase + 'Financials.html',
                 controller: 'financialsController',
                 pageName: 'Operacje finansowe',
+                logged: true,
             })
             .when(base + '/finanse/dodaj', {
                 templateUrl: templateBase + 'Financial-Edit.html',
                 controller: 'financialEditController',
                 pageName: 'Edycja operacji finansowej',
+                logged: true,
             })
             .when(base + '/finanse/:id', {
                 templateUrl: templateBase + 'Financial-Edit.html',
                 controller: 'financialEditController',
                 pageName: 'Edycja operacji finansowej',
+                logged: true,
             })
         ;
 
@@ -198,6 +229,9 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $rootScope.showMenu = false;
         $rootScope.pageName = null;
         $rootScope.baseUrl = base;
+        $rootScope.user = {
+            logged: false,
+        }
         $rootScope.logout = function () {
             $http.get(apiBase + '/user/logout').then(function (response) {
                 if (response.data.success) {
@@ -206,6 +240,7 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
                 }
             });
         }
+
         $http.get(apiBase + '/user/status').then(function (response) {
             $rootScope.user = {
                 logged: response.data.logged,
@@ -215,10 +250,16 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
             $rootScope.selects = []
             $rootScope.filters = [];
             $rootScope.filtersNames = [];
-            if (next.hasOwnProperty('$$route') && !next['$$route'].pageName) {
-                return;
+            if (next.logged && !$rootScope.user.logged) {
+                $event.preventDefault();
+                return false;
             }
-            $rootScope.pageName = next['$$route'].pageName;
+            $rootScope.pageName = next.pageName;
+        });
+        $rootScope.$on('$locationChangeStart', function(event, next, current) {
+            if (next.logged && !$rootScope.user.logged) {
+                event.preventDefault();
+            }
         });
         $rootScope.formatSizeUnits = function (bytes) {
             if (bytes >= 1073741824) {
@@ -263,46 +304,46 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload'])
         $scope.products = 100
         $scope.documents = 100
         $scope.orders = 100
-        $scope.max = $scope.contractors+$scope.products+$scope.documents+$scope.orders;
+        $scope.max = $scope.contractors + $scope.products + $scope.documents + $scope.orders;
         $scope.progress = 1;
-        $scope.setProgress = ()=>{
-            $scope.progressBar = (($scope.progress++)/$scope.max)*100;
+        $scope.setProgress = () => {
+            $scope.progressBar = (($scope.progress++) / $scope.max) * 100;
         }
-        $scope.clear = ()=>{
-            $http.get(apiBase+'/demo/clear').then(()=>{
+        $scope.clear = () => {
+            $http.get(apiBase + '/demo/clear').then(() => {
                 $scope.setProgress()
             })
         }
-        $scope.contractor = ()=>{
-            for(i=0;i<$scope.contractors;i++) {
-                $http.get(apiBase + '/demo/generate/contractor').then(()=>{
+        $scope.contractor = () => {
+            for (i = 0; i < $scope.contractors; i++) {
+                $http.get(apiBase + '/demo/generate/contractor').then(() => {
                     $scope.setProgress()
                 })
             }
         }
-        $scope.product = ()=>{
-            for(i=0;i<$scope.products;i++) {
-                $http.get(apiBase + '/demo/generate/product').then(()=>{
+        $scope.product = () => {
+            for (i = 0; i < $scope.products; i++) {
+                $http.get(apiBase + '/demo/generate/product').then(() => {
                     $scope.setProgress()
                 })
             }
         }
-        $scope.document = ()=>{
-            for(i=0;i<$scope.documents;i++) {
-                $http.get(apiBase + '/demo/generate/document').then(()=>{
+        $scope.document = () => {
+            for (i = 0; i < $scope.documents; i++) {
+                $http.get(apiBase + '/demo/generate/document').then(() => {
                     $scope.setProgress()
                 })
             }
         }
-        $scope.order = ()=>{
-            for(i=0;i<$scope.orders;i++) {
-                $http.get(apiBase + '/demo/generate/order').then(()=>{
+        $scope.order = () => {
+            for (i = 0; i < $scope.orders; i++) {
+                $http.get(apiBase + '/demo/generate/order').then(() => {
                     $scope.setProgress()
                 })
             }
         }
-        $scope.genere = ()=>{
-            $http.get(apiBase+'/demo/clear').then(()=>{
+        $scope.genere = () => {
+            $http.get(apiBase + '/demo/clear').then(() => {
                 $scope.contractor()
                 $scope.product()
                 $scope.document()
