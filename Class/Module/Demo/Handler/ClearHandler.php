@@ -34,6 +34,8 @@ class ClearHandler extends Handler
         $db->execute('truncate product_files');
         $db->execute('truncate product_integration');
         $db->execute('truncate stock');
+        $db->execute('truncate financial');
+        $db->execute('truncate document_financial');
 
         return new SuccessResponse;
     }
