@@ -67,7 +67,8 @@
     left: -2px;
 }
 
-.angular-ui-tree-dropzone, .angular-ui-tree-empty {
-    background: #fff;
+.angular-ui-tree-dropzone,
+.angular-ui-tree-empty {
+    background: transparent;
     border: none;
 }

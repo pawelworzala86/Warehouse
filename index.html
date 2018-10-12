@@ -97,6 +97,10 @@
         <div class="menu-body">
             <div ng-if="user.logged" class="container">
                 <div class="links-group col col-xs-3">
+                    <h3 class="primary">Start</h3>
+                    <a ng-click="$root.showMenu=false" class="sub" ng-href="/panel">Panel</a>
+                </div>
+                <div class="links-group col col-xs-3">
                     <h3 class="primary">Konto</h3>
                     <a ng-click="$root.showMenu=false" class="sub" ng-href="/konto/profil">Profil</a>
                 </div>
