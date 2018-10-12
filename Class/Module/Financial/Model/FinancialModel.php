@@ -10,6 +10,19 @@ class FinancialModel extends Model
     private $date;
     private $amount;
     private $uuid;
+    private $id;
+
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    public function setId(int $id): FinancialModel
+    {
+        $this->set('id', $id);
+        $this->id = $id;
+        return $this;
+    }
 
     public function getUuid(): UUID
     {

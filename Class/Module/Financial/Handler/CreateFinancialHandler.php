@@ -8,6 +8,7 @@ use App\Module\Cash\Model\CashDocumentModel;
 use App\Module\Catalog\Model\ProductModel;
 use App\Module\Contractor\Model\ContractorModel;
 use App\Module\Document\Collection\StockCollection;
+use App\Module\Document\Model\DocumentFinancialModel;
 use App\Module\Document\Model\DocumentNumberModel;
 use App\Module\Document\Model\DocumentProductModel;
 use App\Module\Document\Model\StockModel;
@@ -30,11 +31,26 @@ class CreateFinancialHandler extends Handler
     {
         $uuid = Common::getUuid();
 
-        (new FinancialModel)
+        $financialId = (new FinancialModel)
             ->setUuid($uuid)
             ->setDate($request->getDate())
             ->setAmount($request->getAmount())
             ->insert();
+
+        $documents = $request->getDocuments();
+        while($document = $documents->current()){
+            if(!$document->getDeleted()) {
+                $doc = (new DocumentModel)
+                    ->load($document->getId(), true);
+                (new DocumentFinancialModel)
+                    ->setUuid(Common::getUuid())
+                    ->setDocumentId($doc->getId())
+                    ->setFinancialId($financialId)
+                    ->setAmount($document->getAmount())
+                    ->insert();
+            }
+            $documents->next();
+        }
 
         return (new CreateFinancialResponse)
             ->setId($uuid);

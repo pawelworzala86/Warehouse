@@ -3,10 +3,11 @@
         cursor: pointer;
     }
 
-    .modal.document .row{
+    .modal.document .row {
         cursor: pointer;
         padding: 5px 10px 5px 10px;
     }
+
     .modal .form-group.search {
         padding-left: 45px;
         position: relative;
@@ -17,6 +18,7 @@
         left: 0px;
         font-size: 2.75em;
     }
+
     .row.options,
     .fixed-bottom.options,
     .hide {
@@ -27,6 +29,23 @@
     .fixed-bottom.options.show,
     .hide.show {
         display: block;
+    }
+
+    .table.documents input{
+        position: relative;
+        top: -4px;
+    }
+    .table.documents .row{
+        height: 28px;
+    }
+    .table.documents .row,
+    .table.documents .header{
+        padding: 5px;
+        padding-right: 20px;
+    }
+    .table.documents{
+        padding: 0px 10px;
+        margin-bottom: 10px;
     }
 </style>
 <div class="container">
@@ -41,18 +60,38 @@
                                ng-class="{'error': data.validation.date&&!data.financial.date}"/>
                     </div>
                     <div class="form-group col col-xs-6">
-                        <label ng-class="{'error': data.validation.amount&&!data.financial.amount}">Kwota operacji</label>
+                        <label ng-class="{'error': data.validation.amount&&!data.financial.amount}">Kwota
+                            operacji</label>
                         <input type="text" ng-model="data.financial.amount"
                                ng-class="{'error': data.validation.amount&&!data.financial.amount}"/>
                     </div>
-                    <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectDocument()">Wybierz dokument</button>
                 </div>
             </div>
         </div>
-        <div>
-            <div ng-repeat="document in data.financial.documents">{{document.number}}</div>
-            <button class="sender icon" ng-click="data.send()">Zapisz</button>
+        <div class="row">
+            <div class="col col-xs-6">
+                <div class="card">
+                    <div class="title">Powiązane faktury</div>
+                    <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectDocument()">Wybierz
+                        dokument
+                    </button>
+                    <div class="table documents" ng-if="data.financial.documents.length>0">
+                        <div class="header">
+                            <div class="col col-xs-6">Numer dokumentu</div>
+                            <div class="col col-xs-6">Kwota</div>
+                        </div>
+                        <div class="row" ng-if="!document.deleted" ng-repeat="document in data.financial.documents">
+                            <div class="col col-xs-6">{{document.name}}</div>
+                            <div class="form-group col col-xs-6">
+                                <input type="text" ng-model="document.amount"/>
+                            </div>
+                            <div class="buttons"><i class="material-icons" ng-click="deleteDocument(document)">delete</i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+        <button class="sender icon" ng-click="data.send()">Zapisz</button>
     </article>
 </div>
 <div class="modal document hide" ng-class="{'show': data.documentShow}">
@@ -64,7 +103,8 @@
             <div class="form-group col col-xs-12 search">
                 <i class="material-icons search">search</i>
                 <label>Numer dokumentu</label>
-                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadDocument()" type="text" ng-model="data.find.name"/>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadDocument()"
+                       type="text" ng-model="data.find.name"/>
             </div>
             <div class="table" ng-if="data.documents.length>0">
                 <div class="header row">

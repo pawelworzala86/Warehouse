@@ -2,11 +2,8 @@
 
 namespace App\Module\Financial\Response;
 
-use App\Container\Financial;
-use App\Container\Financials;
+use App\Container\Documents;
 use App\Response\Response;
-use App\Traits\FiltersTrait;
-use App\Traits\PaginationResponseTrait;
 use App\Type\UUID;
 
 class GetFinancialResponse extends Response
@@ -14,6 +11,18 @@ class GetFinancialResponse extends Response
     private $date;
     private $amount;
     private $id;
+    private $documents;
+
+    public function getDocuments(): Documents
+    {
+        return $this->documents;
+    }
+
+    public function setDocuments(Documents $documents): GetFinancialResponse
+    {
+        $this->documents = $documents;
+        return $this;
+    }
 
     public function getId(): UUID
     {

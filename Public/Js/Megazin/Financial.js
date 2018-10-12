@@ -76,8 +76,11 @@ angular.module('Megazin')
             $scope.data.documentShow = false
             $scope.data.financial.documents.push({
                 id: document.id,
-                number: document.name
+                name: document.name
             })
+        }
+        $scope.deleteDocument = (document)=>{
+            document.deleted = true
         }
     })
 

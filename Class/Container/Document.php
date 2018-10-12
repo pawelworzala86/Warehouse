@@ -13,6 +13,30 @@ class Document extends Container
     private $contractorName;
     private $gross;
     private $contractorId;
+    private $amount;
+    private $deleted;
+
+    public function getDeleted(): ?bool
+    {
+        return $this->deleted;
+    }
+
+    public function setDeleted(bool $deleted = false): Document
+    {
+        $this->deleted = $deleted;
+        return $this;
+    }
+
+    public function getAmount(): ?float
+    {
+        return $this->amount;
+    }
+
+    public function setAmount(float $amount = null): Document
+    {
+        $this->amount = $amount;
+        return $this;
+    }
 
     public function getContractorId(): ?UUID
     {
@@ -30,7 +54,7 @@ class Document extends Container
         return $this->gross;
     }
 
-    public function setGross(float $gross): Document
+    public function setGross(float $gross = null): Document
     {
         $this->gross = $gross;
         return $this;
@@ -47,7 +71,7 @@ class Document extends Container
         return $this;
     }
 
-    function setDate(string $date): Document
+    function setDate(string $date = null): Document
     {
         $this->date = $date;
         return $this;
