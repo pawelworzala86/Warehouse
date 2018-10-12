@@ -18,4 +18,5 @@ return [
     Router::get('/document/{id}/print', Handler\GetDocumentPrintHandler::class),
     Router::delete('/document/{id}', Handler\DeleteDocumentHandler::class),
     Router::get('/document/number/{type}', Handler\GetDocumentNumberHandler::class),
+    Router::post('/document/search', Handler\GetSearchDocumentsHandler::class),
 ];

@@ -1,3 +1,34 @@
+<style>
+    .modal.contractor .row {
+        cursor: pointer;
+    }
+
+    .modal.document .row{
+        cursor: pointer;
+        padding: 5px 10px 5px 10px;
+    }
+    .modal .form-group.search {
+        padding-left: 45px;
+        position: relative;
+    }
+
+    .modal .material-icons.search {
+        position: absolute;
+        left: 0px;
+        font-size: 2.75em;
+    }
+    .row.options,
+    .fixed-bottom.options,
+    .hide {
+        display: none;
+    }
+
+    .row.options.show,
+    .fixed-bottom.options.show,
+    .hide.show {
+        display: block;
+    }
+</style>
 <div class="container">
     <article>
         <div class="row">
@@ -14,11 +45,38 @@
                         <input type="text" ng-model="data.financial.amount"
                                ng-class="{'error': data.validation.amount&&!data.financial.amount}"/>
                     </div>
+                    <button style="margin-bottom: 15px;margin-left: 5px;" ng-click="data.showSelectDocument()">Wybierz dokument</button>
                 </div>
             </div>
         </div>
         <div>
+            <div>{{data.financial.documentNumber}}</div>
             <button class="sender icon" ng-click="data.send()">Zapisz</button>
         </div>
     </article>
+</div>
+<div class="modal document hide" ng-class="{'show': data.documentShow}">
+    <div class="content">
+        <div class="header">
+            <h3>Wybierz document</h3><i ng-click="data.documentHide()" class="material-icons close">close</i>
+        </div>
+        <div class="body">
+            <div class="form-group col col-xs-12 search">
+                <i class="material-icons search">search</i>
+                <label>Numer dokumentu</label>
+                <input ng-model-options="{ allowInvalid: true, debounce: 750 }" ng-change="data.reloadDocument()" type="text" ng-model="data.find.name"/>
+            </div>
+            <div class="table" ng-if="data.documents.length>0">
+                <div class="header row">
+                    <div class="col col-xs-8">Numer dokumentu</div>
+                </div>
+                <div>
+                    <div ng-click="data.selectDocument(document)" class="row"
+                         ng-repeat="document in data.documents">
+                        <div class="col col-xs-4">{{document.name}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

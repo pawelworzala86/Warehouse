@@ -1,6 +1,6 @@
 angular.module('Megazin')
 
-    .controller('financialEditController', function (showError, $routeParams, $scope, $http, $location, financial) {
+    .controller('financialEditController', function (showError, $routeParams, $scope, $http, $location, financial, documentSearch) {
         $scope.data = {
             id: $routeParams.id,
             document: {},
@@ -11,6 +11,9 @@ angular.module('Megazin')
             financial: {
                 date: (date = new Date()).getFullYear() + '-' + ((month = (date.getMonth() + 1)) < 10 ? ('0' + month) : month) + '-' + date.getDate(),
                 amount: null,
+            },
+            find: {
+                name: '',
             }
         }
         loadPage = () => {
@@ -57,6 +60,31 @@ angular.module('Megazin')
             }
         }
         loadPage()
+        $scope.data.reloadDocument = () => {
+            documentSearch.get((response) => {
+                $scope.data.documents = response.data.documents
+            }, $scope.data.find.name)
+        }
+        $scope.data.showSelectDocument = () => {
+            $scope.data.documentShow = true
+            $scope.data.reloadDocument()
+        }
+        $scope.data.documentHide = () => {
+            $scope.data.documentShow = false
+        }
+        $scope.data.selectDocument = (document) => {
+            $scope.data.documentShow = false
+            $scope.data.financial.documentId = document.id
+            $scope.data.financial.documentNumber = document.name
+        }
+    })
+
+    .factory('documentSearch', function ($http) {
+        return {
+            get: function (callback, search) {
+                $http.post(apiBase + '/document/search', {search: search}).then(callback);
+            }
+        }
     })
 
     .controller('financialsController', function ($rootScope, $scope, $http, financials, deleteDialog) {

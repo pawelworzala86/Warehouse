@@ -25,7 +25,7 @@ class Document extends Container
         return $this;
     }
 
-    public function getGross(): float
+    public function getGross(): ?float
     {
         return $this->gross;
     }
@@ -53,7 +53,7 @@ class Document extends Container
         return $this;
     }
 
-    function getDate(): string
+    function getDate(): ?string
     {
         return $this->date;
     }
