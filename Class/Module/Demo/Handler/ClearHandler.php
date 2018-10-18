@@ -16,7 +16,7 @@ class ClearHandler extends Handler
         $db->execute('truncate address');
         $db->execute('truncate cash_document');
         $db->execute('truncate category');
-        $db->execute('truncate channel');//K58254STF7AP6HT7S884BU4XWE2PKMG6
+        $db->execute('truncate channel');
         $db->execute('truncate contractor');
         $db->execute('truncate contractor_contact');
         $db->execute('truncate contractor_integration');
@@ -36,6 +36,9 @@ class ClearHandler extends Handler
         $db->execute('truncate stock');
         $db->execute('truncate financial');
         $db->execute('truncate document_financial');
+        $db->execute('truncate integration');
+        $db->execute('truncate oauth');
+        $db->execute('truncate product_allegro');
 
         return new SuccessResponse;
     }
