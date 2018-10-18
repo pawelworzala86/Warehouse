@@ -12,32 +12,43 @@ class Curl
         $this->curl = \curl_init();
     }
 
-    public function close(){
+    public function close()
+    {
         \curl_close($this->curl);
     }
 
-    public function get(string $url){
-        $this->curl = \curl_init();
-        \curl_setopt($this->curl,CURLOPT_URL, $url);
-        \curl_setopt($this->curl,CURLOPT_CUSTOMREQUEST, 'GET');
-        \curl_setopt($this->curl,CURLOPT_POSTFIELDS, null);
+    public function get(string $url)
+    {
+        //$this->curl = \curl_init();
+        \curl_setopt($this->curl, CURLOPT_URL, $url);
+        \curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'GET');
+        //\curl_setopt($this->curl, CURLOPT_POSTFIELDS, null);
+        //\curl_setopt($this->curl, CURLOPT_HEADER, true);
         \curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, TRUE);
         return \curl_exec($this->curl);
     }
 
-    public function post(string $url, string $data){
-        \curl_setopt($this->curl,CURLOPT_URL, $url);
-        \curl_setopt($this->curl,CURLOPT_CUSTOMREQUEST, 'POST');
-        \curl_setopt($this->curl,CURLOPT_POSTFIELDS, $data);
+    public function post(string $url, string $data)
+    {
+        \curl_setopt($this->curl, CURLOPT_URL, $url);
+        \curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'POST');
+        \curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
+        \curl_setopt($this->curl, CURLOPT_POST, true);
         \curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, TRUE);
         return \curl_exec($this->curl);
     }
 
-    public function put(string $url, string $data){
-        \curl_setopt($this->curl,CURLOPT_URL, $url);
-        \curl_setopt($this->curl,CURLOPT_CUSTOMREQUEST, 'PUT');
-        \curl_setopt($this->curl,CURLOPT_POSTFIELDS, $data);
+    public function put(string $url, string $data)
+    {
+        \curl_setopt($this->curl, CURLOPT_URL, $url);
+        \curl_setopt($this->curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        \curl_setopt($this->curl, CURLOPT_POSTFIELDS, $data);
         \curl_setopt($this->curl, CURLOPT_RETURNTRANSFER, TRUE);
         return \curl_exec($this->curl);
+    }
+
+    public function setHeaders($headers)
+    {
+        \curl_setopt($this->curl, CURLOPT_HTTPHEADER, $headers);
     }
 }

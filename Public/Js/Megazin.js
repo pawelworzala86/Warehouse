@@ -222,6 +222,11 @@ angular.module('Megazin', ['ngRoute', 'ui.tree', 'ngFileUpload', 'chart.js'])
                 controller: 'dashboardController',
                 pageName: null,
             })
+            .when(base + '/allegro/cennik-dostaw', {
+                templateUrl: templateBase + 'Allegro-Shipments.html',
+                controller: 'allegroShipmentsController',
+                pageName: null,
+            })
         ;
 
         $locationProvider.html5Mode({

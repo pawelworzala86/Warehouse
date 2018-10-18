@@ -19,28 +19,36 @@
         width: 95%;
         margin-right: 5%;
     }
-    .products .description{
-        font-size: 0.85em;
+
+    .products .description {
+        font-size: 0.8em;
+        margin-top: 5px;
+        text-align: justify;
+    }
+
+    .products .price {
         margin-top: 5px;
     }
-    .products .price{
-        margin-top: 5px;
-    }
+
     .products .price b,
-    .products .sku{
+    .products .sku {
         font-weight: 400;
     }
-    .products a.allegro{
+
+    .products a.allegro {
         cursor: pointer;
         padding-top: 5px;
         float: left;
     }
-    .table .header label.checkbox{
+
+    .table .header label.checkbox {
         margin-top: 0;
     }
-    .table .row{
+
+    .table .row {
         margin-bottom: 25px;
     }
+
     .products .table .row:hover {
         border: none;
         background: transparent !important;
@@ -57,17 +65,20 @@
         <a ng-href="/katalog/produkt/dodaj">
             <button class="icon">Dodaj product</button>
         </a>
-        <a><button class="icon" ng-click="synchronizeProducts()">Synchronizuj produkty</button></a>
+        <a>
+            <button class="icon" ng-click="synchronizeProducts()">Synchronizuj produkty</button>
+            <a href="{{apiBase}}/api/integration/allegro/login" target="_blank"><button class="icon">Zaloguj do allegro</button></a>
+        </a>
     </div>
     <div class="filters big">
         <i class="material-icons">search</i>
         <div class="inputs">
             <div class="col col-xxs-12 col-xs-4"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                             placeholder="SKU" type="text" ng-model="filters.sku"
-                                             ng-change="filter()"></div>
+                                                        placeholder="SKU" type="text" ng-model="filters.sku"
+                                                        ng-change="filter()"></div>
             <div class="col col-xxs-12 col-xs-8"><input ng-model-options="{ allowInvalid: true, debounce: 750 }"
-                                             placeholder="Nazwa produktu" type="text" ng-model="filters.name"
-                                             ng-change="filter()"></div>
+                                                        placeholder="Nazwa produktu" type="text" ng-model="filters.name"
+                                                        ng-change="filter()"></div>
         </div>
     </div>
     <div class="table products" ng-controller="selectTableController">
@@ -116,7 +127,9 @@
                     <div class="col col-xxs-8 col-xs-9">{{product.name}}</div>
                     <div class="col col-xs-12 description">{{product.descriptionShort}}</div>
                     <div class="col col-xs-12 price">Netto sprzedaży: <b>{{product.net}}</b></div>
-                    <a class="allegro" ng-click="allegroSend(product)"><button class="mini">Wystaw w allegro</button></a>
+                    <a class="allegro" ng-click="allegroSend(product)">
+                        <button class="mini">Wystaw w allegro</button>
+                    </a>
                 </div>
                 <div class="buttons">
                     <a ng-href="/katalog/produkt/{{product.id}}"><i data-nodrag="" class="material-icons">mode_edit</i></a>
