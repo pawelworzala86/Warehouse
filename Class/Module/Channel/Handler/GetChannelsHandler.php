@@ -46,7 +46,6 @@ class GetChannelsHandler extends Handler
         return (new GetChannelsResponse)
             ->setChannels($channelsList)
             ->setPagination($channelsCollection->getPagination())
-            ->setFilters($channelsCollection->getFilters())
-            ->setFiltersNames($channelsCollection->getFiltersNames());
+            ->setFilters($channelsCollection->getFilters());
     }
 }

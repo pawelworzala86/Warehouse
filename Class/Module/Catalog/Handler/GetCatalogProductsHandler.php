@@ -74,7 +74,6 @@ class GetCatalogProductsHandler extends Handler
         return (new GetCatalogProductsResponse)
             ->setProducts($productsList)
             ->setPagination($productsCollection->getPagination())
-            ->setFilters($productsCollection->getFilters())
-            ->setFiltersNames($productsCollection->getFiltersNames());
+            ->setFilters($productsCollection->getFilters());
     }
 }

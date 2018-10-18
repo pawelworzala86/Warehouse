@@ -49,7 +49,6 @@ class GetStocksHandler extends Handler
         return (new GetStocksResponse)
             ->setStocks($sts)
             ->setPagination($stocks->getPagination())
-            ->setFilters($stocks->getFilters())
-            ->setFiltersNames($stocks->getFiltersNames());
+            ->setFilters($stocks->getFilters());
     }
 }

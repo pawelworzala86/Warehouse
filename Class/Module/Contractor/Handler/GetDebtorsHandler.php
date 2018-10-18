@@ -91,7 +91,6 @@ class GetDebtorsHandler extends Handler
         return (new GetDebtorsResponse)
             ->setDebtors($docs)
             ->setPagination($contractors->getPagination())
-            ->setFilters($contractors->getFilters())
-            ->setFiltersNames($contractors->getFiltersNames());
+            ->setFilters($contractors->getFilters());
     }
 }

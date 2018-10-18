@@ -47,7 +47,6 @@ class GetContractorsHandler extends Handler
         return (new GetContractorsResponse)
             ->setContractors($docs)
             ->setPagination($contractors->getPagination())
-            ->setFilters($contractors->getFilters())
-            ->setFiltersNames($contractors->getFiltersNames());
+            ->setFilters($contractors->getFilters());
     }
 }

@@ -50,7 +50,6 @@ class GetDocumentsHandler extends Handler
         return (new GetDocumentsResponse)
             ->setDocuments($docs)
             ->setPagination($documents->getPagination())
-            ->setFilters($documents->getFilters())
-            ->setFiltersNames($documents->getFiltersNames());
+            ->setFilters($documents->getFilters());
     }
 }
