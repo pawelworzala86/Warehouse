@@ -126,7 +126,7 @@
                     <div class="col col-xxs-4 col-xs-3 sku">{{product.sku}}</div>
                     <div class="col col-xxs-8 col-xs-9">{{product.name}}</div>
                     <div class="col col-xs-12 description">{{product.descriptionShort}}</div>
-                    <div class="col col-xs-12 price">Netto sprzedaży: <b>{{product.net}}</b></div>
+                    <div ng-if="product.net" class="col col-xs-12 price">Netto sprzedaży: <b>{{product.net}}</b></div>
                     <a class="allegro" ng-click="allegroSend(product)">
                         <button class="mini">Wystaw w allegro</button>
                     </a>

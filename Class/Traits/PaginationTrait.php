@@ -20,6 +20,10 @@ trait PaginationTrait
 
     function getPagination(): ?Pagination
     {
+        if(!isset($this->pagination)){
+            $this->setDefaultPagination();
+            return $this->pagination;
+        }
         return $this->pagination;
     }
 

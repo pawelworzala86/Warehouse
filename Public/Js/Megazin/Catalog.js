@@ -221,8 +221,8 @@ angular.module('Megazin')
                 angular.forEach(response.data.products, function (value, key) {
                     if(value.net) {
                         value.net = value.net.toFixed(2)
-                        $scope.products.push(value);
                     }
+                    $scope.products.push(value);
                 });
                 pagination = getData(pagination, response.data.pagination);
             }, pagination, $rootScope.filters);
