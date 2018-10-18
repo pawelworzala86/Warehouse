@@ -216,7 +216,7 @@ angular.module('Megazin')
                 $scope.data.document.documentNumberId = response.data.documentNumberId
             })
         }
-        $scope.filter = () => {
+        /*$scope.filter = () => {
             $rootScope.filters = []
             if ($scope.filters.sku) {
                 $rootScope.filters.push({
@@ -228,7 +228,7 @@ angular.module('Megazin')
             $scope.orders = [];
             pagination.page = 1;
             loadPage()
-        }
+        }*/
     })
 
     .controller('ordersController', function ($rootScope, $scope, $http, orders, deleteDialog) {
@@ -236,10 +236,8 @@ angular.module('Megazin')
             page: 1,
             limit: 20,
         };
-        var filters = [];
-        var filtersNames = [];
         $scope.orders = [];
-        $rootScope.filters = filters;
+        $rootScope.filters = [];
         $scope.filters = {
             number: '',
             date: '',
@@ -252,7 +250,6 @@ angular.module('Megazin')
         }
         var loadPage = function () {
             orders.get(function (response) {
-                //$scope.orders = []
                 angular.forEach(response.data.orders, function (order, orderKey) {
                     angular.forEach(order.products, function (product, productKey) {
                         product.net = product.net.toFixed(2)
@@ -263,10 +260,6 @@ angular.module('Megazin')
                     $scope.orders.push(order);
                 });
                 pagination = getData(pagination, response.data.pagination);
-                filters = getData(filters, response.data.filters);
-                filtersNames = getData(filtersNames, response.data.filtersNames);
-                $rootScope.filters = filters;
-                $rootScope.filtersNames = filtersNames;
             }, pagination, $rootScope.filters);
         }
         $scope.fluentLoad = function () {

@@ -5,10 +5,8 @@ angular.module('Megazin')
             page: 1,
             limit: 20,
         };
-        var filters = [];
-        var filtersNames = [];
         $scope.files = [];
-        $rootScope.filters = filters;
+        $rootScope.filters = [];
         $scope.filters = {
             name: '',
             type: '',
@@ -26,10 +24,6 @@ angular.module('Megazin')
                     $scope.files.push(value);
                 });
                 pagination = getData(pagination, response.data.pagination);
-                filters = getData(filters, response.data.filters);
-                filtersNames = getData(filtersNames, response.data.filtersNames);
-                $rootScope.filters = filters;
-                $rootScope.filtersNames = filtersNames;
             }, pagination, $rootScope.filters);
         }
         $scope.deleteRow = function (rows, row) {

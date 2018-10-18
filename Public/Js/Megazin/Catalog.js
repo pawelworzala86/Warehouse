@@ -204,10 +204,8 @@ angular.module('Megazin')
             page: 1,
             limit: 20,
         };
-        var filters = [];
-        var filtersNames = [];
         $scope.products = [];
-        $rootScope.filters = filters;
+        $rootScope.filters = [];
         $scope.filters = {
             sku: '',
             name: '',
@@ -227,10 +225,6 @@ angular.module('Megazin')
                     }
                 });
                 pagination = getData(pagination, response.data.pagination);
-                filters = getData(filters, response.data.filters);
-                filtersNames = getData(filtersNames, response.data.filtersNames);
-                $rootScope.filters = filters;
-                $rootScope.filtersNames = filtersNames;
             }, pagination, $rootScope.filters);
         }
         $scope.reload = (row) => {

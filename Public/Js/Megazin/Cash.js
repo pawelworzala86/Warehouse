@@ -65,7 +65,7 @@ angular.module('Megazin')
                 });
             }
         }
-        $scope.filter = () => {
+        /*$scope.filter = () => {
             $rootScope.filters = []
             if ($scope.filters.number) {
                 $rootScope.filters.push({
@@ -84,7 +84,7 @@ angular.module('Megazin')
             $scope.cashs = [];
             pagination.page = 1;
             loadPage()
-        }
+        }*/
         $scope.$watch('data.cash.kind', ()=>{
             $http.get(apiBase+'/document/number/'+$scope.data.cash.kind).then((response)=>{
                 $scope.data.cash.documentNumberId = response.data.documentNumberId
@@ -99,10 +99,8 @@ angular.module('Megazin')
             page: 1,
             limit: 20,
         };
-        var filters = [];
-        var filtersNames = [];
         $scope.cashs = [];
-        $rootScope.filters = filters;
+        $rootScope.filters = [];
         $scope.filters = {
             number: '',
             date: '',
@@ -121,10 +119,6 @@ angular.module('Megazin')
                 });
                 $scope.sum = response.data.sum
                 pagination = getData(pagination, response.data.pagination)
-                filters = getData(filters, response.data.filters)
-                filtersNames = getData(filtersNames, response.data.filtersNames)
-                $rootScope.filters = filters
-                $rootScope.filtersNames = filtersNames
             }, pagination, $rootScope.filters)
         }
         $scope.deleteRow = function (rows, row) {

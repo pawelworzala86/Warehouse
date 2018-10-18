@@ -59,7 +59,7 @@ angular.module('Megazin')
                 });
             }
         }
-        $scope.filter = () => {
+        /*$scope.filter = () => {
             $rootScope.filters = []
             if ($scope.filters.name) {
                 $rootScope.filters.push({
@@ -71,7 +71,7 @@ angular.module('Megazin')
             $scope.contractors = [];
             pagination.page = 1;
             loadPage()
-        }
+        }*/
         loadPage()
     })
 
@@ -80,10 +80,8 @@ angular.module('Megazin')
             page: 1,
             limit: 20,
         };
-        var filters = [];
-        var filtersNames = [];
         $scope.contractors = [];
-        $rootScope.filters = filters;
+        $rootScope.filters = [];
         $scope.filters = {
             name: '',
             code: '',
@@ -100,10 +98,6 @@ angular.module('Megazin')
                     $scope.contractors.push(value);
                 });
                 pagination = getData(pagination, response.data.pagination);
-                filters = getData(filters, response.data.filters);
-                filtersNames = getData(filtersNames, response.data.filtersNames);
-                $rootScope.filters = filters;
-                $rootScope.filtersNames = filtersNames;
             }, pagination, $rootScope.filters);
         }
         $scope.reload = (row) => {
