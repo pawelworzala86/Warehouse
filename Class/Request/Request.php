@@ -129,9 +129,8 @@ class Request
                                     $funct = new \ReflectionMethod($object, 'set' . ucfirst($name));
                                     $parem = $funct->getParameters();
                                     $parmClass = null;
-                                    //var_dump($parem[0]->getClass()->name);
                                     if ($parem && isset($parem[0])) {
-                                        $class = $parem[0]->getClass()->name;
+                                        $class = $parem[0]->getType();
                                         if (class_exists($class)) {
                                             $parmClass = new $class($value);
                                         } else {
@@ -140,8 +139,6 @@ class Request
                                     } else {
                                         $parmClass = $value;
                                     }
-                                    //var_dump($setterName);
-                                    //var_dump($parmClass);
                                     $object->{$setterName}($parmClass);
                                     /*if ($parmClass) {
                                         $object->{$setterName}($parmClass);
@@ -176,7 +173,6 @@ class Request
         $props = $ref->getProperties(\ReflectionProperty::IS_PRIVATE);
         $array = [];
         foreach ($props as $prop) {
-            //var_dump($prop->getName());
             $array[] = $prop->getName();
         }
         if (in_array($propertyName, $array)) {

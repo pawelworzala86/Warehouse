@@ -72,7 +72,7 @@ class Model
             if (method_exists($this, 'set' . ucfirst($fieldNameCamel))) {
                 $method = new ReflectionMethod($this, 'set' . ucfirst($fieldNameCamel));
                 $params = $method->getParameters();
-                $className = $params[0]->getClass()->name;
+                $className = (string)$params[0]->getType();
                 if (class_exists($className)) {
                     $classRealName = explode('\\', $className);
                     $classRealName = $classRealName[count($classRealName) - 1];

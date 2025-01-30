@@ -10,10 +10,6 @@ trait PaginationRequestTrait
 
     function setPagination(Pagination $pagination = null): self
     {
-        //var_dump($pagination);
-        /*$paginationClass = new Pagination;
-        $paginationClass->setPage($pagination['page']);
-        $paginationClass->setLimit($pagination['limit']);*/
         $this->pagination = $pagination;
         return $this;
     }

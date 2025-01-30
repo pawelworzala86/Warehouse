@@ -20,6 +20,6 @@ define('HOST', 'http://werhouse.localhost/');
 define('FPDF_FONTPATH', DIR.'/Fonts');
 
 if(DEBUG){
-    error_reporting(E_ERROR);
+    error_reporting(E_ALL);
     ini_set('display_errors', true);
 }
